@@ -3,9 +3,13 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 
+//process.env.BABEL_ENV = TARGET;
+
 module.exports = {
     content: __dirname,
-    entry: "./index.jsx",
+    entry: [
+        "./index.jsx",
+    ],
     output: {
         path: __dirname,
         filename: "bundle.js"
