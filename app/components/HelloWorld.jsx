@@ -2,10 +2,12 @@ import { default as React, PropTypes } from 'react';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import RTB from 'react-toolbox';
 import Button from 'react-toolbox/lib/button';
+import Stateless from './Stateless';
 
 class HelloWorld extends React.Component {
     render() {
         return (
+            <div>
             <Card style={{width: '350px'}}>
                 <CardTitle
                     avatar="https://placeimg.com/80/80/animals"
@@ -26,6 +28,8 @@ class HelloWorld extends React.Component {
                     <Button label="Action 2" />
                 </CardActions>
             </Card>
+            <Stateless />
+            </div>
         )
     }
 }
