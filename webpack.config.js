@@ -32,9 +32,9 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
         new webpack.HotModuleReplacementPlugin(),
-   new webpack.NoErrorsPlugin(),
-   new webpack.DefinePlugin({
-     'process.env.NODE_ENV': JSON.stringify('development')
-   })
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
     ]
 };
