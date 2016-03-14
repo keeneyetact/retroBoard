@@ -14,7 +14,7 @@ module.exports = {
         path: __dirname,
         filename: "bundle.js"
     },
-    devtool: 'eval-source-map',
+    devtool: 'eval',
     resolve: {
         extensions: ['', '.js', '.jsx', '.scss'],
         modulesDirectories: [

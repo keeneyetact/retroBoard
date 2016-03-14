@@ -25,7 +25,7 @@ export default function configureStore(initialState = {}, browserHistory) {
 
     let createStoreWithMiddleware = applyMiddleware(...middlewares);
 
-    if (false) { //__DEVTOOLS__) {
+    if (__DEVTOOLS__) {
 
         createStoreWithMiddleware = compose(
             createStoreWithMiddleware,

@@ -14,11 +14,14 @@ class Index extends React.Component {
     render() {
         let component;
         if (__DEVTOOLS__){
-            //const DevTools = require('./pages/DevTools');
+            const DevTools = require('./pages/DevTools').default;
 
             component = <div>
                 <Provider store={store}>
+                    <div>
                     { this.renderRoutes() }
+                    <DevTools />
+                    </div>
                 </Provider>
 
             </div>;
