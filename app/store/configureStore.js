@@ -1,13 +1,21 @@
-import { compose, createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { apiMiddleware } from 'redux-middleware-api';
 import reducer from '../state';
+import { syncHistory, routeReducer } from 'redux-simple-router'
 import DevTools from '../pages/DevTools';
 
-export default function configureStore(initialState, reduxReactRouter, getRoutes, createHistory) {
+export default function configureStore(initialState = {}, browserHistory) {
+    const reducers = combineReducers(Object.assign({}, reducers, {
+        routing: routeReducer
+    }));
+
+    let reduxRouterMiddleware = syncHistory(browserHistory);
+
     const middlewares = [];
     middlewares.push(apiMiddleware);
     middlewares.push(thunk);
+    middlewares.push(reduxRouterMiddleware);
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
@@ -17,21 +25,18 @@ export default function configureStore(initialState, reduxReactRouter, getRoutes
 
     let createStoreWithMiddleware = applyMiddleware(...middlewares);
 
-    let createStoreWithRouter = compose(
-        createStoreWithMiddleware,
-        reduxReactRouter({getRoutes, createHistory})
-    );
+    if (false) { //__DEVTOOLS__) {
 
-    if (__DEVTOOLS__) {
-
-        createStoreWithRouter = compose(
-            createStoreWithRouter,
+        createStoreWithMiddleware = compose(
+            createStoreWithMiddleware,
             DevTools.instrument()
         );
     }
 
-    const finalCreateStore = createStoreWithRouter(createStore);
-    const store = finalCreateStore(reducer, initialState);
+    const finalCreateStore = createStoreWithMiddleware(createStore);
+    const store = finalCreateStore(reducers, initialState);
+
+    reduxRouterMiddleware.listenForReplays(store);
 
     if (__DEVELOPMENT__) {
         if (module.hot) {

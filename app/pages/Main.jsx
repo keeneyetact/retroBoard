@@ -6,7 +6,7 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-                Main Content
+                Main Content but this is not working
             </div>
         )
     }
