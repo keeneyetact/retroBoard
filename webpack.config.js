@@ -25,7 +25,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
-            { test: /\.jsx$/, loader: "babel" },
+            { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
             { test: /(\.scss|\.css)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
@@ -38,7 +38,11 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify('development'),
+            __CLIENT__: true,
+            __SERVER__: false,
+            __DEVELOPMENT__: true,
+            __DEVTOOLS__: true
         }),
         new webpack.ProvidePlugin({
             "React": "react",

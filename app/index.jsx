@@ -1,18 +1,30 @@
-import { default as React, PropTypes } from 'react';
-import Button from 'react-toolbox/lib/button';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import {ReduxRouter} from 'redux-router';
+import {reduxReactRouter} from 'redux-router';
+import getRoutes from './routes';
+import createHistory from 'history/lib/createBrowserHistory';
+import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 
-class Index extends React.Component {
-    render() {
-        return (
-            <div>
-                <p>Main Page</p>
-                <p><Button label="Hello World this is me" raised accent /></p>
-                <div>
+const store = configureStore({}, reduxReactRouter, makeRouteHooksSafe(getRoutes), createHistory);
+let component;
 
-                </div>
-            </div>
-        )
-    }
+if (__DEVTOOLS__){
+    const DevTools = require('./pages/DevTools');
+
+    component = <div>
+        <Provider store={store}>
+            <ReduxRouter routes={getRoutes(store)} />
+        </Provider>
+        <DevTools />
+    </div>;
+} else {
+    component = <div>
+        <Provider store={store}>
+            <ReduxRouter routes={getRoutes(store)} />
+        </Provider>
+    </div>;
 }
-
-export default Index;
+ReactDOM.render(component, document.getElementById('content'));
