@@ -9,14 +9,30 @@ export default function reducer(state = {
 }, action) {
     switch (action.type) {
         case ADD_POST:
-        // Todo
-            return state;
+            return {
+                ...state,
+                [action.postType]: posts(state[action.postType], action)
+            };
         case ADD_TEST_DATA:
             return action.data;
         default:
             return state;
     }
 }
+
+const posts = (state = [], action) => {
+    switch (action.type) {
+        case ADD_POST:
+            return [
+                ...state, {
+                    content: action.content
+                }
+            ];
+        default:
+            return state;
+    }
+}
+
 
 export const addPost = (postType, content) => {
     return {

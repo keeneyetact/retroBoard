@@ -2,7 +2,7 @@ import { default as React, PropTypes } from 'react';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
 import { connect } from 'react-redux';
-import { loadTestData } from '../state/posts';
+import { loadTestData, addPost } from '../state/posts';
 import PostBoard from '../components/PostBoard';
 
 class Main extends React.Component {
@@ -19,7 +19,7 @@ class Main extends React.Component {
                         this.props.loadTestData();
                     }}/>
 
-                <PostBoard posts={this.props.posts} />
+                <PostBoard posts={this.props.posts} onAdd={this.props.addPost} />
             </div>
         )
     }
@@ -30,7 +30,8 @@ Main.propTypes = {
 }
 
 const actions = dispatch => ({
-    loadTestData: () => dispatch(loadTestData())
+    loadTestData: () => dispatch(loadTestData()),
+    addPost: (type, text) => dispatch(addPost(type, text))
 });
 
 const select = state => ({
