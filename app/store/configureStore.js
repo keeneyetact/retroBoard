@@ -1,15 +1,12 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { apiMiddleware } from 'redux-middleware-api';
-import reducer from '../state';
+import reducers from '../state';
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import DevTools from '../pages/DevTools';
 
 export default function configureStore(initialState = {}, browserHistory) {
-    const reducers = combineReducers(Object.assign({}, reducers, {
-        routing: routeReducer
-    }));
-
+    
     let reduxRouterMiddleware = syncHistory(browserHistory);
 
     const middlewares = [];
@@ -26,7 +23,6 @@ export default function configureStore(initialState = {}, browserHistory) {
     let createStoreWithMiddleware = applyMiddleware(...middlewares);
 
     if (__DEVTOOLS__) {
-
         createStoreWithMiddleware = compose(
             createStoreWithMiddleware,
             DevTools.instrument()

@@ -1,0 +1,38 @@
+$color-notWell: #F0DAD1 !default;
+$color-well: #D8F0D1 !default;
+$color-improve: #D1E7F0 !default;
+
+div.board {
+
+
+    .column {
+
+        width: 33%;
+        float: left;
+
+        .post {
+            margin:10px;
+
+            &.well {
+                [data-react-toolbox="card"] {
+                    background-color: $color-well;
+                }
+            }
+
+            &.notWell {
+                [data-react-toolbox="card"] {
+                    background-color: $color-notWell;
+                }
+            }
+
+            &.improve {
+                [data-react-toolbox="card"] {
+                    background-color: $color-improve;
+                }
+            }
+
+        }
+    }
+
+
+}
