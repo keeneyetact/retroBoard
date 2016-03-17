@@ -1,18 +1,25 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { apiMiddleware } from 'redux-middleware-api';
-import reducers from '../state';
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import DevTools from '../pages/DevTools';
+import createSocketIoMiddleware from 'redux-socket.io';
+import io from 'socket.io-client';
+import createSagaMiddleware from 'redux-saga';
+
+import reducers from '../state';
+import sagas from '../sagas';
 
 export default function configureStore(initialState = {}, browserHistory) {
-    
+
     let reduxRouterMiddleware = syncHistory(browserHistory);
 
     const middlewares = [];
     middlewares.push(apiMiddleware);
     middlewares.push(thunk);
     middlewares.push(reduxRouterMiddleware);
+    middlewares.push(setUpIo());
+    //middlewares.push(createSagaMiddleware(...sagas));
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
@@ -45,4 +52,11 @@ export default function configureStore(initialState = {}, browserHistory) {
     }
 
     return store;
+}
+
+function setUpIo() {
+    const socket = io();
+    const middleware = createSocketIoMiddleware(socket, 'server/');
+
+    return middleware;
 }

@@ -34,12 +34,22 @@ const posts = (state = [], action) => {
 }
 
 
-export const addPost = (postType, content) => {
-    return {
+export const addPost = (postType, content) => dispatch => {
+    dispatch({
         type: ADD_POST,
         postType,
-        content
-    }
+        content,
+        user: 'Antoine'
+    });
+
+    dispatch({
+        type: 'server/ADD_POST',
+        data: {
+            postType,
+            content,
+            user: 'Antoine'
+        }
+    })
 }
 
 export const loadTestData = () => {
