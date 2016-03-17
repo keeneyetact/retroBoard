@@ -2,6 +2,7 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
+var staticFolder = path.resolve(__dirname, 'static');
 
 //process.env.BABEL_ENV = TARGET;
 
@@ -11,7 +12,8 @@ module.exports = {
         "./index.jsx",
     ],
     output: {
-        path: __dirname,
+        path: staticFolder,
+        publicPath: 'http://localhost:8080/assets/',
         filename: "bundle.js"
     },
     devtool: 'eval',
