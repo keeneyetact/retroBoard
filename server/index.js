@@ -19,7 +19,11 @@ app.use('/assets', express.static(staticFolder));
 
 app.get('/api/create', (req, res) => {
     const id = uuid.v1();
-    sessions[id] = {};
+    sessions[id] = {
+        well: [],
+        notWell: [],
+        improve: []
+    };
     return res.json({
         id
     });
@@ -33,6 +37,17 @@ io.on('connection', socket => {
 
     socket.on('action', action => {
         console.log(action);
+        switch (action.type) {
+            case 'server/ADD_POST':
+                receivePost(action.data, io);
+                break;
+            case 'server/JOIN_SESSION':
+                joinSession(action.data, socket);
+                break;
+            default:
+                console.warn('Unhandled action: ', action.type);
+        }
+
     });
 
 });
@@ -41,3 +56,19 @@ io.on('connection', socket => {
 
 httpServer.listen(port);
 console.log('Server started on port ' + port);
+
+const receivePost = (data, io) => {
+    sessions[data.sessionId][data.postType].push({
+        content: data.content,
+        user: data.user
+    });
+
+    io.to('board-'+data.sessionId).emit({
+        type: 'server/RECEIVE_POST',
+        data
+    });
+};
+
+const joinSession = (data, socket) => {
+    socket.join('board-' + data.sessionId);
+};

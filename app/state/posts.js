@@ -34,12 +34,15 @@ const posts = (state = [], action) => {
 }
 
 
-export const addPost = (postType, content) => dispatch => {
+export const addPost = (postType, content) => (dispatch, getState) => {
+    const state = getState();
+
     dispatch({
         type: ADD_POST,
         postType,
         content,
-        user: 'Antoine'
+        user: state.user.name,
+        sessionId: state.session.id
     });
 
     dispatch({
@@ -47,7 +50,8 @@ export const addPost = (postType, content) => dispatch => {
         data: {
             postType,
             content,
-            user: 'Antoine'
+            user: state.user.name,
+            sessionId: state.session.id
         }
     })
 }

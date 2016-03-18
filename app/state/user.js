@@ -1,7 +1,7 @@
 export const LOGIN = 'LOGIN';
 
 export default function reducer(state = {
-    name: null
+    name: 'Antoine'
 }, action) {
     switch (action.type) {
         case LOGIN:

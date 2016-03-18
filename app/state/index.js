@@ -3,14 +3,14 @@ import { reducer as formReducer } from 'redux-form';
 import posts from './posts';
 import session from './session';
 import user from './user';
-import { routeReducer } from 'redux-simple-router'
+import { routerReducer } from 'react-router-redux';
 
 const rootReducer = combineReducers({
     form: formReducer,
     posts,
     session,
     user,
-    routing: routeReducer
+    routing: routerReducer
 });
 
 export default rootReducer;

@@ -1,24 +1,22 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { apiMiddleware } from 'redux-middleware-api';
-import { syncHistory, routeReducer } from 'redux-simple-router'
+import { syncHistoryWithStore } from 'react-router-redux';
 import DevTools from '../pages/DevTools';
 import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 import createSagaMiddleware from 'redux-saga';
-
 import reducers from '../state';
 import sagas from '../sagas';
+import { routerMiddleware } from 'react-router-redux'
 
 export default function configureStore(initialState = {}, browserHistory) {
-
-    let reduxRouterMiddleware = syncHistory(browserHistory);
 
     const middlewares = [];
     middlewares.push(apiMiddleware);
     middlewares.push(thunk);
-    middlewares.push(reduxRouterMiddleware);
     middlewares.push(setUpIo());
+    middlewares.push(routerMiddleware(browserHistory));
     //middlewares.push(createSagaMiddleware(...sagas));
 
     if (__DEVELOPMENT__) {
@@ -38,8 +36,6 @@ export default function configureStore(initialState = {}, browserHistory) {
 
     const finalCreateStore = createStoreWithMiddleware(createStore);
     const store = finalCreateStore(reducers, initialState);
-
-    reduxRouterMiddleware.listenForReplays(store);
 
     if (__DEVELOPMENT__) {
         if (module.hot) {
