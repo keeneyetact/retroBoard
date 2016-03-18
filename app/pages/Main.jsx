@@ -9,11 +9,6 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
                 <Button label="Add some test data" accent raised onClick={() => {
                         console.log('click')
                         this.props.loadTestData();

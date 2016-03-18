@@ -5,7 +5,8 @@ import configureStore from './store/configureStore';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import {
     App,
-    Main
+    Main,
+    Join
 } from './pages';
 
 const store = configureStore({}, browserHistory);
@@ -40,7 +41,7 @@ class Index extends React.Component {
         return (
             <Router history={browserHistory}>
                 <Route path="/" component={App}>
-                  <IndexRoute component={Main}/>
+                  <IndexRoute component={Join} />
                 </Route>
             </Router>
         );
