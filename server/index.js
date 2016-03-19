@@ -39,6 +39,11 @@ io.on('connection', socket => {
         console.log('JOIN SESSION ', data);
         joinSession(data, socket);
     });
+
+    socket.on('DELETE_POST', data => {
+        console.log('DELETING POST');
+        deletePost(data, socket);
+    });
 });
 
 
@@ -67,3 +72,15 @@ const joinSession = (data, socket) => {
         socket.emit('RECEIVE_BOARD', existingData.posts);
     }
 };
+
+const deletePost = (data, socket) => {
+    const existingData = sessions[data.sessionId];
+    if (existingData) {
+        existingData.posts = existingData.posts.filter(p => p.id !== data.id);
+        sessions[data.sessionId] = existingData;
+        socket
+            .broadcast
+            .to('board-'+data.sessionId)
+            .emit('RECEIVE_DELETE_POST', data);
+    }
+}

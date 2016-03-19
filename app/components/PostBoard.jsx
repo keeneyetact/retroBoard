@@ -13,13 +13,13 @@ class PostBoard extends React.Component {
         return (
             <div className={style.board}>
                 <div className={ClassNames(style.column, style.notWell)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={notWell} type={'notWell'} onAdd={this.props.onAdd} placeholder="What didn't go well?" />
+                    <PostColumn currentUser={this.props.currentUser} posts={notWell} type={'notWell'} onAdd={this.props.onAdd} placeholder="What didn't go well?" onDelete={this.props.onDelete} />
                 </div>
                 <div className={ClassNames(style.column, style.well)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={well} type={'well'} onAdd={this.props.onAdd} placeholder="What did go well?" />
+                    <PostColumn currentUser={this.props.currentUser} posts={well} type={'well'} onAdd={this.props.onAdd} placeholder="What did go well?" onDelete={this.props.onDelete} />
                 </div>
                 <div className={ClassNames(style.column, style.improve)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={improve} type={'improve'} onAdd={this.props.onAdd} placeholder="Something to improve?"/>
+                    <PostColumn currentUser={this.props.currentUser} posts={improve} type={'improve'} onAdd={this.props.onAdd} placeholder="Something to improve?" onDelete={this.props.onDelete} />
                 </div>
             </div>
 
@@ -30,7 +30,8 @@ class PostBoard extends React.Component {
 PostBoard.propTypes = {
     currentUser: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
-    onAdd: PropTypes.func
+    onAdd: PropTypes.func,
+    onDelete: PropTypes.func
 }
 
 PostBoard.defaultProps = {
@@ -40,7 +41,8 @@ PostBoard.defaultProps = {
         notWell: [],
         improve: []
     },
-    onAdd: () => {}
+    onAdd: () => {},
+    onDelete: () => {}
 }
 
 export default PostBoard;

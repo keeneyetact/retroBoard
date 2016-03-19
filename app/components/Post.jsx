@@ -27,7 +27,7 @@ class Post extends React.Component {
 
     renderDeleteButton(){
         if (this.props.currentUser === this.props.user) {
-            return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.postId)} />;
+            return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.post)} />;
         }
 
         return null;
@@ -39,6 +39,7 @@ class Post extends React.Component {
 }
 
 Post.propTypes = {
+    post: PropTypes.object.isRequired,
     currentUser: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -48,6 +49,7 @@ Post.propTypes = {
 }
 
 Post.defaultProps = {
+    post: null,
     currentUser: null,
     user: '',
     content: '',
