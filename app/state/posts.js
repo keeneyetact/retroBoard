@@ -1,3 +1,5 @@
+import uuid from 'node-uuid';
+
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
 export const RECEIVE_POST = 'RECEIVE_POST';
@@ -34,7 +36,8 @@ const posts = (state = [], action) => {
             return [
                 ...state, {
                     content: action.content,
-                    user: action.user
+                    user: action.user,
+                    id: action.id
                 }
             ];
         default:
@@ -51,7 +54,8 @@ export const addPost = (postType, content) => (dispatch, getState) => {
         postType,
         content,
         user: state.user.name,
-        sessionId: state.session.id
+        sessionId: state.session.id,
+        id: uuid.v1()
     });
 }
 

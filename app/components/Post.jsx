@@ -18,10 +18,19 @@ class Post extends React.Component {
                     <CardActions>
                         <IconButton icon="thumb_up" floating mini style={{ backgroundColor: 'green', color: 'white' }} />
                         <IconButton icon="thumb_down" floating mini style={{ backgroundColor: 'red', color: 'white' }}  />
+                        { this.renderDeleteButton() }
                     </CardActions>
                 </Card>
             </div>
         )
+    }
+
+    renderDeleteButton(){
+        if (this.props.currentUser === this.props.user) {
+            return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.postId)} />;
+        }
+
+        return null;
     }
 
     getGravatar() {
@@ -30,15 +39,21 @@ class Post extends React.Component {
 }
 
 Post.propTypes = {
+    currentUser: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
+    postId: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    onDelete: PropTypes.func
 }
 
 Post.defaultProps = {
+    currentUser: null,
     user: '',
     content: '',
-    type: 'well'
+    postId: null,
+    type: 'well',
+    onDelete: () => {}
 }
 
 export default Post;

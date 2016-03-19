@@ -7,9 +7,9 @@ class PostColumn extends React.Component {
         return (
             <div>
                 <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} />
-            <div className="column-content">
-                { this.props.posts.map((post, index) => <Post user={post.user} content={post.content} type={this.props.type} key={index} />)}
-            </div>
+                <div className="column-content">
+                    { this.props.posts.map((post, index) => <Post currentUser={this.props.currentUser} user={post.user} content={post.content} type={this.props.type} postId={post.id} key={index} />)}
+                </div>
             </div>
         )
     }
@@ -20,6 +20,7 @@ class PostColumn extends React.Component {
 }
 
 PostColumn.propTypes = {
+    currentUser: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
@@ -27,6 +28,7 @@ PostColumn.propTypes = {
 }
 
 PostColumn.defaultProps = {
+    currentUser: null,
     posts: [],
     type: 'well',
     placeholder: 'New Comment',

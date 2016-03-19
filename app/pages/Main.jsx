@@ -9,7 +9,7 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-                <PostBoard posts={this.props.posts} onAdd={this.props.addPost} />
+                <PostBoard currentUser={this.props.currentUser} posts={this.props.posts} onAdd={this.props.addPost} />
             </div>
         )
     }
@@ -17,15 +17,17 @@ class Main extends React.Component {
 
 Main.propTypes = {
     addPost: PropTypes.func,
-    posts: PropTypes.object
+    posts: PropTypes.object,
+    currentUser: PropTypes.string.isRequired
 }
 
 const actions = dispatch => ({
-    addPost: (type, text) => dispatch(addPost(type, text))
+    addPost: (type, text) => dispatch(addPost(type, text)),
 });
 
 const select = state => ({
-    posts: state.posts
+    posts: state.posts,
+    currentUser: state.user.name
 });
 
 export default connect(select, actions)(Main);
