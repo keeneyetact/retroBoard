@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { ADD_POST } from '../state/posts';
+import { ADD_POST, RECEIVE_BOARD, RECEIVE_POST } from '../state/posts';
 import { JOIN_SESSION } from '../state/session';
 
 let socket = null;
@@ -7,8 +7,12 @@ let socket = null;
 export const init = store => {
     socket = io();
 
-    socket.on('RECEIVE_POST', data => {
-        store.dispatch({ type: 'RECEIVE_POST', data });
+    const actions = [RECEIVE_POST, RECEIVE_BOARD];
+
+    actions.forEach(action => {
+        socket.on(action, data => {
+            store.dispatch({ type: action, data });
+        });
     });
 }
 
@@ -21,7 +25,6 @@ export const socketIoMiddleware = store => next => action => {
             break;
         case JOIN_SESSION:
             socket.emit(JOIN_SESSION, action);
-            //socket.join('board-' + action.sessionId);
             break;
     }
 

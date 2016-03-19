@@ -2,6 +2,7 @@
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
 export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_BOARD = 'RECEIVE_BOARD';
 
 export default function reducer(state = {
     well: [],
@@ -21,6 +22,8 @@ export default function reducer(state = {
                 ...state,
                 [action.data.postType]: posts(state[action.data.postType], action.data)
             }
+        case RECEIVE_BOARD:
+            return action.data;
         default:
             return state;
     }

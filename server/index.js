@@ -67,4 +67,8 @@ const receivePost = (data, socket) => {
 
 const joinSession = (data, socket) => {
     socket.join('board-' + data.sessionId);
+    const existingData = sessions[data.sessionId];
+    if (existingData) {
+        socket.emit('RECEIVE_BOARD', existingData);
+    }
 };
