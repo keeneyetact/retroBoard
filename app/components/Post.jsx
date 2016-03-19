@@ -7,14 +7,15 @@ import md5 from 'md5';
 
 class Post extends React.Component {
     render() {
+        const post = this.props.post;
         return (
-            <div className={ClassNames(style.post, style[this.props.type])}>
-                <Card style={{width: '350px' }} raised className={style[this.props.type]}>
+            <div className={ClassNames(style.post, style[post.postType])}>
+                <Card style={{width: '350px' }} raised className={style[post.postType]}>
                     <CardTitle
                         avatar={this.getGravatar()}
-                        title={this.props.user}
+                        title={post.user}
                     />
-                    <CardText>{this.props.content}</CardText>
+                    <CardText>{post.content}</CardText>
                     <CardActions>
 
                         { this.renderButtons() }
@@ -25,7 +26,7 @@ class Post extends React.Component {
     }
 
     renderButtons(){
-        if (this.props.currentUser === this.props.user) {
+        if (this.props.currentUser === this.props.post.user) {
             return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.post)} />;
         } else {
             return (
@@ -40,27 +41,19 @@ class Post extends React.Component {
     }
 
     getGravatar() {
-        return 'https://www.gravatar.com/avatar/'+md5(this.props.user)+'?d=retro';
+        return 'https://www.gravatar.com/avatar/'+md5(this.props.post.user)+'?d=retro';
     }
 }
 
 Post.propTypes = {
     post: PropTypes.object.isRequired,
     currentUser: PropTypes.string.isRequired,
-    user: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    postId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     onDelete: PropTypes.func
 }
 
 Post.defaultProps = {
     post: null,
     currentUser: null,
-    user: '',
-    content: '',
-    postId: null,
-    type: 'well',
     onDelete: () => {}
 }
 

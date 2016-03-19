@@ -8,7 +8,9 @@ class PostColumn extends React.Component {
             <div>
                 <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} />
                 <div className="column-content">
-                    { this.props.posts.map((post, index) => <Post currentUser={this.props.currentUser} user={post.user} content={post.content} type={this.props.type} postId={post.id} post={post} onDelete={this.props.onDelete} key={index} />)}
+                    { this.props.posts.map((post, index) =>
+                        <Post currentUser={this.props.currentUser} post={post} onDelete={this.props.onDelete} key={index} />
+                    )}
                 </div>
             </div>
         )
