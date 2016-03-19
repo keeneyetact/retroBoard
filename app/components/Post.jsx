@@ -16,18 +16,24 @@ class Post extends React.Component {
                     />
                     <CardText>{this.props.content}</CardText>
                     <CardActions>
-                        <IconButton icon="thumb_up" floating mini style={{ backgroundColor: 'green', color: 'white' }} />
-                        <IconButton icon="thumb_down" floating mini style={{ backgroundColor: 'red', color: 'white' }}  />
-                        { this.renderDeleteButton() }
+
+                        { this.renderButtons() }
                     </CardActions>
                 </Card>
             </div>
         )
     }
 
-    renderDeleteButton(){
+    renderButtons(){
         if (this.props.currentUser === this.props.user) {
             return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.post)} />;
+        } else {
+            return (
+                <span>
+                    <IconButton icon="thumb_up" floating mini style={{ backgroundColor: 'green', color: 'white' }} />
+                    <IconButton icon="thumb_down" floating mini style={{ backgroundColor: 'red', color: 'white' }}  />
+                </span>
+            );
         }
 
         return null;

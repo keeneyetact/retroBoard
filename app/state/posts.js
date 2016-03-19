@@ -12,12 +12,8 @@ export default function reducer(state = [], action) {
         case ADD_POST:
         case RECEIVE_POST:
             return [
-                ...state, {
-                    postType: action.data.postType,
-                    content: action.data.content,
-                    user: action.data.user,
-                    id: action.data.id
-                }
+                ...state,
+                action.data
             ];
         case RECEIVE_BOARD:
             return action.data;
