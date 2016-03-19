@@ -17,7 +17,7 @@ class Main extends React.Component {
 
 Main.propTypes = {
     addPost: PropTypes.func,
-    posts: PropTypes.object,
+    posts: PropTypes.array,
     currentUser: PropTypes.string.isRequired
 }
 

@@ -21,7 +21,7 @@ export const socketIoMiddleware = store => next => action => {
 
     switch (action.type) {
         case ADD_POST:
-            socket.emit(ADD_POST, action);
+            socket.emit(ADD_POST, action.data);
             break;
         case JOIN_SESSION:
             socket.emit(JOIN_SESSION, action);

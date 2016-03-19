@@ -24,6 +24,7 @@
     "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "local-storage": "^1.4.2",
+    "lodash": "^4.6.1",
     "md5": "^2.1.0",
     "node-sass": "^3.4.2",
     "node-uuid": "^1.4.7",

@@ -49,15 +49,10 @@ console.log('Server started on port ' + port);
 const receivePost = (data, socket) => {
     if (!sessions[data.sessionId]) {
         sessions[data.sessionId] = {
-            well: [],
-            notWell: [],
-            improve: []
+            posts: []
         };
     }
-    sessions[data.sessionId][data.postType].push({
-        content: data.content,
-        user: data.user
-    });
+    sessions[data.sessionId].posts.push(data);
 
     socket
         .broadcast
@@ -69,6 +64,6 @@ const joinSession = (data, socket) => {
     socket.join('board-' + data.sessionId);
     const existingData = sessions[data.sessionId];
     if (existingData) {
-        socket.emit('RECEIVE_BOARD', existingData);
+        socket.emit('RECEIVE_BOARD', existingData.posts);
     }
 };
