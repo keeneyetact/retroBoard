@@ -28,7 +28,7 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
             { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
-            { test: /(\.scss|\.css)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
+            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
     toolbox: {

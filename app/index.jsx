@@ -10,6 +10,7 @@ import {
     Main,
     Join
 } from './pages';
+import './grids.css';
 
 const store = configureStore({}, browserHistory);
 init(store);

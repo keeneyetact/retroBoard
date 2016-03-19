@@ -7,13 +7,14 @@ import { createSession } from '../state/session';
 class Join extends Component {
     render() {
         return (
-            <section>
-                <h2>Create or Join a session</h2>
-
-                <h3>Create</h3>
-                <Button label="Create a new session" accent raised onClick={this.props.createSession} />
-
-                <h3>Join</h3>
+            <section className="grid">
+                <div className="col-3-12"></div>
+                <div className="col-6-12">
+                    <h2>Create a session</h2>
+                    <br />
+                    <Button label="Create a new session" accent raised onClick={this.props.createSession} />
+                </div>
+                <div className="col-3-12"></div>
             </section>
         );
     }

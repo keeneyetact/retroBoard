@@ -8,13 +8,13 @@ class PostBoard extends React.Component {
         return (
             <div className={style.board}>
                 <div className={ClassNames(style.column, style.notWell)}>
-                    <PostColumn posts={this.props.posts.notWell} type={'notWell'} onAdd={this.props.onAdd} />
+                    <PostColumn posts={this.props.posts.notWell} type={'notWell'} onAdd={this.props.onAdd} placeholder="What didn't go well?" />
                 </div>
                 <div className={ClassNames(style.column, style.well)}>
-                    <PostColumn posts={this.props.posts.well} type={'well'} onAdd={this.props.onAdd} />
+                    <PostColumn posts={this.props.posts.well} type={'well'} onAdd={this.props.onAdd} placeholder="What did go well?" />
                 </div>
                 <div className={ClassNames(style.column, style.improve)}>
-                    <PostColumn posts={this.props.posts.improve} type={'improve'} onAdd={this.props.onAdd} />
+                    <PostColumn posts={this.props.posts.improve} type={'improve'} onAdd={this.props.onAdd} placeholder="Something to improve?"/>
                 </div>
             </div>
 

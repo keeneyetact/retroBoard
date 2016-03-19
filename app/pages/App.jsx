@@ -6,6 +6,7 @@ import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
 import { login } from '../state/user';
 import { initialise } from '../state/actions';
+import theme from '../theme.scss';
 
 class App extends React.Component {
     render() {
@@ -13,11 +14,9 @@ class App extends React.Component {
             <div>
                 <AppBar fixed flat>
                     <a href="/">Agile Board</a>
-                    <div style={{float: 'right'}}>
-                        <Navigation type="horizontal">
-                            <p>{ this.props.user }</p>
-                        </Navigation>
-                    </div>
+                    <Navigation type="horizontal" className={ theme.navigation }>
+                        <p>{ this.props.user }</p>
+                    </Navigation>
                 </AppBar>
                 <br />
                 <br />

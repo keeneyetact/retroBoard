@@ -5,7 +5,7 @@ class PostAdd extends Component {
     render() {
         return (
             <div>
-                <Input type='input' label='New comment' name='comment' icon='add_circle' onKeyPress={e => this.onKeyPress(e.nativeEvent)} ref="input" />
+                <Input type='input' label={this.props.placeholder} name='comment' icon='add_circle' onKeyPress={e => this.onKeyPress(e.nativeEvent)} ref="input" />
             </div>
         );
     }
@@ -20,11 +20,13 @@ class PostAdd extends Component {
 }
 
 PostAdd.propTypes = {
-    onAdd: PropTypes.func
+    onAdd: PropTypes.func,
+    placeholder: PropTypes.string
 }
 
 PostAdd.defaultProps = {
-    onAdd: () => {}
+    onAdd: () => {},
+    placeholder: 'New comment'
 }
 
 export default PostAdd;
