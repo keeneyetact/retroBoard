@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "autoprefixer": "^6.3.3",
+    "babel-cli": "^6.6.5",
     "babel-core": "^6.7.2",
     "babel-eslint": "^5.0.0",
     "babel-loader": "^6.2.4",
@@ -68,7 +69,7 @@
     "start-server": "./node_modules/.bin/nodemon ./babel.js",
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./server",
-    "build": "npm run clean && npm run build-server"
+    "build": "npm run clean && npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
   },
   "repository": {
     "type": "git",

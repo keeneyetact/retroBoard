@@ -35,17 +35,22 @@ module.exports = {
     postcss: [autoprefixer],
     plugins: [
         new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development'),
+            'process.env.NODE_ENV': JSON.stringify('production'),
             __CLIENT__: true,
             __SERVER__: false,
-            __DEVELOPMENT__: true,
-            __DEVTOOLS__: true
+            __DEVELOPMENT__: false,
+            __DEVTOOLS__: false
         }),
         new webpack.ProvidePlugin({
             "React": "react",
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+          compress: {
+              warnings: false
+            }
         })
     ]
 };

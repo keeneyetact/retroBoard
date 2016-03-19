@@ -9,7 +9,7 @@ const app = express();
 const httpServer = http.Server(app);
 const io = socketIo(httpServer);
 const port = process.env.PORT || 8081;
-const htmlFile = path.resolve(__dirname, '..', 'static', 'index.html');
+const htmlFile = path.resolve(__dirname, '..', 'static', process.env.NODE_ENV === 'production' ? 'index-prod.html':'index.html');
 const staticFolder = path.resolve(__dirname, '..', 'static');
 
 const sessions = {};
