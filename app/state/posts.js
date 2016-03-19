@@ -1,4 +1,3 @@
-
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
 export const RECEIVE_POST = 'RECEIVE_POST';
@@ -21,7 +20,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 [action.data.postType]: posts(state[action.data.postType], action.data)
-            }
+            };
         case RECEIVE_BOARD:
             return action.data;
         default:
@@ -34,7 +33,8 @@ const posts = (state = [], action) => {
         case ADD_POST:
             return [
                 ...state, {
-                    content: action.content
+                    content: action.content,
+                    user: action.user
                 }
             ];
         default:

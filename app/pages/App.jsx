@@ -2,6 +2,7 @@ import { default as React, PropTypes } from 'react';
 import Login from './Login';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
+import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
 import { login } from '../state/user';
 import { initialise } from '../state/actions';
@@ -12,6 +13,11 @@ class App extends React.Component {
             <div>
                 <AppBar fixed flat>
                     <a href="/">Agile Board</a>
+                    <div style={{float: 'right'}}>
+                        <Navigation type="horizontal">
+                            <p>{ this.props.user }</p>
+                        </Navigation>
+                    </div>
                 </AppBar>
                 <br />
                 <br />
@@ -33,7 +39,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log('Params: ', this.props.params);
         this.props.initialise(this.props.params.sessionId);
     }
 }

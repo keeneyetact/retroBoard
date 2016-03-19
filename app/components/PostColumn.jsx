@@ -8,7 +8,7 @@ class PostColumn extends React.Component {
             <div>
                 <PostAdd onAdd={this.addPost.bind(this)}/>
             <div className="column-content">
-                { this.props.posts.map((post, index) => <Post content={post.content} type={this.props.type} key={index} />)}
+                { this.props.posts.map((post, index) => <Post user={post.user} content={post.content} type={this.props.type} key={index} />)}
             </div>
             </div>
         )

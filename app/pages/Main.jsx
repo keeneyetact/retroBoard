@@ -9,11 +9,6 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-                <Button label="Add some test data" accent raised onClick={() => {
-                        console.log('click')
-                        this.props.loadTestData();
-                    }}/>
-
                 <PostBoard posts={this.props.posts} onAdd={this.props.addPost} />
             </div>
         )
@@ -21,11 +16,11 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-    loadTestData: PropTypes.func
+    addPost: PropTypes.func,
+    posts: PropTypes.object
 }
 
 const actions = dispatch => ({
-    loadTestData: () => dispatch(loadTestData()),
     addPost: (type, text) => dispatch(addPost(type, text))
 });
 
