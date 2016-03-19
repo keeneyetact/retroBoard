@@ -11,14 +11,10 @@ class Post extends React.Component {
         return (
             <div className={ClassNames(style.post, style[post.postType])}>
                 <Card style={{width: '350px' }} raised className={style[post.postType]}>
-                    <CardTitle
-                        avatar={this.getGravatar()}
-                        title={post.user}
-                    />
                     <CardText>{post.content}</CardText>
                     <CardActions>
-
                         { this.renderButtons() }
+                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.votes }</b>&nbsp;{ this.props.post.votes > 1 ? 'votes': 'vote' }
                     </CardActions>
                 </Card>
             </div>
@@ -26,13 +22,17 @@ class Post extends React.Component {
     }
 
     renderButtons(){
-        if (this.props.currentUser === this.props.post.user) {
-            return <IconButton icon="delete" floating mini style={{ backgroundColor: 'red', color: 'white' }} onClick={() => this.props.onDelete(this.props.post)} />;
+        const post = this.props.post;
+        if (this.props.currentUser === post.user) {
+            return <IconButton icon="delete" floating mini style={{ backgroundColor: '#FF9494', color: 'white' }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
-                    <IconButton icon="thumb_up" floating mini style={{ backgroundColor: 'green', color: 'white' }} />
-                    <IconButton icon="thumb_down" floating mini style={{ backgroundColor: 'red', color: 'white' }}  />
+                    <IconButton icon="thumb_up" floating mini style={{ backgroundColor: '#6BD173', color: 'white' }}
+                        onClick={() => this.props.onLike(post)} />
+                    <IconButton icon="thumb_down" floating mini style={{ backgroundColor: '#FF9494', color: 'white' }}
+                        disabled={ post.votes <= 0 }
+                        onClick={() => this.props.onUnlike(post)} />
                 </span>
             );
         }
@@ -48,13 +48,17 @@ class Post extends React.Component {
 Post.propTypes = {
     post: PropTypes.object.isRequired,
     currentUser: PropTypes.string.isRequired,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    onLike: PropTypes.func,
+    onUnlike: PropTypes.func
 }
 
 Post.defaultProps = {
     post: null,
     currentUser: null,
-    onDelete: () => {}
+    onDelete: () => {},
+    onLike: () => {},
+    onUnlike: () => {}
 }
 
 export default Post;

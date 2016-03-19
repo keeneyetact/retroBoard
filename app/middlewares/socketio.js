@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { ADD_POST, RECEIVE_BOARD, RECEIVE_POST, RECEIVE_DELETE_POST, DELETE_POST } from '../state/posts';
+import { ADD_POST, RECEIVE_BOARD, RECEIVE_POST, RECEIVE_DELETE_POST, DELETE_POST, LIKE, RECEIVE_LIKE } from '../state/posts';
 import { JOIN_SESSION } from '../state/session';
 
 let socket = null;
@@ -7,7 +7,7 @@ let socket = null;
 export const init = store => {
     socket = io();
 
-    const actions = [RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST];
+    const actions = [RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST, RECEIVE_LIKE];
 
     actions.forEach(action => {
         socket.on(action, data => {
@@ -28,6 +28,9 @@ export const socketIoMiddleware = store => next => action => {
             break;
         case DELETE_POST:
             socket.emit(DELETE_POST, action.data);
+            break;
+        case LIKE:
+            socket.emit(LIKE, action.data);
             break;
     }
 

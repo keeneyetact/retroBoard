@@ -9,7 +9,12 @@ class PostColumn extends React.Component {
                 <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} />
                 <div className="column-content">
                     { this.props.posts.map((post, index) =>
-                        <Post currentUser={this.props.currentUser} post={post} onDelete={this.props.onDelete} key={index} />
+                        <Post key={index}
+                              currentUser={this.props.currentUser}
+                              post={post}
+                              onLike={this.props.onLike}
+                              onUnlike={this.props.onUnlike}
+                              onDelete={this.props.onDelete} />
                     )}
                 </div>
             </div>
@@ -27,7 +32,9 @@ PostColumn.propTypes = {
     type: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     onAdd: PropTypes.func,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    onLike: PropTypes.func,
+    onUnlike: PropTypes.func
 }
 
 PostColumn.defaultProps = {
@@ -36,7 +43,9 @@ PostColumn.defaultProps = {
     type: 'well',
     placeholder: 'New Comment',
     onAdd: () => {},
-    onDelete: () => {}
+    onDelete: () => {},
+    onLike: () => {},
+    onUnlike: () => {}
 }
 
 export default PostColumn;

@@ -3,7 +3,7 @@ import PostColumn from './PostColumn';
 import style from './PostBoardStyle';
 import ClassNames from 'classnames';
 import { connect } from 'react-redux';
-import { addPost, deletePost } from '../state/posts';
+import { addPost, deletePost, like, unlike } from '../state/posts';
 
 class PostBoard extends React.Component {
     render() {
@@ -15,13 +15,13 @@ class PostBoard extends React.Component {
         return (
             <div className={style.board}>
                 <div className={ClassNames(style.column, style.notWell)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={notWell} type={'notWell'} onAdd={this.props.addPost} placeholder="What didn't go well?" onDelete={this.props.deletePost} />
+                    <PostColumn currentUser={this.props.currentUser} posts={notWell} type={'notWell'} onAdd={this.props.addPost} placeholder="What didn't go well?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
                 <div className={ClassNames(style.column, style.well)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={well} type={'well'} onAdd={this.props.addPost} placeholder="What did go well?" onDelete={this.props.deletePost} />
+                    <PostColumn currentUser={this.props.currentUser} posts={well} type={'well'} onAdd={this.props.addPost} placeholder="What did go well?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
                 <div className={ClassNames(style.column, style.improve)}>
-                    <PostColumn currentUser={this.props.currentUser} posts={improve} type={'improve'} onAdd={this.props.addPost} placeholder="Something to improve?" onDelete={this.props.deletePost} />
+                    <PostColumn currentUser={this.props.currentUser} posts={improve} type={'improve'} onAdd={this.props.addPost} placeholder="Something to improve?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
             </div>
 
@@ -50,7 +50,9 @@ const stateToProps = state => ({
 
 const actionsToProps = dispatch => ({
     addPost: (type, text) => dispatch(addPost(type, text)),
-    deletePost: post => dispatch(deletePost(post))
+    deletePost: post => dispatch(deletePost(post)),
+    like: post => dispatch(like(post)),
+    unlike: post => dispatch(unlike(post))
 });
 
 export default connect(stateToProps, actionsToProps)(PostBoard);

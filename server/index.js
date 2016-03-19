@@ -3,6 +3,7 @@ import path from 'path';
 import socketIo from 'socket.io';
 import http from 'http';
 import uuid from 'node-uuid';
+import find from 'lodash/find';
 
 const app = express();
 const httpServer = http.Server(app);
@@ -44,6 +45,11 @@ io.on('connection', socket => {
         console.log('DELETING POST');
         deletePost(data, socket);
     });
+
+    socket.on('LIKE', data => {
+        console.log('LIKE');
+        like(data, socket);
+    });
 });
 
 
@@ -83,4 +89,18 @@ const deletePost = (data, socket) => {
             .to('board-'+data.sessionId)
             .emit('RECEIVE_DELETE_POST', data);
     }
-}
+};
+
+const like = (data, socket) => {
+    const existingData = sessions[data.post.sessionId];
+    if (existingData) {
+        const post = find(existingData.posts, p => p.id === data.post.id);
+        if (post) {
+            post.votes += data.count;
+            socket
+                .broadcast
+                .to('board-'+data.post.sessionId)
+                .emit('RECEIVE_LIKE', data);
+        }
+    }
+};
