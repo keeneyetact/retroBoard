@@ -4,6 +4,7 @@ import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
 import { connect } from 'react-redux';
 import { login } from '../state/user';
+import { initialise } from '../state/actions';
 
 class App extends React.Component {
     render() {
@@ -30,6 +31,11 @@ class App extends React.Component {
             <Login onLogin={this.props.onLogin} />
         );
     }
+
+    componentDidMount() {
+        console.log('Params: ', this.props.params);
+        this.props.initialise(this.props.params.sessionId);
+    }
 }
 
 App.propTypes = {
@@ -49,7 +55,8 @@ const stateToProps = state => ({
 });
 
 const actionsToProps = dispatch => ({
-    onLogin: user => dispatch(login(user))
+    onLogin: user => dispatch(login(user)),
+    initialise: sessionId => dispatch(initialise(sessionId))
 });
 
 export default connect(stateToProps, actionsToProps)(App);

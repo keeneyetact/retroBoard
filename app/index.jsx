@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { init } from './middlewares/socketio';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import {
     App,
@@ -11,6 +12,7 @@ import {
 } from './pages';
 
 const store = configureStore({}, browserHistory);
+init(store);
 const history = syncHistoryWithStore(browserHistory, store);
 
 class Index extends React.Component {

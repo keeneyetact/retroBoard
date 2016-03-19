@@ -1,7 +1,9 @@
+import ls from 'local-storage';
+
 export const LOGIN = 'LOGIN';
 
 export default function reducer(state = {
-    name: 'Antoine'
+    name: null
 }, action) {
     switch (action.type) {
         case LOGIN:
@@ -14,7 +16,17 @@ export default function reducer(state = {
     }
 }
 
-export const login = user => ({
-    type: LOGIN,
-    name: user
-});
+export const login = user => dispatch => {
+    ls('username', user);
+    dispatch({
+        type: LOGIN,
+        name: user
+    });
+};
+
+export const autoLogin = () => dispatch => {
+    const username = ls('username');
+    if (username) {
+        dispatch(login(username));
+    }
+};

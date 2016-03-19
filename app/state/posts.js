@@ -1,6 +1,7 @@
 
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
+export const RECEIVE_POST = 'RECEIVE_POST';
 
 export default function reducer(state = {
     well: [],
@@ -15,6 +16,11 @@ export default function reducer(state = {
             };
         case ADD_TEST_DATA:
             return action.data;
+        case RECEIVE_POST:
+            return {
+                ...state,
+                [action.data.postType]: posts(state[action.data.postType], action.data)
+            }
         default:
             return state;
     }
@@ -44,16 +50,6 @@ export const addPost = (postType, content) => (dispatch, getState) => {
         user: state.user.name,
         sessionId: state.session.id
     });
-
-    dispatch({
-        type: 'server/ADD_POST',
-        data: {
-            postType,
-            content,
-            user: state.user.name,
-            sessionId: state.session.id
-        }
-    })
 }
 
 export const loadTestData = () => {

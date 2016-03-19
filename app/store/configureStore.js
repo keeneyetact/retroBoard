@@ -3,20 +3,20 @@ import thunk from 'redux-thunk';
 import { apiMiddleware } from 'redux-middleware-api';
 import { syncHistoryWithStore } from 'react-router-redux';
 import DevTools from '../pages/DevTools';
-import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 import createSagaMiddleware from 'redux-saga';
 import reducers from '../state';
 import sagas from '../sagas';
-import { routerMiddleware } from 'react-router-redux'
+import { routerMiddleware } from 'react-router-redux';
+import { socketIoMiddleware} from '../middlewares/socketio';
 
 export default function configureStore(initialState = {}, browserHistory) {
 
     const middlewares = [];
     middlewares.push(apiMiddleware);
     middlewares.push(thunk);
-    middlewares.push(setUpIo());
     middlewares.push(routerMiddleware(browserHistory));
+    middlewares.push(socketIoMiddleware);
     //middlewares.push(createSagaMiddleware(...sagas));
 
     if (__DEVELOPMENT__) {
@@ -48,11 +48,4 @@ export default function configureStore(initialState = {}, browserHistory) {
     }
 
     return store;
-}
-
-function setUpIo() {
-    const socket = io();
-    const middleware = createSocketIoMiddleware(socket, 'server/');
-
-    return middleware;
 }
