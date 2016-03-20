@@ -4,6 +4,7 @@ import socketIo from 'socket.io';
 import http from 'http';
 import uuid from 'node-uuid';
 import find from 'lodash/find';
+import chalk from 'chalk';
 
 const app = express();
 const httpServer = http.Server(app);
@@ -13,8 +14,6 @@ const htmlFile = path.resolve(__dirname, '..', 'static', process.env.NODE_ENV ==
 const staticFolder = path.resolve(__dirname, '..', 'static');
 
 const sessions = {};
-
-console.log('Static folder: ', staticFolder);
 
 app.use('/assets', express.static(staticFolder));
 
@@ -29,7 +28,7 @@ app.get('/*', (req, res) => res.sendFile(htmlFile));
 
 
 io.on('connection', socket => {
-    console.log('a user connected on socket '+socket.id);
+    console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
 
     const actions = [
         { type: 'ADD_POST', handler: receivePost },
@@ -41,7 +40,7 @@ io.on('connection', socket => {
 
     actions.forEach(action => {
         socket.on(action.type, data => {
-            console.log('Received an action: ', action.type, ' with payload: ', data);
+            console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
             action.handler(data, socket);
         });
     });
@@ -49,7 +48,7 @@ io.on('connection', socket => {
 });
 
 httpServer.listen(port);
-console.log('Server started on port ' + port);
+console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
 
 const receivePost = (data, socket) => {
     const session = getSession(data.sessionId);
@@ -62,7 +61,7 @@ const joinSession = (data, socket) => {
         const session = getSession(data.sessionId);
 
         if (session.posts.length) {
-            socket.emit('RECEIVE_BOARD', existingData.posts);
+            sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
         }
 
         addClient(data.sessionId, data.user);
@@ -87,7 +86,7 @@ const sendClientList = (sessionId, socket) => {
     const session = getSession(sessionId);
     if (session) {
         const clients = session.clients;
-        socket.emit('RECEIVE_CLIENT_LIST', clients);
+        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', clients);
         sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', clients);
     }
 };
@@ -129,4 +128,8 @@ const sendToAll = (socket, sessionId, action, data) => {
         .broadcast
         .to('board-'+sessionId)
         .emit(action, data);
+};
+
+const sendToSelf = (socket, action, data) => {
+    socket.emit(action, data);
 };
