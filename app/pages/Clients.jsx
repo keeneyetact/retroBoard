@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Component, PropTypes } from 'react';
-import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox';
+import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 
 class Clients extends Component {

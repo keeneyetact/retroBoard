@@ -41,7 +41,7 @@ export const createSession = () => {
                 return id;
             })
             .then(id => {
-                dispatch({ type: RECEIVE_CLIENT_LIST, data: [state.user.name] });
+                dispatch({ type: RECEIVE_CLIENT_LIST, data: [ state.user.name ] });
                 return id;
             })
             .then(id => dispatch(push('/session/'+id)))
@@ -52,7 +52,6 @@ export const createSession = () => {
 }
 
 export const autoJoin = sessionId => (dispatch, getState) => {
-    console.log('Session id auto join: ', sessionId);
     const state = getState();
     if (state.session.id !== sessionId && sessionId) {
         dispatch({ type: JOIN_SESSION, data: {

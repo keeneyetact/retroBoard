@@ -1,5 +1,4 @@
 import { Component, PropTypes } from 'react';
-import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
 

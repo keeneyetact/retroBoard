@@ -36,7 +36,7 @@ export default function reducer(state = [], action) {
     }
 }
 
-const postReducer= (state = {}, action) => {
+const postReducer = (state = {}, action) => {
     switch (action.type) {
         case LIKE:
         case RECEIVE_LIKE:

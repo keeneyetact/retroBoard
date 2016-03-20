@@ -23,7 +23,7 @@ class Post extends Component {
     renderButtons(){
         const post = this.props.post;
         if (this.props.currentUser === post.user) {
-            return <Button icon="delete" label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white' }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon="delete" label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
