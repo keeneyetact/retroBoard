@@ -72,11 +72,28 @@ const receivePost = (data, socket) => {
 };
 
 const joinSession = (data, socket) => {
-    socket.join('board-' + data.sessionId);
-    const existingData = sessions[data.sessionId];
-    if (existingData) {
-        socket.emit('RECEIVE_BOARD', existingData.posts);
-    }
+    socket.join('board-' + data.sessionId, () => {
+        const existingData = sessions[data.sessionId];
+        if (existingData) {
+            if (existingData.clients.indexOf(data.user) === -1) {
+                existingData.clients.push(data.user);
+            }
+
+            socket.emit('RECEIVE_BOARD', existingData.posts);
+        } else {
+            sessions[data.sessionId] = {
+                posts: [],
+                clients: [data.user]
+            };
+        }
+
+        socket.emit('RECEIVE_CLIENT_LIST', sessions[data.sessionId].clients);
+        socket
+            .broadcast
+            .to('board-'+data.sessionId)
+            .emit('RECEIVE_CLIENT_LIST', sessions[data.sessionId].clients);
+    });
+
 };
 
 const deletePost = (data, socket) => {

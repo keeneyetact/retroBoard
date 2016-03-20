@@ -39,10 +39,6 @@ class Post extends Component {
 
         return null;
     }
-
-    getGravatar() {
-        return 'https://www.gravatar.com/avatar/'+md5(this.props.post.user)+'?d=retro';
-    }
 }
 
 Post.propTypes = {

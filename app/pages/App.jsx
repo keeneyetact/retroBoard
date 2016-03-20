@@ -7,8 +7,17 @@ import { connect } from 'react-redux';
 import { login } from '../state/user';
 import { initialise } from '../state/actions';
 import style from './App.scss';
+import Clients from './Clients';
+import Drawer from 'react-toolbox/lib/drawer';
 
 class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            drawerOpen: false
+        }
+    }
+
     render() {
         return (
             <div>
@@ -16,8 +25,14 @@ class App extends React.Component {
                     <a href="/">Retrospected - A good way of ranting in an orderly fashion</a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
+                        <Button icon='people' floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} />
                     </Navigation>
                 </AppBar>
+
+                <Drawer active={this.state.drawerOpen} type="right" onOverlayClick={() => this.setState({drawerOpen: false})}>
+                    <Clients />
+                </Drawer>
+
                 <br />
                 <br />
                 <br />
