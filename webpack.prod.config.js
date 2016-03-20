@@ -34,7 +34,7 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
-        new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
+        new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             __CLIENT__: true,
