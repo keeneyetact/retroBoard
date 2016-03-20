@@ -13,7 +13,7 @@ class App extends React.Component {
         return (
             <div>
                 <AppBar fixed flat>
-                    <a href="/">Agile Board</a>
+                    <a href="/">Retrospected - A good way of ranting in an orderly fashion</a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
                     </Navigation>
