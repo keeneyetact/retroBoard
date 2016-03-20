@@ -7,7 +7,7 @@ var staticFolder = path.resolve(__dirname, 'static');
 module.exports = {
     content: __dirname,
     entry: [
-        "./index.jsx",
+        "./ui.jsx",
     ],
     output: {
         path: staticFolder,
