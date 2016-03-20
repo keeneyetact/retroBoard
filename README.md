@@ -37,6 +37,12 @@ It features the following technologies:
 
 ## Versions history
 
+### Version 0.1.1
+
+* Minor visual tweaks
+* Better console logs, server side
+* Big clean up of un-used files and old libs
+
 ### Version 0.1.0
 
 * First production version
