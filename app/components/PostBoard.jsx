@@ -28,11 +28,12 @@ class PostBoard extends React.Component {
         )
     }
 
-    renderColumn(postType) {
+    renderColumn(postType, index) {
         const posts = this.props.posts.filter(p => p.postType === postType.type);
         return (
             <div className={ClassNames(style.column, style[postType.type], 'col-4-12')} key={postType.type}>
                 <PostColumn
+                    tabOrder={index}
                     currentUser={this.props.currentUser}
                     posts={posts}
                     type={postType.type}

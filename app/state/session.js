@@ -37,7 +37,7 @@ export const createSession = () => {
                 return session.id;
             })
             .then(id => {
-                dispatch({ type: JOIN_SESSION, data: { sessionId: id }});
+                dispatch({ type: JOIN_SESSION, data: { sessionId: id, user: state.user.name }});
                 return id;
             })
             .then(id => {

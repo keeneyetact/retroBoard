@@ -108,11 +108,13 @@ const addClient = (sessionId, user) => {
 
 const sendClientList = (sessionId, socket) => {
     if (sessionId && sessions[sessionId]) {
-        socket.emit('RECEIVE_CLIENT_LIST', sessions[sessionId].clients);
+        const clients = sessions[sessionId].clients;
+        console.log('Sending client list: ', clients)
+        socket.emit('RECEIVE_CLIENT_LIST', clients);
         socket
             .broadcast
             .to('board-'+sessionId)
-            .emit('RECEIVE_CLIENT_LIST', sessions[sessionId].clients);
+            .emit('RECEIVE_CLIENT_LIST', clients);
     }
 };
 

@@ -25,7 +25,7 @@ class App extends React.Component {
                     <a href="/">Retrospected - A good way of ranting in an orderly fashion</a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
-                        <Button icon='people' floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} />
+                        { this.props.displayDrawerButton ? <Button icon='people' floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
                     </Navigation>
                 </AppBar>
 
@@ -60,17 +60,20 @@ class App extends React.Component {
 App.propTypes = {
     children: PropTypes.object,
     user: PropTypes.string,
-    onLogin: PropTypes.func
+    onLogin: PropTypes.func,
+    displayDrawerButton: PropTypes.bool
 };
 
 App.defaultTypes = {
     children: null,
     user: null,
-    onLogin: () => {}
+    onLogin: () => {},
+    displayDrawerButton: true
 }
 
 const stateToProps = state => ({
-    user: state.user.name
+    user: state.user.name,
+    displayDrawerButton: !!state.user.name && !!state.session.id
 });
 
 const actionsToProps = dispatch => ({
