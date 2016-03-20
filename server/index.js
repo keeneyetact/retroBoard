@@ -50,6 +50,11 @@ io.on('connection', socket => {
         console.log('LIKE');
         like(data, socket);
     });
+
+    socket.on('LOGIN', data => {
+        console.log('LOGIN');
+        login(data, socket);
+    });
 });
 
 
@@ -75,25 +80,40 @@ const joinSession = (data, socket) => {
     socket.join('board-' + data.sessionId, () => {
         const existingData = sessions[data.sessionId];
         if (existingData) {
-            if (existingData.clients.indexOf(data.user) === -1) {
-                existingData.clients.push(data.user);
-            }
-
             socket.emit('RECEIVE_BOARD', existingData.posts);
         } else {
             sessions[data.sessionId] = {
                 posts: [],
-                clients: [data.user]
+                clients: []
             };
         }
 
-        socket.emit('RECEIVE_CLIENT_LIST', sessions[data.sessionId].clients);
-        socket
-            .broadcast
-            .to('board-'+data.sessionId)
-            .emit('RECEIVE_CLIENT_LIST', sessions[data.sessionId].clients);
+        addClient(data.sessionId, data.user);
+        sendClientList(data.sessionId, socket);
     });
 
+};
+
+const login = (data, socket) => {
+    addClient(data.sessionId, data.name);
+    sendClientList(data.sessionId, socket);
+};
+
+const addClient = (sessionId, user) => {
+    const existingData = sessions[sessionId];
+    if (existingData && existingData.clients && user && existingData.clients.indexOf(user) === -1) {
+        existingData.clients.push(user);
+    }
+};
+
+const sendClientList = (sessionId, socket) => {
+    if (sessionId && sessions[sessionId]) {
+        socket.emit('RECEIVE_CLIENT_LIST', sessions[sessionId].clients);
+        socket
+            .broadcast
+            .to('board-'+sessionId)
+            .emit('RECEIVE_CLIENT_LIST', sessions[sessionId].clients);
+    }
 };
 
 const deletePost = (data, socket) => {

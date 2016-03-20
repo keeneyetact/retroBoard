@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { ADD_POST, RECEIVE_BOARD, RECEIVE_POST, RECEIVE_DELETE_POST, DELETE_POST, LIKE, RECEIVE_LIKE } from '../state/posts';
 import { JOIN_SESSION, RECEIVE_CLIENT_LIST } from '../state/session';
+import { LOGIN } from '../state/user';
 
 let socket = null;
 
@@ -31,6 +32,9 @@ export const socketIoMiddleware = store => next => action => {
             break;
         case LIKE:
             socket.emit(LIKE, action.data);
+            break;
+        case LOGIN:
+            socket.emit(LOGIN, action.data);
             break;
     }
 
