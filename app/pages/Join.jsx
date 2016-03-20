@@ -10,8 +10,6 @@ class Join extends Component {
             <section className="grid">
                 <div className="col-3-12"></div>
                 <div className="col-6-12">
-                    <h2>Create a session</h2>
-                    <br />
                     <Button label="Create a new session" accent raised onClick={this.props.createSession} />
                 </div>
                 <div className="col-3-12"></div>

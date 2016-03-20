@@ -2,5 +2,9 @@ $color-primary: $palette-blue-500 !default;
 $color-primary-dark: $palette-blue-700 !default;
 
 div.navigation {
-    border: 1px solid red
+    border: 1px solid red;
+}
+
+h2 {
+    color: $color-primary-dark;
 }

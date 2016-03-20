@@ -13,14 +13,14 @@ class PostBoard extends React.Component {
         const improve = this.props.posts.filter(p => p.postType === 'improve');
 
         return (
-            <div className={style.board}>
-                <div className={ClassNames(style.column, style.notWell)}>
+            <div className={ClassNames(style.board, 'grid')}>
+                <div className={ClassNames(style.column, style.notWell, 'col-4-12')}>
                     <PostColumn currentUser={this.props.currentUser} posts={notWell} type={'notWell'} onAdd={this.props.addPost} placeholder="What didn't go well?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
-                <div className={ClassNames(style.column, style.well)}>
+                <div className={ClassNames(style.column, style.well, 'col-4-12')}>
                     <PostColumn currentUser={this.props.currentUser} posts={well} type={'well'} onAdd={this.props.addPost} placeholder="What did go well?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
-                <div className={ClassNames(style.column, style.improve)}>
+                <div className={ClassNames(style.column, style.improve, 'col-4-12')}>
                     <PostColumn currentUser={this.props.currentUser} posts={improve} type={'improve'} onAdd={this.props.addPost} placeholder="Something to improve?" onDelete={this.props.deletePost} onLike={this.props.like} onUnlike={this.props.unlike} />
                 </div>
             </div>

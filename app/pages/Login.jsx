@@ -1,6 +1,7 @@
 import { Component, PropTypes } from 'react';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
+import EnterInput from '../components/EnterInput';
 
 export default class Login extends Component {
     render() {
@@ -8,10 +9,9 @@ export default class Login extends Component {
             <section className="grid">
                 <div className="col-3-12"></div>
                 <div className="col-6-12">
-                    <h2>Who are you exactly?</h2>
-                    <Input type='input' label='Your name' name='name' icon='people' ref='input' />
+                    <EnterInput placeholder='Who are you exactly? Enter your name here' icon='people' onEnter={this.props.onLogin} ref="input" />
                     <Button label="Let's start" accent raised onClick={() => {
-                        const text = this.refs.input.refs.input.value;
+                        const text = this.refs.input.value();
                         if (text) {
                             this.props.onLogin(text);
                         }
