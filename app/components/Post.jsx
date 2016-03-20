@@ -1,11 +1,11 @@
-import { default as React, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
-import {IconButton} from 'react-toolbox/lib/button';
+import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
 import style from './PostBoardStyle';
 import md5 from 'md5';
 
-class Post extends React.Component {
+class Post extends Component {
     render() {
         const post = this.props.post;
         return (
@@ -24,7 +24,7 @@ class Post extends React.Component {
     renderButtons(){
         const post = this.props.post;
         if (this.props.currentUser === post.user) {
-            return <IconButton icon="delete" floating mini style={{ backgroundColor: '#FF9494', color: 'white' }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon="delete" label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white' }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
