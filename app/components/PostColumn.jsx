@@ -6,7 +6,7 @@ class PostColumn extends React.Component {
     render() {
         return (
             <div>
-                <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} icon={this.props.icon} />
+                <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} icon={this.props.icon} tabOrder={this.props.tabOrder}/>
                 <div className="column-content">
                     { this.props.posts.map((post, index) =>
                         <Post key={index}

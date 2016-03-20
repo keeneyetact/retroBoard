@@ -17,7 +17,7 @@ It features the following technologies:
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
 * `npm run build` to build everything (client and server)
-* `NODE_ENV=production PORT=8080 node run.js` to run the server on port 8080
+* `NODE_ENV=production PORT=8080 node index.js` to run the server on port 8080
 
 ## How to run for development
 
@@ -29,6 +29,23 @@ It features the following technologies:
 * Open your browser on [http://localhost:8081]
 
 
-## Verions history
+## Roadmap
+
+* Persistence (using mongo db probably)
+* Multi-lingual (French and English to start with)
+* Better handling of connected users
+
+## Versions history
 
 ### Version 0.1.0
+
+* First production version
+* Basic functionalities are there and working
+* Login
+* Creating a session
+* Joining a session
+* Adding new posts
+* Like / Unlike posts
+* Ability to delete our own posts
+* List of connected users
+* No persistence (yet)
