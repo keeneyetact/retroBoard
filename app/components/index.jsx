@@ -2,19 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { init } from './middlewares/socketio';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import {
     App,
-    Main,
-    Join
+    Main
 } from './pages';
-import './grids.css';
 
 const store = configureStore({}, browserHistory);
-init(store);
-const history = syncHistoryWithStore(browserHistory, store);
 
 class Index extends React.Component {
     render() {
@@ -44,10 +38,9 @@ class Index extends React.Component {
 
     renderRoutes() {
         return (
-            <Router history={history}>
+            <Router history={browserHistory}>
                 <Route path="/" component={App}>
-                  <IndexRoute component={Join} />
-                  <Route path="session/:sessionId" component={Main} />
+                  <IndexRoute component={Main}/>
                 </Route>
             </Router>
         );
