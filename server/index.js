@@ -31,61 +31,38 @@ app.get('/*', (req, res) => res.sendFile(htmlFile));
 io.on('connection', socket => {
     console.log('a user connected on socket '+socket.id);
 
-    socket.on('ADD_POST', data => {
-        console.log('ADD POST: ', data);
-        receivePost(data, socket);
+    const actions = [
+        { type: 'ADD_POST', handler: receivePost },
+        { type: 'JOIN_SESSION', handler: joinSession },
+        { type: 'DELETE_POST', handler: deletePost },
+        { type: 'LIKE', handler: like },
+        { type: 'LOGIN', handler: login }
+    ];
+
+    actions.forEach(action => {
+        socket.on(action.type, data => {
+            console.log('Received an action: ', action.type, ' with payload: ', data);
+            action.handler(data, socket);
+        });
     });
 
-    socket.on('JOIN_SESSION', data => {
-        console.log('JOIN SESSION ', data);
-        joinSession(data, socket);
-    });
-
-    socket.on('DELETE_POST', data => {
-        console.log('DELETING POST');
-        deletePost(data, socket);
-    });
-
-    socket.on('LIKE', data => {
-        console.log('LIKE');
-        like(data, socket);
-    });
-
-    socket.on('LOGIN', data => {
-        console.log('LOGIN');
-        login(data, socket);
-    });
 });
-
-
 
 httpServer.listen(port);
 console.log('Server started on port ' + port);
 
 const receivePost = (data, socket) => {
-    if (!sessions[data.sessionId]) {
-        sessions[data.sessionId] = {
-            posts: []
-        };
-    }
-    sessions[data.sessionId].posts.push(data);
-
-    socket
-        .broadcast
-        .to('board-'+data.sessionId)
-        .emit('RECEIVE_POST', data);
+    const session = getSession(data.sessionId);
+    session.posts.push(data);
+    sendToAll(socket, data.sessionId, 'RECEIVE_POST', data);
 };
 
 const joinSession = (data, socket) => {
     socket.join('board-' + data.sessionId, () => {
-        const existingData = sessions[data.sessionId];
-        if (existingData) {
+        const session = getSession(data.sessionId);
+
+        if (session.posts.length) {
             socket.emit('RECEIVE_BOARD', existingData.posts);
-        } else {
-            sessions[data.sessionId] = {
-                posts: [],
-                clients: []
-            };
         }
 
         addClient(data.sessionId, data.user);
@@ -100,46 +77,56 @@ const login = (data, socket) => {
 };
 
 const addClient = (sessionId, user) => {
-    const existingData = sessions[sessionId];
-    if (existingData && existingData.clients && user && existingData.clients.indexOf(user) === -1) {
-        existingData.clients.push(user);
+    const session = getSession(sessionId);
+    if (user && session.clients.indexOf(user) === -1) {
+        session.clients.push(user);
     }
 };
 
 const sendClientList = (sessionId, socket) => {
-    if (sessionId && sessions[sessionId]) {
-        const clients = sessions[sessionId].clients;
-        console.log('Sending client list: ', clients)
+    const session = getSession(sessionId);
+    if (session) {
+        const clients = session.clients;
         socket.emit('RECEIVE_CLIENT_LIST', clients);
-        socket
-            .broadcast
-            .to('board-'+sessionId)
-            .emit('RECEIVE_CLIENT_LIST', clients);
+        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', clients);
     }
 };
 
 const deletePost = (data, socket) => {
-    const existingData = sessions[data.sessionId];
-    if (existingData) {
-        existingData.posts = existingData.posts.filter(p => p.id !== data.id);
-        sessions[data.sessionId] = existingData;
-        socket
-            .broadcast
-            .to('board-'+data.sessionId)
-            .emit('RECEIVE_DELETE_POST', data);
+    const session = getSession(data.sessionId);
+    if (session) {
+        session.posts = session.posts.filter(p => p.id !== data.id);
+        sendToAll(socket, data.sessionId, 'RECEIVE_DELETE_POST', data);
     }
 };
 
 const like = (data, socket) => {
-    const existingData = sessions[data.post.sessionId];
-    if (existingData) {
-        const post = find(existingData.posts, p => p.id === data.post.id);
+    const session = getSession(data.post.sessionId);
+    if (session) {
+        const post = find(session.posts, p => p.id === data.post.id);
         if (post) {
             post.votes += data.count;
-            socket
-                .broadcast
-                .to('board-'+data.post.sessionId)
-                .emit('RECEIVE_LIKE', data);
+            sendToAll(socket, data.post.sessionId, 'RECEIVE_LIKE', data);
         }
     }
+};
+
+const getSession = (sessionId) => {
+    if (!sessionId) {
+        return null;
+    }
+    if (!sessions[sessionId]) {
+        sessions[sessionId] = {
+            posts: [],
+            clients: []
+        };
+    }
+    return sessions[sessionId];
+};
+
+const sendToAll = (socket, sessionId, action, data) => {
+    socket
+        .broadcast
+        .to('board-'+sessionId)
+        .emit(action, data);
 };
