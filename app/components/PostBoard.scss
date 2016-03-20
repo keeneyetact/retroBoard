@@ -1,13 +1,14 @@
 $color-notWell: #F0DAD1 !default;
 $color-well: #D8F0D1 !default;
 $color-improve: #D1E7F0 !default;
+$color-ideas: #FFFFC9 !default;
 
 div.board {
 
 
     .column {
 
-    
+
 
         .post {
             margin:10px;
@@ -27,6 +28,12 @@ div.board {
             &.improve {
                 [data-react-toolbox="card"] {
                     background-color: $color-improve;
+                }
+            }
+
+            &.ideas {
+                [data-react-toolbox="card"] {
+                    background-color: $color-ideas;
                 }
             }
 

@@ -5,7 +5,7 @@ class PostAdd extends Component {
     render() {
         return (
             <div>
-                <EnterInput placeholder={this.props.placeholder} icon='add_circle' onEnter={this.props.onAdd} />
+                <EnterInput placeholder={this.props.placeholder} icon={this.props.icon} onEnter={this.props.onAdd} />
             </div>
         );
     }
@@ -13,12 +13,14 @@ class PostAdd extends Component {
 
 PostAdd.propTypes = {
     onAdd: PropTypes.func,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    icon: PropTypes.string
 }
 
 PostAdd.defaultProps = {
     onAdd: () => {},
-    placeholder: 'New comment'
+    placeholder: 'New comment',
+    icon: 'add_circle'
 }
 
 export default PostAdd;

@@ -6,7 +6,7 @@ class PostColumn extends React.Component {
     render() {
         return (
             <div>
-                <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} />
+                <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} icon={this.props.icon} />
                 <div className="column-content">
                     { this.props.posts.map((post, index) =>
                         <Post key={index}
@@ -30,6 +30,7 @@ PostColumn.propTypes = {
     currentUser: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
     onAdd: PropTypes.func,
     onDelete: PropTypes.func,
@@ -41,6 +42,7 @@ PostColumn.defaultProps = {
     currentUser: null,
     posts: [],
     type: 'well',
+    icon: 'add_circle',
     placeholder: 'New Comment',
     onAdd: () => {},
     onDelete: () => {},
