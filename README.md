@@ -26,7 +26,7 @@ It features the following technologies:
 * Open another terminal (you need two of those)
 * `npm run start-server` on the first terminal to start the server bit
 * `npm run start-ui` on the second terminal, to run live webpack with hot-reload
-* Open your browser on [http://localhost:8081]
+* Open your browser on (http://localhost:8081)[http://localhost:8081]
 
 
 ## Roadmap
