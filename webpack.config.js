@@ -14,7 +14,7 @@ module.exports = {
         publicPath: 'http://localhost:8080/assets/',
         filename: "bundle.js"
     },
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     resolve: {
         extensions: ['', '.js', '.jsx', '.scss'],
         modulesDirectories: [
@@ -34,7 +34,7 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
-        new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
+        new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({

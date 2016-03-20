@@ -1,11 +1,11 @@
 {
   "name": "retro-board",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An agile retrospective board - Powering www.retrospected.com",
   "main": "index.js",
   "engines": {
-      "node": ">=4.0.0",
-      "npm": ">=3.0.0"
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
   },
   "dependencies": {
     "autoprefixer": "^6.3.3",
@@ -20,12 +20,14 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "chalk": "^1.1.1",
     "classnames": "^2.2.3",
     "css-loader": "^0.23.1",
     "eslint": "^2.4.0",
     "eslint-plugin-react": "^4.2.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fastclick": "^1.0.6",
     "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "local-storage": "^1.4.2",
@@ -54,8 +56,6 @@
     "redux-devtools-dock-monitor": "^1.1.0",
     "redux-devtools-log-monitor": "^1.0.5",
     "redux-logger": "^2.6.1",
-    "redux-middleware-api": "0.0.1",
-    "redux-saga": "^0.9.4",
     "redux-thunk": "^2.0.1",
     "sass-loader": "^3.2.0",
     "socket.io": "^1.4.5",

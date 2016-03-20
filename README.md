@@ -26,7 +26,7 @@ It features the following technologies:
 * Open another terminal (you need two of those)
 * `npm run start-server` on the first terminal to start the server bit
 * `npm run start-ui` on the second terminal, to run live webpack with hot-reload
-* Open your browser on [http://localhost:8081]
+* Open your browser on (http://localhost:8081)[http://localhost:8081]
 
 
 ## Roadmap
@@ -36,6 +36,12 @@ It features the following technologies:
 * Better handling of connected users
 
 ## Versions history
+
+### Version 0.1.1
+
+* Minor visual tweaks
+* Better console logs, server side
+* Big clean up of un-used files and old libs
 
 ### Version 0.1.0
 

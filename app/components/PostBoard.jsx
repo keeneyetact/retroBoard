@@ -5,22 +5,22 @@ import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { addPost, deletePost, like, unlike } from '../state/posts';
 
+const types = [{
+    type: 'well',
+    question: 'What went well?',
+    icon: 'sentiment_satisfied'
+},{
+    type: 'notWell',
+    question: 'What could be improved?',
+    icon: 'sentiment_very_dissatisfied'
+},{
+    type: 'ideas',
+    question: 'A brilliant idea to share?',
+    icon: 'lightbulb_outline'
+}];
+
 class PostBoard extends React.Component {
     render() {
-        const types = [{
-            type: 'well',
-            question: 'What went well?',
-            icon: 'sentiment_satisfied'
-        },{
-            type: 'notWell',
-            question: 'What could be improved?',
-            icon: 'sentiment_very_dissatisfied'
-        },{
-            type: 'ideas',
-            question: 'A brilliant idea to share?',
-            icon: 'lightbulb_outline'
-        }];
-
         return (
             <div className={ClassNames(style.board, 'grid')}>
                 { types.map(this.renderColumn.bind(this)) }

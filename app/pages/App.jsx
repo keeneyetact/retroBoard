@@ -22,7 +22,7 @@ class App extends React.Component {
         return (
             <div>
                 <AppBar fixed flat>
-                    <a href="/">Retrospected - A good way of ranting in an orderly fashion</a>
+                    <a href="/">Retrospected <br /><span className={style.subtitle}>A good way of ranting in an orderly fashion</span></a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
                         { this.props.displayDrawerButton ? <Button icon='people' floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
