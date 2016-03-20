@@ -7,7 +7,7 @@ import { addPost, deletePost, like, unlike } from '../state/posts';
 
 class PostBoard extends React.Component {
     render() {
-        const types = [ {
+        const types = [{
             type: 'well',
             question: 'What went well?',
             icon: 'sentiment_satisfied'
@@ -21,10 +21,6 @@ class PostBoard extends React.Component {
             icon: 'lightbulb_outline'
         }];
 
-        const notWell = this.props.posts.filter(p => p.postType === 'notWell');
-        const well = this.props.posts.filter(p => p.postType === 'well');
-        const improve = this.props.posts.filter(p => p.postType === 'improve');
-
         return (
             <div className={ClassNames(style.board, 'grid')}>
                 { types.map(this.renderColumn.bind(this)) }
@@ -35,7 +31,7 @@ class PostBoard extends React.Component {
     renderColumn(postType) {
         const posts = this.props.posts.filter(p => p.postType === postType.type);
         return (
-            <div className={ClassNames(style.column, style[postType.type], 'col-4-12')}>
+            <div className={ClassNames(style.column, style[postType.type], 'col-4-12')} key={postType.type}>
                 <PostColumn
                     currentUser={this.props.currentUser}
                     posts={posts}
