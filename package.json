@@ -4,8 +4,8 @@
   "description": "An agile retrospective board - Powering www.retrospected.com",
   "main": "index.js",
   "engines": {
-      "node": ">=4.0.0",
-      "npm": ">=3.0.0"
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
   },
   "dependencies": {
     "autoprefixer": "^6.3.3",
@@ -26,6 +26,7 @@
     "eslint-plugin-react": "^4.2.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fastclick": "^1.0.6",
     "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "local-storage": "^1.4.2",
