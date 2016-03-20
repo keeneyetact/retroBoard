@@ -14,7 +14,7 @@ module.exports = {
         publicPath: 'http://localhost:8080/assets/',
         filename: "bundle.js"
     },
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     resolve: {
         extensions: ['', '.js', '.jsx', '.scss'],
         modulesDirectories: [

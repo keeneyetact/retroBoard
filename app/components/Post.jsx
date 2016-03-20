@@ -3,7 +3,6 @@ import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox
 import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
 import style from './PostBoard.scss';
-import md5 from 'md5';
 
 class Post extends Component {
     render() {
