@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { Component, PropTypes } from 'react';
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import md5 from 'md5';
+import icons from '../constants/icons';
 
 class Clients extends Component {
     render() {
@@ -20,7 +21,7 @@ class Clients extends Component {
               key={client}
               avatar={this.getGravatar(client)}
               caption={client}
-              rightIcon='person'
+              rightIcon={icons.person}
             />
         );
     }

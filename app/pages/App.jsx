@@ -9,6 +9,7 @@ import { initialise } from '../state/actions';
 import style from './App.scss';
 import Clients from './Clients';
 import Drawer from 'react-toolbox/lib/drawer';
+import icons from '../constants/icons';
 
 class App extends React.Component {
     constructor() {
@@ -25,7 +26,7 @@ class App extends React.Component {
                     <a href="/">Retrospected <br /><span className={style.subtitle}>A good way of ranting in an orderly fashion</span></a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
-                        { this.props.displayDrawerButton ? <Button icon='people' floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
+                        { this.props.displayDrawerButton ? <Button icon={icons.people} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
                     </Navigation>
                 </AppBar>
 

@@ -3,6 +3,7 @@ import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox
 import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
 import style from './PostBoard.scss';
+import icons from '../constants/icons';
 
 class Post extends Component {
     render() {
@@ -23,13 +24,13 @@ class Post extends Component {
     renderButtons(){
         const post = this.props.post;
         if (this.props.currentUser === post.user) {
-            return <Button icon="delete" label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon={icons.delete_forever} label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
-                    <IconButton icon="thumb_up" floating mini style={{ backgroundColor: '#6BD173', color: 'white' }}
+                    <IconButton icon={icons.thumb_up} floating mini style={{ backgroundColor: '#6BD173', color: 'white' }}
                         onClick={() => this.props.onLike(post)} />
-                    <IconButton icon="thumb_down" floating mini style={{ backgroundColor: '#FF9494', color: 'white' }}
+                    <IconButton icon={icons.thumb_down} floating mini style={{ backgroundColor: '#FF9494', color: 'white' }}
                         disabled={ post.votes <= 0 }
                         onClick={() => this.props.onUnlike(post)} />
                 </span>

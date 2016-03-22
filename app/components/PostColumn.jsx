@@ -1,6 +1,7 @@
 import { default as React, PropTypes } from 'react';
 import Post from './Post';
 import PostAdd from './PostAdd';
+import icons from '../constants/icons';
 
 class PostColumn extends React.Component {
     render() {
@@ -43,7 +44,7 @@ PostColumn.defaultProps = {
     currentUser: null,
     posts: [],
     type: 'well',
-    icon: 'add_circle',
+    icon: icons.add_circle,
     placeholder: 'New Comment',
     tabOrder: 1,
     onAdd: () => {},

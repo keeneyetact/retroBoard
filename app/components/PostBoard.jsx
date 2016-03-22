@@ -4,19 +4,20 @@ import style from './PostBoard.scss';
 import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { addPost, deletePost, like, unlike } from '../state/posts';
+import icons from '../constants/icons';
 
 const types = [{
     type: 'well',
     question: 'What went well?',
-    icon: 'sentiment_satisfied'
+    icon: icons.sentiment_satisfied
 },{
     type: 'notWell',
     question: 'What could be improved?',
-    icon: 'sentiment_very_dissatisfied'
+    icon: icons.sentiment_very_dissatisfied
 },{
     type: 'ideas',
     question: 'A brilliant idea to share?',
-    icon: 'lightbulb_outline'
+    icon: icons.lightbulb_outline
 }];
 
 class PostBoard extends React.Component {
