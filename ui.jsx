@@ -6,7 +6,6 @@ import React from 'react';
 import ToolboxApp from 'react-toolbox/lib/app';
 import 'react-toolbox/lib/commons'
 import fastClick from 'fastclick';
-import './app/material.css';
 
 fastClick.attach(document.body);
 
