@@ -1,6 +1,7 @@
 import ls from 'local-storage';
 
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTO_LOGIN = 'AUTO_LOGIN';
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
 
@@ -19,7 +20,12 @@ export default function reducer(state = {
             return {
                 ...state,
                 lang: action.data
-            }
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                name: null
+            };
         default:
             return state;
     }
@@ -36,6 +42,13 @@ export const login = user => (dispatch, getState) => {
         }
     });
 };
+
+export const logout = () => dispatch => {
+    ls('username', null);
+    dispatch({
+        type: LOGOUT
+    });
+}
 
 export const autoLogin = () => dispatch => {
     const username = ls('username');

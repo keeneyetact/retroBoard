@@ -4,7 +4,7 @@ import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
 import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
-import { login } from '../state/user';
+import { login, logout } from '../state/user';
 import { initialise } from '../state/actions';
 import style from './App.scss';
 import Clients from './Clients';
@@ -13,6 +13,7 @@ import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
 import TranslationProvider from '../i18n/TranslationProvider';
+import { push } from 'react-router-redux';
 
 class Header extends React.Component {
     constructor() {
@@ -23,11 +24,11 @@ class Header extends React.Component {
     }
 
     render() {
-        const { strings } = this.props;
+        const { strings, goToHomepage } = this.props;
         return (
             <div>
                 <AppBar fixed flat>
-                    <a href="/">Retrospected <br /><span className={style.subtitle}>{ strings.subtitle }</span></a>
+                    <a onClick={goToHomepage} href="#">Retrospected <br /><span className={style.subtitle}>{ strings.subtitle }</span></a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
                         { this.props.displayDrawerButton ? <Button icon={icons.settings} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
@@ -40,6 +41,9 @@ class Header extends React.Component {
                             <LanguagePicker />
                         </div>
                         <Clients />
+                        <br />
+                        <br />
+                        <Button label={strings.logout} icon={icons.exit_to_app} onClick={this.props.onLogout} accent />
                     </TranslationProvider>
                 </Drawer>
 
@@ -62,7 +66,8 @@ Header.defaultTypes = {
     onLogin: () => {},
     displayDrawerButton: true,
     strings: {
-        subtitle: 'A good way of ranting in an orderly fashion'
+        subtitle: 'A good way of ranting in an orderly fashion',
+        logout: 'Logout'
     }
 }
 
@@ -73,7 +78,9 @@ const stateToProps = state => ({
 
 const actionsToProps = dispatch => ({
     onLogin: user => dispatch(login(user)),
-    initialise: sessionId => dispatch(initialise(sessionId))
+    onLogout: () => dispatch(logout()),
+    initialise: sessionId => dispatch(initialise(sessionId)),
+    goToHomepage: () => dispatch(push('/'))
 });
 
 export default translate('Header')(connect(stateToProps, actionsToProps)(Header));
