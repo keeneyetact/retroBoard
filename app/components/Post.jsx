@@ -25,7 +25,7 @@ class Post extends Component {
     renderButtons(){
         const { post, strings } = this.props;
         if (this.props.currentUser === post.user) {
-            return <Button icon={icons.delete_forever} label={strings.delete} flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon={icons.delete_forever} label={strings.deleteButton} flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
@@ -60,7 +60,7 @@ Post.defaultProps = {
     strings: {
         vote: 'vote',
         votes: 'votes',
-        delete: 'Delete'
+        deleteButton: 'Delete'
     }
 }
 

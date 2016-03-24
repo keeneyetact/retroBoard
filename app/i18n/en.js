@@ -9,7 +9,7 @@ export default {
     Post: {
         vote: 'vote',
         votes: 'votes',
-        delete: 'Delete'
+        deleteButton: 'Delete'
     },
     PostBoard: {
         notWellQuestion: 'What could be improved?',
