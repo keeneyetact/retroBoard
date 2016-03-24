@@ -3,6 +3,7 @@ import { Component, PropTypes } from 'react';
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from '../constants/icons';
+import translate from '../i18n/Translate';
 
 class Clients extends Component {
     render() {
@@ -31,8 +32,20 @@ class Clients extends Component {
     }
 }
 
+Clients.propTypes = {
+    clients: PropTypes.array,
+    strings: PropTypes.object
+}
+
+Clients.defaultProps = {
+    clients: [],
+    strings: {
+        header: 'Kindly joining us right now:'
+    }
+}
+
 const stateToProps = state => ({
     clients: state.session.clients
 });
 
-export default connect(stateToProps)(Clients);
+export default translate('Clients')(connect(stateToProps)(Clients));

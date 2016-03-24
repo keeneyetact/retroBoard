@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';
 import languages from '../i18n/languages';
+import translate from '../i18n/Translate';
 import fr from './images/fr.png';
 import en from './images/uk.png';
 import hu from './images/hu.png';
@@ -17,7 +18,7 @@ class LanguagePicker extends Component {
             <Dropdown
                 auto
                 source={languages}
-                label="Choose a language"
+                label={this.props.strings.header}
                 template={this.renderItem}
                 value={this.props.currentLanguage}
                 onChange={this.props.changeLanguage}
@@ -57,6 +58,16 @@ class LanguagePicker extends Component {
     }
 }
 
+LanguagePicker.propTypes = {
+    strings: PropTypes.object
+};
+
+LanguagePicker.defaultProps = {
+    strings: {
+        header: 'Choose a language'
+    }
+}
+
 const stateToProps = state => ({
     currentLanguage: state.user.lang
 });
@@ -65,4 +76,4 @@ const actionsToProps = dispatch => ({
     changeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
-export default connect(stateToProps, actionsToProps)(LanguagePicker);
+export default translate('LanguagePicker')(connect(stateToProps, actionsToProps)(LanguagePicker));

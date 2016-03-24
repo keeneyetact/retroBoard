@@ -4,17 +4,18 @@ import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
 import style from './PostBoard.scss';
 import icons from '../constants/icons';
+import translate from '../i18n/Translate';
 
 class Post extends Component {
     render() {
-        const post = this.props.post;
+        const { post, strings } = this.props;
         return (
             <div className={ClassNames(style.post, style[post.postType])}>
                 <Card style={{width: '350px' }} raised className={style[post.postType]}>
                     <CardText>{post.content}</CardText>
                     <CardActions>
                         { this.renderButtons() }
-                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.votes }</b>&nbsp;{ this.props.post.votes > 1 ? 'votes': 'vote' }
+                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.votes }</b>&nbsp;{ this.props.post.votes > 1 ? strings.votes : strings.vote }
                     </CardActions>
                 </Card>
             </div>
@@ -22,9 +23,9 @@ class Post extends Component {
     }
 
     renderButtons(){
-        const post = this.props.post;
+        const { post, strings } = this.props;
         if (this.props.currentUser === post.user) {
-            return <Button icon={icons.delete_forever} label="Delete" flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon={icons.delete_forever} label={strings.delete} flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
         } else {
             return (
                 <span>
@@ -46,7 +47,8 @@ Post.propTypes = {
     currentUser: PropTypes.string.isRequired,
     onDelete: PropTypes.func,
     onLike: PropTypes.func,
-    onUnlike: PropTypes.func
+    onUnlike: PropTypes.func,
+    strings: PropTypes.object
 }
 
 Post.defaultProps = {
@@ -54,7 +56,12 @@ Post.defaultProps = {
     currentUser: null,
     onDelete: () => {},
     onLike: () => {},
-    onUnlike: () => {}
+    onUnlike: () => {},
+    strings: {
+        vote: 'vote',
+        votes: 'votes',
+        delete: 'Delete'
+    }
 }
 
-export default Post;
+export default translate('Post')(Post);
