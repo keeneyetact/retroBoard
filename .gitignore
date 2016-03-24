@@ -36,3 +36,4 @@ react-toolbox.css
 build
 *.map
 static/style.css
+persist
