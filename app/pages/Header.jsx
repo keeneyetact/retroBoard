@@ -12,6 +12,7 @@ import Drawer from 'react-toolbox/lib/drawer';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
+import TranslationProvider from '../i18n/TranslationProvider';
 
 class Header extends React.Component {
     constructor() {
@@ -34,8 +35,12 @@ class Header extends React.Component {
                 </AppBar>
 
                 <Drawer active={this.state.drawerOpen} type="right" onOverlayClick={() => this.setState({drawerOpen: false})}>
-                    <LanguagePicker />
-                    <Clients />
+                    <TranslationProvider>
+                        <div style={{margin: '0 10px'}}>
+                            <LanguagePicker />
+                        </div>
+                        <Clients />
+                    </TranslationProvider>
                 </Drawer>
 
             </div>

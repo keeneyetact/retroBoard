@@ -50,8 +50,8 @@ class LanguagePicker extends Component {
              <div style={containerStyle}>
                <img src={images[item.value]} style={imageStyle}/>
                <div style={contentStyle}>
-                 <strong>{item.englishName}</strong>
-                 <small>{item.name}</small>
+                 <strong>{item.name}</strong>
+                 <small>{item.englishName}</small>
                </div>
              </div>
            );

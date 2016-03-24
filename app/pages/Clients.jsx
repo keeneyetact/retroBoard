@@ -9,7 +9,7 @@ class Clients extends Component {
     render() {
         return (
             <List selectable ripple>
-                <ListSubHeader caption='Kindly joining us right now:' />
+                <ListSubHeader caption={this.props.strings.header} />
 
                 { this.props.clients.map(this.renderClient.bind(this)) }
               </List>
@@ -40,12 +40,13 @@ Clients.propTypes = {
 Clients.defaultProps = {
     clients: [],
     strings: {
-        header: 'Kindly joining us right now:'
+        header: 'Kindly joining us right nowxx:'
     }
 }
 
 const stateToProps = state => ({
-    clients: state.session.clients
+    clients: state.session.clients,
+    lang: state.user.lang
 });
 
-export default translate('Clients')(connect(stateToProps)(Clients));
+export default connect(stateToProps)(translate('Clients')(Clients));
