@@ -10,6 +10,8 @@ import style from './App.scss';
 import Clients from './Clients';
 import Drawer from 'react-toolbox/lib/drawer';
 import icons from '../constants/icons';
+import translate from '../i18n/Translate';
+import Header from './Header';
 
 class App extends React.Component {
     constructor() {
@@ -22,17 +24,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <AppBar fixed flat>
-                    <a href="/">Retrospected <br /><span className={style.subtitle}>A good way of ranting in an orderly fashion</span></a>
-                    <Navigation type="horizontal" className={ style.navigation }>
-                        <p>{ this.props.user }</p>
-                        { this.props.displayDrawerButton ? <Button icon={icons.people} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
-                    </Navigation>
-                </AppBar>
-
-                <Drawer active={this.state.drawerOpen} type="right" onOverlayClick={() => this.setState({drawerOpen: false})}>
-                    <Clients />
-                </Drawer>
+                <Header />
 
                 <br />
                 <br />
@@ -56,6 +48,12 @@ class App extends React.Component {
     componentDidMount() {
         this.props.initialise(this.props.params.sessionId);
     }
+
+    getChildContext() {
+        return {
+            currentLanguage: this.props.currentLanguage
+        };
+    }
 }
 
 App.propTypes = {
@@ -72,9 +70,14 @@ App.defaultTypes = {
     displayDrawerButton: true
 }
 
+App.childContextTypes = {
+    currentLanguage: PropTypes.string.isRequired
+};
+
+
 const stateToProps = state => ({
     user: state.user.name,
-    displayDrawerButton: !!state.user.name && !!state.session.id
+    currentLanguage: state.user.lang
 });
 
 const actionsToProps = dispatch => ({
