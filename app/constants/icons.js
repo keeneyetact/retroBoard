@@ -9,5 +9,6 @@ export default {
     add_circle: String.fromCharCode(0xE147),
     person: String.fromCharCode(0xE7FD),
     people: String.fromCharCode(0xE7FB),
-    delete_forever: String.fromCharCode(0xE92B)
+    delete_forever: String.fromCharCode(0xE92B),
+    settings: String.fromCharCode(0xE8B8)
 };

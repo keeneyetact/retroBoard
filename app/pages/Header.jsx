@@ -30,7 +30,7 @@ class Header extends React.Component {
                     <a href="/">Retrospected <br /><span className={style.subtitle}>{ strings.subtitle }</span></a>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
-                        { this.props.displayDrawerButton ? <Button icon={icons.people} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
+                        { this.props.displayDrawerButton ? <Button icon={icons.settings} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
                     </Navigation>
                 </AppBar>
 
