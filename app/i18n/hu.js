@@ -1,6 +1,7 @@
 export default {
     Header: {
-        subtitle: 'A good way of ranting in an orderly fashion'
+        subtitle: 'A good way of ranting in an orderly fashion',
+        logout: 'Logout'
     },
     LanguagePicker: {
         header: 'Choose a language'

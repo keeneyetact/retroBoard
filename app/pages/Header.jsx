@@ -4,7 +4,7 @@ import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
 import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
-import { login } from '../state/user';
+import { login, logout } from '../state/user';
 import { initialise } from '../state/actions';
 import style from './App.scss';
 import Clients from './Clients';
@@ -40,6 +40,9 @@ class Header extends React.Component {
                             <LanguagePicker />
                         </div>
                         <Clients />
+                        <br />
+                        <br />
+                        <Button label={strings.logout} icon={icons.exit_to_app} onClick={this.props.onLogout} accent />
                     </TranslationProvider>
                 </Drawer>
 
@@ -62,7 +65,8 @@ Header.defaultTypes = {
     onLogin: () => {},
     displayDrawerButton: true,
     strings: {
-        subtitle: 'A good way of ranting in an orderly fashion'
+        subtitle: 'A good way of ranting in an orderly fashion',
+        logout: 'Logout'
     }
 }
 
@@ -73,6 +77,7 @@ const stateToProps = state => ({
 
 const actionsToProps = dispatch => ({
     onLogin: user => dispatch(login(user)),
+    onLogout: () => dispatch(logout()),
     initialise: sessionId => dispatch(initialise(sessionId))
 });
 

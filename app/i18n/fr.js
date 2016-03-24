@@ -1,6 +1,7 @@
 export default {
     Header: {
-        subtitle: 'Un bonne façon de râler en s\'amusant'
+        subtitle: 'Un bonne façon de râler en s\'amusant',
+        logout: 'Déconnexion'
     },
     LanguagePicker: {
         header: 'Changez de langue'
