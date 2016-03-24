@@ -1,15 +1,18 @@
 import { Component, PropTypes } from 'react';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
+import translate from '../i18n/Translate';
+import LanguagePicker from '../components/LanguagePicker';
 
-export default class Login extends Component {
+class Login extends Component {
     render() {
         return (
             <section className="grid">
                 <div className="col-3-12"></div>
                 <div className="col-6-12">
-                    <EnterInput placeholder='Who are you exactly? Enter your name here' icon='people' onEnter={this.props.onLogin} ref="input" />
-                    <Button label="Let's start" accent raised onClick={() => {
+                    <LanguagePicker />
+                    <EnterInput placeholder={this.props.strings.namePlaceholder} icon='people' onEnter={this.props.onLogin} ref="input" />
+                    <Button label={this.props.strings.buttonLabel} accent raised onClick={() => {
                         const text = this.refs.input.value();
                         if (text) {
                             this.props.onLogin(text);
@@ -23,9 +26,16 @@ export default class Login extends Component {
 }
 
 Login.propTypes = {
-    onLogin: PropTypes.func
+    onLogin: PropTypes.func,
+    strings: PropTypes.object
 }
 
 Login.defaultProps = {
-    onLogin: () => {}
+    onLogin: () => {},
+    strings: {
+        namePlaceholder: 'Who are you exactly? Enter your name here',
+        buttonLabel: 'Let\'s start'
+    }
 }
+
+export default translate('Login')(Login);

@@ -2,9 +2,11 @@ import ls from 'local-storage';
 
 export const LOGIN = 'LOGIN';
 export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
 
 export default function reducer(state = {
-    name: null
+    name: null,
+    lang: 'fr'
 }, action) {
     switch (action.type) {
         case LOGIN:
@@ -13,6 +15,11 @@ export default function reducer(state = {
                 ...state,
                 name: action.data.name
             };
+        case CHANGE_LANGUAGE:
+            return {
+                ...state,
+                lang: action.data
+            }
         default:
             return state;
     }
@@ -35,4 +42,13 @@ export const autoLogin = () => dispatch => {
     if (username) {
         dispatch({ type: AUTO_LOGIN, data: { name: username }});
     }
+    const language = ls('language');
+    if (language) {
+        dispatch({ type: CHANGE_LANGUAGE, data: language });
+    }
+};
+
+export const changeLanguage = lang => dispatch => {
+    ls('language', lang);
+    dispatch({ type: CHANGE_LANGUAGE, data: lang });
 };
