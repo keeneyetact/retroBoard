@@ -45,7 +45,7 @@ module.exports = {
             __SERVER__: false,
             __DEVELOPMENT__: true,
             __DEVTOOLS__: false,
-            __USE_GA__: true
+            __USE_GA__: false
         }),
         new webpack.ProvidePlugin({
             "React": "react",
