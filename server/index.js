@@ -89,13 +89,6 @@ const login = (data, socket, done) => {
     done();
 };
 
-const addClient = (sessionId, user) => {
-    const session = getSession(sessionId);
-    if (user && session.clients.indexOf(user) === -1) {
-        session.clients.push(user);
-    }
-};
-
 const sendClientList = (sessionId, socket) => {
     const room = io.nsps['/'].adapter.rooms['board-'+sessionId];
     if (room) {
@@ -134,8 +127,7 @@ const getSession = (sessionId) => {
     }
     if (!sessions[sessionId]) {
         sessions[sessionId] = {
-            posts: [],
-            clients: []
+            posts: []
         };
     }
     return sessions[sessionId];
