@@ -26,6 +26,8 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
             { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
+            { test: /\.png$/, loader: "url-loader?mimetype=image/png" },
+            { test: /\.json$/, loader: "json-loader" },
             { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
@@ -40,7 +42,8 @@ module.exports = {
             __CLIENT__: true,
             __SERVER__: false,
             __DEVELOPMENT__: false,
-            __DEVTOOLS__: false
+            __DEVTOOLS__: false,
+            __USE_GA__: true
         }),
         new webpack.ProvidePlugin({
             "React": "react",

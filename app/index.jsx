@@ -5,6 +5,7 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { init } from './middlewares/socketio';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import config from '../config/configuration.json';
 import {
     App,
     Main,
@@ -15,6 +16,11 @@ import './grids.css';
 const store = configureStore({}, browserHistory);
 init(store);
 const history = syncHistoryWithStore(browserHistory, store);
+
+if (__USE_GA__) {
+    const ga = require('react-ga');
+    ga.initialize(config.GA_Tracking_ID);
+}
 
 class Index extends React.Component {
     render() {

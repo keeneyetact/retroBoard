@@ -20,6 +20,11 @@ export default function configureStore(initialState = {}, browserHistory) {
         middlewares.push(logger);
     }
 
+    if (__USE_GA__) {
+        const { googleAnalyticsMiddleware} = require('../middlewares/ga');
+        middlewares.push(googleAnalyticsMiddleware);
+    }
+
     let createStoreWithMiddleware = applyMiddleware(...middlewares);
 
     if (__DEVTOOLS__) {
