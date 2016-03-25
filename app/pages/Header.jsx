@@ -5,6 +5,7 @@ import AppBar from 'react-toolbox/lib/app_bar';
 import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
 import { login, logout } from '../state/user';
+import { leave } from '../state/session';
 import { initialise } from '../state/actions';
 import style from './App.scss';
 import Clients from './Clients';
@@ -43,7 +44,8 @@ class Header extends React.Component {
                         <Clients />
                         <br />
                         <br />
-                        <Button label={strings.logout} icon={icons.exit_to_app} onClick={this.props.onLogout} accent />
+                        <Button label={strings.leave} icon={icons.exit_to_app} onClick={this.props.onLeave} accent />
+                        <Button label={strings.logout} icon={icons.power_settings_new} onClick={this.props.onLogout} accent />
                     </TranslationProvider>
                 </Drawer>
 
@@ -67,7 +69,8 @@ Header.defaultTypes = {
     displayDrawerButton: true,
     strings: {
         subtitle: 'A good way of ranting in an orderly fashion',
-        logout: 'Logout'
+        logout: 'Logout',
+        leave: 'Leave'
     }
 }
 
@@ -79,6 +82,7 @@ const stateToProps = state => ({
 const actionsToProps = dispatch => ({
     onLogin: user => dispatch(login(user)),
     onLogout: () => dispatch(logout()),
+    onLeave: () => dispatch(leave()),
     initialise: sessionId => dispatch(initialise(sessionId)),
     goToHomepage: () => dispatch(push('/'))
 });

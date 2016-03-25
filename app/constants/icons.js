@@ -11,5 +11,6 @@ export default {
     people: String.fromCharCode(0xE7FB),
     delete_forever: String.fromCharCode(0xE92B),
     settings: String.fromCharCode(0xE8B8),
-    exit_to_app: String.fromCharCode(0xE879)
+    exit_to_app: String.fromCharCode(0xE879),
+    power_settings_new: String.fromCharCode(0xE8AC)
 };
