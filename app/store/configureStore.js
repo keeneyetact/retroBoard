@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import reducers from '../state';
 import { routerMiddleware } from 'react-router-redux';
 import { socketIoMiddleware} from '../middlewares/socketio';
+import { googleAnalyticsMiddleware} from '../middlewares/ga';
 
 export default function configureStore(initialState = {}, browserHistory) {
 
@@ -13,6 +14,7 @@ export default function configureStore(initialState = {}, browserHistory) {
     middlewares.push(thunk);
     middlewares.push(routerMiddleware(browserHistory));
     middlewares.push(socketIoMiddleware);
+    middlewares.push(googleAnalyticsMiddleware);
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');

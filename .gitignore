@@ -37,3 +37,4 @@ build
 *.map
 static/style.css
 persist
+configuration.json
