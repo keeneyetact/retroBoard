@@ -17,6 +17,7 @@ const staticFolder = path.resolve(__dirname, '..', 'static');
 storage.initSync();
 
 const sessions = storage.getItem('sessions') || {};
+const users = {};
 
 app.use('/assets', express.static(staticFolder));
 
@@ -38,7 +39,8 @@ io.on('connection', socket => {
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
         { type: 'LIKE', handler: like },
-        { type: 'LOGIN', handler: login }
+        { type: 'LOGIN', handler: login },
+        { type: 'LEAVE_SESSION', handler: leave }
     ];
 
     actions.forEach(action => {
@@ -48,6 +50,12 @@ io.on('connection', socket => {
                 persist();
             });
         });
+    });
+
+    socket.on('disconnect', () => {
+        if (socket.sessionId) {
+            sendClientList(socket.sessionId, socket);
+        }
     });
 
 });
@@ -64,38 +72,37 @@ const receivePost = (data, socket, done) => {
 
 const joinSession = (data, socket, done) => {
     socket.join('board-' + data.sessionId, () => {
+        socket.sessionId = data.sessionId;
         const session = getSession(data.sessionId);
 
         if (session.posts.length) {
             sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
         }
 
-        addClient(data.sessionId, data.user);
-        sendClientList(data.sessionId, socket);
+        recordUser(data.sessionId, data.user, socket);
         done();
     });
 
 };
 
+const leave = (data, socket, done) => {
+    socket.leave('board-'+data);
+    sendClientList(data, socket);
+};
+
 const login = (data, socket, done) => {
-    addClient(data.sessionId, data.name);
-    sendClientList(data.sessionId, socket);
+    recordUser(data.sessionId, data.name, socket);
     done();
 };
 
-const addClient = (sessionId, user) => {
-    const session = getSession(sessionId);
-    if (user && session.clients.indexOf(user) === -1) {
-        session.clients.push(user);
-    }
-};
-
 const sendClientList = (sessionId, socket) => {
-    const session = getSession(sessionId);
-    if (session) {
-        const clients = session.clients;
-        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', clients);
-        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', clients);
+    const room = io.nsps['/'].adapter.rooms['board-'+sessionId];
+    if (room) {
+        const clients = Object.keys(room.sockets);
+        const names = clients.map(id => users[id] || '?');
+
+        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', names);
+        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', names);
     }
 };
 
@@ -126,8 +133,7 @@ const getSession = (sessionId) => {
     }
     if (!sessions[sessionId]) {
         sessions[sessionId] = {
-            posts: [],
-            clients: []
+            posts: []
         };
     }
     return sessions[sessionId];
@@ -146,4 +152,12 @@ const sendToSelf = (socket, action, data) => {
 
 const persist = () => {
     storage.setItem("sessions", sessions);
+}
+
+const recordUser = (sessionId, name, socket) => {
+    const socketId = socket.id;
+    if (!users[socketId] || users[socketId] !== name) {
+        users[socketId] = name || '?';
+        sendClientList(sessionId, socket);
+    }
 }

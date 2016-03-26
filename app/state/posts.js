@@ -1,6 +1,6 @@
 import uuid from 'node-uuid';
 import findIndex from 'lodash/findIndex';
-import { LEAVE_SESSION } from './session';
+import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
 
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
@@ -33,6 +33,8 @@ export default function reducer(state = [], action) {
                 ...state.slice(index + 1)
             ] : state;
         case LEAVE_SESSION:
+        case CREATE_SESSION_SUCCESS:
+        case JOIN_SESSION:
             return [];
         default:
             return state;

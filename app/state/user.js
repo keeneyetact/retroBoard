@@ -7,7 +7,7 @@ export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
 
 export default function reducer(state = {
     name: null,
-    lang: 'fr'
+    lang: 'en'
 }, action) {
     switch (action.type) {
         case LOGIN:
