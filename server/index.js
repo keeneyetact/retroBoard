@@ -39,7 +39,8 @@ io.on('connection', socket => {
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
         { type: 'LIKE', handler: like },
-        { type: 'LOGIN', handler: login }
+        { type: 'LOGIN', handler: login },
+        { type: 'LEAVE_SESSION', handler: leave }
     ];
 
     actions.forEach(action => {
@@ -82,6 +83,11 @@ const joinSession = (data, socket, done) => {
         done();
     });
 
+};
+
+const leave = (data, socket, done) => {
+    socket.leave('board-'+data);
+    sendClientList(data, socket);
 };
 
 const login = (data, socket, done) => {

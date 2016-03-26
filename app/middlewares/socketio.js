@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import { ADD_POST, RECEIVE_BOARD, RECEIVE_POST, RECEIVE_DELETE_POST, DELETE_POST, LIKE, RECEIVE_LIKE } from '../state/posts';
-import { JOIN_SESSION, RECEIVE_CLIENT_LIST } from '../state/session';
+import { JOIN_SESSION, LEAVE_SESSION, RECEIVE_CLIENT_LIST } from '../state/session';
 import { LOGIN } from '../state/user';
 
 let socket = null;
@@ -22,7 +22,7 @@ export const socketIoMiddleware = store => next => action => {
     const result = next(action);
 
     // Each of these actions will trigger an emit via SocketIO
-    const actions = [ADD_POST, JOIN_SESSION, DELETE_POST, LIKE, LOGIN];
+    const actions = [ADD_POST, JOIN_SESSION, DELETE_POST, LIKE, LOGIN, LEAVE_SESSION];
 
     if (actions.indexOf(action.type) > -1) {
         socket.emit(action.type, action.data);
