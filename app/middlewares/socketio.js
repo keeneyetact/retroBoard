@@ -25,7 +25,12 @@ export const socketIoMiddleware = store => next => action => {
     const actions = [ADD_POST, JOIN_SESSION, DELETE_POST, LIKE, LOGIN, LEAVE_SESSION];
 
     if (actions.indexOf(action.type) > -1) {
-        socket.emit(action.type, action.payload);
+        const state = store.getState();
+        const sessionId = state.session.id;
+        socket.emit(action.type, {
+            sessionId,
+            payload: action.payload
+        });
     }
 
     return result;
