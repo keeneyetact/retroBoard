@@ -1,4 +1,5 @@
 import ls from 'local-storage';
+import { createAction } from 'redux-actions';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -31,17 +32,7 @@ export default function reducer(state = {
     }
 }
 
-export const login = user => (dispatch, getState) => {
-    ls('username', user);
-    const state = getState();
-    dispatch({
-        type: LOGIN,
-        payload: {
-            name: user,
-            sessionId: state.session.id
-        }
-    });
-};
+export const login = createAction(LOGIN, user => ({ name: user }));
 
 export const logout = () => dispatch => {
     ls('username', null);

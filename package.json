@@ -60,6 +60,7 @@
     "redux-devtools-dock-monitor": "^1.1.0",
     "redux-devtools-log-monitor": "^1.0.5",
     "redux-logger": "^2.6.1",
+    "redux-saga": "^0.9.5",
     "redux-thunk": "^2.0.1",
     "sass-loader": "^3.2.0",
     "socket.io": "^1.4.5",
