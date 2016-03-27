@@ -1,6 +1,7 @@
 import uuid from 'node-uuid';
 import findIndex from 'lodash/findIndex';
 import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
+import { createAction } from 'redux-actions';
 
 export const ADD_POST = 'ADD_POST';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
@@ -70,23 +71,6 @@ export const addPost = (postType, content) => (dispatch, getState) => {
     });
 }
 
-export const deletePost = post => ({
-    type: DELETE_POST,
-    payload: post
-})
-
-export const like = post => ({
-    type: LIKE,
-    payload: {
-        post,
-        count: 1
-    }
-});
-
-export const unlike = post => ({
-    type: LIKE,
-    payload: {
-        post,
-        count: -1
-    }
-});
+export const deletePost = createAction('DELETE_POST');
+export const like = createAction('LIKE', post => ({ post, count: 1}));
+export const unlike = createAction('LIKE', post => ({ post, count: -1}));
