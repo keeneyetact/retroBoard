@@ -17,16 +17,16 @@ export default function reducer(state = [], action) {
         case RECEIVE_POST:
             return [
                 ...state,
-                action.data
+                action.payload
             ];
         case RECEIVE_BOARD:
-            return action.data;
+            return action.payload;
         case DELETE_POST:
         case RECEIVE_DELETE_POST:
-            return state.filter(p => p.id !== action.data.id);
+            return state.filter(p => p.id !== action.payload.id);
         case LIKE:
         case RECEIVE_LIKE:
-            const index = findIndex(state, p => p.id === action.data.post.id);
+            const index = findIndex(state, p => p.id === action.payload.post.id);
             return index > -1 ? [
                 ...state.slice(0, index),
                 postReducer(state[index], action),
@@ -47,7 +47,7 @@ const postReducer = (state = {}, action) => {
         case RECEIVE_LIKE:
             return {
                 ...state,
-                votes: state.votes + action.data.count
+                votes: state.votes + action.payload.count
             };
         default:
             return state;
@@ -59,7 +59,7 @@ export const addPost = (postType, content) => (dispatch, getState) => {
 
     dispatch({
         type: ADD_POST,
-        data: {
+        payload: {
             id: uuid.v1(),
             sessionId: state.session.id,
             postType,
@@ -72,12 +72,12 @@ export const addPost = (postType, content) => (dispatch, getState) => {
 
 export const deletePost = post => ({
     type: DELETE_POST,
-    data: post
+    payload: post
 })
 
 export const like = post => ({
     type: LIKE,
-    data: {
+    payload: {
         post,
         count: 1
     }
@@ -85,7 +85,7 @@ export const like = post => ({
 
 export const unlike = post => ({
     type: LIKE,
-    data: {
+    payload: {
         post,
         count: -1
     }

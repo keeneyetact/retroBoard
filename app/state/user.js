@@ -14,12 +14,12 @@ export default function reducer(state = {
         case AUTO_LOGIN:
             return {
                 ...state,
-                name: action.data.name
+                name: action.payload.name
             };
         case CHANGE_LANGUAGE:
             return {
                 ...state,
-                lang: action.data
+                lang: action.payload
             };
         case LOGOUT:
             return {
@@ -36,7 +36,7 @@ export const login = user => (dispatch, getState) => {
     const state = getState();
     dispatch({
         type: LOGIN,
-        data: {
+        payload: {
             name: user,
             sessionId: state.session.id
         }
@@ -53,15 +53,15 @@ export const logout = () => dispatch => {
 export const autoLogin = () => dispatch => {
     const username = ls('username');
     if (username) {
-        dispatch({ type: AUTO_LOGIN, data: { name: username }});
+        dispatch({ type: AUTO_LOGIN, payload: { name: username }});
     }
     const language = ls('language');
     if (language) {
-        dispatch({ type: CHANGE_LANGUAGE, data: language });
+        dispatch({ type: CHANGE_LANGUAGE, payload: language });
     }
 };
 
 export const changeLanguage = lang => dispatch => {
     ls('language', lang);
-    dispatch({ type: CHANGE_LANGUAGE, data: lang });
+    dispatch({ type: CHANGE_LANGUAGE, payload: lang });
 };

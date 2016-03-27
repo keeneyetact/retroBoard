@@ -12,8 +12,8 @@ export const init = store => {
     const actions = [RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST, RECEIVE_LIKE, RECEIVE_CLIENT_LIST];
 
     actions.forEach(action => {
-        socket.on(action, data => {
-            store.dispatch({ type: action, data });
+        socket.on(action, payload => {
+            store.dispatch({ type: action, payload });
         });
     });
 };
@@ -25,7 +25,7 @@ export const socketIoMiddleware = store => next => action => {
     const actions = [ADD_POST, JOIN_SESSION, DELETE_POST, LIKE, LOGIN, LEAVE_SESSION];
 
     if (actions.indexOf(action.type) > -1) {
-        socket.emit(action.type, action.data);
+        socket.emit(action.type, action.payload);
     }
 
     return result;

@@ -15,12 +15,12 @@ export default function reducer(state = {
         case JOIN_SESSION:
             return {
                 ...state,
-                id: action.data.sessionId,
+                id: action.payload.sessionId,
             };
         case RECEIVE_CLIENT_LIST:
             return {
                 ...state,
-                clients: action.data
+                clients: action.payload
             }
         case LEAVE_SESSION:
             return {
@@ -40,15 +40,15 @@ export const createSession = () => {
         fetch('/api/create')
             .then(response => response.json())
             .then(session => {
-                dispatch({ type: CREATE_SESSION_SUCCESS, data: { sessionId: session.id }});
+                dispatch({ type: CREATE_SESSION_SUCCESS, payload: { sessionId: session.id }});
                 return session.id;
             })
             .then(id => {
-                dispatch({ type: JOIN_SESSION, data: { sessionId: id, user: state.user.name }});
+                dispatch({ type: JOIN_SESSION, payload: { sessionId: id, user: state.user.name }});
                 return id;
             })
             .then(id => {
-                dispatch({ type: RECEIVE_CLIENT_LIST, data: [ state.user.name ] });
+                dispatch({ type: RECEIVE_CLIENT_LIST, payload: [ state.user.name ] });
                 return id;
             })
             .then(id => dispatch(push('/session/'+id)))
@@ -61,7 +61,7 @@ export const createSession = () => {
 export const autoJoin = sessionId => (dispatch, getState) => {
     const state = getState();
     if (state.session.id !== sessionId && sessionId) {
-        dispatch({ type: JOIN_SESSION, data: {
+        dispatch({ type: JOIN_SESSION, payload: {
             sessionId,
             user: state.user.name
         } });
@@ -71,7 +71,7 @@ export const autoJoin = sessionId => (dispatch, getState) => {
 export const leave = () => (dispatch, getState) => {
     const state = getState();
     if (state.session.id) {
-        dispatch({ type: LEAVE_SESSION, data: state.session.id });
+        dispatch({ type: LEAVE_SESSION, payload: state.session.id });
         dispatch(push('/'));
     }
 };
