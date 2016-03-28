@@ -39,7 +39,7 @@ io.on('connection', socket => {
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
         { type: 'LIKE', handler: like },
-        { type: 'LOGIN', handler: login },
+        { type: 'LOGIN_SUCCESS', handler: login },
         { type: 'LEAVE_SESSION', handler: leave }
     ];
 

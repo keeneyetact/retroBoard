@@ -1,23 +1,24 @@
 import ls from 'local-storage';
 import { createAction } from 'redux-actions';
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
 export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const LOGIN = 'LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGOUT = 'LOGOUT';
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
+export const CHANGE_LANGUAGE_SUCCESS = 'CHANGE_LANGUAGE_SUCCESS';
 
 export default function reducer(state = {
     name: null,
     lang: 'en'
 }, action) {
     switch (action.type) {
-        case LOGIN:
-        case AUTO_LOGIN:
+        case LOGIN_SUCCESS:
             return {
                 ...state,
                 name: action.payload.name
             };
-        case CHANGE_LANGUAGE:
+        case CHANGE_LANGUAGE_SUCCESS:
             return {
                 ...state,
                 lang: action.payload
@@ -33,26 +34,6 @@ export default function reducer(state = {
 }
 
 export const login = createAction(LOGIN, user => ({ name: user }));
-
-export const logout = () => dispatch => {
-    ls('username', null);
-    dispatch({
-        type: LOGOUT
-    });
-}
-
-export const autoLogin = () => dispatch => {
-    const username = ls('username');
-    if (username) {
-        dispatch({ type: AUTO_LOGIN, payload: { name: username }});
-    }
-    const language = ls('language');
-    if (language) {
-        dispatch({ type: CHANGE_LANGUAGE, payload: language });
-    }
-};
-
-export const changeLanguage = lang => dispatch => {
-    ls('language', lang);
-    dispatch({ type: CHANGE_LANGUAGE, payload: lang });
-};
+export const logout = createAction(LOGOUT);
+export const changeLanguage = createAction(CHANGE_LANGUAGE);
+export const autoLogin = createAction(AUTO_LOGIN);
