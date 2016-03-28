@@ -19,6 +19,7 @@ export default function configureStore(initialState = {}, browserHistory) {
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
+        //const logger = createLogger();
         const logger = createLogger({ predicate: (getState, action) => action.type !== 'EFFECT_TRIGGERED' && action.type !== 'EFFECT_RESOLVED'});
         middlewares.push(logger);
     }

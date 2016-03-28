@@ -1,22 +1,42 @@
 import ls from 'local-storage';
 import { takeEvery, takeLatest } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
-import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, JOIN_SESSION, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
+import { call, put, select } from 'redux-saga/effects'
+import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
+import { LEAVE_SESSION, AUTO_JOIN, JOIN_SESSION } from '../state/session';
+import { INITIALISE } from '../state/actions';
+import { push } from 'react-router-redux';
 
-function* whenAUserLogsIn(action) {
+function* whenTheAppInitialises() {
+    yield* takeEvery(INITIALISE, initialiseApp);
+}
+
+function* whenAUserLogsIn() {
     yield* takeEvery(LOGIN, storeUserToLocalStorage);
 }
 
-function* whenAUserLogsOut(action) {
+function* whenAUserLogsOut() {
     yield* takeEvery(LOGOUT, deleteUserFromLocalStorage);
 }
 
-function* whenAUserChangesItsLanguage(action) {
+function* whenAUserChangesItsLanguage() {
     yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage);
 }
 
-function* whenAUserAutoLogsIn(action) {
+function* whenAUserAutoLogsIn() {
     yield* takeEvery(AUTO_LOGIN, autoLoginUser);
+}
+
+function* whenAUserLeavesTheSession() {
+    yield* takeEvery(LEAVE_SESSION, disconnectUser);
+}
+
+function* whenAUserAutoJoinsASession() {
+    yield* takeEvery(AUTO_JOIN, autoJoinUser);
+}
+
+function* initialiseApp(action) {
+    yield autoLoginUser();
+    yield autoJoinUser(action.payload);
 }
 
 function* storeUserToLocalStorage(action) {
@@ -41,7 +61,11 @@ function* changeLanguageSuccess(lang) {
     yield put({ type: CHANGE_LANGUAGE_SUCCESS, payload: lang });
 }
 
-function* autoLoginUser(action) {
+function* disconnectUser() {
+    yield put(push('/'));
+}
+
+function* autoLoginUser() {
     const username = ls('username');
     if (username) {
         yield loginSuccess(username);
@@ -52,9 +76,25 @@ function* autoLoginUser(action) {
     }
 }
 
+function* autoJoinUser(sessionId) {
+    const currentSession = yield select(state => state.session.id);
+    const currentUser = yield select(state => state.user.name);
+
+    if (sessionId !== currentSession) {
+        yield put({ type: JOIN_SESSION, payload: {
+            sessionId,
+            user: currentUser
+        }});
+    }
+}
+
+
 export default [
+    whenTheAppInitialises,
     whenAUserLogsIn,
     whenAUserLogsOut,
     whenAUserChangesItsLanguage,
-    whenAUserAutoLogsIn
+    whenAUserAutoLogsIn,
+    whenAUserLeavesTheSession,
+    whenAUserAutoJoinsASession
 ];

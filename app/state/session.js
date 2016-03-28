@@ -1,7 +1,9 @@
 import { push } from 'react-router-redux';
+import { createAction } from 'redux-actions';
 
 export const CREATE_SESSION = 'CREATE_SESSION';
 export const CREATE_SESSION_SUCCESS = 'CREATE_SESSION_SUCCESS';
+export const AUTO_JOIN = 'AUTO_JOIN';
 export const JOIN_SESSION = 'JOIN_SESSION';
 export const LEAVE_SESSION = 'LEAVE_SESSION';
 export const RECEIVE_CLIENT_LIST = 'RECEIVE_CLIENT_LIST';
@@ -58,20 +60,5 @@ export const createSession = () => {
     }
 }
 
-export const autoJoin = sessionId => (dispatch, getState) => {
-    const state = getState();
-    if (state.session.id !== sessionId && sessionId) {
-        dispatch({ type: JOIN_SESSION, payload: {
-            sessionId,
-            user: state.user.name
-        } });
-    }
-};
-
-export const leave = () => (dispatch, getState) => {
-    const state = getState();
-    if (state.session.id) {
-        dispatch({ type: LEAVE_SESSION, payload: state.session.id });
-        dispatch(push('/'));
-    }
-};
+export const autoJoin = createAction(AUTO_JOIN);
+export const leave = createAction(LEAVE_SESSION);
