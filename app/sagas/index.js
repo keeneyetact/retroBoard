@@ -22,16 +22,8 @@ function* whenAUserChangesItsLanguage() {
     yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage);
 }
 
-function* whenAUserAutoLogsIn() {
-    yield* takeEvery(AUTO_LOGIN, autoLoginUser);
-}
-
 function* whenAUserLeavesTheSession() {
     yield* takeEvery(LEAVE_SESSION, disconnectUser);
-}
-
-function* whenAUserAutoJoinsASession() {
-    yield* takeEvery(AUTO_JOIN, autoJoinUser);
 }
 
 function* initialiseApp(action) {
@@ -41,7 +33,7 @@ function* initialiseApp(action) {
 
 function* storeUserToLocalStorage(action) {
     ls('username', action.payload.name);
-    yield loginSuccess(action.payload);
+    yield loginSuccess(action.payload.name);
 }
 
 function* deleteUserFromLocalStorage() {
@@ -80,7 +72,7 @@ function* autoJoinUser(sessionId) {
     const currentSession = yield select(state => state.session.id);
     const currentUser = yield select(state => state.user.name);
 
-    if (sessionId !== currentSession) {
+    if (sessionId && sessionId !== currentSession) {
         yield put({ type: JOIN_SESSION, payload: {
             sessionId,
             user: currentUser
@@ -94,7 +86,5 @@ export default [
     whenAUserLogsIn,
     whenAUserLogsOut,
     whenAUserChangesItsLanguage,
-    whenAUserAutoLogsIn,
-    whenAUserLeavesTheSession,
-    whenAUserAutoJoinsASession
+    whenAUserLeavesTheSession
 ];

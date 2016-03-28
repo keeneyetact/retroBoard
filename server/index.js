@@ -158,8 +158,9 @@ const recordUser = (sessionId, name, socket) => {
     const socketId = socket.id;
     if (!users[socketId] || users[socketId] !== name) {
         users[socketId] = name || '?';
-        sendClientList(sessionId, socket);
     }
+
+    sendClientList(sessionId, socket);
 }
 
 const getRoom = sessionId => 'board-'+sessionId;
