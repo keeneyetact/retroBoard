@@ -60,5 +60,4 @@ export const createSession = () => {
     }
 }
 
-export const autoJoin = createAction(AUTO_JOIN);
 export const leave = createAction(LEAVE_SESSION);
