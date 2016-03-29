@@ -9,6 +9,7 @@ div.board {
 
         .post {
             margin:10px;
+            float: left;
 
             &.well {
                 [data-react-toolbox="card"] {
