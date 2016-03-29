@@ -11,6 +11,9 @@ It features the following technologies:
 * Hot-reloading
 * Material UI design
 * Modular CSS
+* redux-saga
+* Multilingual / Internationalization
+
 
 ## How to run for production
 
@@ -18,6 +21,7 @@ It features the following technologies:
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
 * `npm run build` to build everything (client and server)
 * `NODE_ENV=production PORT=8080 node index.js` to run the server on port 8080
+
 
 ## How to run for development
 
@@ -29,13 +33,32 @@ It features the following technologies:
 * Open your browser on [http://localhost:8081](http://localhost:8081)
 
 
+## How to use Google Analytics
+
+By default, Google Analytics is deactivated (it doesn't even get build into the bundle).
+
+To enable it, create a configuration file by copying `/config/configuration_template.json` to `/config/configuration.json`, and set it up by pasting your GA tracking ID, and setting the other setting to true, then rebuild.
+
+Note: Google Analytics only works when using the production webpack config.
+
+
 ## Roadmap
 
-* Persistence (using mongo db probably)
-* Multi-lingual (French and English to start with)
-* Better handling of connected users
+* Persistence: Improve by using MongoDB (or not, this is still in debate)
+* Add more languages
+
 
 ## Versions history
+
+### Version 0.2.0
+
+* Multilingual: support for English, French and Hungarian
+* Using `redux-saga` instead of `redux-thunk`
+* Persistence: Simple persistence to disk (no database needed)
+* Support for Google Analytics (with precise events monitoring)
+* Ability to logout, and to leave a session
+* Improve the reliability of the clients list (currently connected users)
+* Fix issues when the web fonts can't load (firewall blocking for example)
 
 ### Version 0.1.1
 
@@ -55,3 +78,11 @@ It features the following technologies:
 * Ability to delete our own posts
 * List of connected users
 * No persistence (yet)
+
+## Thanks
+
+Many thanks to the following contributors who helped translating the app:
+
+* Hungarian: [@iaretiga](https://github.com/iaretiga)
+
+If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.

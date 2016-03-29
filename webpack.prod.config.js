@@ -3,16 +3,17 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var staticFolder = path.resolve(__dirname, 'static');
+var config = require('./config');
 
 module.exports = {
     content: __dirname,
     entry: [
-        "./ui.jsx",
+        './ui.jsx',
     ],
     output: {
         path: staticFolder,
         publicPath: 'http://localhost:8080/assets/',
-        filename: "bundle.js"
+        filename: 'bundle.js'
     },
     devtool: 'source-map',
     resolve: {
@@ -24,10 +25,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: "style!css" },
-            { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
-            { test: /\.png$/, loader: "url-loader?mimetype=image/png" },
-            { test: /\.json$/, loader: "json-loader" },
+            { test: /\.css$/, loader: 'style!css' },
+            { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.png$/, loader: 'url-loader?mimetype=image/png' },
+            { test: /\.json$/, loader: 'json-loader' },
             { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
@@ -39,14 +40,13 @@ module.exports = {
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
-            __CLIENT__: true,
-            __SERVER__: false,
             __DEVELOPMENT__: false,
             __DEVTOOLS__: false,
-            __USE_GA__: true
+            __USE_GA__: config.GA_Enabled,
+            __GA_ID__: config.GA_Tracking_ID
         }),
         new webpack.ProvidePlugin({
-            "React": "react",
+            'React': 'react',
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),

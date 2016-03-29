@@ -7,12 +7,12 @@ var staticFolder = path.resolve(__dirname, 'static');
 module.exports = {
     content: __dirname,
     entry: [
-        "./ui.jsx",
+        './ui.jsx',
     ],
     output: {
         path: staticFolder,
         publicPath: 'http://localhost:8080/assets/',
-        filename: "bundle.js"
+        filename: 'bundle.js'
     },
     devtool: 'eval-source-map',
     resolve: {
@@ -24,10 +24,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: "style!css" },
-            { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
-            { test: /\.png$/, loader: "url-loader?mimetype=image/png" },
-            { test: /\.json$/, loader: "json-loader" },
+            { test: /\.css$/, loader: 'style!css' },
+            { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.png$/, loader: 'url-loader?mimetype=image/png' },
+            { test: /\.json$/, loader: 'json-loader' },
             { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
@@ -41,14 +41,13 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
-            __CLIENT__: true,
-            __SERVER__: false,
             __DEVELOPMENT__: true,
             __DEVTOOLS__: false,
-            __USE_GA__: false
+            __USE_GA__: false,
+            __GA_ID__: '(none)'
         }),
         new webpack.ProvidePlugin({
-            "React": "react",
+            'React': 'react',
         })
     ]
 };

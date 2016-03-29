@@ -25,7 +25,7 @@ export default function configureStore(initialState = {}, browserHistory) {
     }
 
     if (__USE_GA__) {
-        const { googleAnalyticsMiddleware} = require('../middlewares/ga');
+        const { googleAnalyticsMiddleware } = require('../middlewares/ga');
         middlewares.push(googleAnalyticsMiddleware);
     }
 

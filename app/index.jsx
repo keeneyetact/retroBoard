@@ -19,7 +19,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 if (__USE_GA__) {
     const ga = require('react-ga');
-    ga.initialize(config.GA_Tracking_ID);
+    ga.initialize(__GA_ID__);
 }
 
 class Index extends React.Component {
