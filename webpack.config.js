@@ -44,7 +44,7 @@ module.exports = {
             __DEVELOPMENT__: true,
             __DEVTOOLS__: false,
             __USE_GA__: false,
-            __GA_ID__: '(none)'
+            __GA_ID__: null
         }),
         new webpack.ProvidePlugin({
             'React': 'react',

@@ -43,7 +43,7 @@ module.exports = {
             __DEVELOPMENT__: false,
             __DEVTOOLS__: false,
             __USE_GA__: config.GA_Enabled,
-            __GA_ID__: config.GA_Tracking_ID
+            __GA_ID__: "'" + config.GA_Tracking_ID + "'"
         }),
         new webpack.ProvidePlugin({
             'React': 'react',
