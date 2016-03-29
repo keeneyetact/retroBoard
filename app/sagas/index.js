@@ -1,8 +1,10 @@
 import ls from 'local-storage';
+import uuid from 'node-uuid';
 import { takeEvery, takeLatest } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
-import { LEAVE_SESSION, AUTO_JOIN, JOIN_SESSION } from '../state/session';
+import { LEAVE_SESSION, AUTO_JOIN, JOIN_SESSION, CREATE_SESSION, CREATE_SESSION_SUCCESS, RECEIVE_CLIENT_LIST } from '../state/session';
+import { ADD_POST, ADD_POST_SUCCESS } from '../state/posts';
 import { INITIALISE } from '../state/actions';
 import { push } from 'react-router-redux';
 
@@ -24,6 +26,14 @@ function* whenAUserChangesItsLanguage() {
 
 function* whenAUserLeavesTheSession() {
     yield* takeEvery(LEAVE_SESSION, disconnectUser);
+}
+
+function* whenAUserPosts() {
+    yield* takeEvery(ADD_POST, addPost);
+}
+
+function* whenCreatingASession() {
+    yield* takeEvery(CREATE_SESSION, createSession);
 }
 
 function* initialiseApp(action) {
@@ -80,11 +90,36 @@ function* autoJoinUser(sessionId) {
     }
 }
 
+function* addPost(action) {
+    const sessionId = yield select(state => state.session.id);
+    const user = yield select(state => state.user.name);
+    const postId = uuid.v1();
+
+    yield put({ type: ADD_POST_SUCCESS, payload: {
+        id: postId,
+        sessionId,
+        postType: action.payload.postType,
+        content: action.payload.content,
+        user,
+        votes: 0
+    }});
+}
+
+function* createSession(action) {
+    const sessionId = uuid.v1();
+    const user = yield select(state => state.user.name);
+    yield put({ type: CREATE_SESSION_SUCCESS, payload: { sessionId } });
+    yield put({ type: JOIN_SESSION, payload: { sessionId, user }});
+    yield put({ type: RECEIVE_CLIENT_LIST, payload: [ user ]});
+    yield put(push('/session/'+sessionId));
+}
 
 export default [
     whenTheAppInitialises,
     whenAUserLogsIn,
     whenAUserLogsOut,
     whenAUserChangesItsLanguage,
-    whenAUserLeavesTheSession
+    whenAUserLeavesTheSession,
+    whenAUserPosts,
+    whenCreatingASession
 ];

@@ -1,4 +1,3 @@
-import { push } from 'react-router-redux';
 import { createAction } from 'redux-actions';
 
 export const CREATE_SESSION = 'CREATE_SESSION';
@@ -35,29 +34,5 @@ export default function reducer(state = {
     }
 }
 
-export const createSession = () => {
-    return (dispatch, getState) => {
-        const state = getState();
-        dispatch({ type: CREATE_SESSION });
-        fetch('/api/create')
-            .then(response => response.json())
-            .then(session => {
-                dispatch({ type: CREATE_SESSION_SUCCESS, payload: { sessionId: session.id }});
-                return session.id;
-            })
-            .then(id => {
-                dispatch({ type: JOIN_SESSION, payload: { sessionId: id, user: state.user.name }});
-                return id;
-            })
-            .then(id => {
-                dispatch({ type: RECEIVE_CLIENT_LIST, payload: [ state.user.name ] });
-                return id;
-            })
-            .then(id => dispatch(push('/session/'+id)))
-            .catch(err => {
-                console.error(err);
-            });
-    }
-}
-
+export const createSession = createAction(CREATE_SESSION);
 export const leave = createAction(LEAVE_SESSION);

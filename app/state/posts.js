@@ -1,9 +1,9 @@
-import uuid from 'node-uuid';
 import findIndex from 'lodash/findIndex';
 import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
 import { createAction } from 'redux-actions';
 
 export const ADD_POST = 'ADD_POST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_TEST_DATA = 'ADD_TEST_DATA';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_BOARD = 'RECEIVE_BOARD';
@@ -14,7 +14,7 @@ export const RECEIVE_LIKE = 'RECEIVE_LIKE';
 
 export default function reducer(state = [], action) {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST_SUCCESS:
         case RECEIVE_POST:
             return [
                 ...state,
@@ -55,22 +55,7 @@ const postReducer = (state = {}, action) => {
     }
 }
 
-export const addPost = (postType, content) => (dispatch, getState) => {
-    const state = getState();
-
-    dispatch({
-        type: ADD_POST,
-        payload: {
-            id: uuid.v1(),
-            sessionId: state.session.id,
-            postType,
-            content,
-            user: state.user.name,
-            votes: 0
-        }
-    });
-}
-
+export const addPost = createAction('ADD_POST', (postType, content) => ({ postType, content }));
 export const deletePost = createAction('DELETE_POST');
 export const like = createAction('LIKE', post => ({ post, count: 1}));
 export const unlike = createAction('LIKE', post => ({ post, count: -1}));

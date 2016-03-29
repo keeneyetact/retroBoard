@@ -35,7 +35,7 @@ io.on('connection', socket => {
     console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
 
     const actions = [
-        { type: 'ADD_POST', handler: receivePost },
+        { type: 'ADD_POST_SUCCESS', handler: receivePost },
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
         { type: 'LIKE', handler: like },
@@ -71,7 +71,7 @@ const receivePost = (sessionId, data, socket, done) => {
 };
 
 const joinSession = (sessionId, data, socket, done) => {
-    socket.join('board-' + sessionId, () => {
+    socket.join(getRoom(sessionId), () => {
         socket.sessionId = sessionId;
         const session = getSession(sessionId);
 
@@ -85,9 +85,13 @@ const joinSession = (sessionId, data, socket, done) => {
 
 };
 
-const leave = (sessionId, data, socket, done) => {
-    socket.leave('board-'+data);
-    sendClientList(data, socket);
+const leave = (sId, data, socket, done) => {
+    const sessionId = socket.sessionId;
+    if (sessionId) {
+        socket.leave(getRoom(socket.sessionId), () => {
+            sendClientList(socket.sessionId, socket);
+        });
+    }
 };
 
 const login = (sessionId, data, socket, done) => {
@@ -99,7 +103,7 @@ const sendClientList = (sessionId, socket) => {
     const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
     if (room) {
         const clients = Object.keys(room.sockets);
-        const names = clients.map(id => users[id] || '?');
+        const names = clients.map((id, i) => users[id] || `(Anonymous #${i})`);
 
         sendToSelf(socket, 'RECEIVE_CLIENT_LIST', names);
         sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', names);
@@ -157,7 +161,7 @@ const persist = () => {
 const recordUser = (sessionId, name, socket) => {
     const socketId = socket.id;
     if (!users[socketId] || users[socketId] !== name) {
-        users[socketId] = name || '?';
+        users[socketId] = name || null;
     }
 
     sendClientList(sessionId, socket);
