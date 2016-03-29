@@ -5,7 +5,6 @@ import configureStore from './store/configureStore';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { init } from './middlewares/socketio';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
-import config from '../config/configuration.json';
 import {
     App,
     Main,
