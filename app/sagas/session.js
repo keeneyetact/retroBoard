@@ -1,4 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import uuid from 'node-uuid';
 import { JOIN_SESSION, CREATE_SESSION_SUCCESS, RECEIVE_CLIENT_LIST } from '../state/session';
 
