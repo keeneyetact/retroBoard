@@ -16,20 +16,33 @@ const staticFolder = path.resolve(__dirname, '..', 'static');
 
 storage.initSync();
 
+const interval = setInterval(() => {
+    persist();
+}, 60000);
+
+const exitHandler = (options, err) => {
+    if (err) {
+        console.error(err);
+        console.error(err.stack);
+    }
+    clearInterval(interval);
+
+    if (options.exit) {
+        persist();
+        process.exit();
+    }
+};
+
+process.stdin.resume(); // Prevents the program to close instantly
+process.on('exit', exitHandler.bind(null,{cleanup:true}));
+process.on('SIGINT', exitHandler.bind(null, {exit:true})); //catches ctrl+c event
+process.on('uncaughtException', exitHandler.bind(null, {exit:true})); //catches uncaught exceptions
+
 const sessions = storage.getItem('sessions') || {};
 const users = {};
 
 app.use('/assets', express.static(staticFolder));
-
-app.get('/api/create', (req, res) => {
-    const id = uuid.v1();
-    return res.json({
-        id
-    });
-});
-
 app.get('/*', (req, res) => res.sendFile(htmlFile));
-
 
 io.on('connection', socket => {
     console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
@@ -46,9 +59,7 @@ io.on('connection', socket => {
     actions.forEach(action => {
         socket.on(action.type, data => {
             console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
-            action.handler(data.sessionId, data.payload, socket, () => {
-                persist();
-            });
+            action.handler(data.sessionId, data.payload, socket);
         });
     });
 
@@ -63,14 +74,13 @@ io.on('connection', socket => {
 httpServer.listen(port);
 console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
 
-const receivePost = (sessionId, data, socket, done) => {
+const receivePost = (sessionId, data, socket) => {
     const session = getSession(sessionId);
     session.posts.push(data);
     sendToAll(socket, sessionId, 'RECEIVE_POST', data);
-    done();
 };
 
-const joinSession = (sessionId, data, socket, done) => {
+const joinSession = (sessionId, data, socket) => {
     socket.join(getRoom(sessionId), () => {
         socket.sessionId = sessionId;
         const session = getSession(sessionId);
@@ -80,12 +90,11 @@ const joinSession = (sessionId, data, socket, done) => {
         }
 
         recordUser(sessionId, data.user, socket);
-        done();
     });
 
 };
 
-const leave = (sId, data, socket, done) => {
+const leave = (sId, data, socket) => {
     const sessionId = socket.sessionId;
     if (sessionId) {
         socket.leave(getRoom(socket.sessionId), () => {
@@ -94,9 +103,8 @@ const leave = (sId, data, socket, done) => {
     }
 };
 
-const login = (sessionId, data, socket, done) => {
+const login = (sessionId, data, socket) => {
     recordUser(sessionId, data.name, socket);
-    done();
 };
 
 const sendClientList = (sessionId, socket) => {
@@ -110,23 +118,21 @@ const sendClientList = (sessionId, socket) => {
     }
 };
 
-const deletePost = (sessionId, data, socket, done) => {
+const deletePost = (sessionId, data, socket) => {
     const session = getSession(sessionId);
     if (session) {
         session.posts = session.posts.filter(p => p.id !== data.id);
         sendToAll(socket, sessionId, 'RECEIVE_DELETE_POST', data);
-        done();
     }
 };
 
-const like = (sessionId, data, socket, done) => {
+const like = (sessionId, data, socket) => {
     const session = getSession(sessionId);
     if (session) {
         const post = find(session.posts, p => p.id === data.post.id);
         if (post) {
             post.votes += data.count;
             sendToAll(socket, sessionId, 'RECEIVE_LIKE', data);
-            done();
         }
     }
 };
@@ -155,7 +161,8 @@ const sendToSelf = (socket, action, data) => {
 };
 
 const persist = () => {
-    storage.setItem("sessions", sessions);
+    console.log(chalk.green('...Saving data to disk...'));
+    storage.setItemSync("sessions", sessions);
 }
 
 const recordUser = (sessionId, name, socket) => {
