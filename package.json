@@ -1,6 +1,6 @@
 {
   "name": "retro-board",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "An agile retrospective board - Powering www.retrospected.com",
   "main": "index.js",
   "engines": {
@@ -95,5 +95,5 @@
   "bugs": {
     "url": "https://github.com/antoinejaussoin/retro-board/issues"
   },
-  "homepage": "https://github.com/antoinejaussoin/retro-board#readme"
+  "homepage": "http://www.retrospected.com"
 }

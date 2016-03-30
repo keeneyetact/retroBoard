@@ -3,7 +3,8 @@ import { push } from 'react-router-redux';
 import uuid from 'node-uuid';
 import { JOIN_SESSION, CREATE_SESSION_SUCCESS, RECEIVE_CLIENT_LIST } from '../state/session';
 
-export function* autoJoinUser(sessionId) {
+export function* autoJoinUser(action) {
+    const sessionId = action.payload;
     const currentSession = yield select(state => state.session.id);
     const currentUser = yield select(state => state.user.name);
 
