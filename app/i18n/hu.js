@@ -1,28 +1,28 @@
 export default {
     Header: {
-        subtitle: 'A good way of ranting in an orderly fashion'
+        subtitle: 'Panaszkodjunk rendezetten'
     },
     LanguagePicker: {
-        header: 'Choose a language'
+        header: 'Válassz nyelvet'
     },
     Post: {
-        vote: 'vote',
-        votes: 'votes',
-        delete: 'Delete'
+        vote: 'szavazat',
+        votes: 'szavazat',
+        delete: 'törlés'
     },
     PostBoard: {
-        notWellQuestion: 'What could be improved?',
-        wellQuestion: 'What went well?',
-        ideasQuestion: 'A brilliant idea to share?'
+        notWellQuestion: 'Mit lehetne jobban csinálni?',
+        wellQuestion: 'Mit ment jól?',
+        ideasQuestion: 'Van valami nagyszerű ötleted?'
     },
     Clients: {
-        header: 'Kindly joining us right now:'
+        header: 'Épp most csatlakozik:'
     },
     Join: {
-        newSession: 'Create a new session'
+        newSession: 'Új ülés indítása'
     },
     Login: {
-        namePlaceholder: 'Who are you exactly? Enter your name here',
-        buttonLabel: 'Let\'s start'
+        namePlaceholder: 'Hogy is hívnak? Kérlek írd ide a nevedet',
+        buttonLabel: 'Kezdjük'
     }
 }
