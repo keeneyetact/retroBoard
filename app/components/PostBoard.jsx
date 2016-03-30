@@ -4,23 +4,27 @@ import style from './PostBoard.scss';
 import ClassNames from 'classnames';
 import { connect } from 'react-redux';
 import { addPost, deletePost, like, unlike } from '../state/posts';
+import icons from '../constants/icons';
+import translate from '../i18n/Translate';
 
-const types = [{
-    type: 'well',
-    question: 'What went well?',
-    icon: 'sentiment_satisfied'
-},{
-    type: 'notWell',
-    question: 'What could be improved?',
-    icon: 'sentiment_very_dissatisfied'
-},{
-    type: 'ideas',
-    question: 'A brilliant idea to share?',
-    icon: 'lightbulb_outline'
-}];
 
 class PostBoard extends React.Component {
     render() {
+        const { strings } = this.props;
+        const types = [{
+            type: 'well',
+            question: strings.wellQuestion,
+            icon: icons.sentiment_satisfied
+        },{
+            type: 'notWell',
+            question: strings.notWellQuestion,
+            icon: icons.sentiment_very_dissatisfied
+        },{
+            type: 'ideas',
+            question: strings.ideasQuestion,
+            icon: icons.lightbulb_outline
+        }];
+
         return (
             <div className={ClassNames(style.board, 'grid')}>
                 { types.map(this.renderColumn.bind(this)) }
@@ -52,14 +56,20 @@ PostBoard.propTypes = {
     currentUser: PropTypes.string.isRequired,
     posts: PropTypes.array.isRequired,
     addPost: PropTypes.func,
-    deletePost: PropTypes.func
+    deletePost: PropTypes.func,
+    strings: PropTypes.object
 }
 
 PostBoard.defaultProps = {
     currentUser: null,
     posts: [],
     addPost: () => {},
-    deletePost: () => {}
+    deletePost: () => {},
+    strings: {
+        notWellQuestion: 'What could be improved?',
+        wellQuestion: 'What went well?',
+        ideasQuestion: 'A brilliant idea to share?'
+    }
 }
 
 const stateToProps = state => ({
@@ -74,4 +84,4 @@ const actionsToProps = dispatch => ({
     unlike: post => dispatch(unlike(post))
 });
 
-export default connect(stateToProps, actionsToProps)(PostBoard);
+export default translate('PostBoard')(connect(stateToProps, actionsToProps)(PostBoard));

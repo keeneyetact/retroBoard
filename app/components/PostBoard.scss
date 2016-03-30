@@ -7,34 +7,45 @@ div.board {
 
     .column {
 
-        .post {
-            margin:10px;
+        .columnContent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
 
-            &.well {
-                [data-react-toolbox="card"] {
-                    background-color: $color-well;
+            .post {
+                margin:10px;
+                float: left;
+                flex: 1 1 auto;
+                transition: width 0.7s ease-out;
+
+                &.well {
+                    [data-react-toolbox="card"] {
+                        background-color: $color-well;
+                    }
                 }
-            }
 
-            &.notWell {
-                [data-react-toolbox="card"] {
-                    background-color: $color-notWell;
+                &.notWell {
+                    [data-react-toolbox="card"] {
+                        background-color: $color-notWell;
+                    }
                 }
-            }
 
-            &.improve {
-                [data-react-toolbox="card"] {
-                    background-color: $color-improve;
+                &.improve {
+                    [data-react-toolbox="card"] {
+                        background-color: $color-improve;
+                    }
                 }
-            }
 
-            &.ideas {
-                [data-react-toolbox="card"] {
-                    background-color: $color-ideas;
+                &.ideas {
+                    [data-react-toolbox="card"] {
+                        background-color: $color-ideas;
+                    }
                 }
-            }
 
+            }
         }
+
     }
 
 

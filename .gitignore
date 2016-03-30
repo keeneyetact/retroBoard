@@ -31,8 +31,8 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
-bundle.js
-react-toolbox.css
+
 build
-*.map
-static/style.css
+persist
+configuration.json
+assets

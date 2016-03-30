@@ -5,44 +5,70 @@ import http from 'http';
 import uuid from 'node-uuid';
 import find from 'lodash/find';
 import chalk from 'chalk';
+import storage from 'node-persist';
 
 const app = express();
 const httpServer = http.Server(app);
 const io = socketIo(httpServer);
 const port = process.env.PORT || 8081;
-const htmlFile = path.resolve(__dirname, '..', 'static', process.env.NODE_ENV === 'production' ? 'index-prod.html':'index.html');
-const staticFolder = path.resolve(__dirname, '..', 'static');
+const htmlFile = process.env.NODE_ENV === 'production' ?
+    path.resolve(__dirname, '..', 'assets', 'index.html') :
+    path.resolve(__dirname, '..', 'content', 'index.html');
+const staticFolder = path.resolve(__dirname, '..', 'assets');
 
-const sessions = {};
+storage.initSync();
+
+const interval = setInterval(() => {
+    persist();
+}, 60000);
+
+const exitHandler = (options, err) => {
+    if (err) {
+        console.error(err);
+        console.error(err.stack);
+    }
+    clearInterval(interval);
+
+    if (options.exit) {
+        persist();
+        process.exit();
+    }
+};
+
+process.stdin.resume(); // Prevents the program to close instantly
+process.on('exit', exitHandler.bind(null,{cleanup:true}));
+process.on('SIGINT', exitHandler.bind(null, {exit:true})); //catches ctrl+c event
+process.on('uncaughtException', exitHandler.bind(null, {exit:true})); //catches uncaught exceptions
+
+const sessions = storage.getItem('sessions') || {};
+const users = {};
 
 app.use('/assets', express.static(staticFolder));
-
-app.get('/api/create', (req, res) => {
-    const id = uuid.v1();
-    return res.json({
-        id
-    });
-});
-
 app.get('/*', (req, res) => res.sendFile(htmlFile));
-
 
 io.on('connection', socket => {
     console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
 
     const actions = [
-        { type: 'ADD_POST', handler: receivePost },
+        { type: 'ADD_POST_SUCCESS', handler: receivePost },
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
         { type: 'LIKE', handler: like },
-        { type: 'LOGIN', handler: login }
+        { type: 'LOGIN_SUCCESS', handler: login },
+        { type: 'LEAVE_SESSION', handler: leave }
     ];
 
     actions.forEach(action => {
         socket.on(action.type, data => {
             console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
-            action.handler(data, socket);
+            action.handler(data.sessionId, data.payload, socket);
         });
+    });
+
+    socket.on('disconnect', () => {
+        if (socket.sessionId) {
+            sendClientList(socket.sessionId, socket);
+        }
     });
 
 });
@@ -50,62 +76,65 @@ io.on('connection', socket => {
 httpServer.listen(port);
 console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
 
-const receivePost = (data, socket) => {
-    const session = getSession(data.sessionId);
+const receivePost = (sessionId, data, socket) => {
+    const session = getSession(sessionId);
     session.posts.push(data);
-    sendToAll(socket, data.sessionId, 'RECEIVE_POST', data);
+    sendToAll(socket, sessionId, 'RECEIVE_POST', data);
 };
 
-const joinSession = (data, socket) => {
-    socket.join('board-' + data.sessionId, () => {
-        const session = getSession(data.sessionId);
+const joinSession = (sessionId, data, socket) => {
+    socket.join(getRoom(sessionId), () => {
+        socket.sessionId = sessionId;
+        const session = getSession(sessionId);
 
         if (session.posts.length) {
             sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
         }
 
-        addClient(data.sessionId, data.user);
-        sendClientList(data.sessionId, socket);
+        recordUser(sessionId, data.user, socket);
     });
 
 };
 
-const login = (data, socket) => {
-    addClient(data.sessionId, data.name);
-    sendClientList(data.sessionId, socket);
+const leave = (sId, data, socket) => {
+    const sessionId = socket.sessionId;
+    if (sessionId) {
+        socket.leave(getRoom(socket.sessionId), () => {
+            sendClientList(socket.sessionId, socket);
+        });
+    }
 };
 
-const addClient = (sessionId, user) => {
-    const session = getSession(sessionId);
-    if (user && session.clients.indexOf(user) === -1) {
-        session.clients.push(user);
-    }
+const login = (sessionId, data, socket) => {
+    recordUser(sessionId, data.name, socket);
 };
 
 const sendClientList = (sessionId, socket) => {
+    const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
+    if (room) {
+        const clients = Object.keys(room.sockets);
+        const names = clients.map((id, i) => users[id] || `(Anonymous #${i})`);
+
+        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', names);
+        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', names);
+    }
+};
+
+const deletePost = (sessionId, data, socket) => {
     const session = getSession(sessionId);
     if (session) {
-        const clients = session.clients;
-        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', clients);
-        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', clients);
-    }
-};
-
-const deletePost = (data, socket) => {
-    const session = getSession(data.sessionId);
-    if (session) {
         session.posts = session.posts.filter(p => p.id !== data.id);
-        sendToAll(socket, data.sessionId, 'RECEIVE_DELETE_POST', data);
+        sendToAll(socket, sessionId, 'RECEIVE_DELETE_POST', data);
     }
 };
 
-const like = (data, socket) => {
-    const session = getSession(data.post.sessionId);
+const like = (sessionId, data, socket) => {
+    const session = getSession(sessionId);
     if (session) {
         const post = find(session.posts, p => p.id === data.post.id);
         if (post) {
             post.votes += data.count;
-            sendToAll(socket, data.post.sessionId, 'RECEIVE_LIKE', data);
+            sendToAll(socket, sessionId, 'RECEIVE_LIKE', data);
         }
     }
 };
@@ -116,8 +145,7 @@ const getSession = (sessionId) => {
     }
     if (!sessions[sessionId]) {
         sessions[sessionId] = {
-            posts: [],
-            clients: []
+            posts: []
         };
     }
     return sessions[sessionId];
@@ -126,10 +154,26 @@ const getSession = (sessionId) => {
 const sendToAll = (socket, sessionId, action, data) => {
     socket
         .broadcast
-        .to('board-'+sessionId)
+        .to(getRoom(sessionId))
         .emit(action, data);
 };
 
 const sendToSelf = (socket, action, data) => {
     socket.emit(action, data);
 };
+
+const persist = () => {
+    console.log(chalk.green('...Saving data to disk...'));
+    storage.setItemSync("sessions", sessions);
+}
+
+const recordUser = (sessionId, name, socket) => {
+    const socketId = socket.id;
+    if (!users[socketId] || users[socketId] !== name) {
+        users[socketId] = name || null;
+    }
+
+    sendClientList(sessionId, socket);
+}
+
+const getRoom = sessionId => 'board-'+sessionId;

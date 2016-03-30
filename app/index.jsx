@@ -16,6 +16,11 @@ const store = configureStore({}, browserHistory);
 init(store);
 const history = syncHistoryWithStore(browserHistory, store);
 
+if (__USE_GA__) {
+    const ga = require('react-ga');
+    ga.initialize(__GA_ID__);
+}
+
 class Index extends React.Component {
     render() {
         let component;

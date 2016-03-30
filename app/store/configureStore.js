@@ -4,8 +4,10 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import DevTools from '../pages/DevTools';
 import io from 'socket.io-client';
 import reducers from '../state';
+import sagas from '../sagas';
 import { routerMiddleware } from 'react-router-redux';
 import { socketIoMiddleware} from '../middlewares/socketio';
+import createSagaMiddleware from 'redux-saga'
 
 export default function configureStore(initialState = {}, browserHistory) {
 
@@ -13,11 +15,18 @@ export default function configureStore(initialState = {}, browserHistory) {
     middlewares.push(thunk);
     middlewares.push(routerMiddleware(browserHistory));
     middlewares.push(socketIoMiddleware);
+    middlewares.push(createSagaMiddleware(...sagas));
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
-        const logger = createLogger();
+        //const logger = createLogger();
+        const logger = createLogger({ predicate: (getState, action) => action.type !== 'EFFECT_TRIGGERED' && action.type !== 'EFFECT_RESOLVED'});
         middlewares.push(logger);
+    }
+
+    if (__USE_GA__) {
+        const { googleAnalyticsMiddleware } = require('../middlewares/ga');
+        middlewares.push(googleAnalyticsMiddleware);
     }
 
     let createStoreWithMiddleware = applyMiddleware(...middlewares);

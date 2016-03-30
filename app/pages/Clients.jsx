@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 import { Component, PropTypes } from 'react';
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import md5 from 'md5';
+import icons from '../constants/icons';
+import translate from '../i18n/Translate';
 
 class Clients extends Component {
     render() {
         return (
             <List selectable ripple>
-                <ListSubHeader caption='Kindly joining us right now:' />
+                <ListSubHeader caption={this.props.strings.header} />
 
                 { this.props.clients.map(this.renderClient.bind(this)) }
               </List>
@@ -20,7 +22,7 @@ class Clients extends Component {
               key={client}
               avatar={this.getGravatar(client)}
               caption={client}
-              rightIcon='person'
+              rightIcon={icons.person}
             />
         );
     }
@@ -30,8 +32,21 @@ class Clients extends Component {
     }
 }
 
+Clients.propTypes = {
+    clients: PropTypes.array,
+    strings: PropTypes.object
+}
+
+Clients.defaultProps = {
+    clients: [],
+    strings: {
+        header: 'Kindly joining us right nowxx:'
+    }
+}
+
 const stateToProps = state => ({
-    clients: state.session.clients
+    clients: state.session.clients,
+    lang: state.user.lang
 });
 
-export default connect(stateToProps)(Clients);
+export default connect(stateToProps)(translate('Clients')(Clients));

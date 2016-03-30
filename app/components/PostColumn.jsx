@@ -1,13 +1,15 @@
 import { default as React, PropTypes } from 'react';
 import Post from './Post';
 import PostAdd from './PostAdd';
+import icons from '../constants/icons';
+import style from './PostBoard.scss';
 
 class PostColumn extends React.Component {
     render() {
         return (
             <div>
                 <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} icon={this.props.icon} tabOrder={this.props.tabOrder}/>
-                <div className="column-content">
+                <div className={style.columnContent}>
                     { this.props.posts.map((post, index) =>
                         <Post key={index}
                               currentUser={this.props.currentUser}
@@ -43,7 +45,7 @@ PostColumn.defaultProps = {
     currentUser: null,
     posts: [],
     type: 'well',
-    icon: 'add_circle',
+    icon: icons.add_circle,
     placeholder: 'New Comment',
     tabOrder: 1,
     onAdd: () => {},

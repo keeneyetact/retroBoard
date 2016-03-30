@@ -1,18 +1,21 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
-var staticFolder = path.resolve(__dirname, 'static');
+var staticFolder = path.resolve(__dirname, 'assets');
+var config = require('./config');
+var appVersion = require('./package.json').version;
 
 module.exports = {
     content: __dirname,
     entry: [
-        "./ui.jsx",
+        './ui.jsx',
     ],
     output: {
         path: staticFolder,
-        publicPath: 'http://localhost:8080/assets/',
-        filename: "bundle.js"
+        publicPath: '/assets/',
+        filename: 'app.' + appVersion + '.js'
     },
     devtool: 'source-map',
     resolve: {
@@ -24,8 +27,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: "style!css" },
-            { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
+            { test: /\.css$/, loader: 'style!css' },
+            { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.png$/, loader: 'url-loader?mimetype=image/png' },
+            { test: /\.json$/, loader: 'json-loader' },
             { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
@@ -34,16 +39,23 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
-        new ExtractTextPlugin('style.css', { allChunks: true }),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            hash: true,
+            template: 'content/index-prod.html',
+            inject: true,
+            appVersion: appVersion
+        }),
+        new ExtractTextPlugin('style.'+appVersion+'.css', { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
-            __CLIENT__: true,
-            __SERVER__: false,
             __DEVELOPMENT__: false,
-            __DEVTOOLS__: false
+            __DEVTOOLS__: false,
+            __USE_GA__: config.GA_Enabled,
+            __GA_ID__: "'" + config.GA_Tracking_ID + "'"
         }),
         new webpack.ProvidePlugin({
-            "React": "react",
+            'React': 'react',
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
