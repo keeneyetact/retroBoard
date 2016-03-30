@@ -4,3 +4,4 @@
 - forever does kill the app without persisting
 - like and unlike should be separate
 - use ES7 decorators for translate and connect
+- use nedb
