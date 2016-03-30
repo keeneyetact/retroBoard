@@ -7,6 +7,6 @@ import ToolboxApp from 'react-toolbox/lib/app';
 import 'react-toolbox/lib/commons'
 import fastClick from 'fastclick';
 
-fastClick.attach(document.body);
+//fastClick.attach(document.body);
 
 ReactDOM.render(<ToolboxApp><Index /></ToolboxApp>, document.getElementById('content'));
