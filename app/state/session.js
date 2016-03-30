@@ -36,3 +36,4 @@ export default function reducer(state = {
 
 export const createSession = createAction(CREATE_SESSION);
 export const leave = createAction(LEAVE_SESSION);
+export const autoJoin = createAction(AUTO_JOIN);

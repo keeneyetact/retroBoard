@@ -1,16 +1,16 @@
 import { takeEvery, takeLatest } from 'redux-saga'
-import { LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
-import { LEAVE_SESSION, CREATE_SESSION } from '../state/session';
+import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
+import { AUTO_JOIN, LEAVE_SESSION, CREATE_SESSION } from '../state/session';
 import { ADD_POST } from '../state/posts';
 import { INITIALISE } from '../state/actions';
 
 import { storeUserToLocalStorage, deleteUserFromLocalStorage, storeLanguageToLocalStorage, loginSuccess, changeLanguageSuccess, disconnectUser, autoLoginUser } from './user';
 import { addPost } from './posts';
 import { autoJoinUser, createSession } from './session';
-import { initialiseApp } from './init';
 
 const watchers = [
-    function* () { yield* takeEvery(INITIALISE, initialiseApp); },
+    function* () { yield* takeEvery(AUTO_LOGIN, autoLoginUser); },
+    function* () { yield* takeEvery(AUTO_JOIN, autoJoinUser); },
     function* () { yield* takeEvery(LOGIN, storeUserToLocalStorage); },
     function* () { yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage); },
     function* () { yield* takeEvery(LEAVE_SESSION, disconnectUser); },

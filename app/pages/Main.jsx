@@ -1,7 +1,7 @@
 import { default as React, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PostBoard from '../components/PostBoard';
-import { initialise } from '../state/actions';
+import { autoJoin } from '../state/session';
 
 class Main extends React.Component {
     render() {
@@ -13,14 +13,14 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        this.props.initialise(this.props.params.sessionId);
+        this.props.autoJoin(this.props.params.sessionId);
     }
 }
 
 const stateToProps = state => ({ });
 
 const actionsToProps = dispatch => ({
-    initialise: sessionId => dispatch(initialise(sessionId))
+    autoJoin: sessionId => dispatch(autoJoin(sessionId))
 });
 
 export default connect(stateToProps, actionsToProps)(Main);
