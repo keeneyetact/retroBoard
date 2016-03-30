@@ -1,6 +1,7 @@
 import ls from 'local-storage';
 import { call, put, select } from 'redux-saga/effects';
 import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
+import { push } from 'react-router-redux';
 
 export function* storeUserToLocalStorage(action) {
     ls('username', action.payload.name);
