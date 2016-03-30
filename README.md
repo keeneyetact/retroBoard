@@ -2,6 +2,8 @@
 
 This is a Retrospective Idea board, powering [retrospected.com](http://www.retrospected.com).
 
+![Retrospected.com](/content/screenshot.png?raw=true "Retrospected.com")
+
 It features the following technologies:
 
 * React

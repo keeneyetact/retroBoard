@@ -1,7 +1,6 @@
-- adding hash to bundle url
-- adding image on readme
 - leave doesn't go back to /
 - forever does kill the app without persisting
 - like and unlike should be separate
 - use ES7 decorators for translate and connect
 - use nedb
+- detect deconnection
