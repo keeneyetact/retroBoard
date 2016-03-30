@@ -2,5 +2,4 @@
 - like and unlike should be separate
 - use ES7 decorators for translate and connect
 - use nedb
-- detect deconnection
 - fastClick: check on mobile if it works better without
