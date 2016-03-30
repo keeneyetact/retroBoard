@@ -1,8 +1,7 @@
 import { default as React, PropTypes } from 'react';
 import Login from './Login';
 import { connect } from 'react-redux';
-import { login } from '../state/user';
-import { initialise } from '../state/actions';
+import { login, autoLogin } from '../state/user';
 import style from './App.scss';
 import icons from '../constants/icons';
 import TranslationProvider from '../i18n/TranslationProvider';
@@ -41,7 +40,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.props.initialise(this.props.params.sessionId);
+        this.props.autoLogin();
     }
 }
 
@@ -66,7 +65,7 @@ const stateToProps = state => ({
 
 const actionsToProps = dispatch => ({
     onLogin: user => dispatch(login(user)),
-    initialise: sessionId => dispatch(initialise(sessionId))
+    autoLogin: () => dispatch(autoLogin())
 });
 
 export default connect(stateToProps, actionsToProps)(App);
