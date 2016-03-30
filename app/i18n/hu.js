@@ -1,6 +1,8 @@
 export default {
     Header: {
-        subtitle: 'Panaszkodjunk rendezetten'
+        subtitle: 'Panaszkodjunk rendezetten',
+        logout: 'Kijelentkezés',
+        leave: 'Hagy'
     },
     LanguagePicker: {
         header: 'Válassz nyelvet'
@@ -8,7 +10,7 @@ export default {
     Post: {
         vote: 'szavazat',
         votes: 'szavazat',
-        delete: 'törlés'
+        deleteButton: 'törlés'
     },
     PostBoard: {
         notWellQuestion: 'Mit lehetne jobban csinálni?',
