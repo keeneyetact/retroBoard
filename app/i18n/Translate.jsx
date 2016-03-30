@@ -1,7 +1,7 @@
 import { default as React } from 'react';
 import en from './en';
 import fr from './fr';
-import hu from './fr';
+import hu from './hu';
 
 const languages = { en, fr, hu };
 
