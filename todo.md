@@ -4,3 +4,5 @@
 - use ES7 decorators for translate and connect
 - use nedb
 - detect deconnection
+- link to Github on app
+- touch not working ios

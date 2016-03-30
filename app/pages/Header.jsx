@@ -15,6 +15,7 @@ import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
 import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
+import githubLogo from '../components/images/github.png';
 
 class Header extends React.Component {
     constructor() {
@@ -46,6 +47,8 @@ class Header extends React.Component {
                         <br />
                         <Button label={strings.leave} icon={icons.exit_to_app} onClick={this.props.onLeave} accent />
                         <Button label={strings.logout} icon={icons.power_settings_new} onClick={this.props.onLogout} accent />
+
+                        <a href="https://github.com/antoinejaussoin/retro-board" style={{ position: 'absolute', bottom: 10, right: 10 }} target="_blank">Fork me on <img style={{ width: 100, position: "relative", top: 10 }} src={githubLogo} /></a>
                     </TranslationProvider>
                 </Drawer>
 
