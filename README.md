@@ -47,8 +47,10 @@ Note: Google Analytics only works when using the production webpack config.
 
 ## Roadmap
 
-* Persistence: Improve by using MongoDB (or not, this is still in debate)
+* Persistence: Improve by using a dependency-less MongoDB clone (NeDB for instance)
 * Add more languages
+* Use ES7 decorators
+* Changing the logic for the Like and Unlike buttons
 
 
 ## Versions history
@@ -89,3 +91,5 @@ Many thanks to the following contributors who helped translating the app:
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
+
+I'm looking for German, Chinese and Spanish translations.
