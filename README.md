@@ -17,12 +17,13 @@ It features the following technologies:
 * Multilingual / Internationalization
 
 
-## How to run for production
+## How to run for production (or to try it out)
 
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
 * `npm run build` to build everything (client and server)
-* `NODE_ENV=production PORT=8080 node index.js` to run the server on port 8080
+* `npm start` to run the server on port 8080
+* Open your browser on [http://localhost:8080](http://localhost:8080)
 
 
 ## How to run for development
