@@ -8,6 +8,11 @@ let socket = null;
 export const init = store => {
     socket = io();
 
+    socket.on('disconnect', () => {
+        console.warn('Server disconnected');
+        store.dispatch({ type: LEAVE_SESSION });
+    });
+
     // Each of these actions will be listened to from SocketIO, and will trigger a new client-side action when received
     const actions = [RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST, RECEIVE_LIKE, RECEIVE_CLIENT_LIST];
 

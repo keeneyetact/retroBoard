@@ -1,6 +1,7 @@
 import { default as React, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PostBoard from '../components/PostBoard';
+import { initialise } from '../state/actions';
 
 class Main extends React.Component {
     render() {
@@ -10,6 +11,16 @@ class Main extends React.Component {
             </div>
         )
     }
+
+    componentDidMount() {
+        this.props.initialise(this.props.params.sessionId);
+    }
 }
 
-export default Main;
+const stateToProps = state => ({ });
+
+const actionsToProps = dispatch => ({
+    initialise: sessionId => dispatch(initialise(sessionId))
+});
+
+export default connect(stateToProps, actionsToProps)(Main);
