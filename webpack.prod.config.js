@@ -1,9 +1,11 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
-var staticFolder = path.resolve(__dirname, 'static');
+var staticFolder = path.resolve(__dirname, 'assets');
 var config = require('./config');
+var appVersion = require('./package.json').version;
 
 module.exports = {
     content: __dirname,
@@ -12,8 +14,8 @@ module.exports = {
     ],
     output: {
         path: staticFolder,
-        publicPath: 'http://localhost:8080/assets/',
-        filename: 'bundle.js'
+        publicPath: '/assets/',
+        filename: 'app.' + appVersion + '.js'
     },
     devtool: 'source-map',
     resolve: {
@@ -37,7 +39,14 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
-        new ExtractTextPlugin('style.css', { allChunks: true }),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            hash: true,
+            template: 'content/index-prod.html',
+            inject: true,
+            appVersion: appVersion
+        }),
+        new ExtractTextPlugin('style.'+appVersion+'.css', { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             __DEVELOPMENT__: false,

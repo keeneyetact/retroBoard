@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: staticFolder,
         publicPath: 'http://localhost:8080/assets/',
-        filename: 'bundle.js'
+        filename: 'app.js'
     },
     devtool: 'eval-source-map',
     resolve: {
