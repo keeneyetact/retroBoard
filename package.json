@@ -71,12 +71,16 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+
     "start-ui": "webpack-dev-server --progress --inline --hot",
-    "start-server": "nodemon ./babel.js",
+    "start-server": "nodemon babel.js",
+
     "start": "NODE_ENV=production PORT=8080 nodemon .",
+    "start-win": "cmd /C \"set NODE_ENV=production&& set PORT=8080&& nodemon .\"",
     "clean": "rm -rf build && rm -rf assets && mkdir build && mkdir assets",
-    "build-server": "babel -d ./build ./server",
-    "build": "npm run clean && npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
+    "build-server": "babel -d build server",
+    "build": "npm run clean && npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors",
+    "build-win": "cmd /C \"babel.cmd -d build server && set NODE_ENV=production&& webpack -p --config webpack.prod.config.js --progress --colors\""
   },
   "repository": {
     "type": "git",
