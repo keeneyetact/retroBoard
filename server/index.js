@@ -43,9 +43,11 @@ io.on('connection', socket => {
         socket.on(action.type, data => {
             console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
             const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
-            getSession(sid).then(session => {
-                action.handler(session, data.payload, socket);
-            });
+            if (sid) {
+                store.get(sid).then(session => {
+                    action.handler(session, data.payload, socket);
+                });
+            }
         });
     });
 
@@ -110,14 +112,6 @@ const like = (session, data, socket) => {
         post.votes += data.count;
         persist(session);
         sendToAll(socket, session._id, 'RECEIVE_LIKE', data);
-    }
-};
-
-const getSession = sessionId => {
-    if (!sessionId) {
-        return Promise.resolve(null);
-    } else {
-        return store.get(sessionId);
     }
 };
 
