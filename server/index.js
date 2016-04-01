@@ -6,6 +6,7 @@ import uuid from 'node-uuid';
 import find from 'lodash/find';
 import chalk from 'chalk';
 import db from './db';
+import migrate2to3 from './migrate2to3';
 
 const app = express();
 const httpServer = http.Server(app);
@@ -20,6 +21,10 @@ const store = db();
 const users = {};
 
 app.use('/assets', express.static(staticFolder));
+app.get('/migrate', (req, res) => {
+    migrate2to3(store);
+    res.send('ok');
+});
 app.get('/*', (req, res) => res.sendFile(htmlFile));
 
 io.on('connection', socket => {
