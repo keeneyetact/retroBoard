@@ -28,6 +28,7 @@
     "express": "4.13.4",
     "extract-text-webpack-plugin": "1.0.1",
     "fastclick": "1.0.6",
+    "file-loader": "^0.8.5",
     "history": "2.0.1",
     "html-webpack-plugin": "2.15.0",
     "isomorphic-fetch": "2.2.1",
@@ -35,6 +36,7 @@
     "local-storage": "1.4.2",
     "lodash": "4.6.1",
     "md5": "2.1.0",
+    "nedb": "^1.8.0",
     "node-persist": "0.0.11",
     "node-sass": "3.4.2",
     "node-uuid": "1.4.7",
@@ -71,10 +73,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "start-ui": "webpack-dev-server --progress --inline --hot",
     "start-server": "nodemon babel.js",
-
     "start": "NODE_ENV=production PORT=8080 nodemon .",
     "start-win": "cmd /C \"set NODE_ENV=production&& set PORT=8080&& nodemon .\"",
     "clean": "rm -rf build && rm -rf assets && mkdir build && mkdir assets",

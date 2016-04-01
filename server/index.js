@@ -5,7 +5,7 @@ import http from 'http';
 import uuid from 'node-uuid';
 import find from 'lodash/find';
 import chalk from 'chalk';
-import storage from 'node-persist';
+import db from './db';
 
 const app = express();
 const httpServer = http.Server(app);
@@ -16,31 +16,8 @@ const htmlFile = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '..', 'content', 'index.html');
 const staticFolder = path.resolve(__dirname, '..', 'assets');
 
-storage.initSync();
 
-const interval = setInterval(() => {
-    persist();
-}, 60000);
-
-const exitHandler = (options, err) => {
-    if (err) {
-        console.error(err);
-        console.error(err.stack);
-    }
-    clearInterval(interval);
-
-    if (options.exit) {
-        persist();
-        process.exit();
-    }
-};
-
-process.stdin.resume(); // Prevents the program to close instantly
-process.on('exit', exitHandler.bind(null,{cleanup:true}));
-process.on('SIGINT', exitHandler.bind(null, {exit:true})); //catches ctrl+c event
-process.on('uncaughtException', exitHandler.bind(null, {exit:true})); //catches uncaught exceptions
-
-const sessions = storage.getItem('sessions') || {};
+const store = db();
 const users = {};
 
 app.use('/assets', express.static(staticFolder));
@@ -61,7 +38,9 @@ io.on('connection', socket => {
     actions.forEach(action => {
         socket.on(action.type, data => {
             console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
-            action.handler(data.sessionId, data.payload, socket);
+            getSession(data.sessionId).then(session => {
+                action.handler(data.sessionId, session, data.payload, socket);
+            });
         });
     });
 
@@ -76,17 +55,15 @@ io.on('connection', socket => {
 httpServer.listen(port);
 console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
 
-const receivePost = (sessionId, data, socket) => {
-    const session = getSession(sessionId);
+const receivePost = (sessionId, session, data, socket) => {
     session.posts.push(data);
+    persist(sessionId, session);
     sendToAll(socket, sessionId, 'RECEIVE_POST', data);
 };
 
-const joinSession = (sessionId, data, socket) => {
+const joinSession = (sessionId, session, data, socket) => {
     socket.join(getRoom(sessionId), () => {
         socket.sessionId = sessionId;
-        const session = getSession(sessionId);
-
         if (session.posts.length) {
             sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
         }
@@ -96,7 +73,7 @@ const joinSession = (sessionId, data, socket) => {
 
 };
 
-const leave = (sId, data, socket) => {
+const leave = (sId, session, data, socket) => {
     const sessionId = socket.sessionId;
     if (sessionId) {
         socket.leave(getRoom(socket.sessionId), () => {
@@ -105,7 +82,7 @@ const leave = (sId, data, socket) => {
     }
 };
 
-const login = (sessionId, data, socket) => {
+const login = (sessionId, session, data, socket) => {
     recordUser(sessionId, data.name, socket);
 };
 
@@ -120,20 +97,20 @@ const sendClientList = (sessionId, socket) => {
     }
 };
 
-const deletePost = (sessionId, data, socket) => {
-    const session = getSession(sessionId);
+const deletePost = (sessionId, session, data, socket) => {
     if (session) {
         session.posts = session.posts.filter(p => p.id !== data.id);
+        persist(sessionId, session);
         sendToAll(socket, sessionId, 'RECEIVE_DELETE_POST', data);
     }
 };
 
-const like = (sessionId, data, socket) => {
-    const session = getSession(sessionId);
+const like = (sessionId, session, data, socket) => {
     if (session) {
         const post = find(session.posts, p => p.id === data.post.id);
         if (post) {
             post.votes += data.count;
+            persist(sessionId, session);
             sendToAll(socket, sessionId, 'RECEIVE_LIKE', data);
         }
     }
@@ -141,14 +118,10 @@ const like = (sessionId, data, socket) => {
 
 const getSession = (sessionId) => {
     if (!sessionId) {
-        return null;
+        return Promise.resolve(null);
+    } else {
+        return store.get(sessionId);
     }
-    if (!sessions[sessionId]) {
-        sessions[sessionId] = {
-            posts: []
-        };
-    }
-    return sessions[sessionId];
 };
 
 const sendToAll = (socket, sessionId, action, data) => {
@@ -162,9 +135,8 @@ const sendToSelf = (socket, action, data) => {
     socket.emit(action, data);
 };
 
-const persist = () => {
-    console.log(chalk.green('...Saving data to disk...'));
-    storage.setItemSync("sessions", sessions);
+const persist = (sessionId, session) => {
+    return store.set(sessionId, session).catch(err => console.error(err));
 }
 
 const recordUser = (sessionId, name, socket) => {
