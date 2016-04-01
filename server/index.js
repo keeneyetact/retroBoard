@@ -16,7 +16,6 @@ const htmlFile = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '..', 'content', 'index.html');
 const staticFolder = path.resolve(__dirname, '..', 'assets');
 
-
 const store = db();
 const users = {};
 
@@ -38,8 +37,9 @@ io.on('connection', socket => {
     actions.forEach(action => {
         socket.on(action.type, data => {
             console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
-            getSession(data.sessionId).then(session => {
-                action.handler(data.sessionId, session, data.payload, socket);
+            const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
+            getSession(sid).then(session => {
+                action.handler(session, data.payload, socket);
             });
         });
     });
@@ -55,35 +55,31 @@ io.on('connection', socket => {
 httpServer.listen(port);
 console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
 
-const receivePost = (sessionId, session, data, socket) => {
+const receivePost = (session, data, socket) => {
     session.posts.push(data);
-    persist(sessionId, session);
-    sendToAll(socket, sessionId, 'RECEIVE_POST', data);
+    persist(session);
+    sendToAll(socket, session._id, 'RECEIVE_POST', data);
 };
 
-const joinSession = (sessionId, session, data, socket) => {
-    socket.join(getRoom(sessionId), () => {
-        socket.sessionId = sessionId;
+const joinSession = (session, data, socket) => {
+    socket.join(getRoom(session._id), () => {
+        socket.sessionId = session._id;
         if (session.posts.length) {
             sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
         }
 
-        recordUser(sessionId, data.user, socket);
+        recordUser(session._id, data.user, socket);
     });
-
 };
 
-const leave = (sId, session, data, socket) => {
-    const sessionId = socket.sessionId;
-    if (sessionId) {
-        socket.leave(getRoom(socket.sessionId), () => {
-            sendClientList(socket.sessionId, socket);
-        });
-    }
+const leave = (session, data, socket) => {
+    socket.leave(getRoom(session._id), () => {
+        sendClientList(session._id, socket);
+    });
 };
 
-const login = (sessionId, session, data, socket) => {
-    recordUser(sessionId, data.name, socket);
+const login = (session, data, socket) => {
+    recordUser(session._id, data.name, socket);
 };
 
 const sendClientList = (sessionId, socket) => {
@@ -97,26 +93,22 @@ const sendClientList = (sessionId, socket) => {
     }
 };
 
-const deletePost = (sessionId, session, data, socket) => {
-    if (session) {
-        session.posts = session.posts.filter(p => p.id !== data.id);
-        persist(sessionId, session);
-        sendToAll(socket, sessionId, 'RECEIVE_DELETE_POST', data);
+const deletePost = (session, data, socket) => {
+    session.posts = session.posts.filter(p => p.id !== data.id);
+    persist(session);
+    sendToAll(socket, session._id, 'RECEIVE_DELETE_POST', data);
+};
+
+const like = (session, data, socket) => {
+    const post = find(session.posts, p => p.id === data.post.id);
+    if (post) {
+        post.votes += data.count;
+        persist(session);
+        sendToAll(socket, session._id, 'RECEIVE_LIKE', data);
     }
 };
 
-const like = (sessionId, session, data, socket) => {
-    if (session) {
-        const post = find(session.posts, p => p.id === data.post.id);
-        if (post) {
-            post.votes += data.count;
-            persist(sessionId, session);
-            sendToAll(socket, sessionId, 'RECEIVE_LIKE', data);
-        }
-    }
-};
-
-const getSession = (sessionId) => {
+const getSession = sessionId => {
     if (!sessionId) {
         return Promise.resolve(null);
     } else {
@@ -135,8 +127,8 @@ const sendToSelf = (socket, action, data) => {
     socket.emit(action, data);
 };
 
-const persist = (sessionId, session) => {
-    return store.set(sessionId, session).catch(err => console.error(err));
+const persist = session => {
+    return store.set(session).catch(err => console.error(err));
 }
 
 const recordUser = (sessionId, name, socket) => {

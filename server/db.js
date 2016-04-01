@@ -21,6 +21,7 @@ const get = store => sessionId => {
                     resolve(session);
                 } else {
                     resolve({
+                        _id: sessionId,
                         posts: []
                     });
                 }
@@ -31,16 +32,12 @@ const get = store => sessionId => {
 
 }
 
-const set = store => (sessionId, session) => {
-    session._id = sessionId;
-
+const set = store => session => {
     return new Promise((resolve, reject) => {
-        store.update({ _id: sessionId }, session, { upsert: true}, err => {
+        store.update({ _id: session._id }, session, { upsert: true}, err => {
             if (err) {
-                console.warn(err);
                 reject(err);
             } else {
-                console.log('save ok')
                 resolve(session);
             }
         });
