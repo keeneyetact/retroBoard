@@ -45,13 +45,12 @@ export default function reducer(state = [], action) {
 
 const postReducer = (state = {}, action) => {
     switch (action.type) {
-        case LIKE:
+        case LIKE_SUCCESS:
         case RECEIVE_LIKE:
-            const array = action.payload.like ? state.likes : state.dislikes;
-            const modified = array.concat(action.user);
+            const array = action.payload.like ? 'likes' : 'dislikes';
             return {
                 ...state,
-                [array]: modified
+                [array]: state[array].concat(action.payload.user)
             };
         default:
             return state;
