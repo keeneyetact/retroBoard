@@ -13,6 +13,7 @@ export function* addPost(action) {
         postType: action.payload.postType,
         content: action.payload.content,
         user,
-        votes: 0
+        likes: [],
+        dislikes: []
     }});
 }

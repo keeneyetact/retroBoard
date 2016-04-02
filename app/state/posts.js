@@ -10,7 +10,9 @@ export const RECEIVE_BOARD = 'RECEIVE_BOARD';
 export const RECEIVE_DELETE_POST = 'RECEIVE_DELETE_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const LIKE = 'LIKE';
+export const DISLIKE = 'DISLIKE';
 export const RECEIVE_LIKE = 'RECEIVE_LIKE';
+export const RECEIVE_DISLIKE = 'RECEIVE_DISLIKE';
 
 export default function reducer(state = [], action) {
     switch (action.type) {
