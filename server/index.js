@@ -34,7 +34,7 @@ io.on('connection', socket => {
         { type: 'ADD_POST_SUCCESS', handler: receivePost },
         { type: 'JOIN_SESSION', handler: joinSession },
         { type: 'DELETE_POST', handler: deletePost },
-        { type: 'LIKE', handler: like },
+        { type: 'LIKE_SUCCESS', handler: like },
         { type: 'LOGIN_SUCCESS', handler: login },
         { type: 'LEAVE_SESSION', handler: leave }
     ];
@@ -109,9 +109,13 @@ const deletePost = (session, data, socket) => {
 const like = (session, data, socket) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
-        post.votes += data.count;
-        persist(session);
-        sendToAll(socket, session._id, 'RECEIVE_LIKE', data);
+        const array = data.like ? post.likes : post.dislikes;
+
+        if (array.indexOf(data.user) === -1) {
+            array.push(data.user);
+            persist(session);
+            sendToAll(socket, session._id, 'RECEIVE_LIKE', data);
+        }
     }
 };
 

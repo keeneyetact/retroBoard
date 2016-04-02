@@ -14,31 +14,36 @@ class Post extends Component {
                 <Card style={{width: '350px' }} raised className={style[post.postType]}>
                     <CardText>{post.content}</CardText>
                     <CardActions>
-                        { this.renderButtons() }
-                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.votes }</b>&nbsp;{ this.props.post.votes > 1 ? strings.votes : strings.vote }
+                        { this.renderButton('likes', icons.thumb_up, '#6BD173', () => this.props.onLike(post)) }
+                        { this.renderButton('dislikes', icons.thumb_down, '#FF9494', () => this.props.onUnlike(post)) }
+                        { this.renderDelete() }
                     </CardActions>
                 </Card>
             </div>
         )
     }
 
-    renderButtons(){
+    renderDelete(){
         const { post, strings } = this.props;
         if (this.props.currentUser === post.user) {
-            return <Button icon={icons.delete_forever} label={strings.deleteButton} flat primary style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
-        } else {
-            return (
-                <span>
-                    <IconButton icon={icons.thumb_up} floating mini style={{ backgroundColor: '#6BD173', color: 'white' }}
-                        onClick={() => this.props.onLike(post)} />
-                    <IconButton icon={icons.thumb_down} floating mini style={{ backgroundColor: '#FF9494', color: 'white' }}
-                        disabled={ post.votes <= 0 }
-                        onClick={() => this.props.onUnlike(post)} />
-                </span>
-            );
+            return <Button icon={icons.delete_forever} label={strings.deleteButton} raised style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
         }
 
         return null;
+    }
+
+    renderButton(name, icon, color, onClick) {
+        const votes = this.props.post[name].length;
+        const label = votes ? votes : '-';
+        return (
+            <Button icon={icon} label={label} onClick={onClick} raised={this.canVote()} style={{ backgroundColor: color, color: 'white' }} disabled={!this.canVote()}/>
+        );
+    }
+
+    canVote() {
+        return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
+               this.props.post.dislikes.indexOf(this.props.currentUser) === -1 &&
+               this.props.currentUser !== this.props.post.user;
     }
 }
 
@@ -58,8 +63,6 @@ Post.defaultProps = {
     onLike: () => {},
     onUnlike: () => {},
     strings: {
-        vote: 'vote',
-        votes: 'votes',
         deleteButton: 'Delete'
     }
 }
