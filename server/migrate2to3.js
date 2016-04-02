@@ -17,6 +17,14 @@ export default store => {
         const promises = ids.map(id => {
             const session = sessions[id];
             session._id = id;
+            session.posts.forEach(p => {
+                p.likes = [];
+                p.dislikes = [];
+                for (var i = 0; i < p.votes; i++) {
+                    p.likes.push('?');
+                }
+            });
+
             return store.set(session);
         });
 
