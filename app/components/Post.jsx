@@ -15,7 +15,7 @@ class Post extends Component {
                     <CardText>{post.content}</CardText>
                     <CardActions>
                         { this.renderButtons() }
-                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.votes }</b>&nbsp;{ this.props.post.votes > 1 ? strings.votes : strings.vote }
+                        &nbsp;&nbsp;&nbsp;<b>{ this.props.post.likes.length }</b>&nbsp;{ this.props.post.likes.length > 1 ? strings.votes : strings.vote }
                     </CardActions>
                 </Card>
             </div>
