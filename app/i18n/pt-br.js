@@ -18,7 +18,7 @@ export default {
         ideasQuestion: 'Compartilhar uma ideia brilhante?'
     },
     Clients: {
-        header: 'Gentilmente participando conosco agora:'
+        header: 'Participando conosco agora:'
     },
     Join: {
         newSession: 'Crie uma nova seção'
