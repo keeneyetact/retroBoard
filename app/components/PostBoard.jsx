@@ -7,7 +7,20 @@ import { addPost, deletePost, like, unlike } from '../state/posts';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
+const stateToProps = state => ({
+    currentUser: state.user.name,
+    posts: state.posts
+});
 
+const actionsToProps = dispatch => ({
+    addPost: (type, text) => dispatch(addPost(type, text)),
+    deletePost: post => dispatch(deletePost(post)),
+    like: post => dispatch(like(post)),
+    unlike: post => dispatch(unlike(post))
+});
+
+@translate('PostBoard')
+@connect(stateToProps, actionsToProps)
 class PostBoard extends React.Component {
     render() {
         const { strings } = this.props;
@@ -53,7 +66,7 @@ class PostBoard extends React.Component {
 }
 
 PostBoard.propTypes = {
-    currentUser: PropTypes.string.isRequired,
+    currentUser: PropTypes.string,
     posts: PropTypes.array.isRequired,
     addPost: PropTypes.func,
     deletePost: PropTypes.func,
@@ -72,16 +85,4 @@ PostBoard.defaultProps = {
     }
 }
 
-const stateToProps = state => ({
-    currentUser: state.user.name,
-    posts: state.posts
-});
-
-const actionsToProps = dispatch => ({
-    addPost: (type, text) => dispatch(addPost(type, text)),
-    deletePost: post => dispatch(deletePost(post)),
-    like: post => dispatch(like(post)),
-    unlike: post => dispatch(unlike(post))
-});
-
-export default translate('PostBoard')(connect(stateToProps, actionsToProps)(PostBoard));
+export default PostBoard;

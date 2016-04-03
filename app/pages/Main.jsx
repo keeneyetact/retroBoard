@@ -3,6 +3,13 @@ import { connect } from 'react-redux';
 import PostBoard from '../components/PostBoard';
 import { autoJoin } from '../state/session';
 
+const stateToProps = state => ({ });
+
+const actionsToProps = dispatch => ({
+    autoJoin: sessionId => dispatch(autoJoin(sessionId))
+});
+
+@connect(stateToProps, actionsToProps)
 class Main extends React.Component {
     render() {
         return (
@@ -17,10 +24,4 @@ class Main extends React.Component {
     }
 }
 
-const stateToProps = state => ({ });
-
-const actionsToProps = dispatch => ({
-    autoJoin: sessionId => dispatch(autoJoin(sessionId))
-});
-
-export default connect(stateToProps, actionsToProps)(Main);
+export default Main;

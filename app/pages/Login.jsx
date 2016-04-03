@@ -4,6 +4,7 @@ import EnterInput from '../components/EnterInput';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
 
+@translate('Login')
 class Login extends Component {
     render() {
         return (
@@ -38,4 +39,4 @@ Login.defaultProps = {
     }
 }
 
-export default translate('Login')(Login);
+export default Login;

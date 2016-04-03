@@ -5,6 +5,13 @@ import md5 from 'md5';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
+const stateToProps = state => ({
+    clients: state.session.clients,
+    lang: state.user.lang
+});
+
+@translate('Clients')
+@connect(stateToProps)
 class Clients extends Component {
     render() {
         return (
@@ -44,9 +51,4 @@ Clients.defaultProps = {
     }
 }
 
-const stateToProps = state => ({
-    clients: state.session.clients,
-    lang: state.user.lang
-});
-
-export default connect(stateToProps)(translate('Clients')(Clients));
+export default Clients;
