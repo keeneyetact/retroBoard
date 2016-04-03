@@ -1,3 +1,2 @@
-- use ES7 decorators for translate and connect
 - unit tests
 - animations
