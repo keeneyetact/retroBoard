@@ -16,7 +16,8 @@ export default store => {
 
         const promises = ids.map(id => {
             const session = sessions[id];
-            session._id = id;
+            session.id = id;
+            delete session._id;
             session.posts.forEach(p => {
                 p.likes = [];
                 p.dislikes = [];

@@ -5,15 +5,15 @@ const dbFile = path.resolve(__dirname, '..', 'persist', 'db');
 
 export default function db() {
     const store = new Datastore({ filename: dbFile, autoload: true });
-    return {
+    return Promise.resolve({
         get: get(store),
         set: set(store)
-    };
+    });
 }
 
 const get = store => sessionId => {
     return new Promise((resolve, reject) => {
-        store.findOne({ _id: sessionId}, (err, session) => {
+        store.findOne({ id: sessionId}, (err, session) => {
             if (err) {
                 reject(err);
             } else {
@@ -21,7 +21,7 @@ const get = store => sessionId => {
                     resolve(session);
                 } else {
                     resolve({
-                        _id: sessionId,
+                        id: sessionId,
                         posts: []
                     });
                 }
@@ -34,7 +34,7 @@ const get = store => sessionId => {
 
 const set = store => session => {
     return new Promise((resolve, reject) => {
-        store.update({ _id: session._id }, session, { upsert: true}, err => {
+        store.update({ id: session.id }, session, { upsert: true}, err => {
             if (err) {
                 reject(err);
             } else {

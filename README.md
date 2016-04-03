@@ -15,6 +15,8 @@ It features the following technologies:
 * Modular CSS
 * redux-saga
 * Multilingual / Internationalization
+* MongoDB (optional), defaults to NeDB (in-process)
+* ES7 decorators
 
 
 ## How to run for production (or to try it out)
@@ -45,15 +47,28 @@ To enable it, create a configuration file by copying `/config/configuration_temp
 Note: Google Analytics only works when using the production webpack config.
 
 
+## How to use MongoDB
+
+By default, the database engine is NeDB, an in-process database with no external dependencies (i.e. no database to install on your system).
+
+If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
+
+
 ## Roadmap
 
-* Persistence: Improve by using a dependency-less MongoDB clone (NeDB for instance)
 * Add more languages
-* Use ES7 decorators
-* Changing the logic for the Like and Unlike buttons
-
+* Unit tests
 
 ## Versions history
+
+### Version 0.3.0
+
+* Adding support for more robust databases (NeDB, by default, in process, and MongoDB)
+* Change to the Like / Unlike logic: a user can now only vote once, and not for his own posts
+* Change to the Like / Unlike logic: like and unlikes counts are separated
+* Adding ES7 decorators, more readable than the previous curry-ed functions
+* Multilingual: added Brazilian Portuguese to the list of supported languages
+* Better support for Windows
 
 ### Version 0.2.0
 
