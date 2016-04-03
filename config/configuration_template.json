@@ -1,4 +1,6 @@
 {
     "GA_Tracking_ID": "UA-000000-0",
-    "GA_Enabled": false
+    "GA_Enabled": false,
+    "DB_Use_Mongo" : false,
+    "DB_Mongo_URL": "mongodb://localhost/retrospected"
 }

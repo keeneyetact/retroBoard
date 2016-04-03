@@ -7,11 +7,22 @@ import translate from '../i18n/Translate';
 import fr from './images/fr.png';
 import en from './images/uk.png';
 import hu from './images/hu.png';
+import ptbr from './images/pt-br.png';
 
 const images = {
-    fr, en, hu
+    fr, en, hu, ptbr
 };
 
+const stateToProps = state => ({
+    currentLanguage: state.user.lang
+});
+
+const actionsToProps = dispatch => ({
+    changeLanguage: lang => dispatch(changeLanguage(lang))
+});
+
+@translate('LanguagePicker')
+@connect(stateToProps, actionsToProps)
 class LanguagePicker extends Component {
     render() {
         return (
@@ -68,12 +79,4 @@ LanguagePicker.defaultProps = {
     }
 }
 
-const stateToProps = state => ({
-    currentLanguage: state.user.lang
-});
-
-const actionsToProps = dispatch => ({
-    changeLanguage: lang => dispatch(changeLanguage(lang))
-});
-
-export default translate('LanguagePicker')(connect(stateToProps, actionsToProps)(LanguagePicker));
+export default LanguagePicker;
