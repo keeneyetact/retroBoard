@@ -17,130 +17,133 @@ const htmlFile = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '..', 'content', 'index.html');
 const staticFolder = path.resolve(__dirname, '..', 'assets');
 
-const store = db();
-const users = {};
+db().then(store => {
 
-app.use('/assets', express.static(staticFolder));
-app.get('/migrate', (req, res) => {
-    migrate2to3(store);
-    res.send('ok');
-});
-app.get('/*', (req, res) => res.sendFile(htmlFile));
+    const users = {};
 
-io.on('connection', socket => {
-    console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
+    app.use('/assets', express.static(staticFolder));
+    app.get('/migrate', (req, res) => {
+        migrate2to3(store);
+        res.send('ok');
+    });
+    app.get('/*', (req, res) => res.sendFile(htmlFile));
 
-    const actions = [
-        { type: 'ADD_POST_SUCCESS', handler: receivePost },
-        { type: 'JOIN_SESSION', handler: joinSession },
-        { type: 'DELETE_POST', handler: deletePost },
-        { type: 'LIKE_SUCCESS', handler: like },
-        { type: 'LOGIN_SUCCESS', handler: login },
-        { type: 'LEAVE_SESSION', handler: leave }
-    ];
+    io.on('connection', socket => {
+        console.log(chalk.blue('Connection: ')+chalk.red('New user connected'), chalk.grey(socket.id));
 
-    actions.forEach(action => {
-        socket.on(action.type, data => {
-            console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
-            const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
-            if (sid) {
-                store.get(sid).then(session => {
-                    action.handler(session, data.payload, socket);
-                });
+        const actions = [
+            { type: 'ADD_POST_SUCCESS', handler: receivePost },
+            { type: 'JOIN_SESSION', handler: joinSession },
+            { type: 'DELETE_POST', handler: deletePost },
+            { type: 'LIKE_SUCCESS', handler: like },
+            { type: 'LOGIN_SUCCESS', handler: login },
+            { type: 'LEAVE_SESSION', handler: leave }
+        ];
+
+        actions.forEach(action => {
+            socket.on(action.type, data => {
+                console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
+                const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
+                if (sid) {
+                    store.get(sid).then(session => {
+                        action.handler(session, data.payload, socket);
+                    });
+                }
+            });
+        });
+
+        socket.on('disconnect', () => {
+            if (socket.sessionId) {
+                sendClientList(socket.sessionId, socket);
             }
         });
+
     });
 
-    socket.on('disconnect', () => {
-        if (socket.sessionId) {
-            sendClientList(socket.sessionId, socket);
+    httpServer.listen(port);
+    console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
+
+    const receivePost = (session, data, socket) => {
+        session.posts.push(data);
+        persist(session);
+        sendToAll(socket, session.id, 'RECEIVE_POST', data);
+    };
+
+    const joinSession = (session, data, socket) => {
+        socket.join(getRoom(session.id), () => {
+            socket.sessionId = session.id;
+            if (session.posts.length) {
+                sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
+            }
+
+            recordUser(session.id, data.user, socket);
+        });
+    };
+
+    const leave = (session, data, socket) => {
+        socket.leave(getRoom(session.id), () => {
+            sendClientList(session.id, socket);
+        });
+    };
+
+    const login = (session, data, socket) => {
+        recordUser(session.id, data.name, socket);
+    };
+
+    const sendClientList = (sessionId, socket) => {
+        const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
+        if (room) {
+            const clients = Object.keys(room.sockets);
+            const names = clients.map((id, i) => users[id] || `(Anonymous #${i})`);
+
+            sendToSelf(socket, 'RECEIVE_CLIENT_LIST', names);
+            sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', names);
         }
-    });
+    };
+
+    const deletePost = (session, data, socket) => {
+        session.posts = session.posts.filter(p => p.id !== data.id);
+        persist(session);
+        sendToAll(socket, session.id, 'RECEIVE_DELETE_POST', data);
+    };
+
+    const like = (session, data, socket) => {
+        const post = find(session.posts, p => p.id === data.post.id);
+        if (post) {
+            const array = data.like ? post.likes : post.dislikes;
+
+            if (array.indexOf(data.user) === -1) {
+                array.push(data.user);
+                persist(session);
+                sendToAll(socket, session.id, 'RECEIVE_LIKE', data);
+            }
+        }
+    };
+
+    const sendToAll = (socket, sessionId, action, data) => {
+        socket
+            .broadcast
+            .to(getRoom(sessionId))
+            .emit(action, data);
+    };
+
+    const sendToSelf = (socket, action, data) => {
+        socket.emit(action, data);
+    };
+
+    const persist = session => {
+        return store.set(session).catch(err => console.error(err));
+    }
+
+    const recordUser = (sessionId, name, socket) => {
+        const socketId = socket.id;
+        if (!users[socketId] || users[socketId] !== name) {
+            users[socketId] = name || null;
+        }
+
+        sendClientList(sessionId, socket);
+    }
+
+    const getRoom = sessionId => 'board-'+sessionId;
 
 });
-
-httpServer.listen(port);
-console.log('Server started on port ' + chalk.red(port)+', environement: '+chalk.blue(process.env.NODE_ENV || 'dev'));
-
-const receivePost = (session, data, socket) => {
-    session.posts.push(data);
-    persist(session);
-    sendToAll(socket, session._id, 'RECEIVE_POST', data);
-};
-
-const joinSession = (session, data, socket) => {
-    socket.join(getRoom(session._id), () => {
-        socket.sessionId = session._id;
-        if (session.posts.length) {
-            sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
-        }
-
-        recordUser(session._id, data.user, socket);
-    });
-};
-
-const leave = (session, data, socket) => {
-    socket.leave(getRoom(session._id), () => {
-        sendClientList(session._id, socket);
-    });
-};
-
-const login = (session, data, socket) => {
-    recordUser(session._id, data.name, socket);
-};
-
-const sendClientList = (sessionId, socket) => {
-    const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
-    if (room) {
-        const clients = Object.keys(room.sockets);
-        const names = clients.map((id, i) => users[id] || `(Anonymous #${i})`);
-
-        sendToSelf(socket, 'RECEIVE_CLIENT_LIST', names);
-        sendToAll(socket, sessionId, 'RECEIVE_CLIENT_LIST', names);
-    }
-};
-
-const deletePost = (session, data, socket) => {
-    session.posts = session.posts.filter(p => p.id !== data.id);
-    persist(session);
-    sendToAll(socket, session._id, 'RECEIVE_DELETE_POST', data);
-};
-
-const like = (session, data, socket) => {
-    const post = find(session.posts, p => p.id === data.post.id);
-    if (post) {
-        const array = data.like ? post.likes : post.dislikes;
-
-        if (array.indexOf(data.user) === -1) {
-            array.push(data.user);
-            persist(session);
-            sendToAll(socket, session._id, 'RECEIVE_LIKE', data);
-        }
-    }
-};
-
-const sendToAll = (socket, sessionId, action, data) => {
-    socket
-        .broadcast
-        .to(getRoom(sessionId))
-        .emit(action, data);
-};
-
-const sendToSelf = (socket, action, data) => {
-    socket.emit(action, data);
-};
-
-const persist = session => {
-    return store.set(session).catch(err => console.error(err));
-}
-
-const recordUser = (sessionId, name, socket) => {
-    const socketId = socket.id;
-    if (!users[socketId] || users[socketId] !== name) {
-        users[socketId] = name || null;
-    }
-
-    sendClientList(sessionId, socket);
-}
-
-const getRoom = sessionId => 'board-'+sessionId;
