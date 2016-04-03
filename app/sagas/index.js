@@ -12,6 +12,7 @@ const watchers = [
     function* () { yield* takeEvery(AUTO_LOGIN, autoLoginUser); },
     function* () { yield* takeEvery(AUTO_JOIN, autoJoinUser); },
     function* () { yield* takeEvery(LOGIN, storeUserToLocalStorage); },
+    function* () { yield* takeEvery(LOGOUT, deleteUserFromLocalStorage); },
     function* () { yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage); },
     function* () { yield* takeEvery(LEAVE_SESSION, disconnectUser); },
     function* () { yield* takeEvery(ADD_POST, addPost); },
