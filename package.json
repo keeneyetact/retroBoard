@@ -39,6 +39,7 @@
     "md5": "2.1.0",
     "mongoose": "^4.4.10",
     "nedb": "^1.8.0",
+    "node-emoji": "^1.2.1",
     "node-sass": "3.4.2",
     "node-uuid": "1.4.7",
     "nodemon": "1.9.1",

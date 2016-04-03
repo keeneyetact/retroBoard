@@ -34,7 +34,7 @@ const get = store => sessionId => {
 
 const set = store => session => {
     return new Promise((resolve, reject) => {
-        store.update({ id: session._id }, session, { upsert: true}, err => {
+        store.update({ id: session.id }, session, { upsert: true}, err => {
             if (err) {
                 reject(err);
             } else {
