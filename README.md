@@ -89,7 +89,7 @@ Note: Google Analytics only works when using the production webpack config.
 Many thanks to the following contributors who helped translating the app:
 
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
-* Portuguese (Brasilian): [@renancouto](https://github.com/renancouto)
+* Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 
