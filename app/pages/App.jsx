@@ -7,6 +7,17 @@ import icons from '../constants/icons';
 import TranslationProvider from '../i18n/TranslationProvider';
 import Header from './Header';
 
+const stateToProps = state => ({
+    user: state.user.name,
+    currentLanguage: state.user.lang
+});
+
+const actionsToProps = dispatch => ({
+    onLogin: user => dispatch(login(user)),
+    autoLogin: () => dispatch(autoLogin())
+});
+
+@connect(stateToProps, actionsToProps)
 class App extends React.Component {
     constructor() {
         super();
@@ -58,14 +69,4 @@ App.defaultTypes = {
     displayDrawerButton: true
 }
 
-const stateToProps = state => ({
-    user: state.user.name,
-    currentLanguage: state.user.lang
-});
-
-const actionsToProps = dispatch => ({
-    onLogin: user => dispatch(login(user)),
-    autoLogin: () => dispatch(autoLogin())
-});
-
-export default connect(stateToProps, actionsToProps)(App);
+export default App;

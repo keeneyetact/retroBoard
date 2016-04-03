@@ -6,6 +6,7 @@ import style from './PostBoard.scss';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
+@translate('Post')
 class Post extends Component {
     render() {
         const { post, strings } = this.props;
@@ -67,4 +68,4 @@ Post.defaultProps = {
     }
 }
 
-export default translate('Post')(Post);
+export default Post;

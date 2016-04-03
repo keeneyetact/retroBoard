@@ -5,6 +5,14 @@ import { connect } from 'react-redux';
 import { createSession } from '../state/session';
 import translate from '../i18n/Translate';
 
+const stateToProps = state => ({ });
+
+const actionsToProps = dispatch => ({
+    createSession: () => dispatch(createSession())
+});
+
+@translate('Join')
+@connect(stateToProps, actionsToProps)
 class Join extends Component {
     render() {
         return (
@@ -31,12 +39,5 @@ Join.defaultProps = {
     }
 }
 
-const stateToProps = state => ({
 
-});
-
-const actionsToProps = dispatch => ({
-    createSession: () => dispatch(createSession())
-});
-
-export default translate('Join')(connect(stateToProps, actionsToProps)(Join));
+export default Join;

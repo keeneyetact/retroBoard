@@ -13,6 +13,16 @@ const images = {
     fr, en, hu, ptbr
 };
 
+const stateToProps = state => ({
+    currentLanguage: state.user.lang
+});
+
+const actionsToProps = dispatch => ({
+    changeLanguage: lang => dispatch(changeLanguage(lang))
+});
+
+@translate('LanguagePicker')
+@connect(stateToProps, actionsToProps)
 class LanguagePicker extends Component {
     render() {
         return (
@@ -69,12 +79,4 @@ LanguagePicker.defaultProps = {
     }
 }
 
-const stateToProps = state => ({
-    currentLanguage: state.user.lang
-});
-
-const actionsToProps = dispatch => ({
-    changeLanguage: lang => dispatch(changeLanguage(lang))
-});
-
-export default translate('LanguagePicker')(connect(stateToProps, actionsToProps)(LanguagePicker));
+export default LanguagePicker;

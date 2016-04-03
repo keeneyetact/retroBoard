@@ -17,6 +17,21 @@ import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
 import githubLogo from '../components/images/github.png';
 
+const stateToProps = state => ({
+    user: state.user.name,
+    displayDrawerButton: !!state.user.name && !!state.session.id
+});
+
+const actionsToProps = dispatch => ({
+    onLogin: user => dispatch(login(user)),
+    onLogout: () => dispatch(logout()),
+    onLeave: () => dispatch(leave()),
+    initialise: sessionId => dispatch(initialise(sessionId)),
+    goToHomepage: () => dispatch(push('/'))
+});
+
+@translate('Header')
+@connect(stateToProps, actionsToProps)
 class Header extends React.Component {
     constructor() {
         super();
@@ -77,17 +92,4 @@ Header.defaultTypes = {
     }
 }
 
-const stateToProps = state => ({
-    user: state.user.name,
-    displayDrawerButton: !!state.user.name && !!state.session.id
-});
-
-const actionsToProps = dispatch => ({
-    onLogin: user => dispatch(login(user)),
-    onLogout: () => dispatch(logout()),
-    onLeave: () => dispatch(leave()),
-    initialise: sessionId => dispatch(initialise(sessionId)),
-    goToHomepage: () => dispatch(push('/'))
-});
-
-export default translate('Header')(connect(stateToProps, actionsToProps)(Header));
+export default Header;
