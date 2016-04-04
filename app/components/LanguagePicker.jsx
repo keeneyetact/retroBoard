@@ -5,16 +5,9 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';
 import languages from '../i18n/languages';
 import translate from '../i18n/Translate';
-import fr from './images/fr.png';
-import en from './images/uk.png';
-import hu from './images/hu.png';
-import ptbr from './images/pt-br.png';
-import nl from './images/nl.png';
-import { getCurrentLanguage } from '../selectors';
+import flags from '../i18n/flags';
 
-const images = {
-    fr, en, hu, ptbr, nl
-};
+import { getCurrentLanguage } from '../selectors';
 
 const stateToProps = state => ({
     currentLanguage: getCurrentLanguage(state)
@@ -62,7 +55,7 @@ class LanguagePicker extends Component {
 
            return (
              <div style={containerStyle}>
-               <img src={images[item.value]} style={imageStyle}/>
+               <img src={flags[item.value]} style={imageStyle}/>
                <div style={contentStyle}>
                  <strong>{item.name}</strong>
                  <small>{item.englishName}</small>
