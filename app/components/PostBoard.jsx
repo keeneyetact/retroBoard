@@ -7,10 +7,13 @@ import { connect } from 'react-redux';
 import { addPost, deletePost, like, unlike } from '../state/posts';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
+import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../state/selectors';
 
 const stateToProps = state => ({
-    currentUser: state.user.name,
-    posts: state.posts
+    currentUser: getCurrentUser(state),
+    wellPosts: getWellPosts(state),
+    notWellPosts: getNotWellPosts(state),
+    ideasPosts: getIdeasPosts(state)
 });
 
 const actionsToProps = dispatch => ({
@@ -29,19 +32,22 @@ class PostBoard extends Component {
     }
 
     render() {
-        const { strings } = this.props;
+        const { strings, wellPosts, notWellPosts, ideasPosts } = this.props;
         const types = [{
             type: 'well',
             question: strings.wellQuestion,
-            icon: icons.sentiment_satisfied
+            icon: icons.sentiment_satisfied,
+            posts: wellPosts
         },{
             type: 'notWell',
             question: strings.notWellQuestion,
-            icon: icons.sentiment_very_dissatisfied
+            icon: icons.sentiment_very_dissatisfied,
+            posts: notWellPosts
         },{
             type: 'ideas',
             question: strings.ideasQuestion,
-            icon: icons.lightbulb_outline
+            icon: icons.lightbulb_outline,
+            posts: ideasPosts
         }];
 
         return (
@@ -52,12 +58,11 @@ class PostBoard extends Component {
     }
 
     renderColumn(postType, index) {
-        const posts = this.props.posts.filter(p => p.postType === postType.type);
         return (
             <div className={ClassNames(style.column, style[postType.type], 'col-4-12')} key={postType.type}>
                 <PostColumn
                     currentUser={this.props.currentUser}
-                    posts={posts}
+                    posts={postType.posts}
                     type={postType.type}
                     icon={postType.icon}
                     onAdd={this.props.addPost}
@@ -72,7 +77,9 @@ class PostBoard extends Component {
 
 PostBoard.propTypes = {
     currentUser: PropTypes.string,
-    posts: PropTypes.array.isRequired,
+    wellPosts: PropTypes.array.isRequired,
+    notWellPosts: PropTypes.array.isRequired,
+    ideasPosts: PropTypes.array.isRequired,
     addPost: PropTypes.func,
     deletePost: PropTypes.func,
     strings: PropTypes.object
@@ -80,7 +87,9 @@ PostBoard.propTypes = {
 
 PostBoard.defaultProps = {
     currentUser: null,
-    posts: [],
+    wellPosts: [],
+    notWellPosts: [],
+    ideasPosts: [],
     addPost: () => {},
     deletePost: () => {},
     strings: {
