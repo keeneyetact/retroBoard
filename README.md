@@ -99,6 +99,14 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * List of connected users
 * No persistence (yet)
 
+## Frequently Asked Questions
+
+#### What if I want to name my session so I can remember easily how to come back to it?
+
+You can actually change the session ID in the URL with anything you like: for example [www.retrospected.com/session/hello_world](http://www.retrospected.com/session/hello_world)
+
+Try not to take a too common name though, to avoid anyone else finding your session by chance.
+
 ## Thanks
 
 Many thanks to the following contributors who helped translating the app:
