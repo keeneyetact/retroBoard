@@ -105,7 +105,6 @@ Many thanks to the following contributors who helped translating the app:
 
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
+* Dutch: [@sonaryr](https://github.com/Sonaryr)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
-
-I'm looking for German, Chinese and Spanish translations.
