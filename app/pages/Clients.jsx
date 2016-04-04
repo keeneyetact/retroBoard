@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from '../constants/icons';
@@ -13,12 +14,16 @@ const stateToProps = state => ({
 @translate('Clients')
 @connect(stateToProps)
 class Clients extends Component {
+    constructor(props) {
+        super(props);
+        this.renderClient = this.renderClient.bind(this);
+    }
     render() {
         return (
             <List selectable ripple>
                 <ListSubHeader caption={this.props.strings.header} />
 
-                { this.props.clients.map(this.renderClient.bind(this)) }
+                { this.props.clients.map(this.renderClient) }
               </List>
         )
     }

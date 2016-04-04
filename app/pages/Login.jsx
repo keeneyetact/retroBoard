@@ -1,4 +1,5 @@
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
 import translate from '../i18n/Translate';

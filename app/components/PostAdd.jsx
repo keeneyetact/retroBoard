@@ -1,5 +1,7 @@
 import EnterInput from './EnterInput';
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
+import noop from 'lodash/noop';
 
 class PostAdd extends Component {
     render() {
@@ -14,15 +16,13 @@ class PostAdd extends Component {
 PostAdd.propTypes = {
     onAdd: PropTypes.func,
     placeholder: PropTypes.string,
-    icon: PropTypes.string,
-    tabOrder: PropTypes.number
+    icon: PropTypes.string
 }
 
 PostAdd.defaultProps = {
-    onAdd: () => {},
+    onAdd: noop,
     placeholder: 'New comment',
-    icon: 'add_circle',
-    tabOrder: 1
+    icon: 'add_circle'
 }
 
 export default PostAdd;

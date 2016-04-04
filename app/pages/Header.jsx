@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import Login from './Login';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
@@ -32,7 +33,7 @@ const actionsToProps = dispatch => ({
 
 @translate('Header')
 @connect(stateToProps, actionsToProps)
-class Header extends React.Component {
+class Header extends Component {
     constructor() {
         super();
         this.state = {

@@ -1,4 +1,5 @@
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';

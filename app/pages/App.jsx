@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import Login from './Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
@@ -18,7 +19,7 @@ const actionsToProps = dispatch => ({
 });
 
 @connect(stateToProps, actionsToProps)
-class App extends React.Component {
+class App extends Component {
     constructor() {
         super();
         this.state = {

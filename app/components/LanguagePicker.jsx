@@ -1,4 +1,5 @@
-import { PropTypes, Component } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';

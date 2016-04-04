@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
 import ClassNames from 'classnames';
@@ -21,7 +22,12 @@ const actionsToProps = dispatch => ({
 
 @translate('PostBoard')
 @connect(stateToProps, actionsToProps)
-class PostBoard extends React.Component {
+class PostBoard extends Component {
+    constructor(props) {
+        super(props);
+        this.renderColumn = this.renderColumn.bind(this);
+    }
+
     render() {
         const { strings } = this.props;
         const types = [{
@@ -40,7 +46,7 @@ class PostBoard extends React.Component {
 
         return (
             <div className={ClassNames(style.board, 'grid')}>
-                { types.map(this.renderColumn.bind(this)) }
+                { types.map(this.renderColumn) }
             </div>
         )
     }
@@ -50,7 +56,6 @@ class PostBoard extends React.Component {
         return (
             <div className={ClassNames(style.column, style[postType.type], 'col-4-12')} key={postType.type}>
                 <PostColumn
-                    tabOrder={index}
                     currentUser={this.props.currentUser}
                     posts={posts}
                     type={postType.type}
