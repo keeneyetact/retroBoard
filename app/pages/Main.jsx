@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import { connect } from 'react-redux';
 import PostBoard from '../components/PostBoard';
 import { autoJoin } from '../state/session';
@@ -10,7 +11,7 @@ const actionsToProps = dispatch => ({
 });
 
 @connect(stateToProps, actionsToProps)
-class Main extends React.Component {
+class Main extends Component {
     render() {
         return (
             <div>
@@ -22,6 +23,10 @@ class Main extends React.Component {
     componentDidMount() {
         this.props.autoJoin(this.props.params.sessionId);
     }
+}
+
+Main.propTypes = {
+    autoJoin: PropTypes.func.isRequired
 }
 
 export default Main;

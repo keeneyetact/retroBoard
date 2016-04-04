@@ -1,5 +1,6 @@
 import Input from 'react-toolbox/lib/input';
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 
 class EnterInput extends Component {
     render() {

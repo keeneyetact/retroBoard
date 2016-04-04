@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import Login from './Login';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
@@ -16,10 +17,11 @@ import LanguagePicker from '../components/LanguagePicker';
 import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
 import githubLogo from '../components/images/github.png';
+import { getCurrentUser, shouldDisplayDrawerButton } from '../selectors';
 
 const stateToProps = state => ({
-    user: state.user.name,
-    displayDrawerButton: !!state.user.name && !!state.session.id
+    user: getCurrentUser(state),
+    displayDrawerButton: shouldDisplayDrawerButton(state)
 });
 
 const actionsToProps = dispatch => ({
@@ -32,7 +34,7 @@ const actionsToProps = dispatch => ({
 
 @translate('Header')
 @connect(stateToProps, actionsToProps)
-class Header extends React.Component {
+class Header extends Component {
     constructor() {
         super();
         this.state = {

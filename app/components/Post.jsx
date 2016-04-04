@@ -1,4 +1,5 @@
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button, IconButton} from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
@@ -35,7 +36,7 @@ class Post extends Component {
 
     renderButton(name, icon, color, onClick) {
         const votes = this.props.post[name].length;
-        const label = votes ? votes : '-';
+        const label = votes ? votes.toString() : '-';
         return (
             <Button icon={icon} label={label} onClick={onClick} raised={this.canVote()} style={{ backgroundColor: color, color: 'white' }} disabled={!this.canVote()}/>
         );

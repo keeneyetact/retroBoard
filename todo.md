@@ -1,2 +1,4 @@
 - unit tests
 - animations
+- readme: add links to frameworks
+-

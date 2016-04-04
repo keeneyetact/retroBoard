@@ -1,4 +1,5 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import Component from '../Component';
 import Login from './Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
@@ -6,10 +7,11 @@ import style from './App.scss';
 import icons from '../constants/icons';
 import TranslationProvider from '../i18n/TranslationProvider';
 import Header from './Header';
+import { getCurrentUser, getCurrentLanguage } from '../selectors';
 
 const stateToProps = state => ({
-    user: state.user.name,
-    currentLanguage: state.user.lang
+    user: getCurrentUser(state),
+    currentLanguage: getCurrentLanguage(state)
 });
 
 const actionsToProps = dispatch => ({
@@ -18,7 +20,7 @@ const actionsToProps = dispatch => ({
 });
 
 @connect(stateToProps, actionsToProps)
-class App extends React.Component {
+class App extends Component {
     constructor() {
         super();
         this.state = {
