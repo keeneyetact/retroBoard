@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { addPost, deletePost, like, unlike } from '../state/posts';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
-import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../state/selectors';
+import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../selectors';
 
 const stateToProps = state => ({
     currentUser: getCurrentUser(state),

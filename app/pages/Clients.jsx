@@ -5,10 +5,10 @@ import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-
 import md5 from 'md5';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
+import { getClients } from '../selectors';
 
 const stateToProps = state => ({
-    clients: state.session.clients,
-    lang: state.user.lang
+    clients: getClients(state)
 });
 
 @translate('Clients')

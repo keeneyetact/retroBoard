@@ -17,10 +17,11 @@ import LanguagePicker from '../components/LanguagePicker';
 import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
 import githubLogo from '../components/images/github.png';
+import { getCurrentUser, shouldDisplayDrawerButton } from '../selectors';
 
 const stateToProps = state => ({
-    user: state.user.name,
-    displayDrawerButton: !!state.user.name && !!state.session.id
+    user: getCurrentUser(state),
+    displayDrawerButton: shouldDisplayDrawerButton(state)
 });
 
 const actionsToProps = dispatch => ({

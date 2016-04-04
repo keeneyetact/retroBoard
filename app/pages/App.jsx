@@ -7,10 +7,11 @@ import style from './App.scss';
 import icons from '../constants/icons';
 import TranslationProvider from '../i18n/TranslationProvider';
 import Header from './Header';
+import { getCurrentUser, getCurrentLanguage } from '../selectors';
 
 const stateToProps = state => ({
-    user: state.user.name,
-    currentLanguage: state.user.lang
+    user: getCurrentUser(state),
+    currentLanguage: getCurrentLanguage(state)
 });
 
 const actionsToProps = dispatch => ({

@@ -25,4 +25,8 @@ class Main extends Component {
     }
 }
 
+Main.propTypes = {
+    autoJoin: PropTypes.func.isRequired
+}
+
 export default Main;

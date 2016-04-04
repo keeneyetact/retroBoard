@@ -10,13 +10,14 @@ import en from './images/uk.png';
 import hu from './images/hu.png';
 import ptbr from './images/pt-br.png';
 import nl from './images/nl.png';
+import { getCurrentLanguage } from '../selectors';
 
 const images = {
     fr, en, hu, ptbr, nl
 };
 
 const stateToProps = state => ({
-    currentLanguage: state.user.lang
+    currentLanguage: getCurrentLanguage(state)
 });
 
 const actionsToProps = dispatch => ({
