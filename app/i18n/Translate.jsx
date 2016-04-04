@@ -3,8 +3,9 @@ import en from './en';
 import fr from './fr';
 import hu from './hu';
 import ptbr from './pt-br';
+import nl from './nl';
 
-const languages = { en, fr, hu, ptbr };
+const languages = { en, fr, hu, ptbr, nl };
 
 export default function translate(key) {
     return Component => {
