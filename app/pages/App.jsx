@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import Login from './Login';
 import { connect } from 'react-redux';
@@ -67,7 +68,7 @@ App.propTypes = {
 App.defaultTypes = {
     children: null,
     user: null,
-    onLogin: () => {},
+    onLogin: noop,
     displayDrawerButton: true
 }
 

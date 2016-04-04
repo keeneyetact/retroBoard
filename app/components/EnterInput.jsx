@@ -1,6 +1,7 @@
 import Input from 'react-toolbox/lib/input';
 import { PropTypes } from 'react';
 import Component from '../Component';
+import noop from 'lodash/noop';
 
 class EnterInput extends Component {
     render() {
@@ -30,7 +31,7 @@ EnterInput.propTypes = {
 }
 
 EnterInput.defaultProps = {
-    onEnter: () => {},
+    onEnter: noop,
     icon: 'add',
     placeholder: 'Type something'
 }

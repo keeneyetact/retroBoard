@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
@@ -34,7 +35,7 @@ Join.propTypes = {
 };
 
 Join.defaultProps = {
-    createSession: () => {},
+    createSession: noop,
     strings: {
         newSession: 'Create a new session'
     }

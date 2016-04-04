@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
@@ -34,7 +35,7 @@ Login.propTypes = {
 }
 
 Login.defaultProps = {
-    onLogin: () => {},
+    onLogin: noop,
     strings: {
         namePlaceholder: 'Who are you exactly? Enter your name here',
         buttonLabel: 'Let\'s start'

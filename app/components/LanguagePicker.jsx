@@ -35,33 +35,33 @@ class LanguagePicker extends Component {
 
     renderItem(item) {
         const containerStyle = {
-             display: 'flex',
-             flexDirection: 'row'
-           };
+            display: 'flex',
+            flexDirection: 'row'
+        };
 
-           const imageStyle = {
-             display: 'flex',
-             width: '32px',
-             height: '32px',
-             flexGrow: 0,
-             marginRight: '8px'
-           };
+        const imageStyle = {
+            display: 'flex',
+            width: '32px',
+            height: '32px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
 
-           const contentStyle = {
-             display: 'flex',
-             flexDirection: 'column',
-             flexGrow: 2
-           };
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2
+        };
 
-           return (
-             <div style={containerStyle}>
-               <img src={flags[item.value]} style={imageStyle}/>
-               <div style={contentStyle}>
-                 <strong>{item.name}</strong>
-                 <small>{item.englishName}</small>
-               </div>
-             </div>
-           );
+        return (
+            <div style={containerStyle}>
+                <img src={flags[item.value]} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{item.name}</strong>
+                    <small>{item.englishName}</small>
+                </div>
+            </div>
+        );
     }
 }
 

@@ -1,13 +1,12 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
-import Login from './Login';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
 import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
-import { login, logout } from '../state/user';
+import { logout } from '../state/user';
 import { leave } from '../state/session';
-import { initialise } from '../state/actions';
 import style from './App.scss';
 import Clients from './Clients';
 import Drawer from 'react-toolbox/lib/drawer';
@@ -25,10 +24,8 @@ const stateToProps = state => ({
 });
 
 const actionsToProps = dispatch => ({
-    onLogin: user => dispatch(login(user)),
     onLogout: () => dispatch(logout()),
     onLeave: () => dispatch(leave()),
-    initialise: sessionId => dispatch(initialise(sessionId)),
     goToHomepage: () => dispatch(push('/'))
 });
 
@@ -75,18 +72,20 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    children: PropTypes.object,
     user: PropTypes.string,
-    onLogin: PropTypes.func,
     displayDrawerButton: PropTypes.bool,
+    onLogout: PropTypes.func,
+    onLeave: PropTypes.func,
+    goToHomepage: PropTypes.func,
     strings: PropTypes.object
 };
 
 Header.defaultTypes = {
-    children: null,
     user: null,
-    onLogin: () => {},
     displayDrawerButton: true,
+    onLogout: noop,
+    onLeave: noop,
+    goToHomepage: noop,
     strings: {
         subtitle: 'A good way of ranting in an orderly fashion',
         logout: 'Logout',

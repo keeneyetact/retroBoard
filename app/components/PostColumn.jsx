@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import Post from './Post';
 import PostAdd from './PostAdd';
@@ -51,10 +52,10 @@ PostColumn.defaultProps = {
     type: 'well',
     icon: icons.add_circle,
     placeholder: 'New Comment',
-    onAdd: () => {},
-    onDelete: () => {},
-    onLike: () => {},
-    onUnlike: () => {}
+    onAdd: noop,
+    onDelete: noop,
+    onLike: noop,
+    onUnlike: noop
 }
 
 export default PostColumn;

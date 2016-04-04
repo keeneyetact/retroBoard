@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
@@ -90,8 +91,8 @@ PostBoard.defaultProps = {
     wellPosts: [],
     notWellPosts: [],
     ideasPosts: [],
-    addPost: () => {},
-    deletePost: () => {},
+    addPost: noop,
+    deletePost: noop,
     strings: {
         notWellQuestion: 'What could be improved?',
         wellQuestion: 'What went well?',
