@@ -14,6 +14,7 @@ It features the following technologies:
 * Material UI design
 * Modular CSS
 * redux-saga
+* reselect
 * Multilingual / Internationalization
 * MongoDB (optional), defaults to NeDB (in-process)
 * ES7 decorators

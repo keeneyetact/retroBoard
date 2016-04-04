@@ -1,3 +1,4 @@
 - unit tests
 - animations
-- reselect
+- readme: add links to frameworks
+-
