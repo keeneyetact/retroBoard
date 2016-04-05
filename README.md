@@ -108,6 +108,8 @@ You can actually change the session ID in the URL with anything you like: for ex
 
 Try not to take a too common name though, to avoid anyone else finding your session by chance.
 
+You can also use the "Advanced" tab when creating a session, and provide a name.
+
 ## Thanks
 
 Many thanks to the following contributors who helped translating the app:
