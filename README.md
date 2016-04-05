@@ -6,18 +6,18 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* React
-* Redux
-* Socket IO
-* Webpack
-* Hot-reloading
-* Material UI design
-* Modular CSS
-* redux-saga
-* reselect
-* Multilingual / Internationalization
-* MongoDB (optional), defaults to NeDB (in-process)
-* ES7 decorators
+* [React](https://github.com/facebook/react)
+* [Redux](https://github.com/reactjs/redux)
+* [Socket IO](http://socket.io)
+* [Webpack](https://github.com/webpack/webpack)
+* [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
+* [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
+* [Modular CSS](https://github.com/css-modules/css-modules)
+* [redux-saga](https://github.com/yelouafi/redux-saga)
+* [reselect](https://github.com/reactjs/reselect)
+* [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
+* [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
+* ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 
 
 ## How to run for production (or to try it out)
