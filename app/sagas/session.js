@@ -17,7 +17,7 @@ export function* autoJoinUser(action) {
 }
 
 export function* createSession(action) {
-    const sessionId = uuid.v1();
+    const sessionId = action.payload || uuid.v1();
     const user = yield select(state => state.user.name);
     yield put({ type: CREATE_SESSION_SUCCESS, payload: { sessionId } });
     yield put({ type: JOIN_SESSION, payload: { sessionId, user }});

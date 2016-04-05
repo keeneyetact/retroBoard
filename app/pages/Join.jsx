@@ -14,7 +14,8 @@ import backgroundImage from '../components/images/background.jpg';
 const stateToProps = state => ({ });
 
 const actionsToProps = dispatch => ({
-    createSession: () => dispatch(createSession())
+    createSession: () => dispatch(createSession()),
+    createCustomSession: name => dispatch(createSession(name)),
 });
 
 @translate('Join')
@@ -22,7 +23,7 @@ const actionsToProps = dispatch => ({
 class Join extends Component {
     constructor(props) {
         super(props);
-        this.state = { tabIndex: 0 };
+        this.state = { tabIndex: 0, customSessionName: '' };
     }
     render() {
         return (
@@ -30,7 +31,7 @@ class Join extends Component {
             <Card raised>
                 <CardTitle>Welcome to Retrospected</CardTitle>
                 <CardMedia >
-                    <img src={backgroundImage} style={{objectFit: 'cover', maxHeight: 150 }} />
+                    <img src={backgroundImage} style={{ objectFit: 'cover', maxHeight: 150 }} />
                 </CardMedia>
                 <CardText>
                     <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
@@ -40,9 +41,9 @@ class Join extends Component {
 
                         </Tab>
                         <Tab label="Advanced">
-                            <Input label="Enter a name for your session" icon={icons.create} />
+                            <Input label="Enter a name for your session" required icon={icons.create} value={this.state.customSessionName} onChange={v => this.setState({ customSessionName: v })} />
                             <br />
-                            <Button label="Create custom session" accent raised onClick={this.props.createSession} />
+                            <Button label="Create custom session" disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
                         </Tab>
                     </Tabs>
 
@@ -51,33 +52,17 @@ class Join extends Component {
         </div>
         );
     }
-    render2() {
-        return (
-            <section className="grid">
-                <div className="col-3-12"></div>
-                <div className="col-6-12">
-                    <Button label={this.props.strings.newSession} accent raised onClick={this.props.createSession} />
-                        <Card style={{width: '350px'}} raised>
-                            <CardTitle>Welcome to Retrospected</CardTitle>
-                            <CardText>Hello</CardText>
-                        </Card>
-                </div>
-                <div className="col-3-12">
-
-                </div>
-
-            </section>
-        );
-    }
 }
 
 Join.propTypes = {
     createSession: PropTypes.func,
+    createCustomSession: PropTypes.func,
     strings: PropTypes.object
 };
 
 Join.defaultProps = {
     createSession: noop,
+    createCustomSession: noop,
     strings: {
         newSession: 'Create a new session'
     }

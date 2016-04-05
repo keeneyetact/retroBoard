@@ -4,23 +4,29 @@ import Component from '../Component';
 import noop from 'lodash/noop';
 
 class EnterInput extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        }
+    }
     render() {
         return (
-            <Input type='input' label={this.props.placeholder} icon={this.props.icon} onKeyPress={e => this.onKeyPress(e.nativeEvent)} ref="input" />
+            <Input type='input'
+                   label={this.props.placeholder}
+                   icon={this.props.icon}
+                   value={this.state.value}
+                   onChange={value => this.setState({ value })}
+                   onKeyPress={e => this.onKeyPress(e.nativeEvent)}
+                   ref="input" />
         );
     }
 
-    onKeyPress(e){
-        // let's revisit that, shall we...
-        const input = this.refs.input.refs.input;
-        if (e.keyCode === 13 && input.value) {
-            this.props.onEnter(input.value);
-            input.value = '';
+    onKeyPress(e) {
+        if (e.keyCode === 13) {
+            this.props.onEnter(this.state.value);
+            this.setState({ value: '' });
         }
-    }
-
-    value() {
-        return this.refs.input.refs.input.value;
     }
 }
 
