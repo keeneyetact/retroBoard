@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import { createSession } from '../state/session';
 import translate from '../i18n/Translate';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import { Tab, Tabs } from 'react-toolbox';
+import icons from '../constants/icons';
+import backgroundImage from '../components/images/background.jpg';
 
 const stateToProps = state => ({ });
 
@@ -17,18 +20,32 @@ const actionsToProps = dispatch => ({
 @translate('Join')
 @connect(stateToProps, actionsToProps)
 class Join extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { tabIndex: 0 };
+    }
     render() {
         return (
             <div style={{padding: 20 }}>
             <Card raised>
                 <CardTitle>Welcome to Retrospected</CardTitle>
+                <CardMedia >
+                    <img src={backgroundImage} style={{objectFit: 'cover', maxHeight: 150 }} />
+                </CardMedia>
                 <CardText>
-                    Create a session right now by clicking:<br /><br />
-                <Button label={this.props.strings.newSession} accent raised onClick={this.props.createSession} />
-                <br /><br />
-                Or choose a custom name to your session:
-                <Input />
-                <Button label="Create custom session" accent raised onClick={this.props.createSession} />
+                    <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
+                        <Tab label="Create a Session">
+                            Click below and start retrospecting:<br /><br />
+                            <Button label={this.props.strings.newSession} accent raised onClick={this.props.createSession} />
+
+                        </Tab>
+                        <Tab label="Advanced">
+                            <Input label="Enter a name for your session" icon={icons.create} />
+                            <br />
+                            <Button label="Create custom session" accent raised onClick={this.props.createSession} />
+                        </Tab>
+                    </Tabs>
+
                 </CardText>
             </Card>
         </div>

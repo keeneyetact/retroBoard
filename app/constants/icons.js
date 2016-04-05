@@ -12,5 +12,6 @@ export default {
     delete_forever: String.fromCharCode(0xE92B),
     settings: String.fromCharCode(0xE8B8),
     exit_to_app: String.fromCharCode(0xE879),
-    power_settings_new: String.fromCharCode(0xE8AC)
+    power_settings_new: String.fromCharCode(0xE8AC),
+    create: String.fromCharCode(0xE150)
 };
