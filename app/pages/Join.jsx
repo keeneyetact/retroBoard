@@ -26,24 +26,24 @@ class Join extends Component {
         this.state = { tabIndex: 0, customSessionName: '' };
     }
     render() {
+        const { strings } = this.props;
         return (
             <div style={{padding: 20 }}>
             <Card raised>
-                <CardTitle>Welcome to Retrospected</CardTitle>
+                <CardTitle>{ strings.welcome }</CardTitle>
                 <CardMedia >
                     <img src={backgroundImage} style={{ objectFit: 'cover', maxHeight: 150 }} />
                 </CardMedia>
                 <CardText>
                     <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
-                        <Tab label="Create a Session">
-                            Click below and start retrospecting:<br /><br />
-                            <Button label={this.props.strings.newSession} accent raised onClick={this.props.createSession} />
-
+                        <Tab label={ strings.standardTab.header }>
+                            { strings.standardTab.text }<br /><br />
+                            <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
                         </Tab>
-                        <Tab label="Advanced">
-                            <Input label="Enter a name for your session" required icon={icons.create} value={this.state.customSessionName} onChange={v => this.setState({ customSessionName: v })} />
+                        <Tab label={ strings.advancedTab.header }>
+                            <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} onChange={v => this.setState({ customSessionName: v })} />
                             <br />
-                            <Button label="Create custom session" disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
+                            <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
                         </Tab>
                     </Tabs>
 
@@ -64,7 +64,17 @@ Join.defaultProps = {
     createSession: noop,
     createCustomSession: noop,
     strings: {
-        newSession: 'Create a new session'
+        welcome: 'Welcome to Retrospected',
+        standardTab: {
+            header: 'Create a Session',
+            text: 'Click below and start retrospecting:',
+            button: 'Create a new session'
+        },
+        advancedTab: {
+            header: 'Advanced',
+            input: 'Enter a name for your session',
+            button: 'Create custom session'
+        }
     }
 }
 

@@ -36,10 +36,16 @@ class Post extends Component {
     }
 
     renderButton(name, icon, color, onClick) {
+        const canVote = this.canVote();
         const votes = this.props.post[name].length;
         const label = votes ? votes.toString() : '-';
         return (
-            <Button icon={icon} label={label} onClick={onClick} raised={this.canVote()} style={{ backgroundColor: color, color: 'white' }} disabled={!this.canVote()}/>
+            <Button icon={icon}
+                    label={label}
+                    onClick={onClick}
+                    raised={canVote}
+                    style={{ backgroundColor: color, color: 'white' }}
+                    disabled={!canVote} />
         );
     }
 

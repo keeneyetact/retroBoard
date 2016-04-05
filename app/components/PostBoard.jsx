@@ -9,6 +9,7 @@ import { addPost, deletePost, like, unlike } from '../state/posts';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../selectors';
+import Snackbar from 'react-toolbox/lib/snackbar'
 
 const stateToProps = state => ({
     currentUser: getCurrentUser(state),
@@ -30,6 +31,7 @@ class PostBoard extends Component {
     constructor(props) {
         super(props);
         this.renderColumn = this.renderColumn.bind(this);
+        this.state = { snackBarActive: false };
     }
 
     render() {
@@ -50,10 +52,22 @@ class PostBoard extends Component {
             icon: icons.lightbulb_outline,
             posts: ideasPosts
         }];
+        const hideSnackbar = () => this.setState({ snackBarActive: false });
 
         return (
             <div className={ClassNames(style.board, 'grid')}>
                 { types.map(this.renderColumn) }
+
+                <Snackbar
+                    action='Ok!'
+                    icon='question_answer'
+                    label={strings.hint}
+                    type='accept'
+                    active={this.state.snackBarActive}
+                    timeout={10000}
+                    onClick={hideSnackbar}
+                    onTimeout={hideSnackbar}
+                />
             </div>
         )
     }
@@ -73,6 +87,10 @@ class PostBoard extends Component {
                     onUnlike={this.props.unlike} />
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.setState({snackBarActive: true})
     }
 }
 
@@ -96,7 +114,8 @@ PostBoard.defaultProps = {
     strings: {
         notWellQuestion: 'What could be improved?',
         wellQuestion: 'What went well?',
-        ideasQuestion: 'A brilliant idea to share?'
+        ideasQuestion: 'A brilliant idea to share?',
+        hint: 'You can share invite others to this session by copy-pasting the URL'
     }
 }
 
