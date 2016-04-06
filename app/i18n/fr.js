@@ -15,13 +15,24 @@ export default {
     PostBoard: {
         notWellQuestion: 'Qu\'est-ce qui pourrait être amélioré ?',
         wellQuestion: 'Qu\'est-ce qui s\'est bien passé ?',
-        ideasQuestion: 'Une idée fumeuse à partager ?'
+        ideasQuestion: 'Une bonne idée à partager ?',
+        hint: 'Vous pouvez inviter d\'autres participants en leur envoyant l\'URL de cette page'
     },
     Clients: {
         header: 'Nos invités du moment:'
     },
     Join: {
-        newSession: 'Créer une nouvelle session'
+        welcome: 'Bienvenue',
+        standardTab: {
+            header: 'Nouvelle Session',
+            text: 'Cliquez ci-dessous et commencez à retrospecter:',
+            button: 'Créer une nouvelle session'
+        },
+        advancedTab: {
+            header: 'Avancé',
+            input: 'Donnez un nom à votre session',
+            button: 'Créer une session personalisée'
+        }
     },
     Login: {
         namePlaceholder: 'Qui êtes-vous au juste? Entrez votre nom ici',

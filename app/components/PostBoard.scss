@@ -1,12 +1,9 @@
-$color-notWell: #F0DAD1 !default;
-$color-well: #D8F0D1 !default;
-$color-improve: #D1E7F0 !default;
-$color-ideas: #FFFFC9 !default;
+$color-notWell: $palette-red-50 !default;
+$color-well: $palette-green-50 !default;
+$color-ideas: $palette-yellow-50 !default;
 
 div.board {
-
     .column {
-
         .columnContent {
             display: flex;
             flex-direction: row;
@@ -31,22 +28,32 @@ div.board {
                     }
                 }
 
-                &.improve {
-                    [data-react-toolbox="card"] {
-                        background-color: $color-improve;
-                    }
-                }
-
                 &.ideas {
                     [data-react-toolbox="card"] {
                         background-color: $color-ideas;
                     }
                 }
 
+                .like {
+                    background-color: $palette-green-300;
+                    color: white;
+                }
+                .like.disabled {
+                    background-color: $palette-green-200;
+                }
+
+                .dislike {
+                    background-color: $palette-red-300;
+                    color: white;
+                }
+                .dislike.disabled {
+                    background-color: $palette-red-200;
+                }
+                .deleteButton {
+                    background-color: $palette-red-300;
+                    color: white;
+                }
             }
         }
-
     }
-
-
 }
