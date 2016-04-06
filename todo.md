@@ -1,5 +1,2 @@
 - unit tests
 - animations
-- readme: add links to frameworks
-- tooltip
-- add summary
