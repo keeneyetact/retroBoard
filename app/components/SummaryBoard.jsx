@@ -33,6 +33,9 @@ class SummaryBoard extends Component {
     }
 
     renderType(label, className, posts) {
+        if (!posts.length) {
+            return null;
+        }
         return (
             <div style={{ margin: 30 }}>
                 <Card>

@@ -37,8 +37,9 @@ const actionsToProps = dispatch => ({
 @translate('Header')
 @connect(stateToProps, actionsToProps)
 class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.toggleSummaryMode = this.toggleSummaryMode.bind(this);
         this.state = {
             drawerOpen: false
         }
@@ -60,7 +61,7 @@ class Header extends Component {
                     <TranslationProvider>
                         <div style={{margin: '0 10px'}}>
                             <LanguagePicker />
-                            <Switch checked={summaryMode} onChange={toggleSummaryMode} label={strings.summaryMode} />
+                            <Switch checked={summaryMode} onChange={this.toggleSummaryMode} label={strings.summaryMode} />
                         </div>
 
                         <Clients />
@@ -75,6 +76,11 @@ class Header extends Component {
 
             </div>
         )
+    }
+
+    toggleSummaryMode() {
+        this.props.toggleSummaryMode();
+        this.setState({drawerOpen: false});
     }
 }
 
