@@ -1,2 +1,4 @@
 - unit tests
 - animations
+- bug: let's start when login in doesn't work
+- hide like / unlike when disabled and no votes
