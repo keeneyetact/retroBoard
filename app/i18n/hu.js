@@ -2,7 +2,8 @@ export default {
     Header: {
         subtitle: 'Panaszkodjunk rendezetten',
         logout: 'Kijelentkezés',
-        leave: 'Hagy'
+        leave: 'Hagy',
+        summaryMode: 'Summary Mode' //todo
     },
     LanguagePicker: {
         header: 'Válassz nyelvet'
@@ -22,16 +23,16 @@ export default {
         header: 'Épp most csatlakozik:'
     },
     Join: {
-        welcome: 'Welcome to Retrospected',
+        welcome: 'Welcome to Retrospected', //todo
         standardTab: {
-            header: 'Create a Session',
-            text: 'Click below and start retrospecting:',
+            header: 'Create a Session', //todo
+            text: 'Click below and start retrospecting:', //todo
             button: 'Új ülés indítása'
         },
         advancedTab: {
-            header: 'Advanced',
-            input: 'Enter a name for your session',
-            button: 'Create custom session'
+            header: 'Advanced', //todo
+            input: 'Enter a name for your session', //todo
+            button: 'Create custom session' //todo
         }
     },
     Login: {

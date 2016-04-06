@@ -2,7 +2,8 @@ export default {
     Header: {
         subtitle: 'Een goede manier om in een gestructureerde manier te tieren',
         logout: 'Afmelden',
-        leave: 'Verlaten'
+        leave: 'Verlaten',
+        summaryMode: 'Summary Mode' //todo
     },
     LanguagePicker: {
         header: 'Kies een taal'
@@ -22,16 +23,16 @@ export default {
         header: 'Onze lieftallige deelnemers:'
     },
     Join: {
-        welcome: 'Welcome to Retrospected',
+        welcome: 'Welcome to Retrospected', //todo
         standardTab: {
-            header: 'Create a Session',
-            text: 'Click below and start retrospecting:',
+            header: 'Create a Session', //todo
+            text: 'Click below and start retrospecting:', //todo
             button: 'Start een nieuwe sessie'
         },
         advancedTab: {
-            header: 'Advanced',
-            input: 'Enter a name for your session',
-            button: 'Create custom session'
+            header: 'Advanced', //todo
+            input: 'Enter a name for your session', //todo
+            button: 'Create custom session' //todo
         }
     },
     Login: {

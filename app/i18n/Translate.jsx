@@ -13,8 +13,12 @@ export default function translate(key) {
 
             render() {
                 var strings = languages[this.context.currentLanguage][key];
+                const merged = {
+                    ...this.props.strings,
+                    ...strings
+                }
                 if (strings) {
-                    return <Component {...this.props} strings={strings} currentLanguage={this.context.currentLanguage} />;
+                    return <Component {...this.props} strings={merged} currentLanguage={this.context.currentLanguage} />;
                 } else {
                     return <Component {...this.props} currentLanguage={this.context.currentLanguage} />;
                 }

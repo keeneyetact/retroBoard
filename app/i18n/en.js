@@ -2,7 +2,8 @@ export default {
     Header: {
         subtitle: 'A good way of ranting in an orderly fashion',
         logout: 'Logout',
-        leave: 'Leave'
+        leave: 'Leave',
+        summaryMode: 'Summary Mode'
     },
     LanguagePicker: {
         header: 'Choose a language'

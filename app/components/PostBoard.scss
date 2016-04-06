@@ -1,6 +1,4 @@
-$color-notWell: $palette-red-50 !default;
-$color-well: $palette-green-50 !default;
-$color-ideas: $palette-yellow-50 !default;
+
 
 div.board {
     .column {
@@ -35,19 +33,19 @@ div.board {
                 }
 
                 .like {
-                    background-color: $palette-green-300;
+                    background-color: $color-like;
                     color: white;
                 }
                 .like.disabled {
-                    background-color: $palette-green-200;
+                    background-color: $color-like-secondary;
                 }
 
                 .dislike {
-                    background-color: $palette-red-300;
+                    background-color: $color-dislike;
                     color: white;
                 }
                 .dislike.disabled {
-                    background-color: $palette-red-200;
+                    background-color: $color-dislike-secondary;
                 }
                 .deleteButton {
                     background-color: $palette-red-300;
