@@ -2,7 +2,8 @@ export default {
     Header: {
         subtitle: 'Uma ótima maneira de reclamar se divertindo',
         logout: 'Logout',
-        leave: 'Sair'
+        leave: 'Sair',
+        summaryMode: 'Summary Mode' //todo
     },
     LanguagePicker: {
         header: 'Escolha uma língua'
@@ -22,16 +23,16 @@ export default {
         header: 'Participando conosco agora:'
     },
     Join: {
-        welcome: 'Welcome to Retrospected',
+        welcome: 'Welcome to Retrospected', //todo
         standardTab: {
-            header: 'Create a Session',
-            text: 'Click below and start retrospecting:',
+            header: 'Create a Session', //todo
+            text: 'Click below and start retrospecting:', //todo
             button: 'Crie uma nova seção'
         },
         advancedTab: {
-            header: 'Advanced',
-            input: 'Enter a name for your session',
-            button: 'Create custom session'
+            header: 'Advanced', //todo
+            input: 'Enter a name for your session', //todo
+            button: 'Create custom session' //todo
         }
     },
     Login: {

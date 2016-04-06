@@ -2,7 +2,8 @@ export default {
     Header: {
         subtitle: 'Un bonne façon de râler en s\'amusant',
         logout: 'Déconnexion',
-        leave: 'Sortir'
+        leave: 'Sortir',
+        summaryMode: 'Mode Résumé'
     },
     LanguagePicker: {
         header: 'Changez de langue'

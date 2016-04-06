@@ -60,7 +60,7 @@ class Header extends Component {
                     <TranslationProvider>
                         <div style={{margin: '0 10px'}}>
                             <LanguagePicker />
-                            <Switch checked={summaryMode} onChange={toggleSummaryMode} label="Summary mode" />
+                            <Switch checked={summaryMode} onChange={toggleSummaryMode} label={strings.summaryMode} />
                         </div>
 
                         <Clients />
@@ -96,7 +96,8 @@ Header.defaultTypes = {
     strings: {
         subtitle: 'A good way of ranting in an orderly fashion',
         logout: 'Logout',
-        leave: 'Leave'
+        leave: 'Leave',
+        summaryMode: 'Summary Mode'
     }
 }
 

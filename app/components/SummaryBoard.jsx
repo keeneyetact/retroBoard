@@ -4,14 +4,14 @@ import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-
 import noop from 'lodash/noop';
 import translate from '../i18n/Translate';
 import { connect } from 'react-redux';
-import { getWellPosts, getNotWellPosts, getIdeasPosts } from '../selectors';
+import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from '../selectors';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import style from './SummaryBoard.scss';
 
 const stateToProps = state => ({
-    wellPosts: getWellPosts(state),
-    notWellPosts: getNotWellPosts(state),
-    ideasPosts: getIdeasPosts(state)
+    wellPosts: getSortedWellPosts(state),
+    notWellPosts: getSortedNotWellPosts(state),
+    ideasPosts: getSortedIdeasPosts(state)
 });
 
 const actionsToProps = dispatch => ({
