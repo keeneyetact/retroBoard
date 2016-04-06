@@ -8,6 +8,9 @@ export default {
     LanguagePicker: {
         header: 'Choose a language'
     },
+    Main: {
+        hint: 'You can share invite others to this session by copy-pasting the URL'
+    },
     Post: {
         vote: 'vote',
         votes: 'votes',

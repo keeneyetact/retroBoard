@@ -8,6 +8,9 @@ export default {
     LanguagePicker: {
         header: 'Escolha uma língua'
     },
+    Main: {
+        hint: 'You can share invite others to this session by copy-pasting the URL' //todo
+    },
     Post: {
         vote: 'vote',
         votes: 'votos',
@@ -16,8 +19,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'O que poderia ser melhorado?',
         wellQuestion: 'O que deu certo?',
-        ideasQuestion: 'Compartilhar uma ideia brilhante?',
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        ideasQuestion: 'Compartilhar uma ideia brilhante?'
     },
     Clients: {
         header: 'Participando conosco agora:'

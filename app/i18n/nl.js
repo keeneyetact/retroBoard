@@ -8,6 +8,9 @@ export default {
     LanguagePicker: {
         header: 'Kies een taal'
     },
+    Main: {
+        hint: 'You can share invite others to this session by copy-pasting the URL' //todo
+    },
     Post: {
         vote: 'Stem',
         votes: 'Stemmen',
@@ -16,8 +19,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'Wat kan er beter?',
         wellQuestion: 'Wat ging goed?',
-        ideasQuestion: 'Een geweldig idee om te delen?',
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        ideasQuestion: 'Een geweldig idee om te delen?'
     },
     Clients: {
         header: 'Onze lieftallige deelnemers:'

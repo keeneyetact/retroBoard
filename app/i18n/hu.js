@@ -8,6 +8,9 @@ export default {
     LanguagePicker: {
         header: 'Válassz nyelvet'
     },
+    Main: {
+        hint: 'You can share invite others to this session by copy-pasting the URL' //todo
+    },
     Post: {
         vote: 'szavazat',
         votes: 'szavazat',
@@ -16,8 +19,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'Mit lehetne jobban csinálni?',
         wellQuestion: 'Mit ment jól?',
-        ideasQuestion: 'Van valami nagyszerű ötleted?',
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        ideasQuestion: 'Van valami nagyszerű ötleted?'
     },
     Clients: {
         header: 'Épp most csatlakozik:'

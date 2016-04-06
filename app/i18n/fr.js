@@ -8,6 +8,9 @@ export default {
     LanguagePicker: {
         header: 'Changez de langue'
     },
+    Main: {
+        hint: 'Vous pouvez inviter d\'autres participants en leur envoyant l\'URL de cette page'
+    },
     Post: {
         vote: 'vote',
         votes: 'votes',
@@ -16,8 +19,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'Qu\'est-ce qui pourrait être amélioré ?',
         wellQuestion: 'Qu\'est-ce qui s\'est bien passé ?',
-        ideasQuestion: 'Une bonne idée à partager ?',
-        hint: 'Vous pouvez inviter d\'autres participants en leur envoyant l\'URL de cette page'
+        ideasQuestion: 'Une bonne idée à partager ?'
     },
     Clients: {
         header: 'Nos invités du moment:'
