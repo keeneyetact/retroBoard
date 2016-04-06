@@ -15,7 +15,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'Qu\'est-ce qui pourrait être amélioré ?',
         wellQuestion: 'Qu\'est-ce qui s\'est bien passé ?',
-        ideasQuestion: 'Une idée fumeuse à partager ?',
+        ideasQuestion: 'Une bonne idée à partager ?',
         hint: 'Vous pouvez inviter d\'autres participants en leur envoyant l\'URL de cette page'
     },
     Clients: {
