@@ -8,6 +8,7 @@ const getPostsOfType = type => createSelector(
     posts => posts.filter(p => p.postType === type)
 );
 
+export const getSummaryMode = state => state.modes.summaryMode;
 export const getNotWellPosts = getPostsOfType('notWell');
 export const getWellPosts = getPostsOfType('well');
 export const getIdeasPosts = getPostsOfType('ideas');

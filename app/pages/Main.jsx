@@ -2,9 +2,13 @@ import { PropTypes } from 'react';
 import Component from '../Component';
 import { connect } from 'react-redux';
 import PostBoard from '../components/PostBoard';
+import SummaryBoard from '../components/SummaryBoard';
 import { autoJoin } from '../state/session';
+import { getSummaryMode } from '../selectors';
 
-const stateToProps = state => ({ });
+const stateToProps = state => ({
+    summaryMode: getSummaryMode(state)
+});
 
 const actionsToProps = dispatch => ({
     autoJoin: sessionId => dispatch(autoJoin(sessionId))
@@ -13,9 +17,10 @@ const actionsToProps = dispatch => ({
 @connect(stateToProps, actionsToProps)
 class Main extends Component {
     render() {
+        const { summaryMode } = this.props;
         return (
             <div>
-                <PostBoard />
+                { summaryMode ? <SummaryBoard /> : <PostBoard /> }
             </div>
         )
     }
@@ -26,7 +31,8 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-    autoJoin: PropTypes.func.isRequired
+    autoJoin: PropTypes.func,
+    summaryMode: PropTypes.bool
 }
 
 export default Main;

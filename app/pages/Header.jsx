@@ -3,29 +3,34 @@ import noop from 'lodash/noop';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
+import Drawer from 'react-toolbox/lib/drawer';
 import Navigation from 'react-toolbox/lib/navigation';
+import Switch from 'react-toolbox/lib/switch';
 import { connect } from 'react-redux';
 import { logout } from '../state/user';
 import { leave } from '../state/session';
+import { toggleSummaryMode } from '../state/modes';
 import style from './App.scss';
 import Clients from './Clients';
-import Drawer from 'react-toolbox/lib/drawer';
+
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
 import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
 import githubLogo from '../components/images/github.png';
-import { getCurrentUser, shouldDisplayDrawerButton } from '../selectors';
+import { getCurrentUser, shouldDisplayDrawerButton, getSummaryMode } from '../selectors';
 
 const stateToProps = state => ({
     user: getCurrentUser(state),
-    displayDrawerButton: shouldDisplayDrawerButton(state)
+    displayDrawerButton: shouldDisplayDrawerButton(state),
+    summaryMode: getSummaryMode(state)
 });
 
 const actionsToProps = dispatch => ({
     onLogout: () => dispatch(logout()),
     onLeave: () => dispatch(leave()),
+    toggleSummaryMode: () => dispatch(toggleSummaryMode()),
     goToHomepage: () => dispatch(push('/'))
 });
 
@@ -40,7 +45,7 @@ class Header extends Component {
     }
 
     render() {
-        const { strings, goToHomepage } = this.props;
+        const { strings, goToHomepage, summaryMode, toggleSummaryMode } = this.props;
         return (
             <div>
                 <AppBar fixed flat>
@@ -55,7 +60,9 @@ class Header extends Component {
                     <TranslationProvider>
                         <div style={{margin: '0 10px'}}>
                             <LanguagePicker />
+                            <Switch checked={summaryMode} onChange={toggleSummaryMode} label="Summary mode" />
                         </div>
+
                         <Clients />
                         <br />
                         <br />
