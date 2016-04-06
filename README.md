@@ -62,24 +62,31 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
+### Version 0.4.0 (unreleased)
+
+* Improved the "Create Session" page, allows a user to create a session with a custom name
+* Using [reselect](https://github.com/reactjs/reselect) to create memoized selectors
+* Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
+* Internationalisation: added Dutch to the list of supported languages
+
 ### Version 0.3.0
 
 * Adding support for more robust databases (NeDB, by default, in process, and MongoDB)
 * Change to the Like / Unlike logic: a user can now only vote once, and not for his own posts
 * Change to the Like / Unlike logic: like and unlikes counts are separated
 * Adding ES7 decorators, more readable than the previous curry-ed functions
-* Multilingual: added Brazilian Portuguese to the list of supported languages
 * Better support for Windows
+* Internationalisation: added Brazilian Portuguese to the list of supported languages
 
 ### Version 0.2.0
 
-* Multilingual: support for English, French and Hungarian
 * Using `redux-saga` instead of `redux-thunk`
 * Persistence: Simple persistence to disk (no database needed)
 * Support for Google Analytics (with precise events monitoring)
 * Ability to logout, and to leave a session
 * Improve the reliability of the clients list (currently connected users)
 * Fix issues when the web fonts can't load (firewall blocking for example)
+* Internationalisation: support for English, French and Hungarian
 
 ### Version 0.1.1
 
