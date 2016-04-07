@@ -3,13 +3,13 @@ export default {
         subtitle: 'Een goede manier om in een gestructureerde manier te tieren',
         logout: 'Afmelden',
         leave: 'Verlaten',
-        summaryMode: 'Summary Mode' //todo
+        summaryMode: 'Samenvatting'
     },
     LanguagePicker: {
         header: 'Kies een taal'
     },
     Main: {
-        hint: 'You can share invite others to this session by copy-pasting the URL' //todo
+        hint: 'Je kan anderen uitnodigen voor deze sessie door de URL te kopiëren en te plakken'
     },
     Post: {
         vote: 'Stem',
@@ -25,16 +25,16 @@ export default {
         header: 'Onze lieftallige deelnemers:'
     },
     Join: {
-        welcome: 'Welcome to Retrospected', //todo
+        welcome: 'Welkom bij Retrospected',
         standardTab: {
-            header: 'Create a Session', //todo
-            text: 'Click below and start retrospecting:', //todo
+            header: 'Maak een sessie',
+            text: 'Klik hieronder en begin terug te denken:',
             button: 'Start een nieuwe sessie'
         },
         advancedTab: {
-            header: 'Advanced', //todo
-            input: 'Enter a name for your session', //todo
-            button: 'Create custom session' //todo
+            header: 'Geavanceerd',
+            input: 'Geef een naam voor de sessie',
+            button: 'Maak een aangepaste sessie'
         }
     },
     Login: {
