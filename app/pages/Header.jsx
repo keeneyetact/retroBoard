@@ -39,7 +39,6 @@ const actionsToProps = dispatch => ({
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.toggleSummaryMode = this.toggleSummaryMode.bind(this);
         this.state = {
             drawerOpen: false
         }
@@ -61,14 +60,14 @@ class Header extends Component {
                     <TranslationProvider>
                         <div style={{margin: '0 10px'}}>
                             <LanguagePicker />
-                            <Switch checked={summaryMode} onChange={this.toggleSummaryMode} label={strings.summaryMode} />
+                            <Switch checked={summaryMode} onChange={this.closeDrawer(this.props.toggleSummaryMode)} label={strings.summaryMode} />
                         </div>
 
                         <Clients />
                         <br />
                         <br />
-                        <Button label={strings.leave} icon={icons.exit_to_app} onClick={this.props.onLeave} accent />
-                        <Button label={strings.logout} icon={icons.power_settings_new} onClick={this.props.onLogout} accent />
+                        <Button label={strings.leave} icon={icons.exit_to_app} onClick={this.closeDrawer(this.props.onLeave)} accent />
+                        <Button label={strings.logout} icon={icons.power_settings_new} onClick={this.closeDrawer(this.props.onLogout)} accent />
 
                         <a href="https://github.com/antoinejaussoin/retro-board" style={{ position: 'absolute', bottom: 10, right: 10 }} target="_blank">Fork me on <img style={{ width: 100, position: "relative", top: 10 }} src={githubLogo} /></a>
                     </TranslationProvider>
@@ -78,9 +77,11 @@ class Header extends Component {
         )
     }
 
-    toggleSummaryMode() {
-        this.props.toggleSummaryMode();
-        this.setState({drawerOpen: false});
+    closeDrawer(fn) {
+        return () => {
+            fn();
+            this.setState({drawerOpen: false});
+        }
     }
 }
 

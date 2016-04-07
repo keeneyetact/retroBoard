@@ -40,5 +40,8 @@ export default {
     Login: {
         namePlaceholder: 'Quem é você? Insira seu nome aqui',
         buttonLabel: 'Vamos começar'
+    },
+    SummaryBoard: {
+        noPosts: 'There are no posts to display'
     }
 }

@@ -40,5 +40,8 @@ export default {
     Login: {
         namePlaceholder: 'Hogy is hívnak? Kérlek írd ide a nevedet',
         buttonLabel: 'Kezdjük'
+    },
+    SummaryBoard: {
+        noPosts: 'There are no posts to display'
     }
 }

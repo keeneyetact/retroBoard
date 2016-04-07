@@ -40,5 +40,8 @@ export default {
     Login: {
         namePlaceholder: 'Wie ben jij precies? Typ je naam hier',
         buttonLabel: 'Laten we beginnen'
+    },
+    SummaryBoard: {
+        noPosts: 'There are no posts to display'
     }
 }

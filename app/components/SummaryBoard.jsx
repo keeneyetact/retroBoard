@@ -18,11 +18,20 @@ const actionsToProps = dispatch => ({
 });
 
 @translate('PostBoard')
+@translate('SummaryBoard')
 @translate('Post')
 @connect(stateToProps, actionsToProps)
 class SummaryBoard extends Component {
     render() {
         const { wellPosts, notWellPosts, ideasPosts, strings } = this.props;
+
+        if (!wellPosts.length && !notWellPosts.length && !ideasPosts.length) {
+            return (
+                <div className={style.summary}>
+                    <h4 style={{ textAlign: 'center'}}>{strings.noPosts}</h4>
+                </div>
+            );
+        }
         return (
             <div className={style.summary}>
                 { this.renderType(strings.wellQuestion, style.well, wellPosts) }
@@ -76,7 +85,8 @@ SummaryBoard.defaultProps = {
         wellQuestion: 'What went well?',
         ideasQuestion: 'A brilliant idea to share?',
         vote: 'vote',
-        votes: 'votes'
+        votes: 'votes',
+        noPosts: 'There are no posts to display'
     }
 }
 
