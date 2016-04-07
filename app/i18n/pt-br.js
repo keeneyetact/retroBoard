@@ -3,13 +3,13 @@ export default {
         subtitle: 'Uma ótima maneira de reclamar se divertindo',
         logout: 'Logout',
         leave: 'Sair',
-        summaryMode: 'Summary Mode' //todo
+        summaryMode: 'Modo Sumário'
     },
     LanguagePicker: {
         header: 'Escolha uma língua'
     },
     Main: {
-        hint: 'You can share invite others to this session by copy-pasting the URL' //todo
+        hint: 'Você pode convidar outras pessoas para esta seção compartilhando a URL'
     },
     Post: {
         vote: 'vote',
@@ -25,16 +25,16 @@ export default {
         header: 'Participando conosco agora:'
     },
     Join: {
-        welcome: 'Welcome to Retrospected', //todo
+        welcome: 'Bem-vindo ao Retrospected',
         standardTab: {
-            header: 'Create a Session', //todo
-            text: 'Click below and start retrospecting:', //todo
+            header: 'Crie uma seção',
+            text: 'Clique abaixo e inicie a restropectiva:',
             button: 'Crie uma nova seção'
         },
         advancedTab: {
-            header: 'Advanced', //todo
-            input: 'Enter a name for your session', //todo
-            button: 'Create custom session' //todo
+            header: 'Avançado',
+            input: 'Insira um nome para sua seção',
+            button: 'Crie uma seção customizada'
         }
     },
     Login: {
