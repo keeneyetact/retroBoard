@@ -17,7 +17,7 @@ class Login extends Component {
                     <LanguagePicker />
                     <EnterInput placeholder={this.props.strings.namePlaceholder} icon={icons.people} onEnter={this.props.onLogin} ref="input" />
                     <Button label={this.props.strings.buttonLabel} accent raised onClick={() => {
-                        const text = this.refs.input.value();
+                        const text = this.refs.input.state.value;
                         if (text) {
                             this.props.onLogin(text);
                         }
