@@ -40,6 +40,11 @@ class Post extends Component {
         const votes = this.props.post[name].length;
         const label = votes ? votes.toString() : '-';
         const classNames = ClassNames(className, canVote ? null : style.disabled);
+        const visible = canVote || votes > 0;
+
+        if (!visible) {
+            return null;
+        }
         return (
             <Button icon={icon}
                     label={label}
