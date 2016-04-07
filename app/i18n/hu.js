@@ -3,7 +3,7 @@ export default {
         subtitle: 'Panaszkodjunk rendezetten',
         logout: 'Kijelentkezés',
         leave: 'Távozás',
-        summaryMode: 'Summary Mode' //todo
+        summaryMode: 'Összesített mód'
     },
     LanguagePicker: {
         header: 'Válassz nyelvet'
