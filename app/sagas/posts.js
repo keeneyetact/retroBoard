@@ -9,7 +9,6 @@ export function* addPost(action) {
 
     yield put({ type: ADD_POST_SUCCESS, payload: {
         id: postId,
-        sessionId,
         postType: action.payload.postType,
         content: action.payload.content,
         user,

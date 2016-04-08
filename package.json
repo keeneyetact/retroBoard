@@ -23,6 +23,7 @@
     "babel-preset-stage-0": "6.5.0",
     "chalk": "1.1.3",
     "classnames": "2.2.3",
+    "cross-env": "^1.0.7",
     "css-loader": "0.23.1",
     "eslint": "2.6.0",
     "eslint-plugin-react": "4.2.3",
@@ -64,6 +65,7 @@
     "redux-thunk": "2.0.1",
     "reselect": "^2.2.1",
     "sass-loader": "3.2.0",
+    "shortid": "^2.2.6",
     "socket.io": "1.4.5",
     "socket.io-client": "1.4.5",
     "style-loader": "0.13.1",
@@ -77,12 +79,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-ui": "webpack-dev-server --progress --inline --hot",
     "start-server": "nodemon babel.js",
-    "start": "NODE_ENV=production PORT=8080 nodemon .",
-    "start-win": "cmd /C \"set NODE_ENV=production&& set PORT=8080&& nodemon .\"",
+    "start": "cross-env NODE_ENV=production PORT=8080 nodemon .",
     "clean": "rm -rf build && rm -rf assets && mkdir build && mkdir assets",
     "build-server": "babel -d build server",
-    "build": "npm run clean && npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors",
-    "build-win": "cmd /C \"babel.cmd -d build server && set NODE_ENV=production&& webpack -p --config webpack.prod.config.js --progress --colors\""
+    "build": "cross-env npm run clean && npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
   },
   "repository": {
     "type": "git",

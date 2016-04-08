@@ -24,8 +24,8 @@ It features the following technologies:
 
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
-* `npm run build` to build everything (client and server) (`npm run build-win` on Windows)
-* `npm start` to run the server on port 8080 (`npm run start-win` on Windows)
+* `npm run build` to build everything (client and server)
+* `npm start` to run the server on port 8080
 * Open your browser on [http://localhost:8080](http://localhost:8080)
 
 
@@ -65,7 +65,9 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 0.4.0 (unreleased)
 
 * Improved the "Create Session" page, allows a user to create a session with a custom name
+* Ability to edit that session name in real-time (by anyone)
 * Added a "Summary Mode": this gives a summary of a current session, allowing a user to copy-paste the entire content easily
+* New look-and-feel (new colours)
 * Using [reselect](https://github.com/reactjs/reselect) to create memoized selectors
 * Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
 * Internationalisation: added Dutch to the list of supported languages

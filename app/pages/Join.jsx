@@ -41,7 +41,7 @@ class Join extends Component {
                             <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
                         </Tab>
                         <Tab label={ strings.advancedTab.header }>
-                            <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} onChange={v => this.setState({ customSessionName: v })} />
+                            <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} maxLength={50} onChange={v => this.setState({ customSessionName: v })} />
                             <br />
                             <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
                         </Tab>

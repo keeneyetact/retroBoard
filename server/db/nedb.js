@@ -22,6 +22,7 @@ const get = store => sessionId => {
                 } else {
                     resolve({
                         id: sessionId,
+                        name: null,
                         posts: []
                     });
                 }
