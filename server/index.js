@@ -43,7 +43,7 @@ db().then(store => {
 
         actions.forEach(action => {
             socket.on(action.type, data => {
-                console.log(chalk.red(' <-- (In)   ')+chalk.blue(action.type), chalk.grey(JSON.stringify(data)));
+                console.log(chalk.red(' <--  ')+chalk.blue(action.type), chalk.grey(JSON.stringify(data)));
                 const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
                 if (sid) {
                     store.get(sid).then(session => {
@@ -131,7 +131,7 @@ db().then(store => {
     };
 
     const sendToAll = (socket, sessionId, action, data) => {
-        console.log(chalk.green(' --> (All) ')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
+        console.log(chalk.green(' ==> ')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
         socket
             .broadcast
             .to(getRoom(sessionId))
@@ -139,7 +139,7 @@ db().then(store => {
     };
 
     const sendToSelf = (socket, action, data) => {
-        console.log(chalk.green(' --> (Self)')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
+        console.log(chalk.green(' --> ')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
         socket.emit(action, data);
     };
 
