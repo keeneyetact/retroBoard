@@ -34,6 +34,7 @@ db().then(store => {
         const actions = [
             { type: 'ADD_POST_SUCCESS', handler: receivePost },
             { type: 'JOIN_SESSION', handler: joinSession },
+            { type: 'RENAME_SESSION', handler: renameSession },
             { type: 'DELETE_POST', handler: deletePost },
             { type: 'LIKE_SUCCESS', handler: like },
             { type: 'LOGIN_SUCCESS', handler: login },
@@ -42,7 +43,7 @@ db().then(store => {
 
         actions.forEach(action => {
             socket.on(action.type, data => {
-                console.log(chalk.blue('Action: ')+chalk.red(action.type), chalk.grey(JSON.stringify(data)));
+                console.log(chalk.red(' <-- (In)   ')+chalk.blue(action.type), chalk.grey(JSON.stringify(data)));
                 const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
                 if (sid) {
                     store.get(sid).then(session => {
@@ -75,9 +76,18 @@ db().then(store => {
             if (session.posts.length) {
                 sendToSelf(socket, 'RECEIVE_BOARD', session.posts);
             }
+            if (session.name) {
+                sendToSelf(socket, 'RECEIVE_SESSION_NAME', session.name);
+            }
 
             recordUser(session.id, data.user, socket);
         });
+    };
+
+    const renameSession = (session, data, socket) => {
+        session.name = data;
+        persist(session);
+        sendToAll(socket, session.id, 'RECEIVE_SESSION_NAME', data);
     };
 
     const leave = (session, data, socket) => {
@@ -121,6 +131,7 @@ db().then(store => {
     };
 
     const sendToAll = (socket, sessionId, action, data) => {
+        console.log(chalk.green(' --> (All) ')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
         socket
             .broadcast
             .to(getRoom(sessionId))
@@ -128,6 +139,7 @@ db().then(store => {
     };
 
     const sendToSelf = (socket, action, data) => {
+        console.log(chalk.green(' --> (Self)')+' '+chalk.blue(action)+' '+chalk.grey(JSON.stringify(data)));
         socket.emit(action, data);
     };
 

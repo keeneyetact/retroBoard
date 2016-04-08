@@ -28,7 +28,7 @@ class SummaryBoard extends Component {
         if (!wellPosts.length && !notWellPosts.length && !ideasPosts.length) {
             return (
                 <div className={style.summary}>
-                    <h4 style={{ textAlign: 'center'}}>{strings.noPosts}</h4>
+                    <h4 style={{ textAlign: 'center', marginTop: 50 }}>{strings.noPosts}</h4>
                 </div>
             );
         }

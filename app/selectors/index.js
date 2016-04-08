@@ -11,6 +11,7 @@ export const getSummaryMode = state => state.modes.summaryMode;
 export const getCurrentUser = state => state.user.name;
 export const getCurrentLanguage = state => state.user.lang;
 export const getClients = state => state.session.clients;
+export const getSessionName = state => state.session.name;
 
 // Selector Factories
 const getPostsOfType = type => createSelector(getPosts, posts => posts.filter(p => p.postType === type));
