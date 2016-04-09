@@ -2,7 +2,7 @@
 
 This is a Retrospective Idea board, powering [retrospected.com](http://www.retrospected.com).
 
-![Retrospected.com](/content/screenshot.png?raw=true "Retrospected.com")
+![Retrospected.com](/content/screenshot-v4.png?raw=true "Retrospected.com")
 
 It features the following technologies:
 
@@ -20,7 +20,7 @@ It features the following technologies:
 * ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 
 
-## How to run for production (or to try it out)
+## How to run for production (or to try it out) 
 
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
@@ -61,6 +61,11 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Unit tests
 
 ## Versions history
+
+### Version 0.4.1
+
+* Updated the screenshot on the readme
+* package.json version updated properly this time
 
 ### Version 0.4.0
 
