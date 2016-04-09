@@ -64,7 +64,7 @@ Main.defaultProps = {
     autoJoin: noop,
     summaryMode: false,
     strings: {
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        hint: 'You can invite others to this session by copy-pasting the URL'
     }
 }
 
