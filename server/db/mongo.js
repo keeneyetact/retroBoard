@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import config from '../../config';
 
 const sessionShema = mongoose.Schema({
+    name: String,
+    id: { type: String, index: { unique: true }},
     posts: [{
-        id: String,
-        sessionId: String,
+        id: { type: String, index: { unique: true }},
         postType: String,
         content: String,
         user: String,
@@ -41,6 +42,7 @@ const get = store => sessionId => {
                 } else {
                     resolve({
                         id: sessionId,
+                        name: null,
                         posts: []
                     });
                 }
@@ -56,6 +58,7 @@ const set = store => session => {
     return new Promise((resolve, reject) => {
         Session.findOneAndUpdate({ id: session.id }, session, { upsert: true}, err => {
             if (err) {
+                console.error(err)
                 reject(err);
             } else {
                 resolve(session);

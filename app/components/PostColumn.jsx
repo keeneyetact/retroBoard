@@ -1,14 +1,20 @@
-import { default as React, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import noop from 'lodash/noop';
+import Component from '../Component';
 import Post from './Post';
 import PostAdd from './PostAdd';
 import icons from '../constants/icons';
 import style from './PostBoard.scss';
 
-class PostColumn extends React.Component {
+class PostColumn extends Component {
+    constructor(props) {
+        super(props);
+        this.addPost = this.addPost.bind(this);
+    }
     render() {
         return (
             <div>
-                <PostAdd onAdd={this.addPost.bind(this)} placeholder={this.props.placeholder} icon={this.props.icon} tabOrder={this.props.tabOrder}/>
+                <PostAdd onAdd={this.addPost} placeholder={this.props.placeholder} icon={this.props.icon} />
                 <div className={style.columnContent}>
                     { this.props.posts.map((post, index) =>
                         <Post key={index}
@@ -34,7 +40,6 @@ PostColumn.propTypes = {
     type: PropTypes.string.isRequired,
     icon: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
-    tabOrder: PropTypes.number,
     onAdd: PropTypes.func,
     onDelete: PropTypes.func,
     onLike: PropTypes.func,
@@ -47,11 +52,10 @@ PostColumn.defaultProps = {
     type: 'well',
     icon: icons.add_circle,
     placeholder: 'New Comment',
-    tabOrder: 1,
-    onAdd: () => {},
-    onDelete: () => {},
-    onLike: () => {},
-    onUnlike: () => {}
+    onAdd: noop,
+    onDelete: noop,
+    onLike: noop,
+    onUnlike: noop
 }
 
 export default PostColumn;

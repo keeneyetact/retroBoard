@@ -6,25 +6,26 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* React
-* Redux
-* Socket IO
-* Webpack
-* Hot-reloading
-* Material UI design
-* Modular CSS
-* redux-saga
-* Multilingual / Internationalization
-* MongoDB (optional), defaults to NeDB (in-process)
-* ES7 decorators
+* [React](https://github.com/facebook/react) 15.0.1
+* [Redux](https://github.com/reactjs/redux)
+* [Socket IO](http://socket.io)
+* [Webpack](https://github.com/webpack/webpack)
+* [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
+* [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
+* [Modular CSS](https://github.com/css-modules/css-modules)
+* [redux-saga](https://github.com/yelouafi/redux-saga)
+* [reselect](https://github.com/reactjs/reselect)
+* [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
+* [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
+* ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 
 
 ## How to run for production (or to try it out)
 
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
-* `npm run build` to build everything (client and server) (`npm run build-win` on Windows)
-* `npm start` to run the server on port 8080 (`npm run start-win` on Windows)
+* `npm run build` to build everything (client and server)
+* `npm start` to run the server on port 8080
 * Open your browser on [http://localhost:8080](http://localhost:8080)
 
 
@@ -61,24 +62,37 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
+### Version 0.4.0
+
+* Improved the "Create Session" page, allows a user to create a session with a custom name
+* Ability to edit that session name in real-time (by anyone)
+* Added a "Summary Mode": this gives a summary of a current session, allowing a user to copy-paste the entire content easily
+* New shorter session IDs
+* New look-and-feel (new colours)
+* Using [reselect](https://github.com/reactjs/reselect) to create memoized selectors
+* Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
+* Updated to the brand new React 15
+* Improving Windows support by allowing Windows users to use the same commands as \*nix users
+* Internationalisation: added Dutch to the list of supported languages
+
 ### Version 0.3.0
 
 * Adding support for more robust databases (NeDB, by default, in process, and MongoDB)
 * Change to the Like / Unlike logic: a user can now only vote once, and not for his own posts
 * Change to the Like / Unlike logic: like and unlikes counts are separated
 * Adding ES7 decorators, more readable than the previous curry-ed functions
-* Multilingual: added Brazilian Portuguese to the list of supported languages
 * Better support for Windows
+* Internationalisation: added Brazilian Portuguese to the list of supported languages
 
 ### Version 0.2.0
 
-* Multilingual: support for English, French and Hungarian
 * Using `redux-saga` instead of `redux-thunk`
 * Persistence: Simple persistence to disk (no database needed)
 * Support for Google Analytics (with precise events monitoring)
 * Ability to logout, and to leave a session
 * Improve the reliability of the clients list (currently connected users)
 * Fix issues when the web fonts can't load (firewall blocking for example)
+* Internationalisation: support for English, French and Hungarian
 
 ### Version 0.1.1
 
@@ -99,13 +113,22 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * List of connected users
 * No persistence (yet)
 
+## Frequently Asked Questions
+
+#### What if I want to name my session so I can remember easily how to come back to it?
+
+You can actually change the session ID in the URL with anything you like: for example [www.retrospected.com/session/hello_world](http://www.retrospected.com/session/hello_world)
+
+Try not to take a too common name though, to avoid anyone else finding your session by chance.
+
+You can also use the "Advanced" tab when creating a session, and provide a name.
+
 ## Thanks
 
 Many thanks to the following contributors who helped translating the app:
 
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
+* Dutch: [@sonaryr](https://github.com/Sonaryr)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
-
-I'm looking for German, Chinese and Spanish translations.

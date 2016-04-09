@@ -1,4 +1,6 @@
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
+import noop from 'lodash/noop';
+import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
 import translate from '../i18n/Translate';
@@ -15,7 +17,7 @@ class Login extends Component {
                     <LanguagePicker />
                     <EnterInput placeholder={this.props.strings.namePlaceholder} icon={icons.people} onEnter={this.props.onLogin} ref="input" />
                     <Button label={this.props.strings.buttonLabel} accent raised onClick={() => {
-                        const text = this.refs.input.value();
+                        const text = this.refs.input.state.value;
                         if (text) {
                             this.props.onLogin(text);
                         }
@@ -33,7 +35,7 @@ Login.propTypes = {
 }
 
 Login.defaultProps = {
-    onLogin: () => {},
+    onLogin: noop,
     strings: {
         namePlaceholder: 'Who are you exactly? Enter your name here',
         buttonLabel: 'Let\'s start'

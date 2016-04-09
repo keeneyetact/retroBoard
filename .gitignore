@@ -36,3 +36,4 @@ build
 persist
 configuration.json
 assets
+stats

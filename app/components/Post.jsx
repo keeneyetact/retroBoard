@@ -1,6 +1,8 @@
-import { Component, PropTypes } from 'react';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
-import { default as Button, IconButton} from 'react-toolbox/lib/button';
+import { PropTypes } from 'react';
+import noop from 'lodash/noop';
+import Component from '../Component';
+import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
+import { default as Button } from 'react-toolbox/lib/button';
 import ClassNames from 'classnames';
 import style from './PostBoard.scss';
 import icons from '../constants/icons';
@@ -15,8 +17,8 @@ class Post extends Component {
                 <Card style={{width: '350px' }} raised className={style[post.postType]}>
                     <CardText>{post.content}</CardText>
                     <CardActions>
-                        { this.renderButton('likes', icons.thumb_up, '#6BD173', () => this.props.onLike(post)) }
-                        { this.renderButton('dislikes', icons.thumb_down, '#FF9494', () => this.props.onUnlike(post)) }
+                        { this.renderButton('likes', icons.thumb_up, style.like, () => this.props.onLike(post)) }
+                        { this.renderButton('dislikes', icons.thumb_down, style.dislike, () => this.props.onUnlike(post)) }
                         { this.renderDelete() }
                     </CardActions>
                 </Card>
@@ -27,17 +29,29 @@ class Post extends Component {
     renderDelete(){
         const { post, strings } = this.props;
         if (this.props.currentUser === post.user) {
-            return <Button icon={icons.delete_forever} label={strings.deleteButton} raised style={{ backgroundColor: '#FF9494', color: 'white', tabIndex: -1 }} onClick={() => this.props.onDelete(post)} />;
+            return <Button icon={icons.delete_forever} label={strings.deleteButton} raised className={style.deleteButton} onClick={() => this.props.onDelete(post)} />;
         }
 
         return null;
     }
 
-    renderButton(name, icon, color, onClick) {
+    renderButton(name, icon, className, onClick) {
+        const canVote = this.canVote();
         const votes = this.props.post[name].length;
-        const label = votes ? votes : '-';
+        const label = votes ? votes.toString() : '-';
+        const classNames = ClassNames(className, canVote ? null : style.disabled);
+        const visible = canVote || votes > 0;
+
+        if (!visible) {
+            return null;
+        }
         return (
-            <Button icon={icon} label={label} onClick={onClick} raised={this.canVote()} style={{ backgroundColor: color, color: 'white' }} disabled={!this.canVote()}/>
+            <Button icon={icon}
+                    label={label}
+                    onClick={onClick}
+                    raised={canVote}
+                    className={classNames}
+                    disabled={!canVote} />
         );
     }
 
@@ -60,9 +74,9 @@ Post.propTypes = {
 Post.defaultProps = {
     post: null,
     currentUser: null,
-    onDelete: () => {},
-    onLike: () => {},
-    onUnlike: () => {},
+    onDelete: noop,
+    onLike: noop,
+    onUnlike: noop,
     strings: {
         deleteButton: 'Delete'
     }

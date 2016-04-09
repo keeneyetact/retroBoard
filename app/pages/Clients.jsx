@@ -1,24 +1,28 @@
 import { connect } from 'react-redux';
-import { Component, PropTypes } from 'react';
-import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
+import { PropTypes } from 'react';
+import Component from '../Component';
+import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
+import { getClients } from '../selectors';
 
 const stateToProps = state => ({
-    clients: state.session.clients,
-    lang: state.user.lang
+    clients: getClients(state)
 });
 
 @translate('Clients')
 @connect(stateToProps)
 class Clients extends Component {
+    constructor(props) {
+        super(props);
+        this.renderClient = this.renderClient.bind(this);
+    }
     render() {
         return (
             <List selectable ripple>
                 <ListSubHeader caption={this.props.strings.header} />
-
-                { this.props.clients.map(this.renderClient.bind(this)) }
+                { this.props.clients.map(this.renderClient) }
               </List>
         )
     }
@@ -26,10 +30,10 @@ class Clients extends Component {
     renderClient(client) {
         return (
             <ListItem
-              key={client}
-              avatar={this.getGravatar(client)}
-              caption={client}
-              rightIcon={icons.person}
+                key={client}
+                avatar={this.getGravatar(client)}
+                caption={client}
+                rightIcon={icons.person}
             />
         );
     }
