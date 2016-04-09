@@ -44,5 +44,8 @@ export default {
     },
     SummaryBoard: {
         noPosts: 'There are no posts to display'
+    },
+    SessionName: {
+        defaultSessionName: 'My Retrospective'
     }
 }

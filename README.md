@@ -6,7 +6,7 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* [React](https://github.com/facebook/react)
+* [React](https://github.com/facebook/react) 15.0.0
 * [Redux](https://github.com/reactjs/redux)
 * [Socket IO](http://socket.io)
 * [Webpack](https://github.com/webpack/webpack)
@@ -70,6 +70,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * New look-and-feel (new colours)
 * Using [reselect](https://github.com/reactjs/reselect) to create memoized selectors
 * Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
+* Updated to the brand new React 15
 * Internationalisation: added Dutch to the list of supported languages
 
 ### Version 0.3.0

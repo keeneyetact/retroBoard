@@ -5,6 +5,7 @@ import { getSessionName } from '../selectors';
 import style from './SessionName.scss';
 import EnterInput from './EnterInput';
 import Input from 'react-toolbox/lib/input';
+import FontIcon from 'react-toolbox/lib/font_icon';
 import { renameSession } from '../state/session';
 import translate from '../i18n/Translate';
 import icons from '../constants/icons';
@@ -18,6 +19,7 @@ const actionsToProps = dispatch => ({
 });
 
 @translate('Join')
+@translate('SessionName')
 @connect(stateToProps, actionsToProps)
 class SessionName extends Component {
     constructor(props) {
@@ -34,12 +36,12 @@ class SessionName extends Component {
     }
 
     renderViewMode() {
-        const { sessionName } = this.props;
-        if (!sessionName) {
-            return null;
-        }
+        const { sessionName, strings } = this.props;
+
         return (
-            <div className={style.sessionName} onClick={() => this.setState({editMode: true}, () => this.refs.input.focus())}><span className={style.name}>{sessionName}</span></div>
+            <div className={style.sessionName} onClick={() => this.setState({editMode: true}, () => this.refs.input.focus())}>
+                <span className={style.name}>{ sessionName || strings.defaultSessionName }&nbsp;<FontIcon className={style.editIcon} value={icons.create} /></span>
+            </div>
         );
     }
 
@@ -82,7 +84,8 @@ SessionName.defaultProps = {
     strings: {
         advancedTab: {
             input: 'Enter a name for your session'
-        }
+        },
+        defaultSessionName: 'My Retrospective'
     }
 }
 
