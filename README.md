@@ -6,7 +6,7 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* [React](https://github.com/facebook/react) 15.0.0
+* [React](https://github.com/facebook/react) 15.0.1
 * [Redux](https://github.com/reactjs/redux)
 * [Socket IO](http://socket.io)
 * [Webpack](https://github.com/webpack/webpack)
@@ -62,15 +62,17 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
-### Version 0.4.0 (unreleased)
+### Version 0.4.0
 
 * Improved the "Create Session" page, allows a user to create a session with a custom name
 * Ability to edit that session name in real-time (by anyone)
 * Added a "Summary Mode": this gives a summary of a current session, allowing a user to copy-paste the entire content easily
+* New shorter session IDs
 * New look-and-feel (new colours)
 * Using [reselect](https://github.com/reactjs/reselect) to create memoized selectors
 * Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
 * Updated to the brand new React 15
+* Improving Windows support by allowing Windows users to use the same commands as \*nix users
 * Internationalisation: added Dutch to the list of supported languages
 
 ### Version 0.3.0
