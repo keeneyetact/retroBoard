@@ -9,13 +9,14 @@ import FontIcon from 'react-toolbox/lib/font_icon';
 import { renameSession } from '../state/session';
 import translate from '../i18n/Translate';
 import icons from '../constants/icons';
+import debounce from 'lodash/debounce';
 
 const stateToProps = state => ({
     sessionName: getSessionName(state)
 });
 
 const actionsToProps = dispatch => ({
-    renameSession: name => dispatch(renameSession(name))
+    renameSession: debounce(name => dispatch(renameSession(name)), 500)
 });
 
 @translate('Join')
@@ -55,8 +56,11 @@ class SessionName extends Component {
                         label={strings.advancedTab.input}
                         maxLength={50}
                         icon={icons.create}
-                        value={sessionName}
-                        onBlur={() => this.setState({editMode: false})}
+                        defaultValue={sessionName}
+                        onBlur={() => {
+                            this.setState({editMode: false});
+                            renameSession.flush();
+                        }}
                         onKeyPress={e => this.onKeyPress(e.nativeEvent)}
                         onChange={value => {
                             renameSession(value);
@@ -70,6 +74,7 @@ class SessionName extends Component {
     onKeyPress(e) {
         if (e.keyCode === 13) {
             this.setState({editMode: false});
+            this.props.renameSession.flush();
         }
     }
 }
