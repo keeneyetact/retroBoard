@@ -42,9 +42,9 @@ export default {
         buttonLabel: 'Laten we beginnen'
     },
     SummaryBoard: {
-        noPosts: 'There are no posts to display'
+        noPosts: 'Er zijn geen punten om te tonen'
     },
     SessionName: {
-        defaultSessionName: 'My Retrospective'
+        defaultSessionName: 'Mijn Retrospective'
     }
 }
