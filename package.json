@@ -80,9 +80,9 @@
     "start-ui": "webpack-dev-server --progress --inline --hot",
     "start-server": "nodemon babel.js",
     "start": "cross-env NODE_ENV=production PORT=8080 nodemon .",
-    "clean": "cross-env rm -rf build && rm -rf assets && mkdir build && mkdir assets",
+    "clean": "cross-env rm -rf build && cross-env rm -rf assets && cross-env mkdir build && cross-env mkdir assets",
     "build-server": "babel -d build server",
-    "build": "cross-env npm run build-server && NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
+    "build": "cross-env npm run build-server && cross-env NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
   },
   "repository": {
     "type": "git",
