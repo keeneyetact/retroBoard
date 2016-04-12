@@ -36,6 +36,10 @@ export default {
             header: 'Advanced',
             input: 'Enter a name for your session',
             button: 'Create custom session'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     },
     Login: {
@@ -47,5 +51,8 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'My Retrospective'
+    },
+    SessionTile: {
+        lastJoined: '${days} day(s), ${hours} hour(s) and ${minutes} minute(s) ago'
     }
 }

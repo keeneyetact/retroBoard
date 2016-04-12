@@ -35,6 +35,10 @@ export default {
             header: 'Geavanceerd',
             input: 'Geef een naam voor de sessie',
             button: 'Maak een aangepaste sessie'
+        },
+        previousTab: {
+            header: 'Vorige sessies',
+            rejoinButton: 'Opnieuw deelnemen'
         }
     },
     Login: {
@@ -46,5 +50,8 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'Mijn Retrospective'
+    },
+    SessionTile: {
+        lastJoined: '${days} dag(en), ${hours} uur en ${minutes} minuten geleden'
     }
 }

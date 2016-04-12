@@ -10,8 +10,14 @@ import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
 import backgroundImage from '../components/images/background.jpg';
+import { getSavedSessions, getCurrentUser } from '../selectors';
+import SessionTile from '../components/SessionTile'
+import { push } from 'react-router-redux';
+import { browserHistory } from 'react-router'
 
-const stateToProps = state => ({ });
+const stateToProps = state => ({
+    previousSessions: getSavedSessions(getCurrentUser(state))
+});
 
 const actionsToProps = dispatch => ({
     createSession: () => dispatch(createSession()),
@@ -45,6 +51,13 @@ class Join extends Component {
                             <br />
                             <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
                         </Tab>
+                        <Tab label={ strings.previousTab.header }>
+                            { this.props.previousSessions.map((session, index) =>
+                                <SessionTile key={session.id} session = {session}>
+                                    <Button label={ strings.previousTab.rejoinButton } accent raised onClick={() => browserHistory.push('/session/'+session.id)}/>
+                                </SessionTile>
+                            )}
+                        </Tab>
                     </Tabs>
 
                 </CardText>
@@ -55,12 +68,14 @@ class Join extends Component {
 }
 
 Join.propTypes = {
+    previousSessions: PropTypes.array,
     createSession: PropTypes.func,
     createCustomSession: PropTypes.func,
     strings: PropTypes.object
 };
 
 Join.defaultProps = {
+    previousSessions: [],
     createSession: noop,
     createCustomSession: noop,
     strings: {
@@ -74,6 +89,10 @@ Join.defaultProps = {
             header: 'Advanced',
             input: 'Enter a name for your session',
             button: 'Create custom session'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     }
 }
