@@ -1,6 +1,7 @@
 import ls from 'local-storage';
 import { call, put, select } from 'redux-saga/effects';
 import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
+import { loadPreviousSessions } from './session';
 import { push } from 'react-router-redux';
 
 export function* storeUserToLocalStorage(action) {
@@ -38,4 +39,10 @@ export function* autoLoginUser() {
     if (language) {
         yield changeLanguageSuccess(language);
     }
+    yield loadPreviousSessions();
+}
+
+export function* loginUser(action) {
+    yield storeUserToLocalStorage(action);
+    yield loadPreviousSessions();
 }

@@ -4,7 +4,7 @@ import { AUTO_JOIN, LEAVE_SESSION, CREATE_SESSION, RECEIVE_SESSION_NAME, RENAME_
 import { ADD_POST, LIKE } from '../state/posts';
 import { INITIALISE } from '../state/actions';
 
-import { storeUserToLocalStorage, deleteUserFromLocalStorage, storeLanguageToLocalStorage, loginSuccess, changeLanguageSuccess, disconnectUser, autoLoginUser } from './user';
+import { storeUserToLocalStorage, deleteUserFromLocalStorage, storeLanguageToLocalStorage, loginSuccess, changeLanguageSuccess, disconnectUser, autoLoginUser, loginUser } from './user';
 import { addPost, like } from './posts';
 import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
 
@@ -13,7 +13,7 @@ const watchers = [
     function* () { yield* takeEvery(AUTO_JOIN, autoJoinUser); },
     function* () { yield* takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage); },
     function* () { yield* takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage); },
-    function* () { yield* takeEvery(LOGIN, storeUserToLocalStorage); },
+    function* () { yield* takeEvery(LOGIN, loginUser); },
     function* () { yield* takeEvery(LOGOUT, deleteUserFromLocalStorage); },
     function* () { yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage); },
     function* () { yield* takeEvery(LEAVE_SESSION, disconnectUser); },

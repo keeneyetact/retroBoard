@@ -15,7 +15,7 @@ import SessionTile from '../components/SessionTile'
 import { push } from 'react-router-redux';
 
 const stateToProps = state => ({
-    previousSessions: getSavedSessions(getCurrentUser(state))
+    previousSessions: getSavedSessions(state)
 });
 
 const actionsToProps = dispatch => ({
