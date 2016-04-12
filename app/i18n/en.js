@@ -36,6 +36,10 @@ export default {
             header: 'Advanced',
             input: 'Enter a name for your session',
             button: 'Create custom session'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     },
     Login: {

@@ -35,6 +35,10 @@ export default {
             header: 'Haladó',
             input: 'Adj nevet az ülésnek',
             button: 'Ülés létrehozása'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     },
     Login: {

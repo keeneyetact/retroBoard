@@ -8,11 +8,13 @@ export const AUTO_JOIN = 'AUTO_JOIN';
 export const JOIN_SESSION = 'JOIN_SESSION';
 export const LEAVE_SESSION = 'LEAVE_SESSION';
 export const RECEIVE_CLIENT_LIST = 'RECEIVE_CLIENT_LIST';
+export const LOAD_PREVIOUS_SESSIONS = 'LOAD_PREVIOUS_SESSIONS';
 
 export default function reducer(state = {
     id: null,
     name: null,
-    clients: []
+    clients: [],
+    previousSessions: []
 } , action) {
     switch (action.type) {
         case CREATE_SESSION_SUCCESS:
@@ -38,6 +40,11 @@ export default function reducer(state = {
             return {
                 ...state,
                 name: action.payload
+            };
+        case LOAD_PREVIOUS_SESSIONS:
+            return {
+                ...state,
+                previousSessions: action.payload
             };
         default:
             return state;

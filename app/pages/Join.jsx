@@ -7,15 +7,23 @@ import { connect } from 'react-redux';
 import { createSession } from '../state/session';
 import translate from '../i18n/Translate';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
 import backgroundImage from '../components/images/background.jpg';
+import { getSavedSessionsByDate, getCurrentUser } from '../selectors';
+import SessionTile from '../components/SessionTile'
+import { push } from 'react-router-redux';
 
-const stateToProps = state => ({ });
+
+const stateToProps = state => ({
+    previousSessions: getSavedSessionsByDate(state)
+});
 
 const actionsToProps = dispatch => ({
     createSession: () => dispatch(createSession()),
     createCustomSession: name => dispatch(createSession(name)),
+    goToSession: session => dispatch(push('/session/'+session.id))
 });
 
 @translate('Join')
@@ -29,38 +37,78 @@ class Join extends Component {
         const { strings } = this.props;
         return (
             <div style={{padding: 20 }}>
-            <Card raised>
-                <CardTitle>{ strings.welcome }</CardTitle>
-                <CardMedia >
-                    <img src={backgroundImage} style={{ objectFit: 'cover', maxHeight: 150 }} />
-                </CardMedia>
-                <CardText>
-                    <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
-                        <Tab label={ strings.standardTab.header }>
-                            { strings.standardTab.text }<br /><br />
-                            <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
-                        </Tab>
-                        <Tab label={ strings.advancedTab.header }>
-                            <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} maxLength={50} onChange={v => this.setState({ customSessionName: v })} />
-                            <br />
-                            <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
-                        </Tab>
-                    </Tabs>
+                <Card raised>
+                    <CardTitle>{ strings.welcome }</CardTitle>
+                    <CardMedia >
+                        <img src={backgroundImage} style={{ objectFit: 'cover', maxHeight: 150 }} />
+                    </CardMedia>
+                    <CardText>
+                        <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
 
-                </CardText>
-            </Card>
-        </div>
+                            { this.renderTabs() }
+
+                        </Tabs>
+
+                    </CardText>
+                </Card>
+            </div>
         );
     }
+
+    renderTabs() {
+        const { previousSessions} = this.props;
+        if (previousSessions.length) {
+            return [ this.renderStandardTab(), this.renderPreviousSessionsTab(), this.renderAdvancedTab() ];
+        } else {
+            return [ this.renderStandardTab(), this.renderAdvancedTab() ];
+        }
+    }
+
+    renderStandardTab() {
+        const { strings } = this.props;
+        return (
+            <Tab label={ strings.standardTab.header } key="standard">
+                { strings.standardTab.text }<br /><br />
+                <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
+            </Tab>
+        );
+    }
+
+    renderPreviousSessionsTab() {
+        const { strings, previousSessions, goToSession } = this.props;
+        return (
+            <Tab label={ strings.previousTab.header } key="previous">
+                <List selectable ripple>
+                    { previousSessions.map((session, index) =>
+                        <SessionTile key={session.id} session={session} onClick={() => goToSession(session)} />
+                    )}
+                </List>
+            </Tab>
+        );
+    }
+
+    renderAdvancedTab() {
+        const { strings } = this.props;
+        return (
+            <Tab label={ strings.advancedTab.header } key="advanced">
+                <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} maxLength={50} onChange={v => this.setState({ customSessionName: v })} />
+                <br />
+                <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
+            </Tab>
+        );
+    }
+
 }
 
 Join.propTypes = {
+    previousSessions: PropTypes.array,
     createSession: PropTypes.func,
     createCustomSession: PropTypes.func,
     strings: PropTypes.object
 };
 
 Join.defaultProps = {
+    previousSessions: [],
     createSession: noop,
     createCustomSession: noop,
     strings: {
@@ -74,6 +122,10 @@ Join.defaultProps = {
             header: 'Advanced',
             input: 'Enter a name for your session',
             button: 'Create custom session'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     }
 }

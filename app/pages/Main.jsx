@@ -24,10 +24,15 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = { snackBarActive: false };
+        this.mounted = false;
     }
     render() {
         const { summaryMode, strings } = this.props;
-        const hideSnackbar = () => this.setState({ snackBarActive: false });
+        const hideSnackbar = () => {
+            if (this.mounted) {
+                this.setState({ snackBarActive: false });
+            }
+        };
         return (
             <div>
                 <div style={{width: '100%', textAlign:'center'}}>
@@ -51,6 +56,12 @@ class Main extends Component {
     componentDidMount() {
         this.props.autoJoin(this.props.params.sessionId);
         this.setState({snackBarActive: true})
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.setState({snackBarActive: false})
+        this.mounted = false;
     }
 }
 
