@@ -7,15 +7,17 @@ import { connect } from 'react-redux';
 import { createSession } from '../state/session';
 import translate from '../i18n/Translate';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
 import backgroundImage from '../components/images/background.jpg';
-import { getSavedSessions, getCurrentUser } from '../selectors';
+import { getSavedSessionsByDate, getCurrentUser } from '../selectors';
 import SessionTile from '../components/SessionTile'
 import { push } from 'react-router-redux';
 
+
 const stateToProps = state => ({
-    previousSessions: getSavedSessions(state)
+    previousSessions: getSavedSessionsByDate(state)
 });
 
 const actionsToProps = dispatch => ({
@@ -76,13 +78,11 @@ class Join extends Component {
         const { strings, previousSessions, goToSession } = this.props;
         return (
             <Tab label={ strings.previousTab.header } key="previous">
-                <div className="grid">
-                { previousSessions.map((session, index) =>
-                    <SessionTile key={session.id} session = {session}>
-                        <Button label={ strings.previousTab.rejoinButton } accent raised onClick={() => goToSession(session)}/>
-                    </SessionTile>
-                )}
-                </div>
+                <List selectable ripple>
+                    { previousSessions.map((session, index) =>
+                        <SessionTile key={session.id} session={session} onClick={() => goToSession(session)} />
+                    )}
+                </List>
             </Tab>
         );
     }

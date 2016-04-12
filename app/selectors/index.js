@@ -3,6 +3,7 @@ import sortBy from 'lodash/sortBy';
 
 // Utility functions
 const sortByVotes = posts => sortBy(posts, p => -(p.likes.length - p.dislikes.length));
+const sortByLastJoin = sessions => sortBy(sessions, s => -s.lastJoin);
 
 // Simple Selectors
 export const getPosts = state => state.posts;
@@ -25,3 +26,4 @@ export const shouldDisplayDrawerButton = createSelector([getCurrentUser, getSess
 export const getSortedNotWellPosts = createSelector(getNotWellPosts, sortByVotes);
 export const getSortedWellPosts = createSelector(getWellPosts, sortByVotes);
 export const getSortedIdeasPosts = createSelector(getIdeasPosts, sortByVotes);
+export const getSavedSessionsByDate = createSelector(getSavedSessions, sortByLastJoin);
