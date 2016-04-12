@@ -1,7 +1,6 @@
 import { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import Component from '../Component';
-import style from './SessionTile.scss';
 import ClassNames from 'classnames';
 import translate from '../i18n/Translate';
 import { ListItem } from 'react-toolbox/lib/list';
