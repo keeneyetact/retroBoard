@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import sortBy from 'lodash/sortBy';
-import ls from 'local-storage';
 
 // Utility functions
 const sortByVotes = posts => sortBy(posts, p => -(p.likes.length - p.dislikes.length));

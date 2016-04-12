@@ -15,7 +15,7 @@ class SessionTile extends Component {
             .fromNow();
 
         return (
-            <div className={ClassNames('col-4-12', 'mobile-col-1-2', style.sessionTile)}>
+            <div className={ClassNames('col-4-12', 'mobile-col-1-1', style.sessionTile)}>
                 <Card>
                     <CardTitle title={ session.name || strings.defaultSessionName } subtitle={lastJoined} />
                     <CardActions>

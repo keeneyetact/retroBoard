@@ -76,11 +76,13 @@ class Join extends Component {
         const { strings, previousSessions, goToSession } = this.props;
         return (
             <Tab label={ strings.previousTab.header } key="previous">
+                <div className="grid">
                 { previousSessions.map((session, index) =>
                     <SessionTile key={session.id} session = {session}>
                         <Button label={ strings.previousTab.rejoinButton } accent raised onClick={() => goToSession(session)}/>
                     </SessionTile>
                 )}
+                </div>
             </Tab>
         );
     }
