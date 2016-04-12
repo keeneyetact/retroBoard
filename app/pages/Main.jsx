@@ -60,6 +60,7 @@ class Main extends Component {
     }
 
     componentWillUnmount() {
+        this.setState({snackBarActive: false})
         this.mounted = false;
     }
 }
