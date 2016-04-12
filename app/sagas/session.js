@@ -57,9 +57,8 @@ function* storeSessionToLocalStorage(currentUser, sessionId) {
 export function* loadPreviousSessions() {
     const currentUser = yield select(state => state.user.name);
     const sessions = ls.get('sessions');
-    if (!!sessions && sessions.hasOwnProperty(currentUser)) {
-        yield put({ type: LOAD_PREVIOUS_SESSIONS, payload: sessions[currentUser] });
-    }
+    let userSessions = !!sessions && sessions.hasOwnProperty(currentUser) ? sessions[currentUser] : [];
+    yield put({ type: LOAD_PREVIOUS_SESSIONS, payload: userSessions });
 }
 
 export function* createSession(action) {
