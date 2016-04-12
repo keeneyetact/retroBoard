@@ -1,40 +1,25 @@
 import { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Component from '../Component';
 import style from './SessionTile.scss';
 import ClassNames from 'classnames';
 import translate from '../i18n/Translate';
 import { Card, CardTitle, CardActions } from 'react-toolbox/lib/card';
-import { default as Button } from 'react-toolbox/lib/button';
+import moment from 'moment';
 
-const stateToProps = state => ({ });
-
-const actionsToProps = dispatch => ({});
-
-@translate('SessionTile')
 @translate('SessionName')
-@connect(stateToProps, actionsToProps)
 class SessionTile extends Component {
-    renderLastJoined (lastJoined) {
-        const MINUTE = 60 * 1000;
-        const HOUR = 60 * MINUTE;
-        const DAY = HOUR * 24;
-
-        let diff = Date.now() - lastJoined;
-        let days = Math.floor(diff / DAY);
-        let hours = Math.floor((diff - (days * DAY)) / HOUR);
-        let minutes = Math.floor((diff - (days * DAY) - (hours * HOUR))/ MINUTE);
-        return this.props.strings.lastJoined.replace('${days}', days).replace('${hours}', hours).replace('${minutes}', minutes)
-
-    }
     render() {
+        const { session, strings, children } = this.props;
+        const lastJoined = moment(session.lastJoin)
+            .locale(this.props.currentLanguage.substr(0, 2))
+            .fromNow();
 
         return (
             <div className={ClassNames('col-4-12', 'mobile-col-1-2', style.sessionTile)}>
                 <Card>
-                    <CardTitle title={ this.props.session.name || this.props.strings.defaultSessionName } subtitle={this.renderLastJoined(this.props.session.lastJoin)} />
+                    <CardTitle title={ session.name || strings.defaultSessionName } subtitle={lastJoined} />
                     <CardActions>
-                        {this.props.children}
+                        {children}
                     </CardActions>
                 </Card>
             </div>
@@ -44,14 +29,15 @@ class SessionTile extends Component {
 
 SessionTile.propTypes = {
     session: PropTypes.object.isRequired,
-    strings: PropTypes.object
+    currentLanguage: PropTypes.string,
+    strings: PropTypes.object,
 }
 
 SessionTile.defaultProps = {
     session: null,
+    currentLanguage: 'en',
     strings: {
         defaultSessionName: 'My Retrospective',
-        lastJoined: '${days} day(s), ${hours} hours and ${minutes} minutes ago'
     }
 
 }

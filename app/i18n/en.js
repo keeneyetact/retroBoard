@@ -51,8 +51,5 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'My Retrospective'
-    },
-    SessionTile: {
-        lastJoined: '${days} day(s), ${hours} hour(s) and ${minutes} minute(s) ago'
     }
 }
