@@ -20,7 +20,7 @@ It features the following technologies:
 * ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 
 
-## How to run for production (or to try it out) 
+## How to run for production (or to try it out)
 
 * Clone this repository
 * `npm i` to install the dependencies (Node 4+, NPM 3+)
@@ -61,6 +61,10 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Unit tests
 
 ## Versions history
+
+### Version 0.5.0 (unreleased)
+
+* Adding the possibility to join a previously joined session quickly (Thanks @Sonaryr)
 
 ### Version 0.4.1
 
@@ -134,6 +138,6 @@ Many thanks to the following contributors who helped translating the app:
 
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
-* Dutch: [@sonaryr](https://github.com/Sonaryr)
+* Dutch: [@Sonaryr](https://github.com/Sonaryr)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
