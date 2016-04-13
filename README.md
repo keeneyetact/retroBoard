@@ -59,10 +59,11 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 * Add more languages
 * Unit tests
+* Inline edit of posts
 
 ## Versions history
 
-### Version 0.5.0 (unreleased)
+### Version 0.5.0
 
 * Adding the possibility to join a previously joined session quickly (Thanks @Sonaryr)
 * Performance improvement on title edit (Also thanks to @Sonaryr)
