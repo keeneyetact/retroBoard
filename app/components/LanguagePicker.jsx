@@ -3,10 +3,9 @@ import Component from '../Component';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';
-import languages from '../i18n/languages';
+import languages from '../i18n/languages.json';
 import translate from '../i18n/Translate';
 import flags from '../i18n/flags';
-
 import { getCurrentLanguage } from '../selectors';
 
 const stateToProps = state => ({

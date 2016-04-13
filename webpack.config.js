@@ -2,7 +2,9 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
-var staticFolder = path.resolve(__dirname, 'static');
+var staticFolder = path.resolve(__dirname, 'assets');
+var languages = require('./app/i18n/languages');
+var momentFilter = languages.map(function (lang) { return lang.iso; }).join('|');
 
 module.exports = {
     content: __dirname,
@@ -37,6 +39,7 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp(momentFilter)),
         new ExtractTextPlugin('style.css', { allChunks: true }),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({

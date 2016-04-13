@@ -9,6 +9,7 @@ import SummaryBoard from '../components/SummaryBoard';
 import SessionName from '../components/SessionName';
 import { autoJoin } from '../state/session';
 import { getSummaryMode } from '../selectors';
+import icons from '../constants/icons'
 
 const stateToProps = state => ({
     summaryMode: getSummaryMode(state)
@@ -24,10 +25,15 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = { snackBarActive: false };
+        this.mounted = false;
     }
     render() {
         const { summaryMode, strings } = this.props;
-        const hideSnackbar = () => this.setState({ snackBarActive: false });
+        const hideSnackbar = () => {
+            if (this.mounted) {
+                this.setState({ snackBarActive: false });
+            }
+        };
         return (
             <div>
                 <div style={{width: '100%', textAlign:'center'}}>
@@ -36,7 +42,7 @@ class Main extends Component {
                 { summaryMode ? <SummaryBoard /> : <PostBoard /> }
                 <Snackbar
                     action='Ok!'
-                    icon='question_answer'
+                    icon={ icons.question_answer }
                     label={strings.hint}
                     type='accept'
                     active={this.state.snackBarActive}
@@ -51,6 +57,12 @@ class Main extends Component {
     componentDidMount() {
         this.props.autoJoin(this.props.params.sessionId);
         this.setState({snackBarActive: true})
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.setState({snackBarActive: false})
+        this.mounted = false;
     }
 }
 
@@ -64,7 +76,7 @@ Main.defaultProps = {
     autoJoin: noop,
     summaryMode: false,
     strings: {
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        hint: 'You can invite others to this session by copy-pasting the URL'
     }
 }
 

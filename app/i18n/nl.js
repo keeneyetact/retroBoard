@@ -35,6 +35,10 @@ export default {
             header: 'Geavanceerd',
             input: 'Geef een naam voor de sessie',
             button: 'Maak een aangepaste sessie'
+        },
+        previousTab: {
+            header: 'Vorige sessies',
+            rejoinButton: 'Opnieuw deelnemen'
         }
     },
     Login: {
@@ -42,9 +46,9 @@ export default {
         buttonLabel: 'Laten we beginnen'
     },
     SummaryBoard: {
-        noPosts: 'There are no posts to display'
+        noPosts: 'Er zijn geen punten om te tonen'
     },
     SessionName: {
-        defaultSessionName: 'My Retrospective'
+        defaultSessionName: 'Mijn Retrospective'
     }
 }

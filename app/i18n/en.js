@@ -20,7 +20,7 @@ export default {
         notWellQuestion: 'What could be improved?',
         wellQuestion: 'What went well?',
         ideasQuestion: 'A brilliant idea to share?',
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        hint: 'You can invite others to this session by copy-pasting the URL'
     },
     Clients: {
         header: 'Kindly joining us right now:'
@@ -36,6 +36,10 @@ export default {
             header: 'Advanced',
             input: 'Enter a name for your session',
             button: 'Create custom session'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     },
     Login: {

@@ -35,6 +35,10 @@ export default {
             header: 'Avançado',
             input: 'Insira um nome para sua seção',
             button: 'Crie uma seção customizada'
+        },
+        previousTab: {
+            header: 'Previous sessions',
+            rejoinButton: 'Rejoin'
         }
     },
     Login: {

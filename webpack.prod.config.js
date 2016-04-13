@@ -6,6 +6,8 @@ var webpack = require('webpack');
 var staticFolder = path.resolve(__dirname, 'assets');
 var config = require('./config');
 var appVersion = require('./package.json').version;
+var languages = require('./app/i18n/languages');
+var momentFilter = languages.map(function (lang) { return lang.iso; }).join('|');
 
 module.exports = {
     content: __dirname,
@@ -40,6 +42,7 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp(momentFilter)),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             hash: true,

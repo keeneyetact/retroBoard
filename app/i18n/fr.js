@@ -35,6 +35,10 @@ export default {
             header: 'Avancé',
             input: 'Donnez un nom à votre session',
             button: 'Créer une session personalisée'
+        },
+        previousTab: {
+            header: 'Sessions précédentes',
+            rejoinButton: 'Rejoindre'
         }
     },
     Login: {

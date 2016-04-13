@@ -15,13 +15,16 @@ const port = process.env.PORT || 8081;
 const htmlFile = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '..', 'assets', 'index.html') :
     path.resolve(__dirname, '..', 'content', 'index.html');
-const staticFolder = path.resolve(__dirname, '..', 'assets');
+const assetsFolder = path.resolve(__dirname, '..', 'assets');
+const staticFolder = path.resolve(__dirname, '..', 'static');
 
 db().then(store => {
 
     const users = {};
 
-    app.use('/assets', express.static(staticFolder));
+    app.use('/assets', express.static(assetsFolder));
+    app.use('/static', express.static(staticFolder));
+    app.use('/favicon.ico', express.static(path.resolve(staticFolder, 'favicon.ico')));
     app.get('/migrate', (req, res) => {
         migrate2to3(store);
         res.send('ok');

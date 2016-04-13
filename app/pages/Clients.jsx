@@ -23,7 +23,7 @@ class Clients extends Component {
             <List selectable ripple>
                 <ListSubHeader caption={this.props.strings.header} />
                 { this.props.clients.map(this.renderClient) }
-              </List>
+            </List>
         )
     }
 
