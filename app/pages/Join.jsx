@@ -38,17 +38,13 @@ class Join extends Component {
         return (
             <div style={{padding: 20 }}>
                 <Card raised>
-                    <CardTitle>{ strings.welcome }</CardTitle>
                     <CardMedia style={{ backgroundColor: '#EEE'}}>
                         <img src={backgroundImage} style={{ objectFit: 'contain', maxHeight: 150 }} />
                     </CardMedia>
                     <CardText>
                         <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
-
                             { this.renderTabs() }
-
                         </Tabs>
-
                     </CardText>
                 </Card>
             </div>
@@ -68,6 +64,7 @@ class Join extends Component {
         const { strings } = this.props;
         return (
             <Tab label={ strings.standardTab.header } key="standard">
+                <h5>{ strings.welcome }</h5><br />
                 { strings.standardTab.text }<br /><br />
                 <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
             </Tab>
