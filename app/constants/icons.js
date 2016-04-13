@@ -15,5 +15,6 @@ export default {
     power_settings_new: String.fromCharCode(0xE8AC),
     create: String.fromCharCode(0xE150),
     code: String.fromCharCode(0xE86F),
-    open_in_new: String.fromCharCode(0xE89E)
+    open_in_new: String.fromCharCode(0xE89E),
+    question_answer: String.fromCharCode(0xE8AF)
 };

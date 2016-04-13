@@ -65,6 +65,9 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 0.5.0 (unreleased)
 
 * Adding the possibility to join a previously joined session quickly (Thanks @Sonaryr)
+* Performance improvement on title edit (Also thanks to @Sonaryr)
+* New Logo!
+* Added Favicons
 
 ### Version 0.4.1
 

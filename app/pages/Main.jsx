@@ -9,6 +9,7 @@ import SummaryBoard from '../components/SummaryBoard';
 import SessionName from '../components/SessionName';
 import { autoJoin } from '../state/session';
 import { getSummaryMode } from '../selectors';
+import icons from '../constants/icons'
 
 const stateToProps = state => ({
     summaryMode: getSummaryMode(state)
@@ -41,7 +42,7 @@ class Main extends Component {
                 { summaryMode ? <SummaryBoard /> : <PostBoard /> }
                 <Snackbar
                     action='Ok!'
-                    icon='question_answer'
+                    icon={ icons.question_answer }
                     label={strings.hint}
                     type='accept'
                     active={this.state.snackBarActive}
