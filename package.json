@@ -73,6 +73,7 @@
     "toolbox-loader": "0.0.3",
     "url-loader": "0.5.7",
     "webpack": "1.12.14",
+    "webpack-bundle-size-analyzer": "^2.0.1",
     "webpack-dev-server": "1.14.1"
   },
   "devDependencies": {},
@@ -83,7 +84,8 @@
     "start": "cross-env NODE_ENV=production PORT=8080 nodemon .",
     "clean": "cross-env rm -rf build && cross-env rm -rf assets && cross-env mkdir build && cross-env mkdir assets",
     "build-server": "babel -d build server",
-    "build": "cross-env npm run build-server && cross-env NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors"
+    "build": "cross-env npm run build-server && cross-env NODE_ENV=production webpack -p --config webpack.prod.config.js --progress --colors",
+    "analyse": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --json | webpack-bundle-size-analyzer"
   },
   "repository": {
     "type": "git",

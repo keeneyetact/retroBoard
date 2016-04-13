@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import Component from '../Component';
 import ClassNames from 'classnames';
@@ -7,13 +8,19 @@ import { ListItem } from 'react-toolbox/lib/list';
 import moment from 'moment';
 import icons from '../constants/icons';
 import md5 from 'md5';
+import { getCurrentLanguageInfo } from '../selectors';
+
+const stateToProps = state => ({
+    languageInfo: getCurrentLanguageInfo(state)
+});
 
 @translate('SessionName')
+@connect(stateToProps)
 class SessionTile extends Component {
     render() {
-        const { session, strings, children } = this.props;
+        const { session, strings, children, languageInfo } = this.props;
         const lastJoined = moment(session.lastJoin)
-            .locale(this.props.currentLanguage.substr(0, 2))
+            .locale(languageInfo ? languageInfo.iso : 'en')
             .fromNow();
         const name = session.name || strings.defaultSessionName;
 
@@ -21,7 +28,7 @@ class SessionTile extends Component {
             <ListItem
                 avatar={this.getGravatar(name)}
                 caption={ name }
-                legend={lastJoined}
+                legend={ lastJoined }
                 rightIcon={icons.open_in_new}
                 onClick={this.props.onClick}
                 selectable={true}
@@ -36,14 +43,14 @@ class SessionTile extends Component {
 
 SessionTile.propTypes = {
     session: PropTypes.object.isRequired,
-    currentLanguage: PropTypes.string,
+    languageInfo: PropTypes.object,
     strings: PropTypes.object,
     onClick: PropTypes.func
 }
 
 SessionTile.defaultProps = {
     session: null,
-    currentLanguage: 'en',
+    languageInfo: null,
     onClick: noop,
     strings: {
         defaultSessionName: 'My Retrospective',

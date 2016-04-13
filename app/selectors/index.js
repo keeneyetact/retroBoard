@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
+import find from 'lodash/find';
 import sortBy from 'lodash/sortBy';
+import languages from '../i18n/languages.json';
 
 // Utility functions
 const sortByVotes = posts => sortBy(posts, p => -(p.likes.length - p.dislikes.length));
@@ -27,3 +29,4 @@ export const getSortedNotWellPosts = createSelector(getNotWellPosts, sortByVotes
 export const getSortedWellPosts = createSelector(getWellPosts, sortByVotes);
 export const getSortedIdeasPosts = createSelector(getIdeasPosts, sortByVotes);
 export const getSavedSessionsByDate = createSelector(getSavedSessions, sortByLastJoin);
+export const getCurrentLanguageInfo = createSelector(getCurrentLanguage, lang => find(languages, { value: lang }));
