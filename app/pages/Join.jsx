@@ -10,7 +10,7 @@ import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox
 import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
-import backgroundImage from '../components/images/background.jpg';
+import backgroundImage from '../components/images/logo.png';
 import { getSavedSessionsByDate, getCurrentUser } from '../selectors';
 import SessionTile from '../components/SessionTile'
 import { push } from 'react-router-redux';
@@ -39,8 +39,8 @@ class Join extends Component {
             <div style={{padding: 20 }}>
                 <Card raised>
                     <CardTitle>{ strings.welcome }</CardTitle>
-                    <CardMedia >
-                        <img src={backgroundImage} style={{ objectFit: 'cover', maxHeight: 150 }} />
+                    <CardMedia style={{ backgroundColor: '#EEE'}}>
+                        <img src={backgroundImage} style={{ objectFit: 'contain', maxHeight: 150 }} />
                     </CardMedia>
                     <CardText>
                         <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
