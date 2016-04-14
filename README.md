@@ -60,6 +60,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Add more languages
 * Unit tests
 * Inline edit of posts
+* GraphQL
 
 ## Versions history
 
