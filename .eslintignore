@@ -1,0 +1,11 @@
+build/
+assets/
+persist/
+stats/
+.git/
+
+
+# Remove these progressively
+
+app/
+webpack*

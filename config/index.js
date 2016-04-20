@@ -1,7 +1,7 @@
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
-var fileExist = fs.existsSync(path.resolve(__dirname, 'configuration.json'));
+const fileExist = fs.existsSync(path.resolve(__dirname, 'configuration.json'));
 
 if (fileExist) {
     module.exports = require('./configuration.json');
