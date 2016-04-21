@@ -6,7 +6,7 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* [React](https://github.com/facebook/react) 15.0.1
+* [React](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
 * [Socket IO](http://socket.io)
 * [Webpack](https://github.com/webpack/webpack)
@@ -18,6 +18,7 @@ It features the following technologies:
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 * ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
+* [ESLint](http://eslint.org/) for JS and JSX
 
 
 ## How to run for production (or to try it out)
@@ -63,6 +64,10 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * GraphQL
 
 ## Versions history
+
+### Version 0.6.0
+
+* Full support of [ESLint](http://eslint.org/), based on [AirBnB rules](https://github.com/airbnb/javascript)
 
 ### Version 0.5.0
 
