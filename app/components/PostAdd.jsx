@@ -1,28 +1,27 @@
 import EnterInput from './EnterInput';
-import { PropTypes } from 'react';
-import Component from '../Component';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 
-class PostAdd extends Component {
-    render() {
-        return (
-            <div>
-                <EnterInput placeholder={this.props.placeholder} icon={this.props.icon} onEnter={this.props.onAdd} style={{ tabOrder: this.props.tabOrder }} />
-            </div>
-        );
-    }
-}
+const PostAdd = ({ onAdd, placeholder, icon }) => (
+    <div>
+        <EnterInput
+          placeholder={placeholder}
+          icon={icon}
+          onEnter={onAdd}
+        />
+    </div>
+);
 
 PostAdd.propTypes = {
     onAdd: PropTypes.func,
     placeholder: PropTypes.string,
     icon: PropTypes.string
-}
+};
 
 PostAdd.defaultProps = {
     onAdd: noop,
     placeholder: 'New comment',
     icon: 'add_circle'
-}
+};
 
 export default PostAdd;

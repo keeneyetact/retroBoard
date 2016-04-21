@@ -1,20 +1,21 @@
-import { PropTypes, Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 class TranslationProvider extends Component {
-    render() {
-        return <div>{this.props.children}</div>;
-    }
-
     getChildContext() {
         return {
             currentLanguage: this.props.currentLanguage
         };
     }
+
+    render() {
+        return <div>{this.props.children}</div>;
+    }
 }
 
 TranslationProvider.propTypes = {
-    children: PropTypes.array
+    children: PropTypes.array,
+    currentLanguage: PropTypes.string
 };
 
 TranslationProvider.childContextTypes = {
@@ -23,7 +24,6 @@ TranslationProvider.childContextTypes = {
 
 const stateToProps = state => ({
     currentLanguage: state.user.lang
-})
-
+});
 
 export default connect(stateToProps)(TranslationProvider);

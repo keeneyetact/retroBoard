@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
@@ -30,7 +30,7 @@ const stateToProps = state => ({
 const actionsToProps = dispatch => ({
     onLogout: () => dispatch(logout()),
     onLeave: () => dispatch(leave()),
-    toggleSummaryMode: () => dispatch(toggleSummaryMode()),
+    toggle: () => dispatch(toggleSummaryMode()),
     goToHomepage: () => dispatch(push('/'))
 });
 
@@ -41,47 +41,82 @@ class Header extends Component {
         super(props);
         this.state = {
             drawerOpen: false
-        }
-    }
-
-    render() {
-        const { strings, goToHomepage, summaryMode, toggleSummaryMode } = this.props;
-        return (
-            <div>
-                <AppBar fixed flat>
-                    <a onClick={goToHomepage} href="#">Retrospected <br /><span className={style.subtitle}>{ strings.subtitle }</span></a>
-                    <Navigation type="horizontal" className={ style.navigation }>
-                        <p>{ this.props.user }</p>
-                        { this.props.displayDrawerButton ? <Button icon={icons.code} floating accent mini onClick={() => this.setState({drawerOpen: !this.drawerOpen})} /> : null }
-                    </Navigation>
-                </AppBar>
-
-                <Drawer active={this.state.drawerOpen} type="right" onOverlayClick={() => this.setState({drawerOpen: false})}>
-                    <TranslationProvider>
-                        <div style={{margin: '0 10px'}}>
-                            <LanguagePicker />
-                            <Switch checked={summaryMode} onChange={this.closeDrawer(this.props.toggleSummaryMode)} label={strings.summaryMode} />
-                        </div>
-
-                        <Clients />
-                        <br />
-                        <br />
-                        <Button label={strings.leave} icon={icons.exit_to_app} onClick={this.closeDrawer(this.props.onLeave)} accent />
-                        <Button label={strings.logout} icon={icons.power_settings_new} onClick={this.closeDrawer(this.props.onLogout)} accent />
-
-                        <a href="https://github.com/antoinejaussoin/retro-board" style={{ position: 'absolute', bottom: 10, right: 10 }} target="_blank">Fork me on <img style={{ width: 100, position: "relative", top: 10 }} src={githubLogo} /></a>
-                    </TranslationProvider>
-                </Drawer>
-
-            </div>
-        )
+        };
     }
 
     closeDrawer(fn) {
         return () => {
             fn();
-            this.setState({drawerOpen: false});
-        }
+            this.setState({ drawerOpen: false });
+        };
+    }
+
+    render() {
+        const { strings, goToHomepage, summaryMode, toggle } = this.props;
+        return (
+            <div>
+                <AppBar fixed flat>
+                    <a onClick={goToHomepage} href="#">Retrospected <br />
+                        <span className={style.subtitle}>{ strings.subtitle }</span>
+                    </a>
+                    <Navigation type="horizontal" className={ style.navigation }>
+                        <p>{ this.props.user }</p>
+                        { this.props.displayDrawerButton ?
+                            <Button icon={icons.code}
+                              floating
+                              accent
+                              mini
+                              onClick={() => this.setState({ drawerOpen: !this.drawerOpen })}
+                            /> :
+                            null }
+                    </Navigation>
+                </AppBar>
+
+                <Drawer active={this.state.drawerOpen}
+                  type="right"
+                  onOverlayClick={() => this.setState({ drawerOpen: false })}
+                >
+                    <TranslationProvider>
+                        <div style={{ margin: '0 10px' }}>
+                            <LanguagePicker />
+                            <Switch checked={summaryMode}
+                              onChange={this.closeDrawer(toggle)}
+                              label={strings.summaryMode}
+                            />
+                        </div>
+
+                        <Clients />
+                        <br />
+                        <br />
+                        <Button
+                          label={strings.leave}
+                          icon={icons.exit_to_app}
+                          onClick={this.closeDrawer(this.props.onLeave)}
+                          accent
+                        />
+                        <Button
+                          label={strings.logout}
+                          icon={icons.power_settings_new}
+                          onClick={this.closeDrawer(this.props.onLogout)}
+                          accent
+                        />
+
+                        <a
+                          href="https://github.com/antoinejaussoin/retro-board"
+                          style={{ position: 'absolute', bottom: 10, right: 10 }}
+                          target="_blank"
+                        >
+                            Fork me on
+                            <img
+                              style={{ width: 100, position: 'relative', top: 10 }}
+                              src={githubLogo}
+                              alt="GitHub"
+                            />
+                        </a>
+                    </TranslationProvider>
+                </Drawer>
+            </div>
+        );
     }
 }
 
@@ -91,7 +126,9 @@ Header.propTypes = {
     onLogout: PropTypes.func,
     onLeave: PropTypes.func,
     goToHomepage: PropTypes.func,
-    strings: PropTypes.object
+    strings: PropTypes.object,
+    summaryMode: PropTypes.bool,
+    toggle: PropTypes.func
 };
 
 Header.defaultTypes = {
@@ -100,12 +137,14 @@ Header.defaultTypes = {
     onLogout: noop,
     onLeave: noop,
     goToHomepage: noop,
+    summaryMode: false,
+    toggle: noop,
     strings: {
         subtitle: 'A good way of ranting in an orderly fashion',
         logout: 'Logout',
         leave: 'Leave',
         summaryMode: 'Summary Mode'
     }
-}
+};
 
 export default Header;

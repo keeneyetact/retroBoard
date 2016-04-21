@@ -60,6 +60,7 @@ App.propTypes = {
     children: PropTypes.object,
     user: PropTypes.string,
     onLogin: PropTypes.func,
+    autoLogin: PropTypes.func,
     displayDrawerButton: PropTypes.bool
 };
 
@@ -68,6 +69,6 @@ App.defaultTypes = {
     user: null,
     onLogin: noop,
     displayDrawerButton: true
-}
+};
 
 export default App;
