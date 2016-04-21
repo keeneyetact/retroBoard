@@ -1,8 +1,12 @@
 import ls from 'local-storage';
-import { call, put, select } from 'redux-saga/effects';
-import { AUTO_LOGIN, LOGIN, LOGIN_SUCCESS, LOGOUT, CHANGE_LANGUAGE, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
+import { put } from 'redux-saga/effects';
+import { LOGIN_SUCCESS, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
 import { loadPreviousSessions } from './session';
 import { push } from 'react-router-redux';
+
+export function* loginSuccess(name) {
+    yield put({ type: LOGIN_SUCCESS, payload: ({ name }) });
+}
 
 export function* storeUserToLocalStorage(action) {
     ls('username', action.payload.name);
@@ -13,17 +17,13 @@ export function* deleteUserFromLocalStorage() {
     ls('username', null);
 }
 
+export function* changeLanguageSuccess(lang) {
+    yield put({ type: CHANGE_LANGUAGE_SUCCESS, payload: lang });
+}
+
 export function* storeLanguageToLocalStorage(action) {
     ls('language', action.payload);
     yield changeLanguageSuccess(action.payload);
-}
-
-export function* loginSuccess(name) {
-    yield put({ type: LOGIN_SUCCESS, payload: ({ name}) });
-}
-
-export function* changeLanguageSuccess(lang) {
-    yield put({ type: CHANGE_LANGUAGE_SUCCESS, payload: lang });
 }
 
 export function* disconnectUser() {

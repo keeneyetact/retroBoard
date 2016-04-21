@@ -7,5 +7,5 @@ stats/
 
 # Remove these progressively
 
-app/
+
 webpack*

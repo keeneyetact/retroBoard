@@ -51,4 +51,4 @@ export default {
     SessionName: {
         defaultSessionName: 'Ma Retrospective'
     }
-}
+};
