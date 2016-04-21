@@ -3,9 +3,3 @@ assets/
 persist/
 stats/
 .git/
-
-
-# Remove these progressively
-
-
-webpack*

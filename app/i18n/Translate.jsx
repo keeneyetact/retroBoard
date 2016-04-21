@@ -1,4 +1,5 @@
 /* eslint react/prefer-stateless-function: "off" */
+/* Because stateless functions don't have context it seems */
 import React from 'react';
 import en from './en';
 import fr from './fr';
