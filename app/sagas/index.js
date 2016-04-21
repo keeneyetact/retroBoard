@@ -1,10 +1,21 @@
-import { takeEvery, takeLatest } from 'redux-saga'
-import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
-import { AUTO_JOIN, LEAVE_SESSION, CREATE_SESSION, RECEIVE_SESSION_NAME, RENAME_SESSION } from '../state/session';
-import { ADD_POST, LIKE } from '../state/posts';
-import { INITIALISE } from '../state/actions';
+/* eslint func-names: "off" */
 
-import { storeUserToLocalStorage, deleteUserFromLocalStorage, storeLanguageToLocalStorage, loginSuccess, changeLanguageSuccess, disconnectUser, autoLoginUser, loginUser } from './user';
+import { takeEvery } from 'redux-saga';
+import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
+import {
+    AUTO_JOIN,
+    LEAVE_SESSION,
+    CREATE_SESSION,
+    RECEIVE_SESSION_NAME,
+    RENAME_SESSION } from '../state/session';
+import { ADD_POST, LIKE } from '../state/posts';
+
+import {
+    deleteUserFromLocalStorage,
+    storeLanguageToLocalStorage,
+    disconnectUser,
+    autoLoginUser,
+    loginUser } from './user';
 import { addPost, like } from './posts';
 import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
 

@@ -1,0 +1,5 @@
+build/
+assets/
+persist/
+stats/
+.git/

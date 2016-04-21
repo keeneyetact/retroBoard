@@ -1,16 +1,15 @@
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
+/* global __DEVELOPMENT__ __USE_GA__ __DEVTOOLS__ */
+
+import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { syncHistoryWithStore } from 'react-router-redux';
 import DevTools from '../pages/DevTools';
-import io from 'socket.io-client';
 import reducers from '../state';
 import sagas from '../sagas';
 import { routerMiddleware } from 'react-router-redux';
-import { socketIoMiddleware} from '../middlewares/socketio';
-import createSagaMiddleware from 'redux-saga'
+import { socketIoMiddleware } from '../middlewares/socketio';
+import createSagaMiddleware from 'redux-saga';
 
 export default function configureStore(initialState = {}, browserHistory) {
-
     const middlewares = [];
     middlewares.push(thunk);
     middlewares.push(routerMiddleware(browserHistory));
@@ -19,8 +18,9 @@ export default function configureStore(initialState = {}, browserHistory) {
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
-        //const logger = createLogger();
-        const logger = createLogger({ predicate: (getState, action) => action.type !== 'EFFECT_TRIGGERED' && action.type !== 'EFFECT_RESOLVED'});
+        const logger = createLogger({ predicate:
+            (getState, action) => action.type !== 'EFFECT_TRIGGERED' &&
+                                  action.type !== 'EFFECT_RESOLVED' });
         middlewares.push(logger);
     }
 

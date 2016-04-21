@@ -1,4 +1,5 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
@@ -19,19 +20,6 @@ const actionsToProps = dispatch => ({
 @translate('LanguagePicker')
 @connect(stateToProps, actionsToProps)
 class LanguagePicker extends Component {
-    render() {
-        return (
-            <Dropdown
-                auto
-                source={languages}
-                label={this.props.strings.header}
-                template={this.renderItem}
-                value={this.props.currentLanguage}
-                onChange={this.props.changeLanguage}
-            />
-        );
-    }
-
     renderItem(item) {
         const containerStyle = {
             display: 'flex',
@@ -54,7 +42,7 @@ class LanguagePicker extends Component {
 
         return (
             <div style={containerStyle}>
-                <img src={flags[item.value]} style={imageStyle}/>
+                <img src={flags[item.value]} style={imageStyle} alt="Flag" />
                 <div style={contentStyle}>
                     <strong>{item.name}</strong>
                     <small>{item.englishName}</small>
@@ -62,16 +50,33 @@ class LanguagePicker extends Component {
             </div>
         );
     }
+
+    render() {
+        return (
+            <Dropdown
+              auto
+              source={languages}
+              label={this.props.strings.header}
+              template={this.renderItem}
+              value={this.props.currentLanguage}
+              onChange={this.props.changeLanguage}
+            />
+        );
+    }
 }
 
 LanguagePicker.propTypes = {
-    strings: PropTypes.object
+    strings: PropTypes.object,
+    currentLanguage: PropTypes.string,
+    changeLanguage: PropTypes.func
 };
 
 LanguagePicker.defaultProps = {
+    currentLanguage: 'en',
+    changeLanguage: noop,
     strings: {
         header: 'Choose a language'
     }
-}
+};
 
 export default LanguagePicker;

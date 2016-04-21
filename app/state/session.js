@@ -15,39 +15,39 @@ export default function reducer(state = {
     name: null,
     clients: [],
     previousSessions: []
-} , action) {
+}, action) {
     switch (action.type) {
-        case CREATE_SESSION_SUCCESS:
-        case JOIN_SESSION:
-            return {
-                ...state,
-                id: action.payload.sessionId,
-            };
-        case RECEIVE_CLIENT_LIST:
-            return {
-                ...state,
-                clients: action.payload
-            };
-        case LEAVE_SESSION:
-            return {
-                ...state,
-                id: null,
-                name: null,
-                clients: []
-            };
-        case RENAME_SESSION:
-        case RECEIVE_SESSION_NAME:
-            return {
-                ...state,
-                name: action.payload
-            };
-        case LOAD_PREVIOUS_SESSIONS:
-            return {
-                ...state,
-                previousSessions: action.payload
-            };
-        default:
-            return state;
+    case CREATE_SESSION_SUCCESS:
+    case JOIN_SESSION:
+        return {
+            ...state,
+            id: action.payload.sessionId
+        };
+    case RECEIVE_CLIENT_LIST:
+        return {
+            ...state,
+            clients: action.payload
+        };
+    case LEAVE_SESSION:
+        return {
+            ...state,
+            id: null,
+            name: null,
+            clients: []
+        };
+    case RENAME_SESSION:
+    case RECEIVE_SESSION_NAME:
+        return {
+            ...state,
+            name: action.payload
+        };
+    case LOAD_PREVIOUS_SESSIONS:
+        return {
+            ...state,
+            previousSessions: action.payload
+        };
+    default:
+        return state;
     }
 }
 

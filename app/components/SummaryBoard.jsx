@@ -1,11 +1,9 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Component from '../Component';
-import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
-import noop from 'lodash/noop';
 import translate from '../i18n/Translate';
 import { connect } from 'react-redux';
 import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from '../selectors';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import { Card, CardTitle, CardText } from 'react-toolbox/lib/card';
 import style from './SummaryBoard.scss';
 
 const stateToProps = state => ({
@@ -14,14 +12,39 @@ const stateToProps = state => ({
     ideasPosts: getSortedIdeasPosts(state)
 });
 
-const actionsToProps = dispatch => ({
-});
-
 @translate('PostBoard')
 @translate('SummaryBoard')
 @translate('Post')
-@connect(stateToProps, actionsToProps)
+@connect(stateToProps)
 class SummaryBoard extends Component {
+    renderType(label, className, posts) {
+        if (!posts.length) {
+            return null;
+        }
+        return (
+            <div style={{ margin: 30 }}>
+                <Card>
+                    <CardTitle className={className}>{ label }</CardTitle>
+                    <CardText>
+                        <ul style={{ marginLeft: 0, marginTop: 20, listStyleType: 'none' }}>
+                            { posts.map(this.renderPost.bind(this)) }
+                        </ul>
+                    </CardText>
+                </Card>
+            </div>
+        );
+    }
+
+    renderPost(post) {
+        return (
+            <li key={post.id}>
+                <span className={style.like}>+{post.likes.length}</span>&#9;
+                <span className={style.dislike}>-{post.dislikes.length}</span>&#9;
+                {post.content}
+            </li>
+        );
+    }
+
     render() {
         const { wellPosts, notWellPosts, ideasPosts, strings } = this.props;
 
@@ -40,33 +63,6 @@ class SummaryBoard extends Component {
             </div>
         );
     }
-
-    renderType(label, className, posts) {
-        if (!posts.length) {
-            return null;
-        }
-        return (
-            <div style={{ margin: 30 }}>
-                <Card>
-                    <CardTitle className={className}>{ label }</CardTitle>
-                    <CardText>
-                        <ul style={{ marginLeft: 0, marginTop: 20, listStyleType: 'none'}}>
-                            { posts.map(this.renderPost.bind(this)) }
-                        </ul>
-                    </CardText>
-                </Card>
-            </div>
-        );
-    }
-
-    renderPost(post) {
-        const votes = post.likes.length;
-        const { strings } = this.props;
-        const subtitle = votes > 1 ? votes + ' ' + strings.votes : votes + ' ' + strings.vote;
-        return (
-            <li key={post.id}><span className={style.like}>+{post.likes.length}</span>&#9;<span className={style.dislike}>-{post.dislikes.length}</span>&#9;{post.content}</li>
-        );
-    }
 }
 
 SummaryBoard.propTypes = {
@@ -74,7 +70,7 @@ SummaryBoard.propTypes = {
     notWellPosts: PropTypes.array.isRequired,
     ideasPosts: PropTypes.array.isRequired,
     strings: PropTypes.object
-}
+};
 
 SummaryBoard.defaultProps = {
     wellPosts: [],
@@ -88,6 +84,6 @@ SummaryBoard.defaultProps = {
         votes: 'votes',
         noPosts: 'There are no posts to display'
     }
-}
+};
 
 export default SummaryBoard;

@@ -1,15 +1,15 @@
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var webpack = require('webpack');
-var staticFolder = path.resolve(__dirname, 'assets');
-var languages = require('./app/i18n/languages');
-var momentFilter = languages.map(function (lang) { return lang.iso; }).join('|');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const staticFolder = path.resolve(__dirname, 'assets');
+const languages = require('./app/i18n/languages');
+const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
     content: __dirname,
     entry: [
-        './ui.jsx',
+        './ui.jsx'
     ],
     output: {
         path: staticFolder,
@@ -25,13 +25,18 @@ module.exports = {
         ]
     },
     module: {
+        preLoaders: [
+            { test: /(\.jsx|\.js)$/, loaders: ['eslint'] }
+        ],
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
             { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
             { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
             { test: /\.json$/, loader: 'json-loader' },
-            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
+            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style',
+                'css?sourceMap&modules&importLoaders=1&localIdentName=' +
+                '[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
     toolbox: {
@@ -50,7 +55,7 @@ module.exports = {
             __GA_ID__: null
         }),
         new webpack.ProvidePlugin({
-            'React': 'react',
+            React: 'react'
         })
     ]
 };

@@ -1,0 +1,19 @@
+ {
+ "parser": "babel-eslint",
+ "extends": "airbnb",
+ "plugins": [
+    "jsx-a11y"
+  ],
+  "rules": {
+      "indent": ["error", 4],
+      "no-console": 0,
+      "no-param-reassign": 0,
+      "comma-dangle": ["error", "never"],
+  },
+  "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    }
+ }

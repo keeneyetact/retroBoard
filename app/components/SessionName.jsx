@@ -1,9 +1,9 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import Component from '../Component';
 import { connect } from 'react-redux';
 import { getSessionName } from '../selectors';
 import style from './SessionName.scss';
-import EnterInput from './EnterInput';
 import Input from 'react-toolbox/lib/input';
 import FontIcon from 'react-toolbox/lib/font_icon';
 import { renameSession } from '../state/session';
@@ -16,7 +16,7 @@ const stateToProps = state => ({
 });
 
 const actionsToProps = dispatch => ({
-    renameSession: debounce(name => dispatch(renameSession(name)), 500)
+    rename: debounce(name => dispatch(renameSession(name)), 500)
 });
 
 @translate('Join')
@@ -28,11 +28,10 @@ class SessionName extends Component {
         this.state = { editMode: false };
     }
 
-    render() {
-        if (this.state.editMode) {
-            return this.renderEditMode();
-        } else {
-            return this.renderViewMode();
+    onKeyPress(e) {
+        if (e.keyCode === 13) {
+            this.setState({ editMode: false });
+            this.props.rename.flush();
         }
     }
 
@@ -40,58 +39,66 @@ class SessionName extends Component {
         const { sessionName, strings } = this.props;
 
         return (
-            <div className={style.sessionName} onClick={() => this.setState({editMode: true}, () => this.refs.input.focus())}>
-                <span className={style.name}>{ sessionName || strings.defaultSessionName }&nbsp;<FontIcon className={style.editIcon} value={icons.create} /></span>
+            <div
+              className={style.sessionName}
+              onClick={() => this.setState({ editMode: true }, () => this.refs.input.focus())}
+            >
+                <span className={style.name}>
+                    { sessionName || strings.defaultSessionName }&nbsp;
+                    <FontIcon className={style.editIcon} value={icons.create} />
+                </span>
             </div>
         );
     }
 
     renderEditMode() {
-        const { sessionName, strings, renameSession } = this.props;
+        const { sessionName, strings, rename } = this.props;
         return (
             <div className={style.sessionName}>
                 <div className={style.edit}>
                     <Input
-                        ref="input"
-                        label={strings.advancedTab.input}
-                        maxLength={50}
-                        icon={icons.create}
-                        defaultValue={sessionName}
-                        onBlur={() => {
-                            this.setState({editMode: false});
-                            renameSession.flush();
-                        }}
-                        onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-                        onChange={value => {
-                            renameSession(value);
-                        }}
+                      ref="input"
+                      label={strings.advancedTab.input}
+                      maxLength={50}
+                      icon={icons.create}
+                      defaultValue={sessionName}
+                      onBlur={() => {
+                          this.setState({ editMode: false });
+                          rename.flush();
+                      }}
+                      onKeyPress={e => this.onKeyPress(e.nativeEvent)}
+                      onChange={value => {
+                          rename(value);
+                      }}
                     />
                 </div>
             </div>
         );
     }
 
-    onKeyPress(e) {
-        if (e.keyCode === 13) {
-            this.setState({editMode: false});
-            this.props.renameSession.flush();
+    render() {
+        if (this.state.editMode) {
+            return this.renderEditMode();
         }
+        return this.renderViewMode();
     }
 }
 
 SessionName.propTypes = {
     sessionName: PropTypes.string,
+    rename: PropTypes.func,
     strings: PropTypes.object
 };
 
 SessionName.defaultProps = {
     sessionName: null,
+    rename: noop,
     strings: {
         advancedTab: {
             input: 'Enter a name for your session'
         },
         defaultSessionName: 'My Retrospective'
     }
-}
+};
 
 export default SessionName;
