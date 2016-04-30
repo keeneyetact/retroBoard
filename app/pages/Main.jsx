@@ -51,19 +51,19 @@ class Main extends Component {
         };
         return (
             <div>
-                <div style={{ width: '100%', textAlign: 'center' }}>
+                <div style={ { width: '100%', textAlign: 'center' } }>
                     <SessionName />
                 </div>
                 { summaryMode ? <SummaryBoard /> : <PostBoard /> }
                 <Snackbar
                   action="Ok!"
                   icon={ icons.question_answer }
-                  label={strings.hint}
+                  label={ strings.hint }
                   type="accept"
-                  active={this.state.snackBarActive}
-                  timeout={10000}
-                  onClick={hideSnackbar}
-                  onTimeout={hideSnackbar}
+                  active={ this.state.snackBarActive }
+                  timeout={ 10000 }
+                  onClick={ hideSnackbar }
+                  onTimeout={ hideSnackbar }
                 />
             </div>
         );

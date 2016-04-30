@@ -1,3 +1,5 @@
+/* eslint react/require-render-return: 0 */
+
 import React, { Component } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 

@@ -1,4 +1,5 @@
 /* global __DEVELOPMENT__ __USE_GA__ __DEVTOOLS__ */
+/* eslint global-require: 0 */
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -11,10 +12,11 @@ import createSagaMiddleware from 'redux-saga';
 
 export default function configureStore(initialState = {}, browserHistory) {
     const middlewares = [];
+    const sagaMiddleware = createSagaMiddleware();
     middlewares.push(thunk);
     middlewares.push(routerMiddleware(browserHistory));
     middlewares.push(socketIoMiddleware);
-    middlewares.push(createSagaMiddleware(...sagas));
+    middlewares.push(sagaMiddleware);
 
     if (__DEVELOPMENT__) {
         const createLogger = require('redux-logger');
@@ -40,6 +42,7 @@ export default function configureStore(initialState = {}, browserHistory) {
 
     const finalCreateStore = createStoreWithMiddleware(createStore);
     const store = finalCreateStore(reducers, initialState);
+    sagaMiddleware.run(sagas);
 
     if (__DEVELOPMENT__) {
         if (module.hot) {

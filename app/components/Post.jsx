@@ -21,11 +21,11 @@ class Post extends Component {
         if (this.props.currentUser === post.user) {
             return (
                 <Button
-                  icon={icons.delete_forever}
-                  label={strings.deleteButton}
+                  icon={ icons.delete_forever }
+                  label={ strings.deleteButton }
                   raised
-                  className={style.deleteButton}
-                  onClick={() => this.props.onDelete(post)}
+                  className={ style.deleteButton }
+                  onClick={ () => this.props.onDelete(post) }
                 />
             );
         }

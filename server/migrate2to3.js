@@ -1,6 +1,7 @@
+/* eslint no-underscore-dangle: 0 */
+
 import fs from 'fs';
 import path from 'path';
-
 
 export default store => {
     console.log('migrating');
