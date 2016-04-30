@@ -1,9 +1,12 @@
-import { Component } from 'react';
+/* eslint react/require-render-return: 0 */
+
+import React, { Component } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
 export default class FastComponent extends Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return shallowCompare(this, nextProps, nextState) || nextContext.currentLanguage !== this.context.currentLanguage;
+        return shallowCompare(this, nextProps, nextState) ||
+               nextContext.currentLanguage !== this.context.currentLanguage;
     }
 }
 

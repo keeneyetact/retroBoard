@@ -1,23 +1,23 @@
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var webpack = require('webpack');
-var staticFolder = path.resolve(__dirname, 'assets');
-var config = require('./config');
-var appVersion = require('./package.json').version;
-var languages = require('./app/i18n/languages');
-var momentFilter = languages.map(function (lang) { return lang.iso; }).join('|');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const staticFolder = path.resolve(__dirname, 'assets');
+const config = require('./config');
+const appVersion = require('./package.json').version;
+const languages = require('./app/i18n/languages');
+const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
     content: __dirname,
     entry: [
-        './ui.jsx',
+        './ui.jsx'
     ],
     output: {
         path: staticFolder,
         publicPath: '/assets/',
-        filename: 'app.' + appVersion + '.js'
+        filename: `app.${appVersion}.js`
     },
     devtool: 'source-map',
     resolve: {
@@ -34,7 +34,9 @@ module.exports = {
             { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
             { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
             { test: /\.json$/, loader: 'json-loader' },
-            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
+            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style',
+                'css?sourceMap&modules&importLoaders=1&localIdentName' +
+                '=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
         ]
     },
     toolbox: {
@@ -48,24 +50,24 @@ module.exports = {
             hash: true,
             template: 'content/index-prod.html',
             inject: true,
-            appVersion: appVersion
+            appVersion
         }),
-        new ExtractTextPlugin('style.'+appVersion+'.css', { allChunks: true }),
+        new ExtractTextPlugin(`style.${appVersion}.css`, { allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             __DEVELOPMENT__: false,
             __DEVTOOLS__: false,
             __USE_GA__: config.GA_Enabled,
-            __GA_ID__: "'" + config.GA_Tracking_ID + "'"
+            __GA_ID__: `'${config.GA_Tracking_ID}'`
         }),
         new webpack.ProvidePlugin({
-            'React': 'react',
+            React: 'react'
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
-          compress: {
-              warnings: false
+            compress: {
+                warnings: false
             }
         })
     ]

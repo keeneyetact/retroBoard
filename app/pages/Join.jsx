@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import Component from '../Component';
 import Input from 'react-toolbox/lib/input';
@@ -6,13 +6,13 @@ import Button from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
 import { createSession } from '../state/session';
 import translate from '../i18n/Translate';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
+import { Card, CardMedia, CardText } from 'react-toolbox/lib/card';
 import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
 import backgroundImage from '../components/images/logo.png';
-import { getSavedSessionsByDate, getCurrentUser } from '../selectors';
-import SessionTile from '../components/SessionTile'
+import { getSavedSessionsByDate } from '../selectors';
+import SessionTile from '../components/SessionTile';
 import { push } from 'react-router-redux';
 
 
@@ -23,7 +23,7 @@ const stateToProps = state => ({
 const actionsToProps = dispatch => ({
     createSession: () => dispatch(createSession()),
     createCustomSession: name => dispatch(createSession(name)),
-    goToSession: session => dispatch(push('/session/'+session.id))
+    goToSession: session => dispatch(push(`/session/${session.id}`))
 });
 
 @translate('Join')
@@ -33,31 +33,17 @@ class Join extends Component {
         super(props);
         this.state = { tabIndex: 0, customSessionName: '' };
     }
-    render() {
-        const { strings } = this.props;
-        return (
-            <div style={{padding: 20 }}>
-                <Card raised>
-                    <CardMedia style={{ backgroundColor: '#EEE'}}>
-                        <img src={backgroundImage} style={{ objectFit: 'contain', maxHeight: 150 }} />
-                    </CardMedia>
-                    <CardText>
-                        <Tabs index={this.state.tabIndex} onChange={tabIndex => this.setState({ tabIndex })}>
-                            { this.renderTabs() }
-                        </Tabs>
-                    </CardText>
-                </Card>
-            </div>
-        );
-    }
 
     renderTabs() {
-        const { previousSessions} = this.props;
+        const { previousSessions } = this.props;
         if (previousSessions.length) {
-            return [ this.renderStandardTab(), this.renderPreviousSessionsTab(), this.renderAdvancedTab() ];
-        } else {
-            return [ this.renderStandardTab(), this.renderAdvancedTab() ];
+            return [
+                this.renderStandardTab(),
+                this.renderPreviousSessionsTab(),
+                this.renderAdvancedTab()
+            ];
         }
+        return [this.renderStandardTab(), this.renderAdvancedTab()];
     }
 
     renderStandardTab() {
@@ -66,7 +52,12 @@ class Join extends Component {
             <Tab label={ strings.standardTab.header } key="standard">
                 <h5>{ strings.welcome }</h5><br />
                 { strings.standardTab.text }<br /><br />
-                <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
+                <Button
+                  label={ strings.standardTab.button }
+                  accent
+                  raised
+                  onClick={ this.props.createSession }
+                />
             </Tab>
         );
     }
@@ -76,8 +67,12 @@ class Join extends Component {
         return (
             <Tab label={ strings.previousTab.header } key="previous">
                 <List selectable ripple>
-                    { previousSessions.map((session, index) =>
-                        <SessionTile key={session.id} session={session} onClick={() => goToSession(session)} />
+                    { previousSessions.map(session =>
+                        <SessionTile
+                          key={session.id}
+                          session={session}
+                          onClick={() => goToSession(session)}
+                        />
                     )}
                 </List>
             </Tab>
@@ -88,19 +83,56 @@ class Join extends Component {
         const { strings } = this.props;
         return (
             <Tab label={ strings.advancedTab.header } key="advanced">
-                <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} maxLength={50} onChange={v => this.setState({ customSessionName: v })} />
+                <Input
+                  label={ strings.advancedTab.input }
+                  required
+                  icon={icons.create}
+                  value={this.state.customSessionName}
+                  maxLength={50}
+                  onChange={v => this.setState({ customSessionName: v })}
+                />
                 <br />
-                <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
+                <Button
+                  label={ strings.advancedTab.button }
+                  disabled={!this.state.customSessionName}
+                  accent
+                  raised
+                  onClick={() => this.props.createCustomSession(this.state.customSessionName)}
+                />
             </Tab>
         );
     }
 
+    render() {
+        return (
+            <div style={{ padding: 20 }}>
+                <Card raised>
+                    <CardMedia style={{ backgroundColor: '#EEE' }}>
+                        <img
+                          src={ backgroundImage }
+                          style={{ objectFit: 'contain', maxHeight: 150 }}
+                          role="presentation"
+                        />
+                    </CardMedia>
+                    <CardText>
+                        <Tabs
+                          index={this.state.tabIndex}
+                          onChange={tabIndex => this.setState({ tabIndex })}
+                        >
+                            { this.renderTabs() }
+                        </Tabs>
+                    </CardText>
+                </Card>
+            </div>
+        );
+    }
 }
 
 Join.propTypes = {
     previousSessions: PropTypes.array,
     createSession: PropTypes.func,
     createCustomSession: PropTypes.func,
+    goToSession: PropTypes.func,
     strings: PropTypes.object
 };
 
@@ -108,6 +140,7 @@ Join.defaultProps = {
     previousSessions: [],
     createSession: noop,
     createCustomSession: noop,
+    goToSession: noop,
     strings: {
         welcome: 'Welcome to Retrospected',
         standardTab: {
@@ -125,7 +158,6 @@ Join.defaultProps = {
             rejoinButton: 'Rejoin'
         }
     }
-}
-
+};
 
 export default Join;

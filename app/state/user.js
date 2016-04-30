@@ -1,4 +1,3 @@
-import ls from 'local-storage';
 import { createAction } from 'redux-actions';
 
 export const AUTO_LOGIN = 'AUTO_LOGIN';
@@ -13,23 +12,23 @@ export default function reducer(state = {
     lang: 'en'
 }, action) {
     switch (action.type) {
-        case LOGIN_SUCCESS:
-            return {
-                ...state,
-                name: action.payload.name
-            };
-        case CHANGE_LANGUAGE_SUCCESS:
-            return {
-                ...state,
-                lang: action.payload
-            };
-        case LOGOUT:
-            return {
-                ...state,
-                name: null
-            };
-        default:
-            return state;
+    case LOGIN_SUCCESS:
+        return {
+            ...state,
+            name: action.payload.name
+        };
+    case CHANGE_LANGUAGE_SUCCESS:
+        return {
+            ...state,
+            lang: action.payload
+        };
+    case LOGOUT:
+        return {
+            ...state,
+            name: null
+        };
+    default:
+        return state;
     }
 }
 

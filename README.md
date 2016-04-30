@@ -6,7 +6,7 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 It features the following technologies:
 
-* [React](https://github.com/facebook/react) 15.0.1
+* [React](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
 * [Socket IO](http://socket.io)
 * [Webpack](https://github.com/webpack/webpack)
@@ -18,6 +18,7 @@ It features the following technologies:
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 * ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
+* [ESLint](http://eslint.org/) for JS and JSX
 
 
 ## How to run for production (or to try it out)
@@ -55,13 +56,26 @@ By default, the database engine is NeDB, an in-process database with no external
 If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
 
 
+## How to enable SocketIO anti-spam
+
+It's very easy to abuse a SocketIO connection, by running some code in your console and doing `io.emit('spam')` in an infinite loop to create a DOS attack on the server.
+
+To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in the config file.
+
+
 ## Roadmap
 
 * Add more languages
 * Unit tests
 * Inline edit of posts
+* GraphQL
 
 ## Versions history
+
+### Version 0.5.1
+
+* Full support of [ESLint](http://eslint.org/), based on [AirBnB rules](https://github.com/airbnb/javascript)
+* Adding an anti-spam for SocketIO, because someone is having fun crashing my server (thanks!)
 
 ### Version 0.5.0
 

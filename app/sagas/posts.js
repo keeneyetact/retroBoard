@@ -1,9 +1,8 @@
-import { call, put, select } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
 import { ADD_POST_SUCCESS, LIKE_SUCCESS } from '../state/posts';
 
 export function* addPost(action) {
-    const sessionId = yield select(state => state.session.id);
     const user = yield select(state => state.user.name);
     const postId = uuid.v1();
 
@@ -14,7 +13,7 @@ export function* addPost(action) {
         user,
         likes: [],
         dislikes: []
-    }});
+    } });
 }
 
 export function* like(action) {
@@ -22,5 +21,5 @@ export function* like(action) {
     yield put({ type: LIKE_SUCCESS, payload: {
         ...action.payload,
         user
-    }});
+    } });
 }

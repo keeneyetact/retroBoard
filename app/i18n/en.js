@@ -9,7 +9,7 @@ export default {
         header: 'Choose a language'
     },
     Main: {
-        hint: 'You can share invite others to this session by copy-pasting the URL'
+        hint: 'You can invite others to this session by copy-pasting the URL'
     },
     Post: {
         vote: 'vote',
@@ -19,8 +19,7 @@ export default {
     PostBoard: {
         notWellQuestion: 'What could be improved?',
         wellQuestion: 'What went well?',
-        ideasQuestion: 'A brilliant idea to share?',
-        hint: 'You can invite others to this session by copy-pasting the URL'
+        ideasQuestion: 'A brilliant idea to share?'
     },
     Clients: {
         header: 'Kindly joining us right now:'
@@ -52,4 +51,4 @@ export default {
     SessionName: {
         defaultSessionName: 'My Retrospective'
     }
-}
+};

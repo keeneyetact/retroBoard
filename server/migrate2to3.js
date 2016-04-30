@@ -1,6 +1,7 @@
+/* eslint no-underscore-dangle: 0 */
+
 import fs from 'fs';
 import path from 'path';
-
 
 export default store => {
     console.log('migrating');
@@ -21,7 +22,7 @@ export default store => {
             session.posts.forEach(p => {
                 p.likes = [];
                 p.dislikes = [];
-                for (var i = 0; i < p.votes; i++) {
+                for (let i = 0; i < p.votes; i++) {
                     p.likes.push('?');
                 }
             });
@@ -31,9 +32,8 @@ export default store => {
 
         Promise.all(promises).then(() => {
             console.log('Migration done');
-        }).catch(err => {
-            console.error(err);
+        }).catch(err2 => {
+            console.error(err2);
         });
-
     });
-}
+};

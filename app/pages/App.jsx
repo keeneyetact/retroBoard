@@ -1,11 +1,9 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import Component from '../Component';
 import Login from './Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
-import style from './App.scss';
-import icons from '../constants/icons';
 import TranslationProvider from '../i18n/TranslationProvider';
 import Header from './Header';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
@@ -26,7 +24,20 @@ class App extends Component {
         super();
         this.state = {
             drawerOpen: false
+        };
+    }
+
+    componentDidMount() {
+        this.props.autoLogin();
+    }
+
+    renderLogin() {
+        if (this.props.user) {
+            return this.props.children;
         }
+        return (
+            <Login onLogin={this.props.onLogin} />
+        );
     }
 
     render() {
@@ -41,20 +52,7 @@ class App extends Component {
                 <br />
                 { this.renderLogin() }
             </TranslationProvider>
-        )
-    }
-
-    renderLogin() {
-        if (this.props.user) {
-            return this.props.children;
-        }
-        return (
-            <Login onLogin={this.props.onLogin} />
         );
-    }
-
-    componentDidMount() {
-        this.props.autoLogin();
     }
 }
 
@@ -62,6 +60,7 @@ App.propTypes = {
     children: PropTypes.object,
     user: PropTypes.string,
     onLogin: PropTypes.func,
+    autoLogin: PropTypes.func,
     displayDrawerButton: PropTypes.bool
 };
 
@@ -70,6 +69,6 @@ App.defaultTypes = {
     user: null,
     onLogin: noop,
     displayDrawerButton: true
-}
+};
 
 export default App;

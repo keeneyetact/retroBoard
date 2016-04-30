@@ -1,7 +1,9 @@
-var fs = require('fs');
-var path = require('path');
+/* eslint global-require: 0 */
 
-var fileExist = fs.existsSync(path.resolve(__dirname, 'configuration.json'));
+const fs = require('fs');
+const path = require('path');
+
+const fileExist = fs.existsSync(path.resolve(__dirname, 'configuration.json'));
 
 if (fileExist) {
     module.exports = require('./configuration.json');

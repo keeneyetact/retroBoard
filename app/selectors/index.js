@@ -6,6 +6,8 @@ import languages from '../i18n/languages.json';
 // Utility functions
 const sortByVotes = posts => sortBy(posts, p => -(p.likes.length - p.dislikes.length));
 const sortByLastJoin = sessions => sortBy(sessions, s => -s.lastJoin);
+const filterByType = type => posts => posts.filter(p => p.postType === type);
+const findLanguageInfo = lang => find(languages, { value: lang });
 
 // Simple Selectors
 export const getPosts = state => state.posts;
@@ -18,15 +20,16 @@ export const getSessionName = state => state.session.name;
 export const getSavedSessions = state => state.session.previousSessions;
 
 // Selector Factories
-const getPostsOfType = type => createSelector(getPosts, posts => posts.filter(p => p.postType === type));
+const getPostsOfType = type => createSelector(getPosts, filterByType(type));
 
 // Combined Selectors
 export const getNotWellPosts = getPostsOfType('notWell');
 export const getWellPosts = getPostsOfType('well');
 export const getIdeasPosts = getPostsOfType('ideas');
-export const shouldDisplayDrawerButton = createSelector([getCurrentUser, getSessionId], (user, sessionId) => !!user && !!sessionId);
+export const shouldDisplayDrawerButton = createSelector(
+    [getCurrentUser, getSessionId], (user, sessionId) => !!user && !!sessionId);
 export const getSortedNotWellPosts = createSelector(getNotWellPosts, sortByVotes);
 export const getSortedWellPosts = createSelector(getWellPosts, sortByVotes);
 export const getSortedIdeasPosts = createSelector(getIdeasPosts, sortByVotes);
 export const getSavedSessionsByDate = createSelector(getSavedSessions, sortByLastJoin);
-export const getCurrentLanguageInfo = createSelector(getCurrentLanguage, lang => find(languages, { value: lang }));
+export const getCurrentLanguageInfo = createSelector(getCurrentLanguage, findLanguageInfo);
