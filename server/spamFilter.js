@@ -6,11 +6,12 @@ const gr = chalk.grey.bind(chalk);
 const r = chalk.red.bind(chalk);
 const y = chalk.yellow.bind(chalk);
 
-const startupDuration = 5;              // Initial window where we allow a higher rate
-const startupDurationRateLimit = 10;    // Initial rate allowed
-const rateLimit = 0.5;                  // Regular rate allowed
+const startupDuration = 30;             // Initial window where we allow a higher rate
+const startupDurationRateLimit = 30;    // Initial rate allowed
+const rateLimit = 10;                   // Regular rate allowed
 const bansBeforeFullBan = 5;            // Number of bans before definitive ban
 const banDuration = 30 * 60;            // Non-definitive ban duration (seconds)
+const resetAfter = 6 * 60 * 60;         // Reset stats after 6 hours
 
 const d = () => y(`[${moment().format('HH:mm:ss')}]`);
 
@@ -40,10 +41,19 @@ const shouldUnban = record => {
     return false;
 };
 
+const shouldReset = record => {
+    if (moment().diff(record.last, 's') > resetAfter) {
+        return true;
+    }
+
+    return false;
+};
+
 export default (ip, cb) => {
-    if (!ips[ip]) {
+    if (!ips[ip] || shouldReset(ips[ip])) {
         ips[ip] = {
             started: moment(),
+            last: moment(),
             bannedUntil: null,
             calls: 0,
             bans: 0,
