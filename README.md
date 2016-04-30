@@ -56,6 +56,13 @@ By default, the database engine is NeDB, an in-process database with no external
 If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
 
 
+## How to enable SocketIO anti-spam
+
+It's very easy to abuse a SocketIO connection, by running some code in your console and doing `io.emit('spam')` in an infinite loop to create a DOS attack on the server.
+
+To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in the config file.
+
+
 ## Roadmap
 
 * Add more languages
@@ -65,9 +72,10 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
-### Version 0.6.0
+### Version 0.5.1
 
 * Full support of [ESLint](http://eslint.org/), based on [AirBnB rules](https://github.com/airbnb/javascript)
+* Adding an anti-spam for SocketIO, because someone is having fun crashing my server (thanks!)
 
 ### Version 0.5.0
 
