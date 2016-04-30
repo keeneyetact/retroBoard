@@ -3,3 +3,4 @@ assets/
 persist/
 stats/
 .git/
+coverage/

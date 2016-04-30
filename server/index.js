@@ -133,7 +133,7 @@ db().then(store => {
         const ip = socket.request.connection.remoteAddress;
         antiSpam(ip, () => {
             console.log(d() + b(' Connection: ') +
-                        r('New user connected'), gr(socket.id));
+                        r('New user connected'), gr(socket.id), gr(ip));
 
             const actions = [
                 { type: 'ADD_POST_SUCCESS', handler: receivePost },

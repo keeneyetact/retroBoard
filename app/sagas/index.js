@@ -19,18 +19,18 @@ import {
 import { addPost, like } from './posts';
 import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
 
-const watchers = [
-    function* () { yield* takeEvery(AUTO_LOGIN, autoLoginUser); },
-    function* () { yield* takeEvery(AUTO_JOIN, autoJoinUser); },
-    function* () { yield* takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage); },
-    function* () { yield* takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage); },
-    function* () { yield* takeEvery(LOGIN, loginUser); },
-    function* () { yield* takeEvery(LOGOUT, deleteUserFromLocalStorage); },
-    function* () { yield* takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage); },
-    function* () { yield* takeEvery(LEAVE_SESSION, disconnectUser); },
-    function* () { yield* takeEvery(ADD_POST, addPost); },
-    function* () { yield* takeEvery(CREATE_SESSION, createSession); },
-    function* () { yield* takeEvery(LIKE, like); }
-];
-
-export default watchers;
+export default function* rootSaga() {
+    yield [
+        takeEvery(AUTO_LOGIN, autoLoginUser),
+        takeEvery(AUTO_JOIN, autoJoinUser),
+        takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage),
+        takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage),
+        takeEvery(LOGIN, loginUser),
+        takeEvery(LOGOUT, deleteUserFromLocalStorage),
+        takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage),
+        takeEvery(LEAVE_SESSION, disconnectUser),
+        takeEvery(ADD_POST, addPost),
+        takeEvery(CREATE_SESSION, createSession),
+        takeEvery(LIKE, like)
+    ];
+}
