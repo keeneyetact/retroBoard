@@ -5,7 +5,9 @@ import http from 'http';
 import find from 'lodash/find';
 import chalk from 'chalk';
 import db from './db';
-import migrate2to3 from './migrate2to3';
+import moment from 'moment';
+import spamFilter from './spamFilter';
+import config from '../config';
 
 const app = express();
 const httpServer = new http.Server(app);
@@ -21,14 +23,18 @@ const g = chalk.green.bind(chalk);
 const b = chalk.blue.bind(chalk);
 const gr = chalk.grey.bind(chalk);
 const r = chalk.red.bind(chalk);
+const y = chalk.yellow.bind(chalk);
+
+const antiSpam = config.Use_Anti_Spam ? spamFilter : (ip, cb) => cb();
 
 db().then(store => {
     const users = {};
+    const d = () => y(`[${moment().format('HH:mm:ss')}]`);
 
     const getRoom = sessionId => `board-${sessionId}`;
 
     const sendToAll = (socket, sessionId, action, data) => {
-        console.log(`${g(' ==> ')} ${b(action)} ${gr(JSON.stringify(data))}`);
+        console.log(`${d()}${g(' ==> ')} ${b(action)} ${gr(JSON.stringify(data))}`);
         socket
             .broadcast
             .to(getRoom(sessionId))
@@ -36,7 +42,7 @@ db().then(store => {
     };
 
     const sendToSelf = (socket, action, data) => {
-        console.log(`${g(' --> ')} ${b(action)} ${gr(JSON.stringify(data))}`);
+        console.log(`${d()}${g(' --> ')} ${b(action)} ${gr(JSON.stringify(data))}`);
         socket.emit(action, data);
     };
 
@@ -121,42 +127,44 @@ db().then(store => {
     app.use('/assets', express.static(assetsFolder));
     app.use('/static', express.static(staticFolder));
     app.use('/favicon.ico', express.static(path.resolve(staticFolder, 'favicon.ico')));
-    app.get('/migrate', (req, res) => {
-        migrate2to3(store);
-        res.send('ok');
-    });
     app.get('/*', (req, res) => res.sendFile(htmlFile));
 
     io.on('connection', socket => {
-        console.log(b('Connection: ') +
-                    r('New user connected'), gr(socket.id));
+        const ip = socket.request.connection.remoteAddress;
+        antiSpam(ip, () => {
+            console.log(d() + b(' Connection: ') +
+                        r('New user connected'), gr(socket.id));
 
-        const actions = [
-            { type: 'ADD_POST_SUCCESS', handler: receivePost },
-            { type: 'JOIN_SESSION', handler: joinSession },
-            { type: 'RENAME_SESSION', handler: renameSession },
-            { type: 'DELETE_POST', handler: deletePost },
-            { type: 'LIKE_SUCCESS', handler: like },
-            { type: 'LOGIN_SUCCESS', handler: login },
-            { type: 'LEAVE_SESSION', handler: leave }];
+            const actions = [
+                { type: 'ADD_POST_SUCCESS', handler: receivePost },
+                { type: 'JOIN_SESSION', handler: joinSession },
+                { type: 'RENAME_SESSION', handler: renameSession },
+                { type: 'DELETE_POST', handler: deletePost },
+                { type: 'LIKE_SUCCESS', handler: like },
+                { type: 'LOGIN_SUCCESS', handler: login },
+                { type: 'LEAVE_SESSION', handler: leave }];
 
-        actions.forEach(action => {
-            socket.on(action.type, data => {
-                console.log(r(' <--  ') +
-                            b(action.type), gr(JSON.stringify(data)));
-                const sid = action.type === 'LEAVE_SESSION' ? socket.sessionId : data.sessionId;
-                if (sid) {
-                    store.get(sid).then(session => {
-                        action.handler(session, data.payload, socket);
+            actions.forEach(action => {
+                socket.on(action.type, data => {
+                    antiSpam(ip, () => {
+                        console.log(d() + r(' <--  ') +
+                                    b(action.type), gr(JSON.stringify(data)));
+                        const sid = action.type === 'LEAVE_SESSION' ?
+                                    socket.sessionId : data.sessionId;
+                        if (sid) {
+                            store.get(sid).then(session => {
+                                action.handler(session, data.payload, socket);
+                            });
+                        }
                     });
+                });
+            });
+
+            socket.on('disconnect', () => {
+                if (socket.sessionId) {
+                    sendClientList(socket.sessionId, socket);
                 }
             });
-        });
-
-        socket.on('disconnect', () => {
-            if (socket.sessionId) {
-                sendClientList(socket.sessionId, socket);
-            }
         });
     });
 
