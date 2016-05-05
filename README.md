@@ -72,6 +72,11 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 ## Versions history
 
+### Version 0.5.2
+
+* Fixed a bug on the anti-spam when if using a proxy (nginx for instance), the wrong ip was used
+* Fixed a bug where the linting would fail if the default configuration was used (thanks @veselignome)
+
 ### Version 0.5.1
 
 * Full support of [ESLint](http://eslint.org/), based on [AirBnB rules](https://github.com/airbnb/javascript)

@@ -1,4 +1,4 @@
-/* eslint global-require: 0 */
+/* eslint global-require: 0 import/no-unresolved:0 */
 
 const fs = require('fs');
 const path = require('path');
