@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import translate from '../i18n/Translate';
 import { ListItem } from 'react-toolbox/lib/list';
@@ -13,8 +14,6 @@ const stateToProps = state => ({
     languageInfo: getCurrentLanguageInfo(state)
 });
 
-@translate('SessionName')
-@connect(stateToProps)
 class SessionTile extends Component {
     getGravatar(client) {
         return `https://www.gravatar.com/avatar/${md5(client)}?d=identicon`;
@@ -56,4 +55,9 @@ SessionTile.defaultProps = {
     }
 };
 
-export default SessionTile;
+const decorators = flow([
+    connect(stateToProps),
+    translate('SessionName')
+]);
+
+export default decorators(SessionTile);

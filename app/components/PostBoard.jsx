@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
@@ -24,8 +25,6 @@ const actionsToProps = dispatch => ({
     unlike: post => dispatch(unlike(post))
 });
 
-@translate('PostBoard')
-@connect(stateToProps, actionsToProps)
 class PostBoard extends Component {
     constructor(props) {
         super(props);
@@ -108,4 +107,9 @@ PostBoard.defaultProps = {
     }
 };
 
-export default PostBoard;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('PostBoard')
+]);
+
+export default decorators(PostBoard);

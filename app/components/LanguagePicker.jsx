@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
@@ -17,8 +18,6 @@ const actionsToProps = dispatch => ({
     changeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
-@translate('LanguagePicker')
-@connect(stateToProps, actionsToProps)
 class LanguagePicker extends Component {
     renderItem(item) {
         const containerStyle = {
@@ -79,4 +78,9 @@ LanguagePicker.defaultProps = {
     }
 };
 
-export default LanguagePicker;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('LanguagePicker')
+]);
+
+export default decorators(LanguagePicker);

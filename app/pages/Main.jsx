@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import translate from '../i18n/Translate';
 import { connect } from 'react-redux';
@@ -19,8 +20,6 @@ const actionsToProps = dispatch => ({
     autoJoin: sessionId => dispatch(autoJoin(sessionId))
 });
 
-@connect(stateToProps, actionsToProps)
-@translate('Main')
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -85,4 +84,9 @@ Main.defaultProps = {
     }
 };
 
-export default Main;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('Main')
+]);
+
+export default decorators(Main);

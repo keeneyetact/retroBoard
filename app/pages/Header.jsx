@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
@@ -34,8 +35,6 @@ const actionsToProps = dispatch => ({
     goToHomepage: () => dispatch(push('/'))
 });
 
-@translate('Header')
-@connect(stateToProps, actionsToProps)
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -147,4 +146,9 @@ Header.defaultTypes = {
     }
 };
 
-export default Header;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('Header')
+]);
+
+export default decorators(Header);

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import translate from '../i18n/Translate';
 import { connect } from 'react-redux';
@@ -12,10 +13,6 @@ const stateToProps = state => ({
     ideasPosts: getSortedIdeasPosts(state)
 });
 
-@translate('PostBoard')
-@translate('SummaryBoard')
-@translate('Post')
-@connect(stateToProps)
 class SummaryBoard extends Component {
     renderType(label, className, posts) {
         if (!posts.length) {
@@ -86,4 +83,11 @@ SummaryBoard.defaultProps = {
     }
 };
 
-export default SummaryBoard;
+const decorators = flow([
+    connect(stateToProps),
+    translate('PostBoard'),
+    translate('SummaryBoard'),
+    translate('Post')
+]);
+
+export default decorators(SummaryBoard);

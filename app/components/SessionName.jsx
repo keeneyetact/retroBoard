@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import { connect } from 'react-redux';
 import { getSessionName } from '../selectors';
@@ -19,9 +20,6 @@ const actionsToProps = dispatch => ({
     rename: debounce(name => dispatch(renameSession(name)), 500)
 });
 
-@translate('Join')
-@translate('SessionName')
-@connect(stateToProps, actionsToProps)
 class SessionName extends Component {
     constructor(props) {
         super(props);
@@ -101,4 +99,10 @@ SessionName.defaultProps = {
     }
 };
 
-export default SessionName;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('Join'),
+    translate('SessionName')
+]);
+
+export default decorators(SessionName);

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
@@ -8,7 +9,6 @@ import style from './PostBoard.scss';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
-@translate('Post')
 class Post extends Component {
     canVote() {
         return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
@@ -98,4 +98,8 @@ Post.defaultProps = {
     }
 };
 
-export default Post;
+const decorators = flow([
+    translate('Post')
+]);
+
+export default decorators(Post);

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import Login from './Login';
 import { connect } from 'react-redux';
@@ -18,7 +19,6 @@ const actionsToProps = dispatch => ({
     autoLogin: () => dispatch(autoLogin())
 });
 
-@connect(stateToProps, actionsToProps)
 class App extends Component {
     constructor() {
         super();
@@ -71,4 +71,8 @@ App.defaultTypes = {
     displayDrawerButton: true
 };
 
-export default App;
+const decorators = flow([
+    connect(stateToProps, actionsToProps)
+]);
+
+export default decorators(App);
