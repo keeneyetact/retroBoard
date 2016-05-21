@@ -18,8 +18,22 @@ export default class EditableLabel extends Component {
         }
     }
 
-    renderViewMode() {
+    renderReadOnlyMode() {
         const { value, placeholder } = this.props;
+
+        return (
+            <span className={style.view}>
+                { value || placeholder }
+            </span>
+        );
+    }
+
+    renderViewMode() {
+        const { value, placeholder, readOnly } = this.props;
+
+        if (readOnly) {
+            return this.renderReadOnlyMode();
+        }
 
         return (
             <span
@@ -36,7 +50,7 @@ export default class EditableLabel extends Component {
         const { value, onChange } = this.props;
         return (
             <span className={style.edit}>
-                <input
+                <textarea
                   ref="input"
                   value={value}
                   onBlur={() => {
@@ -63,12 +77,14 @@ export default class EditableLabel extends Component {
 
 EditableLabel.propTypes = {
     value: PropTypes.string,
+    readOnly: PropTypes.bool,
     placeholder: PropTypes.string,
     onChange: PropTypes.func
 };
 
 EditableLabel.defaultProps = {
     value: '',
+    readOnly: false,
     placeholder: 'nothing',
     onChange: noop
 };

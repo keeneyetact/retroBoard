@@ -17,6 +17,10 @@ class Post extends Component {
                this.props.currentUser !== this.props.post.user;
     }
 
+    canEdit() {
+        return this.props.currentUser === this.props.post.user;
+    }
+
     renderDelete() {
         const { post, strings } = this.props;
         if (this.props.currentUser === post.user) {
@@ -81,6 +85,7 @@ class Post extends Component {
                     <CardText>
                         <EditableLabel
                           value={post.content}
+                          readOnly={!this.canEdit()}
                           onChange={v => this.props.onEdit(post, v)}
                         />
                     </CardText>

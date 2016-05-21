@@ -6,9 +6,14 @@
         }
     }
 
-
     .edit {
-        width: 80%;
         margin: auto;
+
+        textarea {
+            width: 100%;
+            background: none;
+            border: none;
+            outline: none;
+        }
     }
 }
