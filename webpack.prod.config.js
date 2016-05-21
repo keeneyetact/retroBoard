@@ -47,7 +47,7 @@ module.exports = {
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp(momentFilter)),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            hash: true,
+            hash: false,
             template: 'content/index-prod.html',
             inject: true,
             appVersion
