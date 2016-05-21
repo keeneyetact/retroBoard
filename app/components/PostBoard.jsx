@@ -6,7 +6,7 @@ import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { addPost, deletePost, like, unlike } from '../state/posts';
+import { addPost, deletePost, like, unlike, editPost } from '../state/posts';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../selectors';
@@ -22,7 +22,8 @@ const actionsToProps = dispatch => ({
     addPost: (type, text) => dispatch(addPost(type, text)),
     deletePost: post => dispatch(deletePost(post)),
     like: post => dispatch(like(post)),
-    unlike: post => dispatch(unlike(post))
+    unlike: post => dispatch(unlike(post)),
+    edit: (post, content) => dispatch(editPost(post, content))
 });
 
 class PostBoard extends Component {
@@ -47,6 +48,7 @@ class PostBoard extends Component {
                   onDelete={this.props.deletePost}
                   onLike={this.props.like}
                   onUnlike={this.props.unlike}
+                  onEdit={this.props.edit}
                 />
             </div>
         );
@@ -88,7 +90,8 @@ PostBoard.propTypes = {
     deletePost: PropTypes.func,
     strings: PropTypes.object,
     like: PropTypes.func,
-    unlike: PropTypes.func
+    unlike: PropTypes.func,
+    edit: PropTypes.func
 };
 
 PostBoard.defaultProps = {
@@ -100,6 +103,7 @@ PostBoard.defaultProps = {
     deletePost: noop,
     like: noop,
     unlike: noop,
+    edit: noop,
     strings: {
         notWellQuestion: 'What could be improved?',
         wellQuestion: 'What went well?',

@@ -10,10 +10,27 @@ import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
 class Post extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { editMode: false };
+    }
+
     canVote() {
         return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
                this.props.post.dislikes.indexOf(this.props.currentUser) === -1 &&
                this.props.currentUser !== this.props.post.user;
+    }
+
+    enableEdit() {
+        if (!this.state.editMode) {
+            this.setState({ editMode: true });
+        }
+    }
+
+    disableEdit() {
+        if (this.state.editMode) {
+            this.setState({ editMode: false });
+        }
     }
 
     renderDelete() {
@@ -55,12 +72,31 @@ class Post extends Component {
         );
     }
 
+    renderContent(post) {
+        const editMode = this.state.editMode;
+        if (editMode) {
+            return (
+                <div>
+                    <input
+                      value={post.content}
+                      onBlur={() => this.disableEdit()}
+                      onChange={(e) => this.props.onEdit(post, e.target.value)}
+                    />
+                </div>
+            );
+        }
+
+        return post.content;
+    }
+
     render() {
         const { post } = this.props;
         return (
             <div className={classNames(style.post, style[post.postType])}>
                 <Card style={{ width: '350px' }} raised className={style[post.postType]}>
-                    <CardText>{post.content}</CardText>
+                    <CardText onClick={() => this.enableEdit()}>
+                        { this.renderContent(post) }
+                    </CardText>
                     <CardActions>
                         { this.renderButton('likes',
                             icons.thumb_up,
@@ -84,6 +120,7 @@ Post.propTypes = {
     onDelete: PropTypes.func,
     onLike: PropTypes.func,
     onUnlike: PropTypes.func,
+    onEdit: PropTypes.func,
     strings: PropTypes.object
 };
 
@@ -93,6 +130,7 @@ Post.defaultProps = {
     onDelete: noop,
     onLike: noop,
     onUnlike: noop,
+    onEdit: noop,
     strings: {
         deleteButton: 'Delete'
     }
