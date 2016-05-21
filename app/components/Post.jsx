@@ -4,33 +4,17 @@ import flow from 'lodash/flow';
 import Component from '../Component';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
+import EditableLabel from './EditableLabel';
 import classNames from 'classnames';
 import style from './PostBoard.scss';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 
 class Post extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { editMode: false };
-    }
-
     canVote() {
         return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
                this.props.post.dislikes.indexOf(this.props.currentUser) === -1 &&
                this.props.currentUser !== this.props.post.user;
-    }
-
-    enableEdit() {
-        if (!this.state.editMode) {
-            this.setState({ editMode: true });
-        }
-    }
-
-    disableEdit() {
-        if (this.state.editMode) {
-            this.setState({ editMode: false });
-        }
     }
 
     renderDelete() {
@@ -94,8 +78,11 @@ class Post extends Component {
         return (
             <div className={classNames(style.post, style[post.postType])}>
                 <Card style={{ width: '350px' }} raised className={style[post.postType]}>
-                    <CardText onClick={() => this.enableEdit()}>
-                        { this.renderContent(post) }
+                    <CardText>
+                        <EditableLabel
+                          value={post.content}
+                          onChange={v => this.props.onEdit(post, v)}
+                        />
                     </CardText>
                     <CardActions>
                         { this.renderButton('likes',
