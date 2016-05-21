@@ -78,7 +78,7 @@ class Post extends Component {
     }
 
     render() {
-        const { post } = this.props;
+        const { post, strings } = this.props;
         return (
             <div className={classNames(style.post, style[post.postType])}>
                 <Card style={{ width: '350px' }} raised className={style[post.postType]}>
@@ -86,6 +86,7 @@ class Post extends Component {
                         <EditableLabel
                           value={post.content}
                           readOnly={!this.canEdit()}
+                          placeholder={strings.noContent}
                           onChange={v => this.props.onEdit(post, v)}
                         />
                     </CardText>
@@ -124,7 +125,8 @@ Post.defaultProps = {
     onUnlike: noop,
     onEdit: noop,
     strings: {
-        deleteButton: 'Delete'
+        deleteButton: 'Delete',
+        noContent: '(This post has no content)'
     }
 };
 

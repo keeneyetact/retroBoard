@@ -14,7 +14,8 @@ export default {
     Post: {
         vote: 'Stem',
         votes: 'Stemmen',
-        deleteButton: 'Verwijderen'
+        deleteButton: 'Verwijderen',
+        noContent: '(This post has no content)'
     },
     PostBoard: {
         notWellQuestion: 'Wat kan er beter?',

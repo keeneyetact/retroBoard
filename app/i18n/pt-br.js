@@ -14,7 +14,8 @@ export default {
     Post: {
         vote: 'vote',
         votes: 'votos',
-        deleteButton: 'Remover'
+        deleteButton: 'Remover',
+        noContent: '(This post has no content)'
     },
     PostBoard: {
         notWellQuestion: 'O que poderia ser melhorado?',
