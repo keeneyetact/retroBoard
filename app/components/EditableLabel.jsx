@@ -14,7 +14,6 @@ export default class EditableLabel extends Component {
     onKeyPress(e) {
         if (e.keyCode === 13) {
             this.setState({ editMode: false });
-            this.props.onChange.flush();
         }
     }
 
@@ -55,7 +54,6 @@ export default class EditableLabel extends Component {
                   value={value}
                   onBlur={() => {
                       this.setState({ editMode: false });
-                      onChange.flush();
                   }}
                   onKeyPress={e => this.onKeyPress(e.nativeEvent)}
                   onChange={v => {
