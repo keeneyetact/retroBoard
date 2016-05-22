@@ -14,7 +14,8 @@ export default {
     Post: {
         vote: 'szavazat',
         votes: 'szavazat',
-        deleteButton: 'törlés'
+        deleteButton: 'törlés',
+        noContent: '(This post has no content)'
     },
     PostBoard: {
         notWellQuestion: 'Mit lehetne jobban csinálni?',

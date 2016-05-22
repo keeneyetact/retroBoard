@@ -6,7 +6,9 @@ import {
     RECEIVE_DELETE_POST,
     DELETE_POST,
     LIKE_SUCCESS,
-    RECEIVE_LIKE } from '../state/posts';
+    RECEIVE_LIKE,
+    EDIT_POST,
+    RECEIVE_EDIT_POST } from '../state/posts';
 import {
     JOIN_SESSION,
     LEAVE_SESSION,
@@ -33,7 +35,8 @@ export const init = store => {
         RECEIVE_DELETE_POST,
         RECEIVE_LIKE,
         RECEIVE_CLIENT_LIST,
-        RECEIVE_SESSION_NAME
+        RECEIVE_SESSION_NAME,
+        RECEIVE_EDIT_POST
     ];
 
     actions.forEach(action => {
@@ -54,7 +57,8 @@ export const socketIoMiddleware = store => next => action => {
         LIKE_SUCCESS,
         LOGIN_SUCCESS,
         LEAVE_SESSION,
-        RENAME_SESSION
+        RENAME_SESSION,
+        EDIT_POST
     ];
 
     if (actions.indexOf(action.type) > -1) {

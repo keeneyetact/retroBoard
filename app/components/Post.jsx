@@ -4,6 +4,7 @@ import flow from 'lodash/flow';
 import Component from '../Component';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
+import EditableLabel from './EditableLabel';
 import classNames from 'classnames';
 import style from './PostBoard.scss';
 import icons from '../constants/icons';
@@ -14,6 +15,10 @@ class Post extends Component {
         return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
                this.props.post.dislikes.indexOf(this.props.currentUser) === -1 &&
                this.props.currentUser !== this.props.post.user;
+    }
+
+    canEdit() {
+        return this.props.currentUser === this.props.post.user;
     }
 
     renderDelete() {
@@ -55,12 +60,36 @@ class Post extends Component {
         );
     }
 
+    renderContent(post) {
+        const editMode = this.state.editMode;
+        if (editMode) {
+            return (
+                <div>
+                    <input
+                      value={post.content}
+                      onBlur={() => this.disableEdit()}
+                      onChange={(e) => this.props.onEdit(post, e.target.value)}
+                    />
+                </div>
+            );
+        }
+
+        return post.content;
+    }
+
     render() {
-        const { post } = this.props;
+        const { post, strings } = this.props;
         return (
             <div className={classNames(style.post, style[post.postType])}>
                 <Card style={{ width: '350px' }} raised className={style[post.postType]}>
-                    <CardText>{post.content}</CardText>
+                    <CardText>
+                        <EditableLabel
+                          value={post.content}
+                          readOnly={!this.canEdit()}
+                          placeholder={strings.noContent}
+                          onChange={v => this.props.onEdit(post, v)}
+                        />
+                    </CardText>
                     <CardActions>
                         { this.renderButton('likes',
                             icons.thumb_up,
@@ -84,6 +113,7 @@ Post.propTypes = {
     onDelete: PropTypes.func,
     onLike: PropTypes.func,
     onUnlike: PropTypes.func,
+    onEdit: PropTypes.func,
     strings: PropTypes.object
 };
 
@@ -93,8 +123,10 @@ Post.defaultProps = {
     onDelete: noop,
     onLike: noop,
     onUnlike: noop,
+    onEdit: noop,
     strings: {
-        deleteButton: 'Delete'
+        deleteButton: 'Delete',
+        noContent: '(This post has no content)'
     }
 };
 

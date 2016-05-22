@@ -124,6 +124,15 @@ db().then(store => {
         }
     };
 
+    const edit = (session, data, socket) => {
+        const post = find(session.posts, p => p.id === data.post.id);
+        if (post) {
+            post.content = data.content;
+            persist(session);
+            sendToAll(socket, session.id, 'RECEIVE_EDIT_POST', data);
+        }
+    };
+
     app.use('/assets', express.static(assetsFolder));
     app.use('/static', express.static(staticFolder));
     app.use('/favicon.ico', express.static(path.resolve(staticFolder, 'favicon.ico')));
@@ -141,6 +150,7 @@ db().then(store => {
                 { type: 'RENAME_SESSION', handler: renameSession },
                 { type: 'DELETE_POST', handler: deletePost },
                 { type: 'LIKE_SUCCESS', handler: like },
+                { type: 'EDIT_POST', handler: edit },
                 { type: 'LOGIN_SUCCESS', handler: login },
                 { type: 'LEAVE_SESSION', handler: leave }];
 
