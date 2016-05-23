@@ -51,5 +51,14 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'Ma Retrospective'
+    },
+    Invite: {
+        inviteButton: 'Inviter',
+        dialog: {
+            title: 'Invitez des participants à votre retrospective',
+            text: 'Pour inviter des participants à votre session retrospected, ' +
+                  'envoyez leur le lien suivant',
+            copyButton: 'Copier le lien dans le presse-papier'
+        }
     }
 };

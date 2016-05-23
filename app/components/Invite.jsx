@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import translate from '../i18n/Translate';
 import Button from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import flow from 'lodash/flow';
@@ -18,25 +19,30 @@ const actionsToProps = dispatch => ({
     toggle: () => dispatch(toggleInviteDialog())
 });
 
-const CopyToClipboard = ({ url, showInvite, dialogOpen, toggle }) => {
+const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
     if (!showInvite) {
         return null;
     }
 
     return (
         <span>
-            <Button icon={icons.group_add} label="Invite" flat primary
+            <Button icon={icons.group_add} label={strings.inviteButton} accent raised
               onClick={toggle}
             />
-            <CopyDialog url={url} dialogOpen={dialogOpen} toggle={toggle} />
+            <CopyDialog
+              url={url}
+              dialogOpen={dialogOpen}
+              toggle={toggle}
+              strings={strings.dialog}
+            />
         </span>
     );
 };
 
-const CopyDialog = ({ url, dialogOpen, toggle }) => (
+const CopyDialog = ({ url, dialogOpen, toggle, strings }) => (
     <Dialog
       active={dialogOpen}
-      title="Invite people to your retrospective"
+      title={strings.title}
       onEscKeyDown={toggle}
       onOverlayClick={toggle}
       actions={[
@@ -44,14 +50,16 @@ const CopyDialog = ({ url, dialogOpen, toggle }) => (
       ]}
     >
         <p>
-            To invite people to your Retrospective session, simply give them the following URL:
+            {strings.text}:
             <br />
             <strong>{url}</strong>
         </p>
         <br />
         <Clipboard text={url}>
             <Button
-              icon={icons.content_copy} label="Or copy URL to Clipboard" flat primary accent
+              icon={icons.content_copy}
+              label={strings.copyButton}
+              flat primary accent
             />
         </Clipboard>
     </Dialog>
@@ -60,18 +68,33 @@ const CopyDialog = ({ url, dialogOpen, toggle }) => (
 CopyDialog.propTypes = {
     url: PropTypes.string,
     dialogOpen: PropTypes.bool,
-    toggle: PropTypes.func
+    toggle: PropTypes.func,
+    strings: PropTypes.object
 };
 
-CopyToClipboard.propTypes = {
+Invite.propTypes = {
     url: PropTypes.string,
     showInvite: PropTypes.bool,
     dialogOpen: PropTypes.bool,
-    toggle: PropTypes.func
+    toggle: PropTypes.func,
+    strings: PropTypes.object
+};
+
+Invite.defaultProps = {
+    strings: {
+        inviteButton: 'Invite',
+        dialog: {
+            title: 'Invite people to your retrospective',
+            text: 'To invite people to your retrospected session, simply give them ' +
+                  'the following URL',
+            copyButton: 'Copy URL to Clipboard'
+        }
+    }
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps)
+    connect(stateToProps, actionsToProps),
+    translate('Invite')
 ]);
 
-export default decorators(CopyToClipboard);
+export default decorators(Invite);

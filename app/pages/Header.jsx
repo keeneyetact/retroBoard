@@ -13,8 +13,7 @@ import { leave } from '../state/session';
 import { toggleSummaryMode } from '../state/modes';
 import style from './App.scss';
 import Clients from './Clients';
-import CopyToClipboard from '../components/CopyToClipboard';
-
+import Invite from '../components/Invite';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
@@ -59,7 +58,9 @@ class Header extends Component {
                     <a onClick={goToHomepage} href="#">Retrospected <br />
                         <span className={style.subtitle}>{ strings.subtitle }</span>
                     </a>
-                    <CopyToClipboard />
+                    <div className={ style.invite }>
+                        <Invite />
+                    </div>
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
                         { this.props.displayDrawerButton ?
