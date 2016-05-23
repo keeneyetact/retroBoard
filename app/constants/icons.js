@@ -16,5 +16,7 @@ export default {
     create: String.fromCharCode(0xE150),
     code: String.fromCharCode(0xE86F),
     open_in_new: String.fromCharCode(0xE89E),
-    question_answer: String.fromCharCode(0xE8AF)
+    question_answer: String.fromCharCode(0xE8AF),
+    content_copy: String.fromCharCode(0xE14D),
+    group_add: String.fromCharCode(0xE7F0)
 };
