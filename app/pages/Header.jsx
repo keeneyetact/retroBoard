@@ -13,6 +13,7 @@ import { leave } from '../state/session';
 import { toggleSummaryMode } from '../state/modes';
 import style from './App.scss';
 import Clients from './Clients';
+import CopyToClipboard from '../components/CopyToClipboard';
 
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
@@ -58,6 +59,7 @@ class Header extends Component {
                     <a onClick={goToHomepage} href="#">Retrospected <br />
                         <span className={style.subtitle}>{ strings.subtitle }</span>
                     </a>
+                    <CopyToClipboard />
                     <Navigation type="horizontal" className={ style.navigation }>
                         <p>{ this.props.user }</p>
                         { this.props.displayDrawerButton ?

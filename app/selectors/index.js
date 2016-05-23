@@ -18,6 +18,8 @@ export const getCurrentLanguage = state => state.user.lang;
 export const getClients = state => state.session.clients;
 export const getSessionName = state => state.session.name;
 export const getSavedSessions = state => state.session.previousSessions;
+export const getCurrentUrl = () => window.location.href;
+export const isInviteDialogOpen = state => state.invite.inviteDialogOpen;
 
 // Selector Factories
 const getPostsOfType = type => createSelector(getPosts, filterByType(type));
