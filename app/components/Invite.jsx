@@ -48,6 +48,7 @@ const CopyDialog = ({ url, dialogOpen, toggle, strings }) => (
       title={strings.title}
       onEscKeyDown={toggle}
       onOverlayClick={toggle}
+      type="large"
       actions={[
           { label: 'Ok', onClick: toggle }
       ]}
@@ -88,7 +89,7 @@ Invite.defaultProps = {
         inviteButton: 'Invite',
         dialog: {
             title: 'Invite people to your retrospective',
-            text: 'To invite people to your retrospected session, simply give them ' +
+            text: 'To invite people to your retrospected session, simply send them ' +
                   'the following URL',
             copyButton: 'Copy URL to Clipboard'
         }
