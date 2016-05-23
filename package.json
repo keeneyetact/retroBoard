@@ -103,7 +103,11 @@
     "board",
     "redux",
     "react",
-    "universal"
+    "universal",
+    "socket.io",
+    "reselect",
+    "SPA",
+    "single page application"
   ],
   "author": "Antoine Jaussoin",
   "license": "ISC",
