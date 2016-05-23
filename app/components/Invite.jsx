@@ -8,7 +8,6 @@ import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from '..
 import Clipboard from 'react-copy-to-clipboard';
 import icons from '../constants/icons';
 import { toggleInviteDialog } from '../state/invite';
-import getWindowSize from '../utils/getWindowSize';
 
 const stateToProps = state => ({
     url: getCurrentUrl(state),
@@ -21,24 +20,17 @@ const actionsToProps = dispatch => ({
 });
 
 const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
-    const size = getWindowSize();
-    const isSmall = size.width < 500;
-
     if (!showInvite) {
         return null;
     }
 
     return (
         <span>
-            { isSmall ?
-                <Button icon={icons.group_add}
-                  onClick={toggle}
-                  floating accent mini
-                /> :
-                <Button icon={icons.group_add} label={strings.inviteButton} accent raised
-                  onClick={toggle}
-                />
-            }
+            <Button icon={icons.group_add}
+              onClick={toggle}
+              title={strings.inviteButton}
+              floating accent mini
+            />
 
             <CopyDialog
               url={url}

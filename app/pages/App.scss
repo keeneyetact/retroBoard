@@ -9,9 +9,15 @@ span.subtitle {
 }
 
 .invite {
-    position: absolute;
-    left:0;
-    top:15px;
-    width:100%;
-    text-align: center;
+    @media screen and (min-width: 700px) {
+        position: absolute;
+        left:0;
+        top:15px;
+        width:100%;
+        text-align: center;
+    }
+
+    @media screen and (max-width: 699px) {
+        margin-left:10px;
+    }
 }
