@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import translate from '../i18n/Translate';
-import Button from 'react-toolbox/lib/button';
+import { Button } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import flow from 'lodash/flow';
 import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from '../selectors';
 import Clipboard from 'react-copy-to-clipboard';
 import icons from '../constants/icons';
 import { toggleInviteDialog } from '../state/invite';
+import getWindowSize from '../utils/getWindowSize';
 
 const stateToProps = state => ({
     url: getCurrentUrl(state),
@@ -20,15 +21,25 @@ const actionsToProps = dispatch => ({
 });
 
 const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
+    const size = getWindowSize();
+    const isSmall = size.width < 500;
+
     if (!showInvite) {
         return null;
     }
 
     return (
         <span>
-            <Button icon={icons.group_add} label={strings.inviteButton} accent raised
-              onClick={toggle}
-            />
+            { isSmall ?
+                <Button icon={icons.group_add}
+                  onClick={toggle}
+                  floating accent mini
+                /> :
+                <Button icon={icons.group_add} label={strings.inviteButton} accent raised
+                  onClick={toggle}
+                />
+            }
+
             <CopyDialog
               url={url}
               dialogOpen={dialogOpen}
