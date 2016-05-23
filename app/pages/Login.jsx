@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
@@ -7,7 +8,6 @@ import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
 import icons from '../constants/icons';
 
-@translate('Login')
 class Login extends Component {
     render() {
         return (
@@ -47,4 +47,8 @@ Login.defaultProps = {
     }
 };
 
-export default Login;
+const decorators = flow([
+    translate('Login')
+]);
+
+export default decorators(Login);

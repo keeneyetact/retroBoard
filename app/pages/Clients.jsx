@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import flow from 'lodash/flow';
 import React, { PropTypes } from 'react';
 import Component from '../Component';
 import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
@@ -11,8 +12,6 @@ const stateToProps = state => ({
     clients: getClients(state)
 });
 
-@translate('Clients')
-@connect(stateToProps)
 class Clients extends Component {
     constructor(props) {
         super(props);
@@ -56,4 +55,9 @@ Clients.defaultProps = {
     }
 };
 
-export default Clients;
+const decorators = flow([
+    connect(stateToProps),
+    translate('Clients')
+]);
+
+export default decorators(Clients);

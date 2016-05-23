@@ -33,6 +33,7 @@ class PostColumn extends Component {
                           onLike={this.props.onLike}
                           onUnlike={this.props.onUnlike}
                           onDelete={this.props.onDelete}
+                          onEdit={this.props.onEdit}
                         />
                     )}
                 </div>
@@ -50,7 +51,8 @@ PostColumn.propTypes = {
     onAdd: PropTypes.func,
     onDelete: PropTypes.func,
     onLike: PropTypes.func,
-    onUnlike: PropTypes.func
+    onUnlike: PropTypes.func,
+    onEdit: PropTypes.func
 };
 
 PostColumn.defaultProps = {
@@ -62,7 +64,8 @@ PostColumn.defaultProps = {
     onAdd: noop,
     onDelete: noop,
     onLike: noop,
-    onUnlike: noop
+    onUnlike: noop,
+    onEdit: noop
 };
 
 export default PostColumn;

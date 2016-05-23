@@ -12,6 +12,8 @@ export const DELETE_POST = 'DELETE_POST';
 export const LIKE = 'LIKE';
 export const LIKE_SUCCESS = 'LIKE_SUCCESS';
 export const RECEIVE_LIKE = 'RECEIVE_LIKE';
+export const EDIT_POST = 'EDIT_POST';
+export const RECEIVE_EDIT_POST = 'RECEIVE_EDIT_POST';
 
 const postReducer = (state = {}, action) => {
     switch (action.type) {
@@ -23,6 +25,12 @@ const postReducer = (state = {}, action) => {
             [array]: state[array].concat(action.payload.user)
         };
     }
+    case EDIT_POST:
+    case RECEIVE_EDIT_POST:
+        return {
+            ...state,
+            content: action.payload.content
+        };
     default:
         return state;
     }
@@ -42,7 +50,9 @@ export default function reducer(state = [], action) {
     case RECEIVE_DELETE_POST:
         return state.filter(p => p.id !== action.payload.id);
     case LIKE_SUCCESS:
-    case RECEIVE_LIKE: {
+    case RECEIVE_LIKE:
+    case EDIT_POST:
+    case RECEIVE_EDIT_POST: {
         const index = findIndex(state, p => p.id === action.payload.post.id);
         return index > -1 ? [
             ...state.slice(0, index),
@@ -63,3 +73,4 @@ export const addPost = createAction('ADD_POST', (postType, content) => ({ postTy
 export const deletePost = createAction('DELETE_POST');
 export const like = createAction('LIKE', post => ({ post, like: true }));
 export const unlike = createAction('LIKE', post => ({ post, like: false }));
+export const editPost = createAction('EDIT_POST', (post, content) => ({ post, content }));

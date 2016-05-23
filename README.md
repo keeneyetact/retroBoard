@@ -67,10 +67,17 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 * Add more languages
 * Unit tests
-* Inline edit of posts
 * GraphQL
 
 ## Versions history
+
+### Version 0.6.0
+
+* Added the ability to edit existing posts inline (posts you wrote)
+* Adding a new Invite button to simplify and explain how to invite other people
+* Removing the snackbar
+* Removing ES7 decorators, as they are not standard yet
+* Removing hash on CSS and JS on production (not necessary since we have the version number)
 
 ### Version 0.5.2
 

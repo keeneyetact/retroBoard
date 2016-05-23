@@ -14,7 +14,8 @@ export default {
     Post: {
         vote: 'vote',
         votes: 'votes',
-        deleteButton: 'Supprimer'
+        deleteButton: 'Supprimer',
+        noContent: '(Aucun contenu)'
     },
     PostBoard: {
         notWellQuestion: 'Qu\'est-ce qui pourrait être amélioré ?',
@@ -50,5 +51,14 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'Ma Retrospective'
+    },
+    Invite: {
+        inviteButton: 'Inviter',
+        dialog: {
+            title: 'Invitez des participants à votre retrospective',
+            text: 'Pour inviter des participants à votre session retrospected, ' +
+                  'envoyez leur le lien suivant',
+            copyButton: 'Copier le lien dans le presse-papier'
+        }
     }
 };

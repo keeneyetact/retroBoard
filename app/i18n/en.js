@@ -14,7 +14,8 @@ export default {
     Post: {
         vote: 'vote',
         votes: 'votes',
-        deleteButton: 'Delete'
+        deleteButton: 'Delete',
+        noContent: '(This post has no content)'
     },
     PostBoard: {
         notWellQuestion: 'What could be improved?',
@@ -50,5 +51,14 @@ export default {
     },
     SessionName: {
         defaultSessionName: 'My Retrospective'
+    },
+    Invite: {
+        inviteButton: 'Invite',
+        dialog: {
+            title: 'Invite people to your retrospective',
+            text: 'To invite people to your retrospected session, simply send them ' +
+                  'the following URL',
+            copyButton: 'Copy URL to Clipboard'
+        }
     }
 };

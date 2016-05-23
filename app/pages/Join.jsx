@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import flow from 'lodash/flow';
 import Component from '../Component';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
@@ -26,8 +27,6 @@ const actionsToProps = dispatch => ({
     goToSession: session => dispatch(push(`/session/${session.id}`))
 });
 
-@translate('Join')
-@connect(stateToProps, actionsToProps)
 class Join extends Component {
     constructor(props) {
         super(props);
@@ -160,4 +159,9 @@ Join.defaultProps = {
     }
 };
 
-export default Join;
+const decorators = flow([
+    connect(stateToProps, actionsToProps),
+    translate('Join')
+]);
+
+export default decorators(Join);
