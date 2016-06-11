@@ -62,6 +62,25 @@ It's very easy to abuse a SocketIO connection, by running some code in your cons
 
 To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in the config file.
 
+## How to debug
+
+### Debugging the server
+
+* Run `npm run start-server-debug`
+* Don't forget to start the client side as well `npm run start-ui`
+* A Chrome Dev tool will open, wait a bit until it finishes loading
+* It will break at the first line of code, so once it's there, click continue
+* Then wait a bit (could be 20-30 seconds) for the code to run and the server to work properly
+* From now on, you can set up a breakpoint anywhere in the Chrome Dev tools and it should work.
+* Happy debugging!
+
+### Debugging the client
+
+* Run both client and server normally (`npm run start-server` and `npm run start-ui`)
+* From the browser window where the website is open, open the Chrome Dev tools
+* Go on the **Sources** tab, and on the left, find your sources under `webpack://` and then `.`.
+* You can then put breakpoints in there and debugging
+
 
 ## Roadmap
 
@@ -70,6 +89,11 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * GraphQL
 
 ## Versions history
+
+### Version 0.6.1
+
+* React-toolbox 1.0.0
+* Debugging instructions
 
 ### Version 0.6.0
 
