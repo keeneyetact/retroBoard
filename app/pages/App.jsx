@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
 import Header from './Header';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
+import { Layout, Panel } from 'react-toolbox/lib/layout';
 
 const stateToProps = state => ({
     user: getCurrentUser(state),
@@ -40,16 +41,12 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <Header />
-
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                { this.renderLogin() }
-            </div>
+            <Layout>
+                <Panel>
+                    <Header />
+                    { this.renderLogin() }
+                </Panel>
+            </Layout>
         );
     }
 }
