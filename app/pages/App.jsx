@@ -4,7 +4,7 @@ import flow from 'lodash/flow';
 import Login from './Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
-import Header from './Header';
+import Header from '../components/header/Header';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
 import { Layout, Panel } from 'react-toolbox/lib/layout';
 
@@ -19,13 +19,6 @@ const actionsToProps = dispatch => ({
 });
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            drawerOpen: false
-        };
-    }
-
     componentDidMount() {
         this.props.autoLogin();
     }
@@ -55,15 +48,13 @@ App.propTypes = {
     children: PropTypes.object,
     user: PropTypes.string,
     onLogin: PropTypes.func,
-    autoLogin: PropTypes.func,
-    displayDrawerButton: PropTypes.bool
+    autoLogin: PropTypes.func
 };
 
 App.defaultTypes = {
     children: null,
     user: null,
-    onLogin: noop,
-    displayDrawerButton: true
+    onLogin: noop
 };
 
 const decorators = flow([

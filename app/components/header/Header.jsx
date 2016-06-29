@@ -5,12 +5,12 @@ import AppBar from 'react-toolbox/lib/app_bar';
 import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
 import style from './Header.scss';
-import Invite from '../components/Invite';
-import translate from '../i18n/Translate';
+import Invite from './Invite';
+import translate from '../../i18n/Translate';
 import { push } from 'react-router-redux';
-import { getCurrentUser } from '../selectors';
-import Drawer from './Drawer';
-import OpenDrawerButton from '../components/header/OpenDrawerButton';
+import { getCurrentUser } from '../../selectors';
+import Drawer from '../drawer/Drawer';
+import OpenDrawerButton from './OpenDrawerButton';
 
 const stateToProps = state => ({
     user: getCurrentUser(state)

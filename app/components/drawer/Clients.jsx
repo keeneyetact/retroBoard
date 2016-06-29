@@ -3,9 +3,9 @@ import flow from 'lodash/flow';
 import React, { PropTypes, Component } from 'react';
 import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
 import md5 from 'md5';
-import icons from '../constants/icons';
-import translate from '../i18n/Translate';
-import { getClients } from '../selectors';
+import icons from '../../constants/icons';
+import translate from '../../i18n/Translate';
+import { getClients } from '../../selectors';
 
 const stateToProps = state => ({
     clients: getClients(state)
