@@ -2,13 +2,13 @@ import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
-import { getSessionName } from '../selectors';
+import { getSessionName } from '../../selectors';
 import style from './SessionName.scss';
 import Input from 'react-toolbox/lib/input';
 import FontIcon from 'react-toolbox/lib/font_icon';
-import { renameSession } from '../state/session';
-import translate from '../i18n/Translate';
-import icons from '../constants/icons';
+import { renameSession } from '../../state/session';
+import translate from '../../i18n/Translate';
+import icons from '../../constants/icons';
 import debounce from 'lodash/debounce';
 
 const stateToProps = state => ({

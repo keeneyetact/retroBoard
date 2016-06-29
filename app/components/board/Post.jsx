@@ -3,11 +3,11 @@ import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
-import EditableLabel from './EditableLabel';
+import EditableLabel from '../EditableLabel';
 import classNames from 'classnames';
 import style from './PostBoard.scss';
-import icons from '../constants/icons';
-import translate from '../i18n/Translate';
+import icons from '../../constants/icons';
+import translate from '../../i18n/Translate';
 
 class Post extends Component {
     canVote() {

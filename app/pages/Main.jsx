@@ -2,9 +2,9 @@ import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
-import PostBoard from '../components/PostBoard';
-import SummaryBoard from '../components/SummaryBoard';
-import SessionName from '../components/SessionName';
+import PostBoard from '../components/board/PostBoard';
+import SummaryBoard from '../components/board/SummaryBoard';
+import SessionName from '../components/board/SessionName';
 import { autoJoin } from '../state/session';
 import { getSummaryMode } from '../selectors';
 
