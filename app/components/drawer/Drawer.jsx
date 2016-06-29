@@ -20,7 +20,7 @@ const actionsToProps = dispatch => ({
 
 const NavDrawer = ({ open, onClose }) => (
     <Drawer active={open}
-      type="right"
+      type="left"
       onOverlayClick={onClose}
     >
         <div style={{ margin: '0 10px' }}>

@@ -1,27 +1,34 @@
+$small: 699px;
+$xsmall: 400px;
+
 .navigation {
-    position: absolute;
+    position: fixed;
     right: 10px;
-    top: 15px;
+    top: 12px;
+
+    @media screen and (max-width: $small) {
+        top:9px;
+    }
+
+    .user {
+        margin-right: 10px;
+        @media screen and (max-width: $xsmall) {
+            display:none;
+        }
+    }
 }
 
 span.subtitle {
     font-size: 0.7em;
-}
-
-.invite {
-    @media screen and (min-width: 700px) {
-        position: absolute;
-        left:0;
-        top:15px;
-        width:100%;
-        text-align: center;
-    }
-
-    @media screen and (max-width: 699px) {
-        margin-left:10px;
+    @media screen and (max-width: $small) {
+        display:none;
     }
 }
 
 header.header {
-    
+
+}
+
+div.titles {
+    margin-left: 10px;
 }

@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import translate from '../../i18n/Translate';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Button from 'react-toolbox/lib/button';
-import icons from '../../constants/icons';
+import { IconButton } from 'react-toolbox/lib/button';
 import { shouldDisplayDrawerButton } from '../../selectors';
 import { openDrawer } from '../../state/modes';
 
@@ -20,12 +19,7 @@ const actionsToProps = dispatch => ({
 });
 
 const OpenDrawerButton = ({ displayDrawerButton, onClick }) => displayDrawerButton ? (
-    <Button icon={icons.code}
-      floating
-      accent
-      mini
-      onClick={onClick}
-    />
+    <IconButton icon="menu" inverse onClick={ onClick } />
   ) : null;
 
 OpenDrawerButton.propTypes = {

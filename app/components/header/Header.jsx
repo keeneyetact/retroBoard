@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import AppBar from 'react-toolbox/lib/app_bar';
-import Navigation from 'react-toolbox/lib/navigation';
 import { connect } from 'react-redux';
 import style from './Header.scss';
 import Invite from './Invite';
@@ -21,17 +20,17 @@ const actionsToProps = dispatch => ({
 
 const Header = ({ strings, goToHomepage, user }) => (
     <div>
-        <AppBar fixed flat className={style.header}>
-            <a onClick={goToHomepage} href="#">Retrospected <br />
-                <span className={style.subtitle}>{ strings.subtitle }</span>
-            </a>
-            <div className={ style.invite }>
+        <AppBar fixed className={style.header}>
+            <OpenDrawerButton />
+            <div className={style.titles}>
+                <a onClick={goToHomepage} href="#">Retrospected <br />
+                    <span className={style.subtitle}>{ strings.subtitle }</span>
+                </a>
+            </div>
+            <div className={ style.navigation }>
+                <span className={style.user}>{ user }</span>
                 <Invite />
             </div>
-            <Navigation type="horizontal" className={ style.navigation }>
-                <p>{ user }</p>
-                <OpenDrawerButton />
-            </Navigation>
         </AppBar>
     </div>
 );
