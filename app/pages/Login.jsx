@@ -20,12 +20,15 @@ class Login extends Component {
                       icon={icons.people}
                       onEnter={this.props.onLogin} ref="input"
                     />
-                    <Button label={this.props.strings.buttonLabel} accent raised onClick={() => {
-                        const text = this.refs.input.state.value;
-                        if (text) {
-                            this.props.onLogin(text);
-                        }
-                    }}
+                    <Button label={this.props.strings.buttonLabel}
+                      accent
+                      raised
+                      onClick={() => {
+                          const text = this.refs.input.state.value;
+                          if (text) {
+                              this.props.onLogin(text);
+                          }
+                      }}
                     />
                 </div>
                 <div className="col-3-12"></div>
