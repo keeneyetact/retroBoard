@@ -16,7 +16,6 @@ import Invite from '../components/Invite';
 import icons from '../constants/icons';
 import translate from '../i18n/Translate';
 import LanguagePicker from '../components/LanguagePicker';
-import TranslationProvider from '../i18n/TranslationProvider';
 import { push } from 'react-router-redux';
 import githubLogo from '../components/images/github.png';
 import { getCurrentUser, shouldDisplayDrawerButton, getSummaryMode } from '../selectors';
@@ -77,44 +76,42 @@ class Header extends Component {
                   type="right"
                   onOverlayClick={() => this.setState({ drawerOpen: false })}
                 >
-                    <TranslationProvider>
-                        <div style={{ margin: '0 10px' }}>
-                            <LanguagePicker />
-                            <Switch checked={summaryMode}
-                              onChange={this.closeDrawer(toggle)}
-                              label={strings.summaryMode}
-                            />
-                        </div>
-
-                        <Clients />
-                        <br />
-                        <br />
-                        <Button
-                          label={strings.leave}
-                          icon={icons.exit_to_app}
-                          onClick={this.closeDrawer(this.props.onLeave)}
-                          accent
+                    <div style={{ margin: '0 10px' }}>
+                        <LanguagePicker />
+                        <Switch checked={summaryMode}
+                          onChange={this.closeDrawer(toggle)}
+                          label={strings.summaryMode}
                         />
-                        <Button
-                          label={strings.logout}
-                          icon={icons.power_settings_new}
-                          onClick={this.closeDrawer(this.props.onLogout)}
-                          accent
-                        />
+                    </div>
 
-                        <a
-                          href="https://github.com/antoinejaussoin/retro-board"
-                          style={{ position: 'absolute', bottom: 10, right: 10 }}
-                          target="_blank"
-                        >
-                            Fork me on
-                            <img
-                              style={{ width: 100, position: 'relative', top: 10 }}
-                              src={githubLogo}
-                              alt="GitHub"
-                            />
-                        </a>
-                    </TranslationProvider>
+                    <Clients />
+                    <br />
+                    <br />
+                    <Button
+                      label={strings.leave}
+                      icon={icons.exit_to_app}
+                      onClick={this.closeDrawer(this.props.onLeave)}
+                      accent
+                    />
+                    <Button
+                      label={strings.logout}
+                      icon={icons.power_settings_new}
+                      onClick={this.closeDrawer(this.props.onLogout)}
+                      accent
+                    />
+
+                    <a
+                      href="https://github.com/antoinejaussoin/retro-board"
+                      style={{ position: 'absolute', bottom: 10, right: 10 }}
+                      target="_blank"
+                    >
+                        Fork me on
+                        <img
+                          style={{ width: 100, position: 'relative', top: 10 }}
+                          src={githubLogo}
+                          alt="GitHub"
+                        />
+                    </a>
                 </Drawer>
             </div>
         );

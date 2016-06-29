@@ -4,7 +4,6 @@ import flow from 'lodash/flow';
 import Login from './Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
-import TranslationProvider from '../i18n/TranslationProvider';
 import Header from './Header';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
 
@@ -41,7 +40,7 @@ class App extends Component {
 
     render() {
         return (
-            <TranslationProvider>
+            <div>
                 <Header />
 
                 <br />
@@ -50,7 +49,7 @@ class App extends Component {
                 <br />
                 <br />
                 { this.renderLogin() }
-            </TranslationProvider>
+            </div>
         );
     }
 }
