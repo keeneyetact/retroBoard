@@ -17,7 +17,6 @@ It features the following technologies:
 * [reselect](https://github.com/reactjs/reselect)
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
-* ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 * [ESLint](http://eslint.org/) for JS and JSX
 
 
@@ -89,6 +88,12 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * GraphQL
 
 ## Versions history
+
+### Version 1.0
+
+* The tool is now **feature complete**
+* TODO: Translations
+* TODO: unit tests
 
 ### Version 0.6.1
 
