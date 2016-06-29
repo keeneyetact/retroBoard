@@ -2,7 +2,7 @@ import { createAction } from 'redux-actions';
 import { LEAVE_SESSION, JOIN_SESSION, CREATE_SESSION } from './session';
 import { AUTO_LOGIN, LOGIN, LOGOUT } from './user';
 
-export const TOGGLE_SUMMARY_MODE = 'TOGGLE_SUMMARY_MODE';
+export const TOGGLE_SUMMARY_MODE = 'retrospected/modes/toggle-summary-mode';
 
 export default function reducer(state = {
     summaryMode: false
