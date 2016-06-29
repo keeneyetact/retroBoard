@@ -9,7 +9,6 @@ import Invite from './Invite';
 import translate from '../../i18n/Translate';
 import { push } from 'react-router-redux';
 import { getCurrentUser } from '../../selectors';
-import Drawer from '../drawer/Drawer';
 import OpenDrawerButton from './OpenDrawerButton';
 
 const stateToProps = state => ({
@@ -34,8 +33,6 @@ const Header = ({ strings, goToHomepage, user }) => (
                 <OpenDrawerButton />
             </Navigation>
         </AppBar>
-
-        <Drawer />
     </div>
 );
 
