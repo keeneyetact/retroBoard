@@ -1,7 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
 import EditableLabel from './EditableLabel';

@@ -1,7 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';

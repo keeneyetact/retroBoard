@@ -1,7 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import EnterInput from '../components/EnterInput';
 import translate from '../i18n/Translate';

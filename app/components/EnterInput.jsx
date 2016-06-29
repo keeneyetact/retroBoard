@@ -1,6 +1,5 @@
 import Input from 'react-toolbox/lib/input';
-import React, { PropTypes } from 'react';
-import Component from '../Component';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 
 class EnterInput extends Component {

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import flow from 'lodash/flow';
-import React, { PropTypes } from 'react';
-import Component from '../Component';
+import React, { PropTypes, Component } from 'react';
 import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from '../constants/icons';
