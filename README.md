@@ -94,6 +94,8 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * The tool is now **feature complete**
 * TODO: Translations
 * TODO: unit tests
+* TODO: post layout
+* TODO: english session name
 
 ### Version 0.6.1
 

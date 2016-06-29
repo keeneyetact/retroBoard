@@ -37,7 +37,7 @@ class Index extends React.Component {
     render() {
         let component;
         if (__DEVTOOLS__) {
-            const DevTools = require('./pages/DevTools').default;
+            const DevTools = require('./components/DevTools').default;
 
             component = (
                 <div>

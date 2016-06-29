@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Login from './Login';
+import Login from '../components/Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
 import Header from '../components/header/Header';

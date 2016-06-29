@@ -24,6 +24,7 @@ class EnterInput extends Component {
               label={this.props.placeholder}
               icon={this.props.icon}
               value={this.state.value}
+              maxLength={this.props.maxLength}
               onChange={value => this.setState({ value })}
               onKeyPress={e => this.onKeyPress(e.nativeEvent)}
               ref="input"
@@ -35,13 +36,15 @@ class EnterInput extends Component {
 EnterInput.propTypes = {
     onEnter: PropTypes.func,
     icon: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    maxLength: PropTypes.number
 };
 
 EnterInput.defaultProps = {
     onEnter: noop,
     icon: 'add',
-    placeholder: 'Type something'
+    placeholder: 'Type something',
+    maxLength: null
 };
 
 export default EnterInput;
