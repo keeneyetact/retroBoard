@@ -1,4 +1,4 @@
-import EnterInput from './EnterInput';
+import EnterInput from '../EnterInput';
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 

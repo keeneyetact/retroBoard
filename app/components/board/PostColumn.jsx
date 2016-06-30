@@ -1,9 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
-import Component from '../Component';
 import Post from './Post';
 import PostAdd from './PostAdd';
-import icons from '../constants/icons';
+import icons from '../../constants/icons';
 import style from './PostBoard.scss';
 
 class PostColumn extends Component {

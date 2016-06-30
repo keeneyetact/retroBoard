@@ -28,17 +28,17 @@ export default {
     Join: {
         welcome: 'Welcome to Retrospected',
         standardTab: {
-            header: 'Create a Session',
+            header: 'Create',
             text: 'Click below and start retrospecting:',
             button: 'Create a new session'
         },
         advancedTab: {
             header: 'Advanced',
-            input: 'Enter a name for your session',
+            input: 'Name',
             button: 'Create custom session'
         },
         previousTab: {
-            header: 'Previous sessions',
+            header: 'Previous',
             rejoinButton: 'Rejoin'
         }
     },

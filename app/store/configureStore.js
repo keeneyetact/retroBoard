@@ -3,7 +3,7 @@
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import DevTools from '../pages/DevTools';
+import DevTools from '../components/DevTools';
 import reducers from '../state';
 import sagas from '../sagas';
 import { routerMiddleware } from 'react-router-redux';

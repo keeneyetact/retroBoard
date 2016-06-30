@@ -2,18 +2,17 @@ import findIndex from 'lodash/findIndex';
 import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
 import { createAction } from 'redux-actions';
 
-export const ADD_POST = 'ADD_POST';
-export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
-export const ADD_TEST_DATA = 'ADD_TEST_DATA';
-export const RECEIVE_POST = 'RECEIVE_POST';
-export const RECEIVE_BOARD = 'RECEIVE_BOARD';
-export const RECEIVE_DELETE_POST = 'RECEIVE_DELETE_POST';
-export const DELETE_POST = 'DELETE_POST';
-export const LIKE = 'LIKE';
-export const LIKE_SUCCESS = 'LIKE_SUCCESS';
-export const RECEIVE_LIKE = 'RECEIVE_LIKE';
-export const EDIT_POST = 'EDIT_POST';
-export const RECEIVE_EDIT_POST = 'RECEIVE_EDIT_POST';
+export const ADD_POST = 'retrospected/posts/add';
+export const ADD_POST_SUCCESS = 'retrospected/posts/add/success';
+export const RECEIVE_POST = 'retrospected/posts/receive/add';
+export const RECEIVE_BOARD = 'retrospected/posts/receive-all';
+export const RECEIVE_DELETE_POST = 'retrospected/posts/receive/delete';
+export const DELETE_POST = 'retrospected/posts/delete';
+export const LIKE = 'retrospected/posts/like';
+export const LIKE_SUCCESS = 'retrospected/posts/like/success';
+export const RECEIVE_LIKE = 'retrospected/posts/receive/like';
+export const EDIT_POST = 'retrospected/posts/edit';
+export const RECEIVE_EDIT_POST = 'retrospected/posts/receive/edit';
 
 const postReducer = (state = {}, action) => {
     switch (action.type) {
@@ -69,8 +68,8 @@ export default function reducer(state = [], action) {
     }
 }
 
-export const addPost = createAction('ADD_POST', (postType, content) => ({ postType, content }));
-export const deletePost = createAction('DELETE_POST');
-export const like = createAction('LIKE', post => ({ post, like: true }));
-export const unlike = createAction('LIKE', post => ({ post, like: false }));
-export const editPost = createAction('EDIT_POST', (post, content) => ({ post, content }));
+export const addPost = createAction(ADD_POST, (postType, content) => ({ postType, content }));
+export const deletePost = createAction(DELETE_POST);
+export const like = createAction(LIKE, post => ({ post, like: true }));
+export const unlike = createAction(LIKE, post => ({ post, like: false }));
+export const editPost = createAction(EDIT_POST, (post, content) => ({ post, content }));

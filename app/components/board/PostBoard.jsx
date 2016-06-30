@@ -1,15 +1,14 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { addPost, deletePost, like, unlike, editPost } from '../state/posts';
-import icons from '../constants/icons';
-import translate from '../i18n/Translate';
-import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../selectors';
+import { addPost, deletePost, like, unlike, editPost } from '../../state/posts';
+import icons from '../../constants/icons';
+import translate from '../../i18n/Translate';
+import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from '../../selectors';
 
 const stateToProps = state => ({
     currentUser: getCurrentUser(state),

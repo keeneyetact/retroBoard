@@ -1,14 +1,13 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
-import EditableLabel from './EditableLabel';
+import EditableLabel from '../EditableLabel';
 import classNames from 'classnames';
-import style from './PostBoard.scss';
-import icons from '../constants/icons';
-import translate from '../i18n/Translate';
+import style from './Post.scss';
+import icons from '../../constants/icons';
+import translate from '../../i18n/Translate';
 
 class Post extends Component {
     canVote() {
@@ -81,7 +80,7 @@ class Post extends Component {
         const { post, strings } = this.props;
         return (
             <div className={classNames(style.post, style[post.postType])}>
-                <Card style={{ width: '350px' }} raised className={style[post.postType]}>
+                <Card raised className={style.card}>
                     <CardText>
                         <EditableLabel
                           value={post.content}
@@ -91,15 +90,17 @@ class Post extends Component {
                         />
                     </CardText>
                     <CardActions>
-                        { this.renderButton('likes',
-                            icons.thumb_up,
-                            style.like,
-                            () => this.props.onLike(post)) }
-                        { this.renderButton('dislikes',
-                            icons.thumb_down,
-                            style.dislike,
-                            () => this.props.onUnlike(post)) }
-                        { this.renderDelete() }
+                        <div className={style.actions}>
+                            { this.renderButton('likes',
+                                icons.thumb_up,
+                                style.like,
+                                () => this.props.onLike(post)) }
+                            { this.renderButton('dislikes',
+                                icons.thumb_down,
+                                style.dislike,
+                                () => this.props.onUnlike(post)) }
+                            { this.renderDelete() }
+                        </div>
                     </CardActions>
                 </Card>
             </div>

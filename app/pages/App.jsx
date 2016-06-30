@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
-import Login from './Login';
+import Login from '../components/Login';
 import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
-import TranslationProvider from '../i18n/TranslationProvider';
-import Header from './Header';
+import Header from '../components/header/Header';
+import Drawer from '../components/drawer/Drawer';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
+import { Layout, Panel } from 'react-toolbox/lib/layout';
+import style from './App.scss';
 
 const stateToProps = state => ({
     user: getCurrentUser(state),
@@ -20,13 +21,6 @@ const actionsToProps = dispatch => ({
 });
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            drawerOpen: false
-        };
-    }
-
     componentDidMount() {
         this.props.autoLogin();
     }
@@ -42,16 +36,15 @@ class App extends Component {
 
     render() {
         return (
-            <TranslationProvider>
-                <Header />
-
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                { this.renderLogin() }
-            </TranslationProvider>
+            <Layout>
+                <Panel>
+                    <Header />
+                    <Drawer />
+                    <div className={style.content}>
+                        { this.renderLogin() }
+                    </div>
+                </Panel>
+            </Layout>
         );
     }
 }
@@ -60,15 +53,13 @@ App.propTypes = {
     children: PropTypes.object,
     user: PropTypes.string,
     onLogin: PropTypes.func,
-    autoLogin: PropTypes.func,
-    displayDrawerButton: PropTypes.bool
+    autoLogin: PropTypes.func
 };
 
 App.defaultTypes = {
     children: null,
     user: null,
-    onLogin: noop,
-    displayDrawerButton: true
+    onLogin: noop
 };
 
 const decorators = flow([

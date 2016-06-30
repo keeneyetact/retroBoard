@@ -1,9 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import flow from 'lodash/flow';
-import Component from '../Component';
-import translate from '../i18n/Translate';
+import translate from '../../i18n/Translate';
 import { connect } from 'react-redux';
-import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from '../selectors';
+import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from '../../selectors';
 import { Card, CardTitle, CardText } from 'react-toolbox/lib/card';
 import style from './SummaryBoard.scss';
 

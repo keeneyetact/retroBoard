@@ -18,7 +18,7 @@ export default {
         noContent: '(Aucun contenu)'
     },
     PostBoard: {
-        notWellQuestion: 'Qu\'est-ce qui pourrait être amélioré ?',
+        notWellQuestion: 'Des améliorations ?',
         wellQuestion: 'Qu\'est-ce qui s\'est bien passé ?',
         ideasQuestion: 'Une bonne idée à partager ?'
     },
@@ -28,7 +28,7 @@ export default {
     Join: {
         welcome: 'Bienvenue',
         standardTab: {
-            header: 'Nouvelle Session',
+            header: 'Créer',
             text: 'Cliquez ci-dessous et commencez à retrospecter:',
             button: 'Créer une nouvelle session'
         },
@@ -38,7 +38,7 @@ export default {
             button: 'Créer une session personalisée'
         },
         previousTab: {
-            header: 'Sessions précédentes',
+            header: 'Précédentes',
             rejoinButton: 'Rejoindre'
         }
     },
@@ -58,7 +58,7 @@ export default {
             title: 'Invitez des participants à votre retrospective',
             text: 'Pour inviter des participants à votre session retrospected, ' +
                   'envoyez leur le lien suivant',
-            copyButton: 'Copier le lien dans le presse-papier'
+            copyButton: 'Copier'
         }
     }
 };

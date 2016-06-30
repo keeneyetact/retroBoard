@@ -1,23 +1,21 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
 import { connect } from 'react-redux';
-import { getSessionName } from '../selectors';
+import { getSessionName } from '../../selectors';
 import style from './SessionName.scss';
 import Input from 'react-toolbox/lib/input';
 import FontIcon from 'react-toolbox/lib/font_icon';
-import { renameSession } from '../state/session';
-import translate from '../i18n/Translate';
-import icons from '../constants/icons';
-import debounce from 'lodash/debounce';
+import { renameSession } from '../../state/session';
+import translate from '../../i18n/Translate';
+import icons from '../../constants/icons';
 
 const stateToProps = state => ({
     sessionName: getSessionName(state)
 });
 
 const actionsToProps = dispatch => ({
-    rename: debounce(name => dispatch(renameSession(name)), 500)
+    rename: name => dispatch(renameSession(name))
 });
 
 class SessionName extends Component {
@@ -27,9 +25,8 @@ class SessionName extends Component {
     }
 
     onKeyPress(e) {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 || e.keyCode === 27) {
             this.setState({ editMode: false });
-            this.props.rename.flush();
         }
     }
 
@@ -50,24 +47,20 @@ class SessionName extends Component {
     }
 
     renderEditMode() {
-        const { sessionName, strings, rename } = this.props;
+        const { sessionName, rename } = this.props;
         return (
             <div className={style.sessionName}>
                 <div className={style.edit}>
                     <Input
                       ref="input"
-                      label={strings.advancedTab.input}
-                      maxLength={50}
+                      maxLength={30}
                       icon={icons.create}
-                      defaultValue={sessionName}
+                      value={sessionName}
                       onBlur={() => {
                           this.setState({ editMode: false });
-                          rename.flush();
                       }}
                       onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-                      onChange={value => {
-                          rename(value);
-                      }}
+                      onChange={rename}
                     />
                 </div>
             </div>
