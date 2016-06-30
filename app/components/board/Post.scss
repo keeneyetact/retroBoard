@@ -1,14 +1,8 @@
-
-
 div.post {
     margin:10px;
 
     flex: 1 1 auto;
     transition: width 0.7s ease-out;
-
-    @media screen and (max-width: $xsmall) {
-
-    }
 
     &.well {
         [data-react-toolbox="card"] {
