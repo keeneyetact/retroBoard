@@ -39,6 +39,14 @@ It features the following technologies:
 * Open your browser on [http://localhost:8081](http://localhost:8081)
 
 
+## How to run the tests
+
+* Clone this repository
+* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `npm test` to run the tests
+* **or** `npm run test-watch` to run the tests every time you change a file
+
+
 ## How to use Google Analytics
 
 By default, Google Analytics is deactivated (it doesn't even get build into the bundle).

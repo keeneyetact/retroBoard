@@ -85,7 +85,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "start-ui": "webpack-dev-server --progress --inline --hot",
     "start-server": "nodemon babel.js",
     "start-server-debug": "node-debug -p 9090 babel.js",
