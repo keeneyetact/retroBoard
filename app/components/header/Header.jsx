@@ -21,7 +21,6 @@ const actionsToProps = dispatch => ({
 const Header = ({ strings, goToHomepage, user }) => (
     <div>
         <AppBar fixed className={style.header}>
-            <OpenDrawerButton />
             <div className={style.titles}>
                 <a onClick={goToHomepage} href="#">Retrospected <br />
                     <span className={style.subtitle}>{ strings.subtitle }</span>
@@ -30,6 +29,7 @@ const Header = ({ strings, goToHomepage, user }) => (
             <div className={ style.navigation }>
                 <span className={style.user}>{ user }</span>
                 <Invite />
+                <OpenDrawerButton />
             </div>
         </AppBar>
     </div>

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import translate from '../../i18n/Translate';
-import { Button } from 'react-toolbox/lib/button';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import flow from 'lodash/flow';
 import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from '../../selectors';
@@ -26,10 +26,10 @@ const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
 
     return (
         <span>
-            <Button icon={icons.group_add}
+            <IconButton icon={icons.group_add}
               onClick={toggle}
               title={strings.inviteButton}
-              floating accent mini
+              floating inverse
             />
 
             <CopyDialog
