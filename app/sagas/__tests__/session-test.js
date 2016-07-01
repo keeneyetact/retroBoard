@@ -9,7 +9,12 @@ import { onCreateSession,
     onRenameSession,
     onAutoJoin
 } from '../session';
-import { createSessionSuccess, renameSession, joinSession, receiveClientList, loadPreviousSessions } from '../../state/session';
+import { createSessionSuccess,
+    renameSession,
+    joinSession,
+    receiveClientList,
+    loadPreviousSessions
+} from '../../state/session';
 import { getCurrentUser, getSessionId } from '../../selectors';
 import { put, call, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';

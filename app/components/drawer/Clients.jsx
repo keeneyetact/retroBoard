@@ -50,7 +50,7 @@ Clients.propTypes = {
 Clients.defaultProps = {
     clients: [],
     strings: {
-        header: 'Kindly joining us right nowxx:'
+        header: 'Kindly joining us right now:'
     }
 };
 
