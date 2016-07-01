@@ -18,6 +18,7 @@ It features the following technologies:
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 * [ESLint](http://eslint.org/) for JS and JSX
+* [Jest](https://facebook.github.io/jest) for Unit Testing
 
 
 ## How to run for production (or to try it out)
@@ -100,8 +101,8 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 ### Version 1.0
 
 * The tool is now **feature complete**
+* Good test coverage, using Jest
 * TODO: Translations
-* TODO: unit tests
 * TODO: post layout
 * TODO: english session name
 
