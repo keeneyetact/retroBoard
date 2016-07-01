@@ -17,14 +17,14 @@ import {
     onAutoLogin,
     onLogin } from './user';
 import { onAddPost, onLike } from './posts';
-import { autoJoinUser, onCreateSession, renameCurrentSessionInLocalStorage } from './session';
+import { onAutoJoin, onCreateSession, onRenameSession } from './session';
 
 export default function* rootSaga() {
     yield [
         takeEvery(AUTO_LOGIN, onAutoLogin),
-        takeEvery(AUTO_JOIN, autoJoinUser),
-        takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage),
-        takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage),
+        takeEvery(AUTO_JOIN, onAutoJoin),
+        takeEvery(RECEIVE_SESSION_NAME, onRenameSession),
+        takeEvery(RENAME_SESSION, onRenameSession),
         takeEvery(LOGIN, onLogin),
         takeEvery(LOGOUT, onLogout),
         takeEvery(CHANGE_LANGUAGE, onChangeLanguage),

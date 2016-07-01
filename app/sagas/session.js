@@ -6,7 +6,7 @@ import { joinSession,
     receiveClientList,
     renameSession,
     loadPreviousSessions } from '../state/session';
-import { getCurrentUser } from '../selectors';
+import { getCurrentUser, getSessionId } from '../selectors';
 import ls from 'local-storage';
 import find from 'lodash/find';
 
@@ -33,29 +33,30 @@ export function* storeSessionToLocalStorage(currentUser, sessionId) {
     yield put(loadPreviousSessions(savedSessions[currentUser]));
 }
 
-export function* autoJoinUser(action) {
+export function* onAutoJoin(action) {
     const sessionId = action.payload;
-    const currentSession = yield select(state => state.session.id);
-    const currentUser = yield select(state => state.user.name);
+    const currentSession = yield select(getSessionId);
+    const currentUser = yield select(getCurrentUser);
 
     if (sessionId && sessionId !== currentSession) {
         yield put(joinSession({
             sessionId,
             user: currentUser
         }));
-        yield storeSessionToLocalStorage(currentUser, sessionId);
+        yield call(storeSessionToLocalStorage, currentUser, sessionId);
     }
 }
 
-export function* renameCurrentSessionInLocalStorage(action) {
-    const currentSession = yield select(state => state.session.id);
-    const currentUser = yield select(state => state.user.name);
-    const savedSessions = ls.get('sessions') || {};
+export function* onRenameSession(action) {
+    const currentSession = yield select(getSessionId);
+    const currentUser = yield select(getCurrentUser);
+    let savedSessions = yield call(ls, 'sessions');
+    savedSessions = savedSessions || {};
     const savedSession = find(savedSessions[currentUser],
         session => session.id === currentSession);
     if (savedSession) {
         savedSession.name = action.payload;
-        ls.set('sessions', savedSessions);
+        yield call(ls, 'sessions', savedSessions);
         yield put(loadPreviousSessions(savedSessions[currentUser]));
     }
 }
