@@ -17,7 +17,7 @@ import {
     onAutoLogin,
     onLogin } from './user';
 import { onAddPost, onLike } from './posts';
-import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
+import { autoJoinUser, onCreateSession, renameCurrentSessionInLocalStorage } from './session';
 
 export default function* rootSaga() {
     yield [
@@ -30,7 +30,7 @@ export default function* rootSaga() {
         takeEvery(CHANGE_LANGUAGE, onChangeLanguage),
         takeEvery(LEAVE_SESSION, onLeaveSession),
         takeEvery(ADD_POST, onAddPost),
-        takeEvery(CREATE_SESSION, createSession),
+        takeEvery(CREATE_SESSION, onCreateSession),
         takeEvery(LIKE, onLike)
     ];
 }

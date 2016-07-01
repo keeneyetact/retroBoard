@@ -5,7 +5,7 @@ jest.unmock('../../state/user');
 
 import test from './testSaga';
 import { onLogin, onAutoLogin, onLeaveSession, onChangeLanguage, onLogout } from '../user';
-import { loadPreviousSessions } from '../session';
+import { doLoadPreviousSessions } from '../session';
 import { loginSuccess, changeLanguageSuccess } from '../../state/user';
 import { put, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
@@ -20,7 +20,7 @@ describe('Sagas - user', () => {
             expect(result()).toEqual(put(loginSuccess('Apolline')));
             andThen();
 
-            expect(result()).toEqual(call(loadPreviousSessions));
+            expect(result()).toEqual(call(doLoadPreviousSessions));
             andThen();
         });
     });
@@ -39,7 +39,7 @@ describe('Sagas - user', () => {
             expect(result()).toEqual(put(changeLanguageSuccess('fr')));
             andThen();
 
-            expect(result()).toEqual(call(loadPreviousSessions));
+            expect(result()).toEqual(call(doLoadPreviousSessions));
             andThen();
         });
     });
@@ -52,7 +52,7 @@ describe('Sagas - user', () => {
             expect(result()).toEqual(call(ls, 'language'));
             andThen();
 
-            expect(result()).toEqual(call(loadPreviousSessions));
+            expect(result()).toEqual(call(doLoadPreviousSessions));
             andThen();
         });
     });

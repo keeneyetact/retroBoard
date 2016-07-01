@@ -1,7 +1,7 @@
 import ls from 'local-storage';
 import { put, call } from 'redux-saga/effects';
 import { changeLanguageSuccess, loginSuccess } from '../state/user';
-import { loadPreviousSessions } from './session';
+import { doLoadPreviousSessions } from './session';
 import { push } from 'react-router-redux';
 
 export function* onLogout() {
@@ -27,11 +27,11 @@ export function* onAutoLogin() {
     if (language) {
         yield put(changeLanguageSuccess(language));
     }
-    yield call(loadPreviousSessions);
+    yield call(doLoadPreviousSessions);
 }
 
 export function* onLogin(action) {
     yield call(ls, 'username', action.payload.name);
     yield put(loginSuccess(action.payload.name));
-    yield call(loadPreviousSessions);
+    yield call(doLoadPreviousSessions);
 }
