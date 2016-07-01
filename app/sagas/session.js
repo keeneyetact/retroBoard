@@ -9,7 +9,6 @@ import { JOIN_SESSION,
 import ls from 'local-storage';
 import find from 'lodash/find';
 
-
 function* storeSessionToLocalStorage(currentUser, sessionId) {
     let savedSessions = ls.get('sessions');
     if (savedSessions === null) {
@@ -59,7 +58,6 @@ export function* renameCurrentSessionInLocalStorage(action) {
         yield put({ type: LOAD_PREVIOUS_SESSIONS, payload: savedSessions[currentUser] });
     }
 }
-
 
 export function* loadPreviousSessions() {
     const currentUser = yield select(state => state.user.name);

@@ -53,5 +53,8 @@ export default function reducer(state = {
 
 export const renameSession = createAction(RENAME_SESSION);
 export const createSession = createAction(CREATE_SESSION);
+export const createSessionSuccess = createAction(CREATE_SESSION_SUCCESS);
+export const receiveClientList = createAction(RECEIVE_CLIENT_LIST);
+export const loadPreviousSessions = createAction(LOAD_PREVIOUS_SESSIONS);
 export const leave = createAction(LEAVE_SESSION);
 export const autoJoin = createAction(AUTO_JOIN);

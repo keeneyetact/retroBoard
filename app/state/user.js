@@ -34,5 +34,6 @@ export default function reducer(state = {
 
 export const autoLogin = createAction(AUTO_LOGIN);
 export const login = createAction(LOGIN, user => ({ name: user }));
+export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const logout = createAction(LOGOUT);
 export const changeLanguage = createAction(CHANGE_LANGUAGE);

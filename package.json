@@ -125,8 +125,12 @@
       "node_modules/react-dom/",
       "node_modules/react-addons-test-utils/",
       "node_modules/redux-actions/",
-      "node_modules/redux:",
-      "node_modules/lodash/"
+      "node_modules/redux/",
+      "node_modules/reselect/",
+      "node_modules/redux-saga/",
+      "node_modules/lodash/",
+      "node_modules/node-uuid/",
+      "node_modules/moment/"
     ]
   }
 }
