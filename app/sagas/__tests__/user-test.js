@@ -1,7 +1,9 @@
+jest.unmock('./testSaga');
 jest.unmock('../user');
 jest.unmock('../session');
 jest.unmock('../../state/user');
 
+import test from './testSaga';
 import { loginUser, autoLoginUser, disconnectUser } from '../user';
 import { loadPreviousSessions } from '../session';
 import { loginSuccess, changeLanguageSuccess } from '../../state/user';
@@ -9,63 +11,56 @@ import { put, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import ls from 'local-storage';
 
-const test = (generatorFunction, fn) => {
-    const generator = generatorFunction();
-    let result = generator.next().value;
-    const andReturns = v => { result = generator.next(v); };
-    const andThen = () => { result = generator.next(); };
-
-    fn(andReturns, andThen);
-};
-
 describe('Sagas - user', () => {
     it('When a user logs in', () => {
-        const generator = loginUser({ payload: { name: 'Apolline' } });
+        test(loginUser({ payload: { name: 'Apolline' } }), (result, andReturns, andThen) => {
+            expect(result()).toEqual(call(ls, 'username', 'Apolline'));
+            andThen();
 
-        expect(generator.next().value).toEqual(call(ls, 'username', 'Apolline'));
-        expect(generator.next().value).toEqual(put(loginSuccess('Apolline')));
-        expect(generator.next().value).toEqual(call(loadPreviousSessions));
+            expect(result()).toEqual(put(loginSuccess('Apolline')));
+            andThen();
+
+            expect(result()).toEqual(call(loadPreviousSessions));
+            andThen();
+        });
     });
 
     it('When a user auto logs in and has a username and language stored', () => {
-        const generator = autoLoginUser();
-        let result = generator.next().value;
-        const andReturns = v => { result = generator.next(v); };
-        const andThen = () => { result = generator.next(); };
+        test(autoLoginUser(), (result, andReturns, andThen) => {
+            expect(result()).toEqual(call(ls, 'username'));
+            andReturns('Claire');
 
-        expect(result).toEqual(call(ls, 'username'));
-        andReturns('Claire');
+            expect(result()).toEqual(put(loginSuccess('Claire')));
+            andThen();
 
-        expect(result.value).toEqual(put(loginSuccess('Claire')));
-        andThen();
+            expect(result()).toEqual(call(ls, 'language'));
+            andReturns('fr');
 
-        expect(result.value).toEqual(call(ls, 'language'));
-        andReturns('fr');
+            expect(result()).toEqual(put(changeLanguageSuccess('fr')));
+            andThen();
 
-        expect(result.value).toEqual(put(changeLanguageSuccess('fr')));
-        andThen();
-
-        expect(result.value).toEqual(call(loadPreviousSessions));
-        andThen();
+            expect(result()).toEqual(call(loadPreviousSessions));
+            andThen();
+        });
     });
 
     it('When a user auto logs in and has no username or language stored', () => {
-        const generator = autoLoginUser();
-        let result = generator.next();
+        test(autoLoginUser(), (result, andReturns, andThen) => {
+            expect(result()).toEqual(call(ls, 'username'));
+            andThen();
 
-        expect(result.value).toEqual(call(ls, 'username'));
-        result = generator.next(null);
+            expect(result()).toEqual(call(ls, 'language'));
+            andThen();
 
-        expect(result.value).toEqual(call(ls, 'language'));
-        result = generator.next(null);
-
-        expect(result.value).toEqual(call(loadPreviousSessions));
+            expect(result()).toEqual(call(loadPreviousSessions));
+            andThen();
+        });
     });
 
     it('When a user disconnets', () => {
-        const generator = disconnectUser();
-        const result = generator.next();
-
-        expect(result.value).toEqual(put(push('/')));
+        test(disconnectUser(), (result, andReturns, andThen) => {
+            expect(result()).toEqual(put(push('/')));
+            andThen();
+        });
     });
 });
