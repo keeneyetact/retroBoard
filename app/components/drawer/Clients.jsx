@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import flow from 'lodash/flow';
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from '../../constants/icons';
@@ -11,36 +11,23 @@ const stateToProps = state => ({
     clients: getClients(state)
 });
 
-class Clients extends Component {
-    constructor(props) {
-        super(props);
-        this.renderClient = this.renderClient.bind(this);
-    }
+const getGravatar = client => `https://www.gravatar.com/avatar/${md5(client)}?d=retro`;
 
-    getGravatar(client) {
-        return `https://www.gravatar.com/avatar/${md5(client)}?d=retro`;
-    }
+const renderClient = client => (
+    <ListItem
+      key={client}
+      avatar={getGravatar(client)}
+      caption={client}
+      rightIcon={icons.person}
+    />
+);
 
-    renderClient(client) {
-        return (
-            <ListItem
-              key={client}
-              avatar={this.getGravatar(client)}
-              caption={client}
-              rightIcon={icons.person}
-            />
-        );
-    }
-
-    render() {
-        return (
-            <List selectable ripple>
-                <ListSubHeader caption={this.props.strings.header} />
-                { this.props.clients.map(this.renderClient) }
-            </List>
-        );
-    }
-}
+const Clients = ({ strings, clients }) => (
+    <List selectable ripple>
+        <ListSubHeader caption={strings.header} />
+        { clients.map(renderClient) }
+    </List>
+);
 
 Clients.propTypes = {
     clients: PropTypes.array,
