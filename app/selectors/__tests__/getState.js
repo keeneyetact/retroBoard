@@ -48,7 +48,7 @@ export const getStore = () => {
 export default () => {
     const store = getStore();
 
-    store.dispatch(loginSuccess({ name: 'Antoine' }));
+    store.dispatch(loginSuccess('Antoine'));
     store.dispatch(changeLanguage('fr'));
     store.dispatch(createSessionSuccess({ sessionId: 'ABCD' }));
     store.dispatch(receiveClientList(['Zsolt', 'James', 'Stuart']));
