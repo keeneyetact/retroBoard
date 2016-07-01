@@ -4,8 +4,8 @@ jest.unmock('../../state/posts');
 jest.unmock('../../selectors');
 
 import test from './testSaga';
-import { onAddPost } from '../posts';
-import { addPostSuccess } from '../../state/posts';
+import { onAddPost, onLike } from '../posts';
+import { addPostSuccess, likeSuccess } from '../../state/posts';
 import { getCurrentUser } from '../../selectors';
 import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
@@ -27,6 +27,21 @@ describe('Sagas - posts', () => {
                 user: 'Antoine',
                 likes: [],
                 dislikes: []
+            })));
+            andThen();
+        });
+    });
+
+    it('When a user liks a post', () => {
+        test(onLike({ payload: { post: { id: 123 }, like: true } }),
+        (result, andReturns, andThen) => {
+            expect(result()).toEqual(select(getCurrentUser));
+            andReturns('Danièle');
+
+            expect(result()).toEqual(put(likeSuccess({
+                post: { id: 123 },
+                like: true,
+                user: 'Danièle'
             })));
             andThen();
         });

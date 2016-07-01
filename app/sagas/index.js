@@ -16,7 +16,7 @@ import {
     onLeaveSession,
     onAutoLogin,
     onLogin } from './user';
-import { onAddPost, like } from './posts';
+import { onAddPost, onLike } from './posts';
 import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
 
 export default function* rootSaga() {
@@ -31,6 +31,6 @@ export default function* rootSaga() {
         takeEvery(LEAVE_SESSION, onLeaveSession),
         takeEvery(ADD_POST, onAddPost),
         takeEvery(CREATE_SESSION, createSession),
-        takeEvery(LIKE, like)
+        takeEvery(LIKE, onLike)
     ];
 }
