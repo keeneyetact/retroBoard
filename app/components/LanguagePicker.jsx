@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
@@ -14,64 +14,58 @@ const stateToProps = state => ({
 });
 
 const actionsToProps = dispatch => ({
-    changeLanguage: lang => dispatch(changeLanguage(lang))
+    onChangeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
-class LanguagePicker extends Component {
-    renderItem(item) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
+const containerStyle = {
+    display: 'flex',
+    flexDirection: 'row'
+};
 
-        const imageStyle = {
-            display: 'flex',
-            width: '32px',
-            height: '32px',
-            flexGrow: 0,
-            marginRight: '8px'
-        };
+const imageStyle = {
+    display: 'flex',
+    width: '32px',
+    height: '32px',
+    flexGrow: 0,
+    marginRight: '8px'
+};
 
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
+const contentStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 2
+};
 
-        return (
-            <div style={containerStyle}>
-                <img src={flags[item.value]} style={imageStyle} alt="Flag" />
-                <div style={contentStyle}>
-                    <strong>{item.name}</strong>
-                    <small>{item.englishName}</small>
-                </div>
-            </div>
-        );
-    }
+const renderItem = item => (
+    <div style={containerStyle}>
+        <img src={flags[item.value]} style={imageStyle} alt="Flag" />
+        <div style={contentStyle}>
+            <strong>{item.name}</strong>
+            <small>{item.englishName}</small>
+        </div>
+    </div>
+);
 
-    render() {
-        return (
-            <Dropdown
-              auto
-              source={languages}
-              label={this.props.strings.header}
-              template={this.renderItem}
-              value={this.props.currentLanguage}
-              onChange={this.props.changeLanguage}
-            />
-        );
-    }
-}
+const LanguagePicker = ({ strings, currentLanguage, onChangeLanguage }) => (
+    <Dropdown
+      auto
+      source={languages}
+      label={strings.header}
+      template={renderItem}
+      value={currentLanguage}
+      onChange={onChangeLanguage}
+    />
+);
 
 LanguagePicker.propTypes = {
     strings: PropTypes.object,
     currentLanguage: PropTypes.string,
-    changeLanguage: PropTypes.func
+    onChangeLanguage: PropTypes.func
 };
 
 LanguagePicker.defaultProps = {
     currentLanguage: 'en',
-    changeLanguage: noop,
+    onChangeLanguage: noop,
     strings: {
         header: 'Choose a language'
     }

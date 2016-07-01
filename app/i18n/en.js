@@ -1,6 +1,6 @@
 export default {
     Header: {
-        subtitle: 'A good way of ranting in an orderly fashion',
+        subtitle: 'A good way of ranting in an Agile way',
         logout: 'Logout',
         leave: 'Leave',
         summaryMode: 'Summary Mode'
