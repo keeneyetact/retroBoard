@@ -4,20 +4,21 @@ import { changeLanguageSuccess, loginSuccess } from '../state/user';
 import { loadPreviousSessions } from './session';
 import { push } from 'react-router-redux';
 
-export function* deleteUserFromLocalStorage() {
-    ls('username', null);
+export function* onLogout() {
+    yield call(ls, 'username', null);
+    yield call(ls, 'language', 'en');
 }
 
-export function* storeLanguageToLocalStorage(action) {
-    ls('language', action.payload);
+export function* onChangeLanguage(action) {
+    yield call(ls, 'language', action.payload);
     yield put(changeLanguageSuccess(action.payload));
 }
 
-export function* disconnectUser() {
+export function* onLeaveSession() {
     yield put(push('/'));
 }
 
-export function* autoLoginUser() {
+export function* onAutoLogin() {
     const username = yield call(ls, 'username');
     if (username) {
         yield put(loginSuccess(username));
@@ -29,7 +30,7 @@ export function* autoLoginUser() {
     yield call(loadPreviousSessions);
 }
 
-export function* loginUser(action) {
+export function* onLogin(action) {
     yield call(ls, 'username', action.payload.name);
     yield put(loginSuccess(action.payload.name));
     yield call(loadPreviousSessions);

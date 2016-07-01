@@ -11,24 +11,24 @@ import {
 import { ADD_POST, LIKE } from '../state/posts';
 
 import {
-    deleteUserFromLocalStorage,
-    storeLanguageToLocalStorage,
-    disconnectUser,
-    autoLoginUser,
-    loginUser } from './user';
+    onLogout,
+    onChangeLanguage,
+    onLeaveSession,
+    onAutoLogin,
+    onLogin } from './user';
 import { addPost, like } from './posts';
 import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
 
 export default function* rootSaga() {
     yield [
-        takeEvery(AUTO_LOGIN, autoLoginUser),
+        takeEvery(AUTO_LOGIN, onAutoLogin),
         takeEvery(AUTO_JOIN, autoJoinUser),
         takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage),
         takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage),
-        takeEvery(LOGIN, loginUser),
-        takeEvery(LOGOUT, deleteUserFromLocalStorage),
-        takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage),
-        takeEvery(LEAVE_SESSION, disconnectUser),
+        takeEvery(LOGIN, onLogin),
+        takeEvery(LOGOUT, onLogout),
+        takeEvery(CHANGE_LANGUAGE, onChangeLanguage),
+        takeEvery(LEAVE_SESSION, onLeaveSession),
         takeEvery(ADD_POST, addPost),
         takeEvery(CREATE_SESSION, createSession),
         takeEvery(LIKE, like)

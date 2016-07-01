@@ -4,7 +4,7 @@ jest.unmock('../session');
 jest.unmock('../../state/user');
 
 import test from './testSaga';
-import { loginUser, autoLoginUser, disconnectUser } from '../user';
+import { onLogin, onAutoLogin, onLeaveSession, onChangeLanguage, onLogout } from '../user';
 import { loadPreviousSessions } from '../session';
 import { loginSuccess, changeLanguageSuccess } from '../../state/user';
 import { put, call } from 'redux-saga/effects';
@@ -13,7 +13,7 @@ import ls from 'local-storage';
 
 describe('Sagas - user', () => {
     it('When a user logs in', () => {
-        test(loginUser({ payload: { name: 'Apolline' } }), (result, andReturns, andThen) => {
+        test(onLogin({ payload: { name: 'Apolline' } }), (result, andReturns, andThen) => {
             expect(result()).toEqual(call(ls, 'username', 'Apolline'));
             andThen();
 
@@ -26,7 +26,7 @@ describe('Sagas - user', () => {
     });
 
     it('When a user auto logs in and has a username and language stored', () => {
-        test(autoLoginUser(), (result, andReturns, andThen) => {
+        test(onAutoLogin(), (result, andReturns, andThen) => {
             expect(result()).toEqual(call(ls, 'username'));
             andReturns('Claire');
 
@@ -45,7 +45,7 @@ describe('Sagas - user', () => {
     });
 
     it('When a user auto logs in and has no username or language stored', () => {
-        test(autoLoginUser(), (result, andReturns, andThen) => {
+        test(onAutoLogin(), (result, andReturns, andThen) => {
             expect(result()).toEqual(call(ls, 'username'));
             andThen();
 
@@ -58,8 +58,28 @@ describe('Sagas - user', () => {
     });
 
     it('When a user disconnets', () => {
-        test(disconnectUser(), (result, andReturns, andThen) => {
+        test(onLeaveSession(), (result, andReturns, andThen) => {
             expect(result()).toEqual(put(push('/')));
+            andThen();
+        });
+    });
+
+    it('When a user changes its language', () => {
+        test(onChangeLanguage({ payload: 'de' }), (result, andReturns, andThen) => {
+            expect(result()).toEqual(call(ls, 'language', 'de'));
+            andThen();
+
+            expect(result()).toEqual(put(changeLanguageSuccess('de')));
+            andThen();
+        });
+    });
+
+    it('When a user logs out', () => {
+        test(onLogout(), (result, andReturns, andThen) => {
+            expect(result()).toEqual(call(ls, 'username', null));
+            andThen();
+
+            expect(result()).toEqual(call(ls, 'language', 'en'));
             andThen();
         });
     });
