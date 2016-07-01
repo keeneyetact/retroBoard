@@ -1,10 +1,11 @@
-import { put, select } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
 import { ADD_POST_SUCCESS, LIKE_SUCCESS } from '../state/posts';
+import { getCurrentUser } from '../selectors';
 
-export function* addPost(action) {
-    const user = yield select(state => state.user.name);
-    const postId = uuid.v1();
+export function* onAddPost(action) {
+    const user = yield select(getCurrentUser);
+    const postId = yield call(uuid.v1);
 
     yield put({ type: ADD_POST_SUCCESS, payload: {
         id: postId,
