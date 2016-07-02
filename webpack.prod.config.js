@@ -12,7 +12,7 @@ const momentFilter = languages.map(lang => lang.iso).join('|');
 module.exports = {
     content: __dirname,
     entry: [
-        './ui.jsx'
+        './app/index.jsx'
     ],
     output: {
         path: staticFolder,
