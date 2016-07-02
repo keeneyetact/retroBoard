@@ -1,6 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
-import flow from 'lodash/flow';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
 import EditableLabel from '../EditableLabel';
@@ -9,104 +8,80 @@ import style from './Post.scss';
 import icons from '../../constants/icons';
 import translate from '../../i18n/Translate';
 
-class Post extends Component {
-    canVote() {
-        return this.props.post.likes.indexOf(this.props.currentUser) === -1 &&
-               this.props.post.dislikes.indexOf(this.props.currentUser) === -1 &&
-               this.props.currentUser !== this.props.post.user;
-    }
+const canVote = (post, currentUser) =>
+    post.likes.indexOf(currentUser) === -1 &&
+    post.dislikes.indexOf(currentUser) === -1 &&
+    currentUser !== post.user;
 
-    canEdit() {
-        return this.props.currentUser === this.props.post.user;
-    }
+const canEdit = (post, currentUser) => currentUser === post.user;
 
-    renderDelete() {
-        const { post, strings } = this.props;
-        if (this.props.currentUser === post.user) {
-            return (
-                <Button
-                  icon={ icons.delete_forever }
-                  label={ strings.deleteButton }
-                  raised
-                  className={ style.deleteButton }
-                  onClick={ () => this.props.onDelete(post) }
-                />
-            );
-        }
-
-        return null;
-    }
-
-    renderButton(name, icon, className, onClick) {
-        const canVote = this.canVote();
-        const votes = this.props.post[name].length;
-        const label = votes ? votes.toString() : '-';
-        const classNameFinal = classNames(className, canVote ? null : style.disabled);
-        const visible = canVote || votes > 0;
-
-        if (!visible) {
-            return null;
-        }
+const renderDelete = (post, currentUser, strings, onDelete) => {
+    if (currentUser === post.user) {
         return (
             <Button
-              icon={icon}
-              label={label}
-              onClick={onClick}
-              raised={canVote}
-              className={classNameFinal}
-              disabled={!canVote}
+              icon={ icons.delete_forever }
+              label={ strings.deleteButton }
+              raised
+              className={ style.deleteButton }
+              onClick={ () => onDelete(post) }
             />
         );
     }
 
-    renderContent(post) {
-        const editMode = this.state.editMode;
-        if (editMode) {
-            return (
-                <div>
-                    <input
-                      value={post.content}
-                      onBlur={() => this.disableEdit()}
-                      onChange={(e) => this.props.onEdit(post, e.target.value)}
-                    />
+    return null;
+};
+
+const renderButton = (post, currentUser, name, icon, className, onClick) => {
+    const canUserVote = canVote(post, currentUser);
+    const votes = post[name].length;
+    const label = votes ? votes.toString() : '-';
+    const classNameFinal = classNames(className, canUserVote ? null : style.disabled);
+    const visible = canUserVote || votes > 0;
+
+    if (!visible) {
+        return null;
+    }
+    return (
+        <Button
+          icon={icon}
+          label={label}
+          onClick={onClick}
+          raised={canUserVote}
+          className={classNameFinal}
+          disabled={!canVote}
+        />
+    );
+};
+
+const Post = ({ post, currentUser, onEdit, onLike, onUnlike, onDelete, strings }) => (
+    <div className={classNames(style.post, style[post.postType])}>
+        <Card raised className={style.card}>
+            <CardText>
+                <EditableLabel
+                  value={post.content}
+                  readOnly={!canEdit(post, currentUser)}
+                  placeholder={strings.noContent}
+                  onChange={v => onEdit(post, v)}
+                />
+            </CardText>
+            <CardActions>
+                <div className={style.actions}>
+                    { renderButton(post, currentUser,
+                        'likes',
+                        icons.thumb_up,
+                        style.like,
+                        () => onLike(post)) }
+                    { renderButton(post, currentUser,
+                        'dislikes',
+                        icons.thumb_down,
+                        style.dislike,
+                        () => onUnlike(post)) }
+                    { renderDelete(post, currentUser, strings, onDelete) }
                 </div>
-            );
-        }
-
-        return post.content;
-    }
-
-    render() {
-        const { post, strings } = this.props;
-        return (
-            <div className={classNames(style.post, style[post.postType])}>
-                <Card raised className={style.card}>
-                    <CardText>
-                        <EditableLabel
-                          value={post.content}
-                          readOnly={!this.canEdit()}
-                          placeholder={strings.noContent}
-                          onChange={v => this.props.onEdit(post, v)}
-                        />
-                    </CardText>
-                    <CardActions>
-                        <div className={style.actions}>
-                            { this.renderButton('likes',
-                                icons.thumb_up,
-                                style.like,
-                                () => this.props.onLike(post)) }
-                            { this.renderButton('dislikes',
-                                icons.thumb_down,
-                                style.dislike,
-                                () => this.props.onUnlike(post)) }
-                            { this.renderDelete() }
-                        </div>
-                    </CardActions>
-                </Card>
-            </div>
-        );
-    }
-}
+            </CardActions>
+        </Card>
+    </div>
+);
 
 Post.propTypes = {
     post: PropTypes.object.isRequired,
@@ -131,8 +106,4 @@ Post.defaultProps = {
     }
 };
 
-const decorators = flow([
-    translate('Post')
-]);
-
-export default decorators(Post);
+export default translate('Post')(Post);
