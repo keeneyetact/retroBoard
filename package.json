@@ -131,7 +131,6 @@
       "node_modules/redux-saga/",
       "node_modules/react-router-redux/",
       "node_modules/lodash/",
-      "node_modules/node-uuid/",
       "node_modules/moment/"
     ]
   }
