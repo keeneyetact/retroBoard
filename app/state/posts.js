@@ -69,7 +69,9 @@ export default function reducer(state = [], action) {
 }
 
 export const addPost = createAction(ADD_POST, (postType, content) => ({ postType, content }));
+export const addPostSuccess = createAction(ADD_POST_SUCCESS);
 export const deletePost = createAction(DELETE_POST);
 export const like = createAction(LIKE, post => ({ post, like: true }));
 export const unlike = createAction(LIKE, post => ({ post, like: false }));
+export const likeSuccess = createAction(LIKE_SUCCESS);
 export const editPost = createAction(EDIT_POST, (post, content) => ({ post, content }));

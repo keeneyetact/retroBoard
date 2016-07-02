@@ -1,6 +1,6 @@
 export default {
     Header: {
-        subtitle: 'Un bonne façon de râler en s\'amusant',
+        subtitle: 'Un bon moyen de râler de façon Agile',
         logout: 'Déconnexion',
         leave: 'Sortir',
         summaryMode: 'Mode Résumé'

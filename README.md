@@ -18,6 +18,7 @@ It features the following technologies:
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 * [ESLint](http://eslint.org/) for JS and JSX
+* [Jest](https://facebook.github.io/jest) for Unit Testing
 
 
 ## How to run for production (or to try it out)
@@ -37,6 +38,14 @@ It features the following technologies:
 * `npm run start-server` on the first terminal to start the server bit
 * `npm run start-ui` on the second terminal, to run live webpack with hot-reload
 * Open your browser on [http://localhost:8081](http://localhost:8081)
+
+
+## How to run the tests
+
+* Clone this repository
+* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `npm test` to run the tests
+* **or** `npm run test-watch` to run the tests every time you change a file
 
 
 ## How to use Google Analytics
@@ -92,8 +101,8 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 ### Version 1.0
 
 * The tool is now **feature complete**
+* Good test coverage, using Jest
 * TODO: Translations
-* TODO: unit tests
 * TODO: post layout
 * TODO: english session name
 
