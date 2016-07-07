@@ -1,6 +1,6 @@
 export default {
     Header: {
-        subtitle: 'A good way of ranting in an orderly fashion',
+        subtitle: 'Отличный способ выговориться прилично',
         leave: 'Выйти',
         logout: 'Удалить аккаунт',
         summaryMode: 'Показать итоги'
