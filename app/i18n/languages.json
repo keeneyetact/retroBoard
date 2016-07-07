@@ -3,5 +3,6 @@
     { "value": "fr", "iso": "fr", "name": "Français", "englishName": "French" },
     { "value": "hu", "iso": "hu", "name": "Magyar", "englishName": "Hungarian" },
     { "value": "nl", "iso": "nl", "name": "Nederlands", "englishName": "Dutch" },
-    { "value": "ptbr", "iso": "pt-br", "name": "Português Brasileiro", "englishName": "Brazilian Portuguese" }
+    { "value": "ptbr", "iso": "pt-br", "name": "Português Brasileiro", "englishName": "Brazilian Portuguese" },
+    { "value": "ru", "iso": "ru", "name": "Русский", "englishName": "Russian" }
 ]
