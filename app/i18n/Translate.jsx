@@ -6,9 +6,10 @@ import fr from './fr';
 import hu from './hu';
 import ptbr from './pt-br';
 import nl from './nl';
+import ru from './ru';
 import { connect } from 'react-redux';
 
-const languages = { en, fr, hu, ptbr, nl };
+const languages = { en, fr, hu, ptbr, nl, ru };
 
 export default function translate(key) {
     return Component => {
