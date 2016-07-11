@@ -102,6 +102,7 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 * The tool is now **feature complete**
 * Good test coverage, using Jest
+* Russian Translation (Thanks @vectart)
 * TODO: Translations
 * TODO: post layout
 * TODO: english session name
@@ -209,5 +210,6 @@ Many thanks to the following contributors who helped translating the app:
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
 * Dutch: [@Sonaryr](https://github.com/Sonaryr)
+* Russian: [@vectart](https://github.com/vectart)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
