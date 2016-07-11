@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import translate from '../../i18n/Translate';
+import translate from '../i18n/Translate';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Button from 'react-toolbox/lib/button';
-import { logout } from '../../state/user';
-import icons from '../../constants/icons';
+import { logout } from '../state/user';
+import icons from '../constants/icons';
 
 const actionsToProps = dispatch => ({
     onClick: () => dispatch(logout())

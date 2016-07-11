@@ -5,7 +5,7 @@ import Clients from './Clients';
 import LanguagePicker from '../LanguagePicker';
 import SummaryModeSwitch from './SummaryModeSwitch';
 import LeaveButton from './LeaveButton';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../LogoutButton';
 import ForkMe from './ForkMe';
 import { closeDrawer } from '../../state/modes';
 import { isDrawerOpen } from '../../selectors';
