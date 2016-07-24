@@ -17,30 +17,18 @@ const actionsToProps = dispatch => ({
     onChangeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
-const containerStyle = {
-    display: 'flex',
-    flexDirection: 'row'
-};
-
 const imageStyle = {
-    display: 'flex',
+    float: 'left',
     width: '32px',
     height: '32px',
-    flexGrow: 0,
     marginRight: '8px'
 };
 
-const contentStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 2
-};
-
 const renderItem = item => (
-    <div style={containerStyle}>
+    <div>
         <img src={flags[item.value]} style={imageStyle} alt="Flag" />
-        <div style={contentStyle}>
-            <strong>{item.name}</strong>
+        <div>
+            <strong>{item.name}</strong><br />
             <small>{item.englishName}</small>
         </div>
     </div>
