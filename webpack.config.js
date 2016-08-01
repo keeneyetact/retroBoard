@@ -9,6 +9,7 @@ const momentFilter = languages.map(lang => lang.iso).join('|');
 module.exports = {
     content: __dirname,
     entry: [
+        'react-hot-loader/patch',
         './app/index.jsx'
     ],
     output: {
