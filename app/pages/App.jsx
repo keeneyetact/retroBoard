@@ -36,8 +36,8 @@ class App extends Component {
 
     render() {
         return (
-            <Layout>
-                <Panel>
+            <Layout className={style.layout}>
+                <Panel className={style.panel}>
                     <Header />
                     <Drawer />
                     <div className={style.content}>

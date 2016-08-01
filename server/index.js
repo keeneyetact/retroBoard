@@ -10,10 +10,10 @@ import spamFilter from './spamFilter';
 import config from '../config';
 
 import { RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST, RECEIVE_LIKE, RECEIVE_EDIT_POST,
-    ADD_POST_SUCCESS, DELETE_POST, LIKE_SUCCESS, EDIT_POST } from '../app/state/posts';
-import { RECEIVE_CLIENT_LIST, RECEIVE_SESSION_NAME, JOIN_SESSION,
-    RENAME_SESSION, LEAVE_SESSION } from '../app/state/session';
-import { LOGIN_SUCCESS } from '../app/state/user';
+    ADD_POST_SUCCESS, DELETE_POST, LIKE_SUCCESS, EDIT_POST,
+    RECEIVE_CLIENT_LIST, RECEIVE_SESSION_NAME, JOIN_SESSION,
+    RENAME_SESSION, LEAVE_SESSION,
+    LOGIN_SUCCESS } from './actions';
 
 const app = express();
 const httpServer = new http.Server(app);
