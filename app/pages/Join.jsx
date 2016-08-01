@@ -96,7 +96,8 @@ class Join extends Component {
                     <CardMedia style={{ backgroundColor: '#EEE' }}>
                         <img
                           src={ backgroundImage }
-                          style={{ objectFit: 'contain', maxHeight: 150 }}
+                          style={{ objectFit: 'contain',
+                              backgroundSize: 'contain', maxHeight: 150 }}
                           role="presentation"
                         />
                     </CardMedia>
