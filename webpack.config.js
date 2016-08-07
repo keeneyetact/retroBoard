@@ -32,6 +32,7 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.svg$/, loader: 'url?limit=10000' },
             { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
             { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
             { test: /\.json$/, loader: 'json-loader' },
