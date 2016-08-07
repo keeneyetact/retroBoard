@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
@@ -6,8 +7,9 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from '../state/user';
 import languages from '../i18n/languages.json';
 import translate from '../i18n/Translate';
-import flags from '../i18n/flags';
+import style from './LanguagePicker.scss';
 import { getCurrentLanguage } from '../selectors';
+import 'flag-icon-css/css/flag-icon.min.css';
 
 const stateToProps = state => ({
     currentLanguage: getCurrentLanguage(state)
@@ -17,16 +19,11 @@ const actionsToProps = dispatch => ({
     onChangeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
-const imageStyle = {
-    float: 'left',
-    width: '32px',
-    height: '32px',
-    marginRight: '8px'
-};
-
 const renderItem = item => (
     <div>
-        <img src={flags[item.value]} style={imageStyle} alt="Flag" />
+        <div className={ classNames(`flag-icon flag-icon-${item.iso}`, style.flag) }>
+            <div className={style.overlay}></div>
+        </div>
         <div>
             <strong>{item.name}</strong><br />
             <small>{item.englishName}</small>

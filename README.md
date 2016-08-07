@@ -214,4 +214,6 @@ Many thanks to the following contributors who helped translating the app:
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 
+Special thanks to [@andresin87](https://github.com/andresin87) for pointing the `flag-icon-css` package to me, it replaces the PNG flags in a neater way.
+
 Please make your PRs from the **develop** branch, not **master**.
