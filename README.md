@@ -98,7 +98,7 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 ## Versions history
 
-### Version 0.7
+### Version 0.7.0
 
 * The tool is now **feature complete**
 * Good test coverage, using Jest

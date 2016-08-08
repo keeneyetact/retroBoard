@@ -18,6 +18,7 @@ import {
     onLogin } from './user';
 import { onAddPost, onLike } from './posts';
 import { onAutoJoin, onCreateSession, onRenameSession } from './session';
+import { onLocationChange } from './router';
 
 export default function* rootSaga() {
     yield [
@@ -31,6 +32,7 @@ export default function* rootSaga() {
         takeEvery(LEAVE_SESSION, onLeaveSession),
         takeEvery(ADD_POST, onAddPost),
         takeEvery(CREATE_SESSION, onCreateSession),
-        takeEvery(LIKE, onLike)
+        takeEvery(LIKE, onLike),
+        takeEvery('@@router/LOCATION_CHANGE', onLocationChange)
     ];
 }
