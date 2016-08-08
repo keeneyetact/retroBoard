@@ -98,17 +98,15 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 ## Versions history
 
-### Version 1.0
+### Version 0.7
 
 * The tool is now **feature complete**
 * Good test coverage, using Jest
 * Russian Translation (Thanks @vectart)
+* Spanish Translation (Thanks @andresin87)
 * Replacing PNG flags by SVG/CSS versions
 * Using `react-hot-loader` 3.0.0 (beta2) for Hot reloading
 * Fixing a few mobile/responsive issues
-* TODO: Translations
-* TODO: post layout
-* TODO: english session name
 
 ### Version 0.6.1
 
@@ -214,6 +212,7 @@ Many thanks to the following contributors who helped translating the app:
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
 * Dutch: [@Sonaryr](https://github.com/Sonaryr)
 * Russian: [@vectart](https://github.com/vectart)
+* Spanish: [@andresin87](https://github.com/andresin87)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 
