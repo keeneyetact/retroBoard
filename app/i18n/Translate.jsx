@@ -2,19 +2,25 @@
 /* Because stateless functions don't have context it seems */
 import React from 'react';
 import en from './en';
+import es from './es';
 import fr from './fr';
 import hu from './hu';
 import ptbr from './pt-br';
 import nl from './nl';
 import ru from './ru';
+import { connect } from 'react-redux';
 
-const languages = { en, fr, hu, ptbr, nl, ru };
+const languages = { en, es, fr, hu, ptbr, nl, ru };
 
 export default function translate(key) {
     return Component => {
+        const stateToProps = state => ({
+            currentLanguage: state.user.lang
+        });
+
         class TranslationComponent extends React.Component {
             render() {
-                const strings = languages[this.context.currentLanguage][key];
+                const strings = languages[this.props.currentLanguage][key];
                 const merged = {
                     ...this.props.strings,
                     ...strings
@@ -23,27 +29,24 @@ export default function translate(key) {
                     return (
                         <Component {...this.props}
                           strings={merged}
-                          currentLanguage={this.context.currentLanguage}
+                          currentLanguage={this.props.currentLanguage}
                         />
                     );
                 }
 
                 return (
                     <Component {...this.props}
-                      currentLanguage={this.context.currentLanguage}
+                      currentLanguage={this.props.currentLanguage}
                     />
                 );
             }
         }
 
-        TranslationComponent.contextTypes = {
+        TranslationComponent.propTypes = {
+            strings: React.PropTypes.object,
             currentLanguage: React.PropTypes.string
         };
 
-        TranslationComponent.propTypes = {
-            strings: React.PropTypes.object
-        };
-
-        return TranslationComponent;
+        return connect(stateToProps)(TranslationComponent);
     };
 }

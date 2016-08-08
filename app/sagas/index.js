@@ -11,26 +11,28 @@ import {
 import { ADD_POST, LIKE } from '../state/posts';
 
 import {
-    deleteUserFromLocalStorage,
-    storeLanguageToLocalStorage,
-    disconnectUser,
-    autoLoginUser,
-    loginUser } from './user';
-import { addPost, like } from './posts';
-import { autoJoinUser, createSession, renameCurrentSessionInLocalStorage } from './session';
+    onLogout,
+    onChangeLanguage,
+    onLeaveSession,
+    onAutoLogin,
+    onLogin } from './user';
+import { onAddPost, onLike } from './posts';
+import { onAutoJoin, onCreateSession, onRenameSession } from './session';
+import { onLocationChange } from './router';
 
 export default function* rootSaga() {
     yield [
-        takeEvery(AUTO_LOGIN, autoLoginUser),
-        takeEvery(AUTO_JOIN, autoJoinUser),
-        takeEvery(RECEIVE_SESSION_NAME, renameCurrentSessionInLocalStorage),
-        takeEvery(RENAME_SESSION, renameCurrentSessionInLocalStorage),
-        takeEvery(LOGIN, loginUser),
-        takeEvery(LOGOUT, deleteUserFromLocalStorage),
-        takeEvery(CHANGE_LANGUAGE, storeLanguageToLocalStorage),
-        takeEvery(LEAVE_SESSION, disconnectUser),
-        takeEvery(ADD_POST, addPost),
-        takeEvery(CREATE_SESSION, createSession),
-        takeEvery(LIKE, like)
+        takeEvery(AUTO_LOGIN, onAutoLogin),
+        takeEvery(AUTO_JOIN, onAutoJoin),
+        takeEvery(RECEIVE_SESSION_NAME, onRenameSession),
+        takeEvery(RENAME_SESSION, onRenameSession),
+        takeEvery(LOGIN, onLogin),
+        takeEvery(LOGOUT, onLogout),
+        takeEvery(CHANGE_LANGUAGE, onChangeLanguage),
+        takeEvery(LEAVE_SESSION, onLeaveSession),
+        takeEvery(ADD_POST, onAddPost),
+        takeEvery(CREATE_SESSION, onCreateSession),
+        takeEvery(LIKE, onLike),
+        takeEvery('@@router/LOCATION_CHANGE', onLocationChange)
     ];
 }

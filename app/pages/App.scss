@@ -1,23 +1,8 @@
-.navigation {
-    position: absolute;
-    right: 10px;
-    top: 15px;
+div.content {
+    margin-top: 100px;
 }
 
-span.subtitle {
-    font-size: 0.7em;
-}
-
-.invite {
-    @media screen and (min-width: 700px) {
-        position: absolute;
-        left:0;
-        top:15px;
-        width:100%;
-        text-align: center;
-    }
-
-    @media screen and (max-width: 699px) {
-        margin-left:10px;
-    }
+.layout, .panel {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
 }

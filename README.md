@@ -17,8 +17,8 @@ It features the following technologies:
 * [reselect](https://github.com/reactjs/reselect)
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
-* ES7 [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.1p78pdaao)
 * [ESLint](http://eslint.org/) for JS and JSX
+* [Jest](https://facebook.github.io/jest) for Unit Testing
 
 
 ## How to run for production (or to try it out)
@@ -38,6 +38,14 @@ It features the following technologies:
 * `npm run start-server` on the first terminal to start the server bit
 * `npm run start-ui` on the second terminal, to run live webpack with hot-reload
 * Open your browser on [http://localhost:8081](http://localhost:8081)
+
+
+## How to run the tests
+
+* Clone this repository
+* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `npm test` to run the tests
+* **or** `npm run test-watch` to run the tests every time you change a file
 
 
 ## How to use Google Analytics
@@ -62,6 +70,25 @@ It's very easy to abuse a SocketIO connection, by running some code in your cons
 
 To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in the config file.
 
+## How to debug
+
+### Debugging the server
+
+* Run `npm run start-server-debug`
+* Don't forget to start the client side as well `npm run start-ui`
+* A Chrome Dev tool will open, wait a bit until it finishes loading
+* It will break at the first line of code, so once it's there, click continue
+* Then wait a bit (could be 20-30 seconds) for the code to run and the server to work properly
+* From now on, you can set up a breakpoint anywhere in the Chrome Dev tools and it should work.
+* Happy debugging!
+
+### Debugging the client
+
+* Run both client and server normally (`npm run start-server` and `npm run start-ui`)
+* From the browser window where the website is open, open the Chrome Dev tools
+* Go on the **Sources** tab, and on the left, find your sources under `webpack://` and then `.`.
+* You can then put breakpoints in there and debugging
+
 
 ## Roadmap
 
@@ -70,6 +97,21 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * GraphQL
 
 ## Versions history
+
+### Version 0.7.0
+
+* The tool is now **feature complete**
+* Good test coverage, using Jest
+* Russian Translation (Thanks @vectart)
+* Spanish Translation (Thanks @andresin87)
+* Replacing PNG flags by SVG/CSS versions
+* Using `react-hot-loader` 3.0.0 (beta2) for Hot reloading
+* Fixing a few mobile/responsive issues
+
+### Version 0.6.1
+
+* React-toolbox 1.0.0
+* Debugging instructions
 
 ### Version 0.6.0
 
@@ -169,5 +211,11 @@ Many thanks to the following contributors who helped translating the app:
 * Hungarian: [@iaretiga](https://github.com/iaretiga)
 * Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
 * Dutch: [@Sonaryr](https://github.com/Sonaryr)
+* Russian: [@vectart](https://github.com/vectart)
+* Spanish: [@andresin87](https://github.com/andresin87)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
+
+Special thanks to [@andresin87](https://github.com/andresin87) for pointing the `flag-icon-css` package to me, it replaces the PNG flags in a neater way.
+
+Please make your PRs from the **develop** branch, not **master**.

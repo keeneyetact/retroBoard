@@ -20,6 +20,7 @@ export const getSessionName = state => state.session.name;
 export const getSavedSessions = state => state.session.previousSessions;
 export const getCurrentUrl = () => window.location.href;
 export const isInviteDialogOpen = state => state.invite.inviteDialogOpen;
+export const isDrawerOpen = state => state.modes.drawerOpen;
 
 // Selector Factories
 const getPostsOfType = type => createSelector(getPosts, filterByType(type));

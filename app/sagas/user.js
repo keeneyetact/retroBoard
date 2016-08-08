@@ -1,48 +1,37 @@
 import ls from 'local-storage';
-import { put } from 'redux-saga/effects';
-import { LOGIN_SUCCESS, CHANGE_LANGUAGE_SUCCESS } from '../state/user';
-import { loadPreviousSessions } from './session';
+import { put, call } from 'redux-saga/effects';
+import { changeLanguageSuccess, loginSuccess } from '../state/user';
+import { doLoadPreviousSessions } from './session';
 import { push } from 'react-router-redux';
 
-export function* loginSuccess(name) {
-    yield put({ type: LOGIN_SUCCESS, payload: ({ name }) });
+export function* onLogout() {
+    yield call(ls, 'username', null);
+    yield call(ls, 'language', 'en');
 }
 
-export function* storeUserToLocalStorage(action) {
-    ls('username', action.payload.name);
-    yield loginSuccess(action.payload.name);
+export function* onChangeLanguage(action) {
+    yield call(ls, 'language', action.payload);
+    yield put(changeLanguageSuccess(action.payload));
 }
 
-export function* deleteUserFromLocalStorage() {
-    ls('username', null);
-}
-
-export function* changeLanguageSuccess(lang) {
-    yield put({ type: CHANGE_LANGUAGE_SUCCESS, payload: lang });
-}
-
-export function* storeLanguageToLocalStorage(action) {
-    ls('language', action.payload);
-    yield changeLanguageSuccess(action.payload);
-}
-
-export function* disconnectUser() {
+export function* onLeaveSession() {
     yield put(push('/'));
 }
 
-export function* autoLoginUser() {
-    const username = ls('username');
+export function* onAutoLogin() {
+    const username = yield call(ls, 'username');
     if (username) {
-        yield loginSuccess(username);
+        yield put(loginSuccess(username));
     }
-    const language = ls('language');
+    const language = yield call(ls, 'language');
     if (language) {
-        yield changeLanguageSuccess(language);
+        yield put(changeLanguageSuccess(language));
     }
-    yield loadPreviousSessions();
+    yield call(doLoadPreviousSessions);
 }
 
-export function* loginUser(action) {
-    yield storeUserToLocalStorage(action);
-    yield loadPreviousSessions();
+export function* onLogin(action) {
+    yield call(ls, 'username', action.payload.name);
+    yield put(loginSuccess(action.payload.name));
+    yield call(doLoadPreviousSessions);
 }

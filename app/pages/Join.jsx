@@ -1,8 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Component from '../Component';
-import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
 import { createSession } from '../state/session';
@@ -10,11 +8,13 @@ import translate from '../i18n/Translate';
 import { Card, CardMedia, CardText } from 'react-toolbox/lib/card';
 import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
-import icons from '../constants/icons';
 import backgroundImage from '../components/images/logo.png';
+import LanguagePicker from '../components/LanguagePicker';
+import LogoutButton from '../components/LogoutButton';
 import { getSavedSessionsByDate } from '../selectors';
 import SessionTile from '../components/SessionTile';
 import { push } from 'react-router-redux';
+import style from './Join.scss';
 
 
 const stateToProps = state => ({
@@ -23,7 +23,6 @@ const stateToProps = state => ({
 
 const actionsToProps = dispatch => ({
     createSession: () => dispatch(createSession()),
-    createCustomSession: name => dispatch(createSession(name)),
     goToSession: session => dispatch(push(`/session/${session.id}`))
 });
 
@@ -82,22 +81,10 @@ class Join extends Component {
         const { strings } = this.props;
         return (
             <Tab label={ strings.advancedTab.header } key="advanced">
-                <Input
-                  label={ strings.advancedTab.input }
-                  required
-                  icon={icons.create}
-                  value={this.state.customSessionName}
-                  maxLength={50}
-                  onChange={v => this.setState({ customSessionName: v })}
-                />
-                <br />
-                <Button
-                  label={ strings.advancedTab.button }
-                  disabled={!this.state.customSessionName}
-                  accent
-                  raised
-                  onClick={() => this.props.createCustomSession(this.state.customSessionName)}
-                />
+                <div style={{ maxWidth: 200 }}>
+                    <LanguagePicker />
+                    <LogoutButton />
+                </div>
             </Tab>
         );
     }
@@ -105,11 +92,12 @@ class Join extends Component {
     render() {
         return (
             <div style={{ padding: 20 }}>
-                <Card raised>
+                <Card raised className={style.join}>
                     <CardMedia style={{ backgroundColor: '#EEE' }}>
                         <img
                           src={ backgroundImage }
-                          style={{ objectFit: 'contain', maxHeight: 150 }}
+                          style={{ objectFit: 'contain', width: '100%',
+                              backgroundSize: 'contain', maxHeight: 150 }}
                           role="presentation"
                         />
                     </CardMedia>
@@ -148,9 +136,7 @@ Join.defaultProps = {
             button: 'Create a new session'
         },
         advancedTab: {
-            header: 'Advanced',
-            input: 'Enter a name for your session',
-            button: 'Create custom session'
+            header: 'Advanced'
         },
         previousTab: {
             header: 'Previous sessions',

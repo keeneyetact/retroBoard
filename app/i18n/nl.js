@@ -15,7 +15,7 @@ export default {
         vote: 'Stem',
         votes: 'Stemmen',
         deleteButton: 'Verwijderen',
-        noContent: '(This post has no content)'
+        noContent: '(Dit bericht heeft geen inhoud)'
     },
     PostBoard: {
         notWellQuestion: 'Wat kan er beter?',
@@ -53,12 +53,12 @@ export default {
         defaultSessionName: 'Mijn Retrospective'
     },
     Invite: {
-        inviteButton: 'Invite',
+        inviteButton: 'Uitnodigen',
         dialog: {
-            title: 'Invite people to your retrospective',
-            text: 'To invite people to your retrospected session, simply send them ' +
-                  'the following URL',
-            copyButton: 'Copy URL to Clipboard'
+            title: 'Nodig mensen uit voor jou retrospective',
+            text: 'Stuur de mensen die je wil uitnodigen voor jou retrospected ' +
+                  'sessie gewoon de volgende url',
+            copyButton: 'Kopieer URL naar klembord'
         }
     }
 };
