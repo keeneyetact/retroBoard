@@ -103,6 +103,9 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * The tool is now **feature complete**
 * Good test coverage, using Jest
 * Russian Translation (Thanks @vectart)
+* Replacing PNG flags by SVG/CSS versions
+* Using `react-hot-loader` 3.0.0 (beta2) for Hot reloading
+* Fixing a few mobile/responsive issues
 * TODO: Translations
 * TODO: post layout
 * TODO: english session name
