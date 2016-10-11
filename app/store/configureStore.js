@@ -3,12 +3,12 @@
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
+import { routerMiddleware } from 'react-router-redux';
 import DevTools from '../components/DevTools';
 import reducers from '../state';
 import sagas from '../sagas';
-import { routerMiddleware } from 'react-router-redux';
 import { socketIoMiddleware } from '../middlewares/socketio';
-import createSagaMiddleware from 'redux-saga';
 
 export default function configureStore(initialState = {}, browserHistory) {
     const middlewares = [];

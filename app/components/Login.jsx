@@ -1,3 +1,5 @@
+/* eslint react/no-string-refs:0 */
+
 import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';

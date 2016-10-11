@@ -1,8 +1,8 @@
 import ls from 'local-storage';
 import { put, call } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import { changeLanguageSuccess, loginSuccess } from '../state/user';
 import { doLoadPreviousSessions } from './session';
-import { push } from 'react-router-redux';
 
 export function* onLogout() {
     yield call(ls, 'username', null);

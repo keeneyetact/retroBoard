@@ -1,13 +1,13 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+import { Layout, Panel } from 'react-toolbox/lib/layout';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Login from '../components/Login';
-import { connect } from 'react-redux';
 import { login, autoLogin } from '../state/user';
 import Header from '../components/header/Header';
 import Drawer from '../components/drawer/Drawer';
 import { getCurrentUser, getCurrentLanguage } from '../selectors';
-import { Layout, Panel } from 'react-toolbox/lib/layout';
 import style from './App.scss';
 
 const stateToProps = state => ({

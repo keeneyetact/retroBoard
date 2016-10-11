@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import translate from '../../i18n/Translate';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
 import flow from 'lodash/flow';
-import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from '../../selectors';
 import Clipboard from 'react-copy-to-clipboard';
+import translate from '../../i18n/Translate';
+import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from '../../selectors';
 import icons from '../../constants/icons';
 import { toggleInviteDialog } from '../../state/invite';
 

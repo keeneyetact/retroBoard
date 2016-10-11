@@ -1,12 +1,14 @@
+/* eslint jsx-a11y/no-static-element-interactions:0 */
+
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import AppBar from 'react-toolbox/lib/app_bar';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import style from './Header.scss';
 import Invite from './Invite';
 import translate from '../../i18n/Translate';
-import { push } from 'react-router-redux';
 import { getCurrentUser } from '../../selectors';
 import OpenDrawerButton from './OpenDrawerButton';
 
