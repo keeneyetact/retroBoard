@@ -1,7 +1,5 @@
 /* eslint max-len:0 */
 
-jest.unmock('../session');
-
 import systemUnderTest, {
     CREATE_SESSION_SUCCESS,
     JOIN_SESSION,

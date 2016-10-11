@@ -1,14 +1,9 @@
-jest.unmock('./testSaga');
-jest.unmock('../posts');
-jest.unmock('../../state/posts');
-jest.unmock('../../selectors');
-
+import { put, call, select } from 'redux-saga/effects';
+import uuid from 'node-uuid';
 import test from './testSaga';
 import { onAddPost, onLike } from '../posts';
 import { addPostSuccess, likeSuccess } from '../../state/posts';
 import { getCurrentUser } from '../../selectors';
-import { put, call, select } from 'redux-saga/effects';
-import uuid from 'node-uuid';
 
 describe('Sagas - posts', () => {
     it('When a user adds a post', () => {

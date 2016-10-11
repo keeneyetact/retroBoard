@@ -1,15 +1,10 @@
-jest.unmock('./testSaga');
-jest.unmock('../user');
-jest.unmock('../session');
-jest.unmock('../../state/user');
-
+import { put, call } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import ls from 'local-storage';
 import test from './testSaga';
 import { onLogin, onAutoLogin, onLeaveSession, onChangeLanguage, onLogout } from '../user';
 import { doLoadPreviousSessions } from '../session';
 import { loginSuccess, changeLanguageSuccess } from '../../state/user';
-import { put, call } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
-import ls from 'local-storage';
 
 describe('Sagas - user', () => {
     it('When a user logs in', () => {

@@ -1,8 +1,5 @@
 /* eslint max-len:0 */
 
-jest.unmock('../posts');
-jest.unmock('../session');
-
 import {
     LEAVE_SESSION,
     JOIN_SESSION,

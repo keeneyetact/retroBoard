@@ -7,16 +7,14 @@ const get = store => sessionId => new Promise((resolve, reject) => {
     store.findOne({ id: sessionId }, (err, session) => {
         if (err) {
             reject(err);
+        } else if (session) {
+            resolve(session);
         } else {
-            if (session) {
-                resolve(session);
-            } else {
-                resolve({
-                    id: sessionId,
-                    name: null,
-                    posts: []
-                });
-            }
+            resolve({
+                id: sessionId,
+                name: null,
+                posts: []
+            });
         }
     });
 });

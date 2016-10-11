@@ -37,7 +37,7 @@
     "history": "2.1.1",
     "html-webpack-plugin": "2.22.0",
     "immutability-helper": "2.0.0",
-    "jest-cli": "16.0.1",
+    "jest": "16.0.1",
     "json-loader": "0.5.4",
     "local-storage": "1.4.2",
     "lodash": "4.16.4",
@@ -120,18 +120,6 @@
   "homepage": "http://www.retrospected.com",
   "jest": {
     "collectCoverage": true,
-    "testRegex": "__tests__/.*\\-test.js$",
-    "unmockedModulePathPatterns": [
-      "node_modules/react/",
-      "node_modules/react-dom/",
-      "node_modules/react-addons-test-utils/",
-      "node_modules/redux-actions/",
-      "node_modules/redux/",
-      "node_modules/reselect/",
-      "node_modules/redux-saga/",
-      "node_modules/react-router-redux/",
-      "node_modules/lodash/",
-      "node_modules/moment/"
-    ]
+    "testRegex": "__tests__/.*\\-test.js$"
   }
 }
