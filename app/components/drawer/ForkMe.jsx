@@ -5,6 +5,7 @@ export default () => (
     <a
       href="https://github.com/antoinejaussoin/retro-board"
       style={{ position: 'absolute', bottom: 10, right: 10 }}
+      rel="noopener noreferrer"
       target="_blank"
     >
         Fork me on

@@ -22,7 +22,7 @@ export default store => {
             session.posts.forEach(p => {
                 p.likes = [];
                 p.dislikes = [];
-                for (let i = 0; i < p.votes; i++) {
+                for (let i = 0; i < p.votes; i += 1) {
                     p.likes.push('?');
                 }
             });

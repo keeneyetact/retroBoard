@@ -1,6 +1,6 @@
-import EnterInput from '../EnterInput';
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
+import EnterInput from '../EnterInput';
 
 const PostAdd = ({ onAdd, placeholder, icon }) => (
     <div>

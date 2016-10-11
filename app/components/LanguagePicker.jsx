@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import 'flag-icon-css/css/flag-icon.min.css';
 import classNames from 'classnames';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
@@ -9,7 +10,6 @@ import languages from '../i18n/languages.json';
 import translate from '../i18n/Translate';
 import style from './LanguagePicker.scss';
 import { getCurrentLanguage } from '../selectors';
-import 'flag-icon-css/css/flag-icon.min.css';
 
 const stateToProps = state => ({
     currentLanguage: getCurrentLanguage(state)
@@ -22,7 +22,7 @@ const actionsToProps = dispatch => ({
 const renderItem = item => (
     <div>
         <div className={ classNames(`flag-icon flag-icon-${item.iso}`, style.flag) }>
-            <div className={style.overlay}></div>
+            <div className={style.overlay} />
         </div>
         <div>
             <strong>{item.name}</strong><br />

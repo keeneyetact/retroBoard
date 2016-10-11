@@ -1,6 +1,3 @@
-jest.unmock('../index');
-jest.unmock('./getState');
-
 import moment from 'moment';
 import getState from './getState';
 import {

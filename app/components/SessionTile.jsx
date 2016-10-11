@@ -1,42 +1,38 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import translate from '../i18n/Translate';
 import { ListItem } from 'react-toolbox/lib/list';
 import moment from 'moment';
-import icons from '../constants/icons';
 import md5 from 'md5';
+import translate from '../i18n/Translate';
+import icons from '../constants/icons';
 import { getCurrentLanguageInfo } from '../selectors';
 
 const stateToProps = state => ({
     languageInfo: getCurrentLanguageInfo(state)
 });
 
-class SessionTile extends Component {
-    getGravatar(client) {
-        return `https://www.gravatar.com/avatar/${md5(client)}?d=identicon`;
-    }
+const getGravatar = client => `https://www.gravatar.com/avatar/${md5(client)}?d=identicon`;
 
-    render() {
-        const { session, strings, languageInfo } = this.props;
-        const lastJoined = moment(session.lastJoin)
-            .locale(languageInfo ? languageInfo.iso : 'en')
-            .fromNow();
-        const name = session.name || strings.defaultSessionName;
+const SessionTile = ({ session, strings, languageInfo, onClick }) => {
+    const lastJoined = moment(session.lastJoin)
+        .locale(languageInfo ? languageInfo.iso : 'en')
+        .fromNow();
+    const name = session.name || strings.defaultSessionName;
 
-        return (
-            <ListItem
-              avatar={this.getGravatar(name)}
-              caption={ name }
-              legend={ lastJoined }
-              rightIcon={icons.open_in_new}
-              onClick={this.props.onClick}
-              selectable
-            />
-        );
-    }
-}
+    return (
+        <ListItem
+          avatar={getGravatar(name)}
+          caption={ name }
+          legend={ lastJoined }
+          rightIcon={icons.open_in_new}
+          onClick={onClick}
+          selectable
+        />
+    );
+};
+
 
 SessionTile.propTypes = {
     session: PropTypes.object.isRequired,

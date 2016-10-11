@@ -1,7 +1,8 @@
-jest.unmock('./testSaga');
-jest.unmock('../session');
-jest.unmock('../../state/session');
-
+import { put, call, select } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import ls from 'local-storage';
+import shortid from 'shortid';
+import moment from 'moment';
 import test from './testSaga';
 import { onCreateSession,
     storeSessionToLocalStorage,
@@ -16,11 +17,6 @@ import { createSessionSuccess,
     loadPreviousSessions
 } from '../../state/session';
 import { getCurrentUser, getSessionId } from '../../selectors';
-import { put, call, select } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
-import ls from 'local-storage';
-import shortid from 'shortid';
-import moment from 'moment';
 
 const previousSessions = {
     Marcel: [

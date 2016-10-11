@@ -1,7 +1,3 @@
-jest.unmock('../invite');
-jest.unmock('../session');
-jest.unmock('../user');
-
 import systemUnderTest, { toggleInviteDialog } from '../invite';
 import { LEAVE_SESSION, JOIN_SESSION, CREATE_SESSION } from '../session';
 import { AUTO_LOGIN, LOGIN, LOGOUT } from '../user';

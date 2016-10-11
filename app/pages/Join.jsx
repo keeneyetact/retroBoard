@@ -2,18 +2,18 @@ import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Button from 'react-toolbox/lib/button';
-import { connect } from 'react-redux';
-import { createSession } from '../state/session';
-import translate from '../i18n/Translate';
 import { Card, CardMedia, CardText } from 'react-toolbox/lib/card';
 import { List } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { createSession } from '../state/session';
+import translate from '../i18n/Translate';
 import backgroundImage from '../components/images/logo.png';
 import LanguagePicker from '../components/LanguagePicker';
 import LogoutButton from '../components/LogoutButton';
 import { getSavedSessionsByDate } from '../selectors';
 import SessionTile from '../components/SessionTile';
-import { push } from 'react-router-redux';
 import style from './Join.scss';
 
 
@@ -96,8 +96,7 @@ class Join extends Component {
                     <CardMedia style={{ backgroundColor: '#EEE' }}>
                         <img
                           src={ backgroundImage }
-                          style={{ objectFit: 'contain', width: '100%',
-                              backgroundSize: 'contain', maxHeight: 150 }}
+                          style={{ objectFit: 'contain', width: '100%', backgroundSize: 'contain', maxHeight: 150 }}
                           role="presentation"
                         />
                     </CardMedia>
@@ -118,7 +117,6 @@ class Join extends Component {
 Join.propTypes = {
     previousSessions: PropTypes.array,
     createSession: PropTypes.func,
-    createCustomSession: PropTypes.func,
     goToSession: PropTypes.func,
     strings: PropTypes.object
 };
@@ -126,7 +124,6 @@ Join.propTypes = {
 Join.defaultProps = {
     previousSessions: [],
     createSession: noop,
-    createCustomSession: noop,
     goToSession: noop,
     strings: {
         welcome: 'Welcome to Retrospected',

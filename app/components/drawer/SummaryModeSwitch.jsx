@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import translate from '../../i18n/Translate';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Switch from 'react-toolbox/lib/switch';
+import translate from '../../i18n/Translate';
 import { toggleSummaryMode } from '../../state/modes';
 import { getSummaryMode } from '../../selectors';
 

@@ -6,7 +6,8 @@ import icons from '../../constants/icons';
 import style from './PostBoard.scss';
 
 const PostColumn = ({ currentUser, posts, type, icon, placeholder, onAdd, onDelete,
-                      onLike, onUnlike, onEdit }) => (
+                      onLike, onUnlike, onEdit }) =>
+(
     <div>
         <PostAdd
           onAdd={text => onAdd(type, text)}

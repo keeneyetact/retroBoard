@@ -1,13 +1,8 @@
-jest.unmock('./testSaga');
-jest.unmock('../router');
-jest.unmock('../../state/session');
-jest.unmock('../../selectors');
-
+import { put, select } from 'redux-saga/effects';
 import test from './testSaga';
 import { onLocationChange } from '../router';
 import { leave } from '../../state/session';
 import { getSessionId } from '../../selectors';
-import { put, select } from 'redux-saga/effects';
 
 describe('Sagas - router', () => {
     it('When a user changes location to /', () => {

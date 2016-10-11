@@ -1,6 +1,6 @@
 import findIndex from 'lodash/findIndex';
-import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
 import { createAction } from 'redux-actions';
+import { LEAVE_SESSION, CREATE_SESSION_SUCCESS, JOIN_SESSION } from './session';
 
 export const ADD_POST = 'retrospected/posts/add';
 export const ADD_POST_SUCCESS = 'retrospected/posts/add/success';
