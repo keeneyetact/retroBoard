@@ -1,10 +1,11 @@
 import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
-import test from './testSaga';
 import { onAddPost, onLike } from '../posts';
 import { addPostSuccess, likeSuccess } from '../../state/posts';
 import { getCurrentUser } from '../../selectors';
 import sagaHelper from 'redux-saga-testing';
+
+jest.mock('node-uuid');
 
 describe('Sagas - posts', () => {
     describe('When a user adds a post', () => {

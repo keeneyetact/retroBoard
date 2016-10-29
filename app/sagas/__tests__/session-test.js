@@ -1,9 +1,9 @@
 import { put, call, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
+import sagaHelper from 'redux-saga-testing';
 import ls from 'local-storage';
 import shortid from 'shortid';
 import moment from 'moment';
-import test from './testSaga';
 import { onCreateSession,
     storeSessionToLocalStorage,
     doLoadPreviousSessions,
@@ -18,6 +18,8 @@ import { createSessionSuccess,
 } from '../../state/session';
 import { getCurrentUser, getSessionId } from '../../selectors';
 
+jest.mock('shortid');
+
 const previousSessions = {
     Marcel: [
         { id: '1', name: 'Retro 1', lastJoin: moment('2014-04-19').unix() },
@@ -30,103 +32,134 @@ const previousSessions = {
 };
 
 describe('Sagas - session', () => {
-    it('When a session is created by the user', () => {
-        test(onCreateSession({ payload: 'My Session' }), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(shortid.generate));
-            andReturns('ABCD');
+    describe('When a session is created by the user', () => {
+        const it = sagaHelper(onCreateSession({ payload: 'My Session' }));
 
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Marcel');
-
-            expect(result()).toEqual(put(createSessionSuccess({ sessionId: 'ABCD' })));
-            andThen();
-
-            expect(result()).toEqual(call(storeSessionToLocalStorage, 'Marcel', 'ABCD'));
-            andThen();
-
-            expect(result()).toEqual(put(renameSession('My Session')));
-            andThen();
-
-            expect(result()).toEqual(put(joinSession({ sessionId: 'ABCD', user: 'Marcel' })));
-            andThen();
-
-            expect(result()).toEqual(put(receiveClientList(['Marcel'])));
-            andThen();
-
-            expect(result()).toEqual(put(push('/session/ABCD')));
-            andThen();
+        it('should generate a short ID', result => {
+            expect(result).toEqual(call(shortid.generate));
+            return 'ABCD';
         });
+
+        it('and then it should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Marcel';
+        });
+
+        it('and then trigger the create session success action', result => {
+            expect(result).toEqual(put(createSessionSuccess({ sessionId: 'ABCD' })));
+        });
+
+        it('and then store that session to local storage', result => {
+            expect(result).toEqual(call(storeSessionToLocalStorage, 'Marcel', 'ABCD'));
+        });
+
+        it('and then rename the session to the name given', result => {
+            expect(result).toEqual(put(renameSession('My Session')));
+        });
+
+        it('and then join this new session', result => {
+            expect(result).toEqual(put(joinSession({ sessionId: 'ABCD', user: 'Marcel' })));
+        });
+
+        it('and then receive the client list as just the current user', result => {
+            expect(result).toEqual(put(receiveClientList(['Marcel'])));
+        });
+
+        it('and then move to the session URL', result => {
+            expect(result).toEqual(put(push('/session/ABCD')));
+        }); 
     });
 
-    it('Load Previous sessions (when they exists)', () => {
-        test(doLoadPreviousSessions(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Marcel');
+    describe('Load Previous sessions (when they exists)', () => {
+        const it = sagaHelper(doLoadPreviousSessions());
 
-            expect(result()).toEqual(call(ls, 'sessions'));
-            andReturns(previousSessions);
+        it('and then it should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Marcel';
+        });
 
-            expect(result()).toEqual(put(loadPreviousSessions([
+        it('and then retrieve the previous sessions from local storage', result => {
+            expect(result).toEqual(call(ls, 'sessions'));
+            return previousSessions;
+        });
+
+        it('and then load these sessions in the state', result => {
+            expect(result).toEqual(put(loadPreviousSessions([
                 { id: '1', name: 'Retro 1', lastJoin: moment('2014-04-19').unix() },
                 { id: '2', name: 'Retro 2', lastJoin: moment('1952-04-24').unix() },
                 { id: '3', name: 'Retro 3', lastJoin: moment('1982-11-01').unix() }
             ])));
-            andThen();
         });
     });
 
-    it('Load Previous sessions (when they dont exists)', () => {
-        test(doLoadPreviousSessions(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Maurice');
+    describe('Load Previous sessions (when they dont exists)', () => {
+        const it = sagaHelper(doLoadPreviousSessions());
 
-            expect(result()).toEqual(call(ls, 'sessions'));
-            andReturns(previousSessions);
+        it('and then it should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Maurice';
+        });
 
-            expect(result()).toEqual(put(loadPreviousSessions([])));
-            andThen();
+        it('and then retrieve the previous sessions from local storage', result => {
+            expect(result).toEqual(call(ls, 'sessions'));
+            return previousSessions;
+        });
+
+        it('and then since none are found for this user, load an empty array in the state', result => {
+            expect(result).toEqual(put(loadPreviousSessions([])));
         });
     });
 
-    it('When a session is renamed', () => {
-        test(onRenameSession({ payload: 'My New Name' }), (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getSessionId));
-            andReturns('2');
+    describe('When a session is renamed', () => {
+        const it = sagaHelper(onRenameSession({ payload: 'My New Name' }));
 
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Marcel');
+        it('should get the session ID', result => {
+            expect(result).toEqual(select(getSessionId));
+            return '2';
+        });
 
-            expect(result()).toEqual(call(ls, 'sessions'));
-            andReturns(previousSessions);
+        it('and then it should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Marcel';
+        });
 
-            expect(result()).toEqual(call(ls, 'sessions', previousSessions));
-            andThen();
+        it('and then retrieve the previous sessions from local storage', result => {
+            expect(result).toEqual(call(ls, 'sessions'));
+            return previousSessions;
+        });
 
-            expect(result()).toEqual(put(loadPreviousSessions([
+        it('and then persist the sessions again once renamed', result => {
+            expect(result).toEqual(call(ls, 'sessions', previousSessions));
+        });
+
+        it('and then load these sessions in the state', result => {
+            expect(result).toEqual(put(loadPreviousSessions([
                 { id: '1', name: 'Retro 1', lastJoin: moment('2014-04-19').unix() },
                 { id: '2', name: 'My New Name', lastJoin: moment('1952-04-24').unix() },
                 { id: '3', name: 'Retro 3', lastJoin: moment('1982-11-01').unix() }
             ])));
-            andThen();
         });
     });
 
-    it('When a user auto joins', () => {
-        test(onAutoJoin({ payload: 'ABCD' }), (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getSessionId));
-            andReturns('WXYZ');
+    describe('When a user auto joins', () => {
+        const it = sagaHelper(onAutoJoin({ payload: 'ABCD' }));
 
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Claude');
+        it('should get the session ID', result => {
+            expect(result).toEqual(select(getSessionId));
+            return 'WXYZ';
+        });
 
-            expect(result()).toEqual(put(joinSession({
-                sessionId: 'ABCD',
-                user: 'Claude'
-            })));
-            andThen();
+        it('and then it should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Claude';
+        });
 
-            expect(result()).toEqual(call(storeSessionToLocalStorage, 'Claude', 'ABCD'));
-            andThen();
+        it('and then join this session', result => {
+            expect(result).toEqual(put(joinSession({ sessionId: 'ABCD', user: 'Claude' })));
+        });
+
+        it('and then persist the session in local storage', result => {
+            expect(result).toEqual(call(storeSessionToLocalStorage, 'Claude', 'ABCD'));
         });
     });
 });
