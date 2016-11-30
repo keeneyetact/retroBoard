@@ -26,9 +26,9 @@ export default {
         header: 'Acompañenos amablemente en este momento:'
     },
     Join: {
-        welcome: 'Bienbenido a la rerospectiva',
+        welcome: 'Bienvenido a la retrospectiva',
         standardTab: {
-            header: 'Crear uan sesión',
+            header: 'Crear una sesión',
             text: 'Pulse abajo y empieze la retrospectiva:',
             button: 'Crear una sesión nueva'
         },
