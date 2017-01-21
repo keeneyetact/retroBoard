@@ -1,36 +1,43 @@
 import { put, select } from 'redux-saga/effects';
-import test from './testSaga';
 import { onLocationChange } from '../router';
 import { leave } from '../../state/session';
 import { getSessionId } from '../../selectors';
+import sagaHelper from 'redux-saga-testing';
 
 describe('Sagas - router', () => {
-    it('When a user changes location to /', () => {
-        test(onLocationChange({ payload: { pathname: '/' } }),
-        (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getSessionId));
-            andReturns('123');
 
-            expect(result()).toEqual(put(leave()));
-            andThen();
+    describe('When a user changes location to /', () => {
+        const it = sagaHelper(onLocationChange({ payload: { pathname: '/' } }));
+
+        it('should get the session ID', result => {
+            expect(result).toEqual(select(getSessionId));
+            return '123';
+        });
+
+        it('and then call the leave action', result => {
+            expect(result).toEqual(put(leave()));
         });
     });
 
-    it('When a user changes location to /session/xxx', () => {
-        test(onLocationChange({ payload: { pathname: '/session/xxx' } }),
-        (result) => {
-            expect(result()).not.toEqual(select(getSessionId));
+    describe('When a user changes location to /session/xxx', () => {
+        const it = sagaHelper((onLocationChange({ payload: { pathname: '/session/xxx' } })));
+
+        it('should NOT get the session ID', result => {
+            expect(result).not.toEqual(select(getSessionId));
+            expect(result).toBe(undefined);
         });
     });
 
-    it('When a user changes location to / and no session is running', () => {
-        test(onLocationChange({ payload: { pathname: '/' } }),
-        (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getSessionId));
-            andReturns(null);
+    describe('When a user changes location to / and no session is running', () => {
+        const it = sagaHelper((onLocationChange({ payload: { pathname: '/' } })));
 
-            expect(result()).not.toEqual(put(leave()));
-            andThen();
+         it('should get the session ID', result => {
+            expect(result).toEqual(select(getSessionId));
+            return null;
+        });
+
+        it('then it should do nothing', result => {
+            expect(result).toBe(undefined);
         });
     });
 });
