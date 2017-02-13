@@ -107,6 +107,7 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * Using [Yarn](https://yarnpkg.com/en/)
 * Updating dependencies
 * Fixing some Spanish translation mistakes (Thanks @MrPolymath)
+* Fixed a bug where the Vote buttons would allow a user to vote multiple times (on the UI only)
 
 ### Version 0.7.0
 
