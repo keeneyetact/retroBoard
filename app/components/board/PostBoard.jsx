@@ -58,7 +58,7 @@ class PostBoard extends Component {
         const types = [{
             type: 'well',
             question: strings.wellQuestion,
-            icon: icons.sentiment_satisfied,
+            icon: icons.sentiment_very_satisfied,
             posts: wellPosts
         }, {
             type: 'notWell',
