@@ -1,7 +1,5 @@
 /* eslint max-len:0 */
 
-jest.unmock('../user');
-
 import systemUnderTest, {
     LOGIN_SUCCESS,
     LOGOUT,

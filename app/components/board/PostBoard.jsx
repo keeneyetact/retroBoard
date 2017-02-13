@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import PostColumn from './PostColumn';
-import style from './PostBoard.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import PostColumn from './PostColumn';
+import style from './PostBoard.scss';
 import { addPost, deletePost, like, unlike, editPost } from '../../state/posts';
 import icons from '../../constants/icons';
 import translate from '../../i18n/Translate';
@@ -58,7 +58,7 @@ class PostBoard extends Component {
         const types = [{
             type: 'well',
             question: strings.wellQuestion,
-            icon: icons.sentiment_satisfied,
+            icon: icons.sentiment_very_satisfied,
             posts: wellPosts
         }, {
             type: 'notWell',

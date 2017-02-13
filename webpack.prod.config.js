@@ -3,10 +3,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
-const staticFolder = path.resolve(__dirname, 'assets');
 const config = require('./config');
 const appVersion = require('./package.json').version;
 const languages = require('./app/i18n/languages');
+
+const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
@@ -31,13 +32,16 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
-            { test: /\.svg$/, loader: 'url?limit=10000' },
+            { test: /\.svg$/, loader: 'url?limit=10' },
             { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
             { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
             { test: /\.json$/, loader: 'json-loader' },
-            { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style',
+            {
+                test: /(\.scss)$/,
+                loader: ExtractTextPlugin.extract('style',
                 'css?sourceMap&modules&importLoaders=1&localIdentName' +
-                '=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
+                '=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox')
+            }
         ]
     },
     toolbox: {

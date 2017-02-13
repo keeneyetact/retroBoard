@@ -2,8 +2,9 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
-const staticFolder = path.resolve(__dirname, 'assets');
 const languages = require('./app/i18n/languages');
+
+const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
@@ -32,12 +33,15 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
-            { test: /\.svg$/, loader: 'url?limit=10000' },
+            { test: /\.svg$/, loader: 'url?limit=10' },
             { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
             { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
             { test: /\.json$/, loader: 'json-loader' },
-            { test: /(\.scss)$/, loader: 'style!css?sourceMap&modules&importLoaders=1&' +
-                'localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox' }
+            {
+                test: /(\.scss)$/,
+                loader: 'style!css?sourceMap&modules&importLoaders=1&' +
+                'localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox'
+            }
         ]
     },
     toolbox: {

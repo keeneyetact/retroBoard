@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import translate from '../../i18n/Translate';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Button from 'react-toolbox/lib/button';
+import translate from '../../i18n/Translate';
 import { leave } from '../../state/session';
 import icons from '../../constants/icons';
 

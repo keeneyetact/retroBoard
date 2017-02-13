@@ -4,8 +4,8 @@ import socketIo from 'socket.io';
 import http from 'http';
 import find from 'lodash/find';
 import chalk from 'chalk';
-import db from './db';
 import moment from 'moment';
+import db from './db';
 import spamFilter from './spamFilter';
 import config from '../config';
 

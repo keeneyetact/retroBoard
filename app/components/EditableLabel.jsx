@@ -1,7 +1,10 @@
+/* eslint react/no-string-refs:0 */
+/* eslint jsx-a11y/no-static-element-interactions:0 */
+
 import React, { PropTypes, Component } from 'react';
 import noop from 'lodash/noop';
-import style from './EditableLabel.scss';
 import FontIcon from 'react-toolbox/lib/font_icon';
+import style from './EditableLabel.scss';
 import icons from '../constants/icons';
 
 export default class EditableLabel extends Component {

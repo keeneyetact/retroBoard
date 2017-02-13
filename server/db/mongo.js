@@ -21,16 +21,14 @@ const get = () => sessionId => new Promise((resolve, reject) => {
         if (err) {
             console.error(err);
             reject(err);
+        } else if (session) {
+            resolve(session);
         } else {
-            if (session) {
-                resolve(session);
-            } else {
-                resolve({
-                    id: sessionId,
-                    name: null,
-                    posts: []
-                });
-            }
+            resolve({
+                id: sessionId,
+                name: null,
+                posts: []
+            });
         }
     });
 });

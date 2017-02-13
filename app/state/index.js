@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import posts from './posts';
 import session from './session';
 import user from './user';
 import modes from './modes';
 import invite from './invite';
-import { routerReducer } from 'react-router-redux';
 
 const rootReducer = combineReducers({
     posts,

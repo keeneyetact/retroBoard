@@ -2,13 +2,12 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import translate from '../../i18n/Translate';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { IconButton } from 'react-toolbox/lib/button';
+import translate from '../../i18n/Translate';
 import { shouldDisplayDrawerButton } from '../../selectors';
 import { openDrawer } from '../../state/modes';
-
 
 const stateToProps = state => ({
     displayDrawerButton: shouldDisplayDrawerButton(state)

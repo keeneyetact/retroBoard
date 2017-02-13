@@ -19,3 +19,5 @@ export const googleAnalyticsMiddleware = (/* store */) => next => action => {
 
     return result;
 };
+
+export default googleAnalyticsMiddleware;

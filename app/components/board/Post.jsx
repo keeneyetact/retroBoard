@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
 import { default as Button } from 'react-toolbox/lib/button';
-import EditableLabel from '../EditableLabel';
 import classNames from 'classnames';
+import EditableLabel from '../EditableLabel';
 import style from './Post.scss';
 import icons from '../../constants/icons';
 import translate from '../../i18n/Translate';
@@ -45,10 +45,10 @@ const renderButton = (post, currentUser, name, icon, className, onClick) => {
         <Button
           icon={icon}
           label={label}
-          onClick={onClick}
+          onClick={canUserVote ? onClick : noop}
           raised={canUserVote}
           className={classNameFinal}
-          disabled={!canVote}
+          disabled={!canUserVote}
         />
     );
 };

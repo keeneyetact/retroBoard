@@ -10,3 +10,5 @@ export function* onLocationChange(action) {
         }
     }
 }
+
+export default onLocationChange;

@@ -1,22 +1,8 @@
-jest.unmock('../../state');
-jest.unmock('../../state/user');
-jest.unmock('../../state/posts');
-jest.unmock('../../state/session');
-jest.unmock('../../state/actions');
-jest.unmock('../../state/invite');
-jest.unmock('../../state/modes');
-jest.unmock('../../sagas');
-jest.unmock('../../sagas/posts');
-jest.unmock('../../sagas/session');
-jest.unmock('../../sagas/user');
-jest.unmock('../../i18n/languages.json');
-
 import moment from 'moment';
 import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import reducers from '../../state';
 import sagas from '../../sagas';
-import createSagaMiddleware from 'redux-saga';
-
 import { loginSuccess, changeLanguage } from '../../state/user';
 import { createSessionSuccess,
     receiveClientList,

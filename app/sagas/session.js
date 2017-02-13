@@ -1,14 +1,17 @@
+/* eslint no-prototype-builtins: 0 */
+/* Todo: check why this is not recommended */
+
 import { put, select, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import shortid from 'shortid';
+import ls from 'local-storage';
+import find from 'lodash/find';
 import { joinSession,
     createSessionSuccess,
     receiveClientList,
     renameSession,
     loadPreviousSessions } from '../state/session';
 import { getCurrentUser, getSessionId } from '../selectors';
-import ls from 'local-storage';
-import find from 'lodash/find';
 
 export function* storeSessionToLocalStorage(currentUser, sessionId) {
     let savedSessions = ls.get('sessions');
