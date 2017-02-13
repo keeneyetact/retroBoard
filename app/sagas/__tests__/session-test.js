@@ -67,7 +67,7 @@ describe('Sagas - session', () => {
 
         it('and then move to the session URL', result => {
             expect(result).toEqual(put(push('/session/ABCD')));
-        }); 
+        });
     });
 
     describe('Load Previous sessions (when they exists)', () => {

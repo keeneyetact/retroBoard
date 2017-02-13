@@ -49,7 +49,7 @@ module.exports = {
     },
     postcss: [autoprefixer],
     plugins: [
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp(momentFilter)),
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, new RegExp(momentFilter)),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             hash: false,

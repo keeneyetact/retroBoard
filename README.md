@@ -100,6 +100,10 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 
 ## Versions history
 
+### Version 0.8.1
+
+* Hotfix (ESLint errors on production build)
+
 ### Version 0.8.0
 
 * Using [redux-saga-testing](https://github.com/antoinejaussoin/redux-saga-testing) to test sagas

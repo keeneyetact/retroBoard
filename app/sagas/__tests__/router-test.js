@@ -1,11 +1,10 @@
 import { put, select } from 'redux-saga/effects';
+import sagaHelper from 'redux-saga-testing';
 import { onLocationChange } from '../router';
 import { leave } from '../../state/session';
 import { getSessionId } from '../../selectors';
-import sagaHelper from 'redux-saga-testing';
 
 describe('Sagas - router', () => {
-
     describe('When a user changes location to /', () => {
         const it = sagaHelper(onLocationChange({ payload: { pathname: '/' } }));
 
@@ -31,7 +30,7 @@ describe('Sagas - router', () => {
     describe('When a user changes location to / and no session is running', () => {
         const it = sagaHelper((onLocationChange({ payload: { pathname: '/' } })));
 
-         it('should get the session ID', result => {
+        it('should get the session ID', result => {
             expect(result).toEqual(select(getSessionId));
             return null;
         });
