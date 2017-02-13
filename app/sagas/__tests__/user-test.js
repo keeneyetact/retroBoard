@@ -31,7 +31,7 @@ describe('Sagas - user', () => {
             return 'Claire';
         });
 
-         it('and then we should login as this user automatically', result => {
+        it('and then we should login as this user automatically', result => {
             expect(result).toEqual(put(loginSuccess('Claire')));
         });
 
@@ -51,7 +51,7 @@ describe('Sagas - user', () => {
 
     describe('When a user auto logs in and has no username or language stored', () => {
         const it = sagaHelper(onAutoLogin());
-        
+
         it('check if we have a username alreday in local storage', result => {
             expect(result).toEqual(call(ls, 'username'));
         });
