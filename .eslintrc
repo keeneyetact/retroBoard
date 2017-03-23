@@ -16,7 +16,8 @@
       "no-param-reassign": 0,
       "comma-dangle": ["error", "never"],
       "arrow-parens": 0,
-      "react/forbid-prop-types": 0
+      "react/forbid-prop-types": 0,
+      "linebreak-style": 0
   },
   "parserOptions": {
         "ecmaFeatures": {
