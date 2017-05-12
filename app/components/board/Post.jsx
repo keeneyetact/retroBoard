@@ -45,10 +45,10 @@ const renderButton = (post, currentUser, name, icon, className, onClick) => {
         <Button
           icon={icon}
           label={label}
-          onClick={onClick}
+          onClick={canUserVote ? onClick : noop}
           raised={canUserVote}
           className={classNameFinal}
-          disabled={!canVote}
+          disabled={!canUserVote}
         />
     );
 };

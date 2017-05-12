@@ -1,81 +1,99 @@
 import { put, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
+import sagaHelper from 'redux-saga-testing';
 import ls from 'local-storage';
-import test from './testSaga';
 import { onLogin, onAutoLogin, onLeaveSession, onChangeLanguage, onLogout } from '../user';
 import { doLoadPreviousSessions } from '../session';
 import { loginSuccess, changeLanguageSuccess } from '../../state/user';
 
 describe('Sagas - user', () => {
-    it('When a user logs in', () => {
-        test(onLogin({ payload: { name: 'Apolline' } }), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(ls, 'username', 'Apolline'));
-            andThen();
+    describe('When a user logs in', () => {
+        const it = sagaHelper(onLogin({ payload: { name: 'Apolline' } }));
 
-            expect(result()).toEqual(put(loginSuccess('Apolline')));
-            andThen();
+        it('should store that name in local storage', result => {
+            expect(result).toEqual(call(ls, 'username', 'Apolline'));
+        });
 
-            expect(result()).toEqual(call(doLoadPreviousSessions));
-            andThen();
+        it('and then call login success', result => {
+            expect(result).toEqual(put(loginSuccess('Apolline')));
+        });
+
+        it('and then load the previous sessions', result => {
+            expect(result).toEqual(call(doLoadPreviousSessions));
         });
     });
 
-    it('When a user auto logs in and has a username and language stored', () => {
-        test(onAutoLogin(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(ls, 'username'));
-            andReturns('Claire');
+    describe('When a user auto logs in and has a username and language stored', () => {
+        const it = sagaHelper(onAutoLogin());
 
-            expect(result()).toEqual(put(loginSuccess('Claire')));
-            andThen();
+        it('check if we have a username alreday in local storage', result => {
+            expect(result).toEqual(call(ls, 'username'));
+            return 'Claire';
+        });
 
-            expect(result()).toEqual(call(ls, 'language'));
-            andReturns('fr');
+        it('and then we should login as this user automatically', result => {
+            expect(result).toEqual(put(loginSuccess('Claire')));
+        });
 
-            expect(result()).toEqual(put(changeLanguageSuccess('fr')));
-            andThen();
+        it('then we should try to get the default language from local storage', result => {
+            expect(result).toEqual(call(ls, 'language'));
+            return 'fr';
+        });
 
-            expect(result()).toEqual(call(doLoadPreviousSessions));
-            andThen();
+        it('and then set the language to this default', result => {
+            expect(result).toEqual(put(changeLanguageSuccess('fr')));
+        });
+
+        it('and then load the previous sessions', result => {
+            expect(result).toEqual(call(doLoadPreviousSessions));
         });
     });
 
-    it('When a user auto logs in and has no username or language stored', () => {
-        test(onAutoLogin(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(ls, 'username'));
-            andThen();
+    describe('When a user auto logs in and has no username or language stored', () => {
+        const it = sagaHelper(onAutoLogin());
 
-            expect(result()).toEqual(call(ls, 'language'));
-            andThen();
+        it('check if we have a username alreday in local storage', result => {
+            expect(result).toEqual(call(ls, 'username'));
+        });
 
-            expect(result()).toEqual(call(doLoadPreviousSessions));
-            andThen();
+        it('then we should try to get the default language from local storage', result => {
+            expect(result).toEqual(call(ls, 'language'));
+        });
+
+        it('and then load the previous sessions', result => {
+            expect(result).toEqual(call(doLoadPreviousSessions));
         });
     });
 
-    it('When a user disconnets', () => {
-        test(onLeaveSession(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(put(push('/')));
-            andThen();
+    describe('When a user disconnets', () => {
+        const it = sagaHelper(onLeaveSession());
+
+        it('should redirect to the main page', result => {
+            expect(result).toEqual(put(push('/')));
         });
     });
 
-    it('When a user changes its language', () => {
-        test(onChangeLanguage({ payload: 'de' }), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(ls, 'language', 'de'));
-            andThen();
+    describe('When a user changes describes language', () => {
+        const it = sagaHelper(onChangeLanguage({ payload: 'de' }));
 
-            expect(result()).toEqual(put(changeLanguageSuccess('de')));
-            andThen();
+        it('should store this new default language to the local storage', result => {
+            expect(result).toEqual(call(ls, 'language', 'de'));
+        });
+
+        it('and then should say the language change was a success', result => {
+            expect(result).toEqual(put(changeLanguageSuccess('de')));
         });
     });
 
-    it('When a user logs out', () => {
-        test(onLogout(), (result, andReturns, andThen) => {
-            expect(result()).toEqual(call(ls, 'username', null));
-            andThen();
+    describe('When a user logs out', () => {
+        const it = sagaHelper(onLogout());
 
-            expect(result()).toEqual(call(ls, 'language', 'en'));
-            andThen();
+        it('should reset the stored user', result => {
+            expect(result).toEqual(call(ls, 'username', null));
+        });
+
+        it('and it should reset the stored language', result => {
+            expect(result).toEqual(call(ls, 'language', 'en'));
         });
     });
 });

@@ -1,21 +1,28 @@
 import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
-import test from './testSaga';
+import sagaHelper from 'redux-saga-testing';
 import { onAddPost, onLike } from '../posts';
 import { addPostSuccess, likeSuccess } from '../../state/posts';
 import { getCurrentUser } from '../../selectors';
 
+jest.mock('node-uuid');
+
 describe('Sagas - posts', () => {
-    it('When a user adds a post', () => {
-        test(onAddPost({ payload: { postType: 'well', content: 'Hello You' } }),
-        (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Antoine');
+    describe('When a user adds a post', () => {
+        const it = sagaHelper(onAddPost({ payload: { postType: 'well', content: 'Hello You' } }));
 
-            expect(result()).toEqual(call(uuid.v1));
-            andReturns('AA-BB-CC');
+        it('should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Antoine';
+        });
 
-            expect(result()).toEqual(put(addPostSuccess({
+        it('then should then generate a unique id', result => {
+            expect(result).toEqual(call(uuid.v1));
+            return 'AA-BB-CC';
+        });
+
+        it('then call the add post success action', result => {
+            expect(result).toEqual(put(addPostSuccess({
                 id: 'AA-BB-CC',
                 postType: 'well',
                 content: 'Hello You',
@@ -23,22 +30,23 @@ describe('Sagas - posts', () => {
                 likes: [],
                 dislikes: []
             })));
-            andThen();
         });
     });
 
-    it('When a user liks a post', () => {
-        test(onLike({ payload: { post: { id: 123 }, like: true } }),
-        (result, andReturns, andThen) => {
-            expect(result()).toEqual(select(getCurrentUser));
-            andReturns('Danièle');
+    describe('When a user likes a post', () => {
+        const it = sagaHelper(onLike({ payload: { post: { id: 123 }, like: true } }));
 
-            expect(result()).toEqual(put(likeSuccess({
+        it('should get the current user', result => {
+            expect(result).toEqual(select(getCurrentUser));
+            return 'Danièle';
+        });
+
+        it('then call the like success action', result => {
+            expect(result).toEqual(put(likeSuccess({
                 post: { id: 123 },
                 like: true,
                 user: 'Danièle'
             })));
-            andThen();
         });
     });
 });

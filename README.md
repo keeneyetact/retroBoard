@@ -19,6 +19,7 @@ It features the following technologies:
 * [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 * [ESLint](http://eslint.org/) for JS and JSX
 * [Jest](https://facebook.github.io/jest) for Unit Testing
+* [Yarn](https://yarnpkg.com/en/) to replace NPM
 
 
 ## How to run for production (or to try it out)
@@ -95,12 +96,25 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 * Add more languages
 * Unit tests
 * GraphQL
+* Webpack 2
 
 ## Versions history
 
+### Version 0.8.1
+
+* Hotfix (ESLint errors on production build)
+
+### Version 0.8.0
+
+* Using [redux-saga-testing](https://github.com/antoinejaussoin/redux-saga-testing) to test sagas
+* Chinese (Traditional and Simplified) Translation (Thanks @aqutw)
+* Using [Yarn](https://yarnpkg.com/en/)
+* Updating dependencies
+* Fixing some Spanish translation mistakes (Thanks @MrPolymath)
+* Fixed a bug where the Vote buttons would allow a user to vote multiple times (on the UI only)
+
 ### Version 0.7.0
 
-* The tool is now **feature complete**
 * Good test coverage, using Jest
 * Russian Translation (Thanks @vectart)
 * Spanish Translation (Thanks @andresin87)
@@ -213,8 +227,10 @@ Many thanks to the following contributors who helped translating the app:
 * Dutch: [@Sonaryr](https://github.com/Sonaryr)
 * Russian: [@vectart](https://github.com/vectart)
 * Spanish: [@andresin87](https://github.com/andresin87)
+* Chinese: [@aqutw](https://github.com/aqutw)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
+I'm especially looking for a German translation.
 
 Special thanks to [@andresin87](https://github.com/andresin87) for pointing the `flag-icon-css` package to me, it replaces the PNG flags in a neater way.
 
