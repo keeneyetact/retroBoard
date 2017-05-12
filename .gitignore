@@ -37,3 +37,4 @@ persist
 configuration.json
 assets
 stats
+.vscode
