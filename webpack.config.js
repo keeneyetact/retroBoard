@@ -1,6 +1,5 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const languages = require('./app/i18n/languages');
 
@@ -8,7 +7,6 @@ const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
-    // content: __dirname,
     entry: [
         'react-hot-loader/patch',
         './app/index.jsx'
@@ -50,11 +48,10 @@ module.exports = {
             }
         ]
     },
-    // postcss: [autoprefixer],
     plugins: [
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, new RegExp(momentFilter)),
         new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
             __DEVELOPMENT__: true,
