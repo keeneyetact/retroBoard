@@ -1,7 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const config = require('./config');
 const appVersion = require('./package.json').version;
@@ -11,7 +10,6 @@ const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
-    content: __dirname,
     entry: [
         './app/index.jsx'
     ],
@@ -22,32 +20,36 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ['', '.js', '.jsx', '.scss'],
-        modulesDirectories: [
+        extensions: ['.js', '.jsx', '.scss'],
+        modules: [
             'node_modules',
             path.resolve(__dirname, './node_modules')
         ]
     },
     module: {
-        loaders: [
-            { test: /\.css$/, loader: 'style!css' },
-            { test: /(\.jsx|\.js)$/, loader: 'babel', exclude: /node_modules/ },
-            { test: /\.svg$/, loader: 'url?limit=10' },
-            { test: /\.png$/, loader: 'url?limit=10000&mimetype=image/png' },
-            { test: /\.jpg$/, loader: 'url?limit=10000&mimetype=image/jpeg' },
-            { test: /\.json$/, loader: 'json-loader' },
+        rules: [
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            { test: /(\.jsx|\.js)$/, loader: 'babel-loader', exclude: /node_modules/ },
+            { test: /\.svg$/, loader: 'url-loader?limit=10' },
+            { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' },
+            { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpeg' },
             {
                 test: /(\.scss)$/,
-                loader: ExtractTextPlugin.extract('style',
-                'css?sourceMap&modules&importLoaders=1&localIdentName' +
-                '=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox')
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+                        {
+                            loader: 'sass-loader?sourceMap',
+                            options: {
+                                data: `@import "${path.resolve(__dirname, 'app/theme.scss')}";`
+                            }
+                        }
+                    ]
+                })
             }
         ]
     },
-    toolbox: {
-        theme: path.join(__dirname, 'app/theme.scss')
-    },
-    postcss: [autoprefixer],
     plugins: [
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, new RegExp(momentFilter)),
         new HtmlWebpackPlugin({
@@ -68,8 +70,6 @@ module.exports = {
         new webpack.ProvidePlugin({
             React: 'react'
         }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
