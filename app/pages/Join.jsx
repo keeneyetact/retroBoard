@@ -65,13 +65,13 @@ class Join extends Component {
         return (
             <Tab label={ strings.previousTab.header } key="previous">
                 <List selectable ripple>
-                    { previousSessions.map(session =>
+                    { previousSessions.map(session => (
                         <SessionTile
                           key={session.id}
                           session={session}
                           onClick={() => goToSession(session)}
                         />
-                    )}
+                    ))}
                 </List>
             </Tab>
         );

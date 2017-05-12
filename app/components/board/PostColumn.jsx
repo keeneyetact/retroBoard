@@ -15,9 +15,9 @@ const PostColumn = ({ currentUser, posts, type, icon, placeholder, onAdd, onDele
           icon={icon}
         />
         <div className={style.columnContent}>
-            { posts.map((post, index) =>
+            { posts.map((post, index) => (
                 <Post
-                  key={index}
+                  key={index} //eslint-disable-line
                   currentUser={currentUser}
                   post={post}
                   onLike={onLike}
@@ -25,7 +25,7 @@ const PostColumn = ({ currentUser, posts, type, icon, placeholder, onAdd, onDele
                   onDelete={onDelete}
                   onEdit={onEdit}
                 />
-            )}
+            ))}
         </div>
     </div>
 );
