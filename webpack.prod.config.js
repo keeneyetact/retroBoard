@@ -57,7 +57,7 @@ module.exports = {
             inject: true,
             appVersion
         }),
-        new ExtractTextPlugin(`style.${appVersion}.css`, { allChunks: true }),
+        new ExtractTextPlugin({ filename: `style.${appVersion}.css`, allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             __DEVELOPMENT__: false,
