@@ -1,6 +1,7 @@
 /* eslint jsx-a11y/no-static-element-interactions:0 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import AppBar from 'react-toolbox/lib/app_bar';

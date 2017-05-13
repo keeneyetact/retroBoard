@@ -1,6 +1,7 @@
 /* eslint no-confusing-arrow:0 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';

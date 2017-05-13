@@ -1,6 +1,6 @@
 /* eslint func-names: "off" */
 
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, all } from 'redux-saga/effects';
 import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
 import {
     AUTO_JOIN,
@@ -21,7 +21,7 @@ import { onAutoJoin, onCreateSession, onRenameSession } from './session';
 import { onLocationChange } from './router';
 
 export default function* rootSaga() {
-    yield [
+    yield all([
         takeEvery(AUTO_LOGIN, onAutoLogin),
         takeEvery(AUTO_JOIN, onAutoJoin),
         takeEvery(RECEIVE_SESSION_NAME, onRenameSession),
@@ -34,5 +34,5 @@ export default function* rootSaga() {
         takeEvery(CREATE_SESSION, onCreateSession),
         takeEvery(LIKE, onLike),
         takeEvery('@@router/LOCATION_CHANGE', onLocationChange)
-    ];
+    ]);
 }

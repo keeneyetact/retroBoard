@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { Card, CardTitle, CardText } from 'react-toolbox/lib/card';

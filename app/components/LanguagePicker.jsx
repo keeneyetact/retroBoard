@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import 'flag-icon-css/css/flag-icon.min.css';
 import classNames from 'classnames';
 import noop from 'lodash/noop';

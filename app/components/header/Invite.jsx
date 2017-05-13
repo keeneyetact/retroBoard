@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';
@@ -29,7 +30,7 @@ const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
             <IconButton icon={icons.group_add}
               onClick={toggle}
               title={strings.inviteButton}
-              floating inverse
+              inverse
             />
 
             <CopyDialog
