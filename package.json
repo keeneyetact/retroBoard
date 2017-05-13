@@ -46,7 +46,7 @@
     "mongoose": "^4.9.8",
     "nedb": "1.8.0",
     "node-emoji": "1.5.1",
-    "node-sass": "3.10.1",
+    "node-sass": "^4.5.2",
     "node-uuid": "^1.4.8",
     "nodemon": "1.11.0",
     "normalize.css": "^7.0.0",
