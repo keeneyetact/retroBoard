@@ -123,6 +123,7 @@
   "homepage": "http://www.retrospected.com",
   "jest": {
     "collectCoverage": true,
-    "testRegex": "__tests__/.*\\-test.js$"
+    "testRegex": "__tests__/.*\\-test.js$",
+    "modulePaths": ["app"]
   }
 }

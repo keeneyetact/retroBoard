@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import reducers from 'modules/state';
 import sagas from 'modules/sagas';
-import { loginSuccess, changeLanguage } from 'modules/user/state/';
+import { loginSuccess, changeLanguage } from 'modules/user/state';
 import { createSessionSuccess,
     receiveClientList,
     renameSession,
