@@ -1,20 +1,20 @@
 import moment from 'moment';
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import reducers from '../../state';
-import sagas from '../../sagas';
-import { loginSuccess, changeLanguage } from '../../state/user';
+import reducers from 'modules/state';
+import sagas from 'modules/sagas';
+import { loginSuccess, changeLanguage } from 'modules/user/state/';
 import { createSessionSuccess,
     receiveClientList,
     renameSession,
     loadPreviousSessions
-} from '../../state/session';
+} from 'modules/board/session/state';
 import { toggleSummaryMode,
     openDrawer
-} from '../../state/modes';
+} from 'modules/configuration/state';
 import {
     addPost
-} from '../../state/posts';
+} from 'modules/board/posts/state';
 
 export const getStore = () => {
     const initialState = {};
