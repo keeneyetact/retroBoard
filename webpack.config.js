@@ -20,6 +20,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.scss'],
         modules: [
+            path.resolve('./app'),
             'node_modules',
             path.resolve(__dirname, './node_modules')
         ]

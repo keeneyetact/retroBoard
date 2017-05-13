@@ -6,11 +6,11 @@ import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import Dropdown from 'react-toolbox/lib/dropdown';
-import { changeLanguage } from '../state/user';
-import languages from '../i18n/languages.json';
-import translate from '../i18n/Translate';
+import { changeLanguage } from 'modules/user/state';
+import languages from 'i18n/languages.json';
+import translate from 'i18n/Translate';
+import { getCurrentLanguage } from 'selectors';
 import style from './LanguagePicker.scss';
-import { getCurrentLanguage } from '../selectors';
 
 const stateToProps = state => ({
     currentLanguage: getCurrentLanguage(state)

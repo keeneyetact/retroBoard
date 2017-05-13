@@ -11,17 +11,17 @@ const filterByType = type => posts => posts.filter(p => p.postType === type);
 const findLanguageInfo = lang => find(languages, { value: lang });
 
 // Simple Selectors
-export const getPosts = state => state.posts;
-export const getSessionId = state => state.session.id;
-export const getSummaryMode = state => state.modes.summaryMode;
+export const getPosts = state => state.board.posts;
+export const getSessionId = state => state.board.session.id;
+export const getSummaryMode = state => state.configuration.summaryMode;
 export const getCurrentUser = state => state.user.name;
 export const getCurrentLanguage = state => state.user.lang;
-export const getClients = state => state.session.clients;
-export const getSessionName = state => state.session.name;
-export const getSavedSessions = state => state.session.previousSessions;
+export const getClients = state => state.board.session.clients;
+export const getSessionName = state => state.board.session.name;
+export const getSavedSessions = state => state.board.session.previousSessions;
 export const getCurrentUrl = () => window.location.href;
-export const isInviteDialogOpen = state => state.invite.inviteDialogOpen;
-export const isDrawerOpen = state => state.modes.drawerOpen;
+export const isInviteDialogOpen = state => state.app.header.invite.inviteDialogOpen;
+export const isDrawerOpen = state => state.configuration.drawerOpen;
 
 // Selector Factories
 const getPostsOfType = type => createSelector(getPosts, filterByType(type));
