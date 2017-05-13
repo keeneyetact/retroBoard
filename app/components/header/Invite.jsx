@@ -30,7 +30,7 @@ const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
             <IconButton icon={icons.group_add}
               onClick={toggle}
               title={strings.inviteButton}
-              floating inverse
+              inverse
             />
 
             <CopyDialog
