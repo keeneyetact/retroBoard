@@ -5,7 +5,7 @@ import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Switch from 'react-toolbox/lib/switch';
 import translate from 'i18n/Translate';
-import { getSummaryMode } from 'selectors';
+import { getSummaryMode } from '../selectors';
 import { toggleSummaryMode } from '../state';
 
 const stateToProps = state => ({

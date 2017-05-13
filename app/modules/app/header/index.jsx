@@ -8,7 +8,7 @@ import AppBar from 'react-toolbox/lib/app_bar';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import translate from 'i18n/Translate';
-import { getCurrentUser } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
 import style from './index.scss';
 import Invite from './invite';
 import OpenDrawerButton from './components/OpenDrawerButton';

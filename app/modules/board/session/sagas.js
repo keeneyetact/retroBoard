@@ -6,7 +6,8 @@ import { push } from 'react-router-redux';
 import shortid from 'shortid';
 import ls from 'local-storage';
 import find from 'lodash/find';
-import { getCurrentUser, getSessionId } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
+import { getSessionId } from './selectors';
 import { joinSession,
     createSessionSuccess,
     receiveClientList,

@@ -9,7 +9,7 @@ import Dropdown from 'react-toolbox/lib/dropdown';
 import { changeLanguage } from 'modules/user/state';
 import languages from 'i18n/languages.json';
 import translate from 'i18n/Translate';
-import { getCurrentLanguage } from 'selectors';
+import { getCurrentLanguage } from 'modules/user/selectors';
 import style from './LanguagePicker.scss';
 
 const stateToProps = state => ({

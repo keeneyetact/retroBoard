@@ -6,7 +6,7 @@ import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
 import md5 from 'md5';
 import icons from 'constants/icons';
 import translate from 'i18n/Translate';
-import { getClients } from 'selectors';
+import { getClients } from 'modules/board/session/selectors';
 
 const stateToProps = state => ({
     clients: getClients(state)

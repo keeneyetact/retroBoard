@@ -6,10 +6,9 @@ import flow from 'lodash/flow';
 import { ListItem } from 'react-toolbox/lib/list';
 import moment from 'moment';
 import md5 from 'md5';
-import { getCurrentLanguageInfo } from 'selectors';
+import { getCurrentLanguageInfo } from 'modules/user/selectors';
 import translate from 'i18n/Translate';
 import icons from 'constants/icons';
-
 
 const stateToProps = state => ({
     languageInfo: getCurrentLanguageInfo(state)

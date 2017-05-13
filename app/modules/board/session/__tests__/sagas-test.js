@@ -4,7 +4,8 @@ import sagaHelper from 'redux-saga-testing';
 import ls from 'local-storage';
 import shortid from 'shortid';
 import moment from 'moment';
-import { getCurrentUser, getSessionId } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
+import { getSessionId } from '../selectors';
 import { onCreateSession,
     storeSessionToLocalStorage,
     doLoadPreviousSessions,

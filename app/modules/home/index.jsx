@@ -13,7 +13,7 @@ import translate from 'i18n/Translate';
 import backgroundImage from 'components/images/logo.png';
 import LanguagePicker from 'components/LanguagePicker';
 import LogoutButton from 'modules/user/components/LogoutButton';
-import { getSavedSessionsByDate } from 'selectors';
+import { getSavedSessionsByDate } from 'modules/board/session/selectors';
 import SessionTile from 'components/SessionTile';
 import style from './index.scss';
 

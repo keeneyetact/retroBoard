@@ -4,7 +4,7 @@ import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import { Card, CardTitle, CardText } from 'react-toolbox/lib/card';
 import translate from 'i18n/Translate';
-import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from 'selectors';
+import { getSortedWellPosts, getSortedNotWellPosts, getSortedIdeasPosts } from '../selectors';
 import style from './SummaryBoard.scss';
 
 const stateToProps = state => ({

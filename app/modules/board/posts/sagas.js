@@ -1,6 +1,6 @@
 import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
-import { getCurrentUser } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
 import { addPostSuccess, likeSuccess } from './state';
 
 export function* onAddPost(action) {

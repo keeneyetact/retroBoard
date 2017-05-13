@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Drawer from 'react-toolbox/lib/drawer';
-import { isDrawerOpen } from 'selectors';
 import LanguagePicker from 'components/LanguagePicker';
 import LogoutButton from 'modules/user/components/LogoutButton';
 import Clients from './components/Clients';
@@ -10,6 +9,7 @@ import SummaryModeSwitch from './components/SummaryModeSwitch';
 import LeaveButton from './components/LeaveButton';
 import ForkMe from './components/ForkMe';
 import { closeDrawer } from './state';
+import { isDrawerOpen } from './selectors';
 
 const stateToProps = state => ({
     open: isDrawerOpen(state)

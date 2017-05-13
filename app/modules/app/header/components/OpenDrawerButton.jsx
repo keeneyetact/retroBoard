@@ -7,7 +7,7 @@ import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { IconButton } from 'react-toolbox/lib/button';
 import translate from 'i18n/Translate';
-import { shouldDisplayDrawerButton } from 'selectors';
+import { shouldDisplayDrawerButton } from 'modules/configuration/selectors';
 import { openDrawer } from 'modules/configuration/state';
 
 const stateToProps = state => ({

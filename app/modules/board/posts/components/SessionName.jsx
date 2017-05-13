@@ -8,7 +8,7 @@ import flow from 'lodash/flow';
 import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
 import FontIcon from 'react-toolbox/lib/font_icon';
-import { getSessionName } from 'selectors';
+import { getSessionName } from 'modules/board/session/selectors';
 import { renameSession } from 'modules/board/session/state';
 import translate from 'i18n/Translate';
 import icons from 'constants/icons';

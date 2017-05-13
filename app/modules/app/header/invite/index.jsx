@@ -6,9 +6,11 @@ import Dialog from 'react-toolbox/lib/dialog';
 import flow from 'lodash/flow';
 import Clipboard from 'react-copy-to-clipboard';
 import translate from 'i18n/Translate';
-import { getCurrentUrl, shouldDisplayDrawerButton, isInviteDialogOpen } from 'selectors';
+import { shouldDisplayDrawerButton } from 'modules/configuration/selectors';
+import { getCurrentUrl } from 'modules/routing/selectors';
 import icons from 'constants/icons';
 import { toggleInviteDialog } from './state';
+import { isInviteDialogOpen } from './selectors';
 
 const stateToProps = state => ({
     url: getCurrentUrl(state),

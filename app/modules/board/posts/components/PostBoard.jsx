@@ -6,10 +6,11 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import icons from 'constants/icons';
 import translate from 'i18n/Translate';
-import { getWellPosts, getNotWellPosts, getIdeasPosts, getCurrentUser } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
 import PostColumn from './PostColumn';
 import style from './PostBoard.scss';
 import { addPost, deletePost, like, unlike, editPost } from '../state';
+import { getWellPosts, getNotWellPosts, getIdeasPosts } from '../selectors';
 
 const stateToProps = state => ({
     currentUser: getCurrentUser(state),

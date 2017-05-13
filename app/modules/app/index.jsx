@@ -7,7 +7,7 @@ import flow from 'lodash/flow';
 import Login from 'modules/user';
 import Drawer from 'modules/configuration';
 import { login, autoLogin } from 'modules/user/state';
-import { getCurrentUser, getCurrentLanguage } from 'selectors';
+import { getCurrentUser, getCurrentLanguage } from 'modules/user/selectors';
 import Header from './header';
 import style from './index.scss';
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
-import { getSummaryMode } from 'selectors';
+import { getSummaryMode } from 'modules/configuration/selectors';
 import PostBoard from './components/PostBoard';
 import SummaryBoard from './components/SummaryBoard';
 import SessionName from './components/SessionName';
