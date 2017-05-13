@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import Dialog from 'react-toolbox/lib/dialog';

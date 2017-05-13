@@ -1,6 +1,7 @@
 /* eslint react/no-string-refs:0 */
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Button from 'react-toolbox/lib/button';
