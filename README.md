@@ -9,7 +9,7 @@ It features the following technologies:
 * [React](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
 * [Socket IO](http://socket.io)
-* [Webpack](https://github.com/webpack/webpack)
+* [Webpack 2](https://github.com/webpack/webpack) (See older versions for Webpack 1)
 * [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
 * [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
 * [Modular CSS](https://github.com/css-modules/css-modules)

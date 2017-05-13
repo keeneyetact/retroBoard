@@ -1,6 +1,6 @@
 /* eslint func-names: "off" */
 
-import { takeEvery } from 'redux-saga';
+import { takeEvery } from 'redux-saga/effects';
 import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
 import {
     AUTO_JOIN,
