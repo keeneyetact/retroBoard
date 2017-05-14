@@ -13,7 +13,6 @@ import './grids.css';
 const history = createHistory();
 const store = configureStore({}, history);
 init(store);
-// const history = syncHistoryWithStore(browserHistory, store);
 
 if (__USE_GA__) {
     const ga = require('react-ga');
