@@ -13,7 +13,7 @@ const actionsToProps = dispatch => ({
 class Main extends Component {
 
     componentDidMount() {
-        this.props.autoJoin(this.props.params.sessionId);
+        this.props.autoJoin(this.props.match.params.sessionId);
     }
 
     render() {
@@ -25,7 +25,7 @@ class Main extends Component {
 
 Main.propTypes = {
     autoJoin: PropTypes.func,
-    params: PropTypes.object
+    match: PropTypes.object
 };
 
 Main.defaultProps = {

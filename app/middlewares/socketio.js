@@ -63,7 +63,7 @@ export const socketIoMiddleware = store => next => action => {
 
     if (actions.indexOf(action.type) > -1) {
         const state = store.getState();
-        const sessionId = state.session.id;
+        const sessionId = state.board.session.id;
         socket.emit(action.type, {
             sessionId,
             payload: action.payload

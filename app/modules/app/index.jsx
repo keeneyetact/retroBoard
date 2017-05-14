@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout, Panel } from 'react-toolbox/lib/layout';
+import { Route, Switch } from 'react-router';
+import Home from 'modules/home';
+import Board from 'modules/board';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import Login from 'modules/user';
@@ -28,7 +31,12 @@ class App extends Component {
 
     renderLogin() {
         if (this.props.user) {
-            return this.props.children;
+            return (
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/session/:sessionId" component={Board} />
+                </Switch>
+            );
         }
         return (
             <Login onLogin={this.props.onLogin} />
@@ -51,14 +59,12 @@ class App extends Component {
 }
 
 App.propTypes = {
-    children: PropTypes.object,
     user: PropTypes.string,
     onLogin: PropTypes.func,
     autoLogin: PropTypes.func
 };
 
 App.defaultTypes = {
-    children: null,
     user: null,
     onLogin: noop
 };
