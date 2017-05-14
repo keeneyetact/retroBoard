@@ -4,13 +4,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import Board from 'modules/board';
+import Home from 'modules/home';
+import App from 'modules/app';
 import configureStore from './store/configureStore';
 import { init } from './middlewares/socketio';
-import {
-    App,
-    Main,
-    Join
-} from './pages';
 import './grids.css';
 
 const store = configureStore({}, browserHistory);
@@ -25,8 +23,8 @@ if (__USE_GA__) {
 const routes = (
     <Router history={history}>
         <Route path="/" component={App}>
-            <IndexRoute component={Join} />
-            <Route path="session/:sessionId" component={Main} />
+            <IndexRoute component={Home} />
+            <Route path="session/:sessionId" component={Board} />
         </Route>
     </Router>
 );

@@ -8,14 +8,14 @@ import {
     LIKE_SUCCESS,
     RECEIVE_LIKE,
     EDIT_POST,
-    RECEIVE_EDIT_POST } from '../state/posts';
+    RECEIVE_EDIT_POST } from 'modules/board/posts/state';
 import {
     JOIN_SESSION,
     LEAVE_SESSION,
     RECEIVE_CLIENT_LIST,
     RENAME_SESSION,
-    RECEIVE_SESSION_NAME } from '../state/session';
-import { LOGIN_SUCCESS } from '../state/user';
+    RECEIVE_SESSION_NAME } from 'modules/board/session/state';
+import { LOGIN_SUCCESS } from 'modules/user/state';
 
 let socket = null;
 

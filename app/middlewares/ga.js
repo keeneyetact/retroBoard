@@ -1,7 +1,7 @@
 import ga from 'react-ga';
-import { ADD_POST, DELETE_POST, LIKE } from '../state/posts';
-import { JOIN_SESSION } from '../state/session';
-import { LOGIN } from '../state/user';
+import { ADD_POST, DELETE_POST, LIKE } from 'modules/board/posts/state';
+import { JOIN_SESSION } from 'modules/board/session/state';
+import { LOGIN } from 'modules/user/state';
 
 export const googleAnalyticsMiddleware = (/* store */) => next => action => {
     const result = next(action);
