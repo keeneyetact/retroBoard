@@ -1,7 +1,7 @@
 import { put, select } from 'redux-saga/effects';
 import sagaHelper from 'redux-saga-testing';
 import { leave } from 'modules/board/session/state';
-import { getSessionId } from 'selectors';
+import { getSessionId } from 'modules/board/session/selectors';
 import { onLocationChange } from '../sagas';
 
 describe('Sagas - router', () => {

@@ -1,7 +1,7 @@
 import { put, call, select } from 'redux-saga/effects';
 import uuid from 'node-uuid';
 import sagaHelper from 'redux-saga-testing';
-import { getCurrentUser } from 'selectors';
+import { getCurrentUser } from 'modules/user/selectors';
 import { onAddPost, onLike } from '../sagas';
 import { addPostSuccess, likeSuccess } from '../state';
 
