@@ -1,7 +1,8 @@
 /* eslint react/no-string-refs:0 */
 
 import Input from 'react-toolbox/lib/input';
-import React, { PropTypes, Component } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import noop from 'lodash/noop';
 
 class EnterInput extends Component {

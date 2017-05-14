@@ -4,15 +4,18 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 ![Retrospected.com](/content/screenshot-v4.png?raw=true "Retrospected.com")
 
+This project is both an actual product, and also a technology demo using the latest and greatest JavaScript libraries of the month.
+
 It features the following technologies:
 
 * [React](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
+* [React Router 4](https://github.com/ReactTraining/react-router)
 * [Socket IO](http://socket.io)
-* [Webpack](https://github.com/webpack/webpack)
+* [Webpack 2](https://github.com/webpack/webpack) (See older versions for Webpack 1)
 * [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
 * [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
-* [Modular CSS](https://github.com/css-modules/css-modules)
+* [CSS Modules](https://github.com/css-modules/css-modules)
 * [redux-saga](https://github.com/yelouafi/redux-saga)
 * [reselect](https://github.com/reactjs/reselect)
 * [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
@@ -25,7 +28,7 @@ It features the following technologies:
 ## How to run for production (or to try it out)
 
 * Clone this repository
-* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
 * `npm run build` to build everything (client and server)
 * `npm start` to run the server on port 8080
 * Open your browser on [http://localhost:8080](http://localhost:8080)
@@ -34,7 +37,7 @@ It features the following technologies:
 ## How to run for development
 
 * Clone this repository
-* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
 * Open another terminal (you need two of those)
 * `npm run start-server` on the first terminal to start the server bit
 * `npm run start-ui` on the second terminal, to run live webpack with hot-reload
@@ -44,14 +47,14 @@ It features the following technologies:
 ## How to run the tests
 
 * Clone this repository
-* `npm i` to install the dependencies (Node 4+, NPM 3+)
+* `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
 * `npm test` to run the tests
 * **or** `npm run test-watch` to run the tests every time you change a file
 
 
 ## How to use Google Analytics
 
-By default, Google Analytics is deactivated (it doesn't even get build into the bundle).
+By default, Google Analytics is deactivated (it doesn't even get built into the bundle).
 
 To enable it, create a configuration file by copying `/config/configuration_template.json` to `/config/configuration.json`, and set it up by pasting your GA tracking ID, and setting the other setting to true, then rebuild.
 
@@ -64,12 +67,6 @@ By default, the database engine is NeDB, an in-process database with no external
 
 If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
 
-
-## How to enable SocketIO anti-spam
-
-It's very easy to abuse a SocketIO connection, by running some code in your console and doing `io.emit('spam')` in an infinite loop to create a DOS attack on the server.
-
-To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in the config file.
 
 ## How to debug
 
@@ -94,11 +91,17 @@ To enable a rate-limiting fix for this attack, set `Use_Anti_Spam` to `true` in 
 ## Roadmap
 
 * Add more languages
-* Unit tests
 * GraphQL
-* Webpack 2
 
 ## Versions history
+
+### Version 0.9.0
+
+* Webpack 2 (for Webpack 1, look at version 0.8.1 and older)
+* React 15.5 (which needs the new `prop-types` module, among other things)
+* React Router 4 (completely different way of doing the routing)
+* Move the structure of the project to a modular structure
+* Upgraded all the other dependencies to the latest versions, except `react-toolbox`
 
 ### Version 0.8.1
 

@@ -6,8 +6,6 @@ import find from 'lodash/find';
 import chalk from 'chalk';
 import moment from 'moment';
 import db from './db';
-import spamFilter from './spamFilter';
-import config from '../config';
 
 import { RECEIVE_POST, RECEIVE_BOARD, RECEIVE_DELETE_POST, RECEIVE_LIKE, RECEIVE_EDIT_POST,
     ADD_POST_SUCCESS, DELETE_POST, LIKE_SUCCESS, EDIT_POST,
@@ -31,8 +29,6 @@ const gr = chalk.grey.bind(chalk);
 const r = chalk.red.bind(chalk);
 const y = chalk.yellow.bind(chalk);
 const s = str => b(str.replace('retrospected/', ''));
-
-const antiSpam = config.Use_Anti_Spam ? spamFilter : (ip, cb) => cb();
 
 db().then(store => {
     const users = {};
@@ -147,42 +143,38 @@ db().then(store => {
 
     io.on('connection', socket => {
         const ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
-        antiSpam(ip, () => {
-            console.log(d() + b(' Connection: ') +
+        console.log(d() + b(' Connection: ') +
                         r('New user connected'), gr(socket.id), gr(ip));
 
-            const actions = [
-                { type: ADD_POST_SUCCESS, handler: receivePost },
-                { type: JOIN_SESSION, handler: joinSession },
-                { type: RENAME_SESSION, handler: renameSession },
-                { type: DELETE_POST, handler: deletePost },
-                { type: LIKE_SUCCESS, handler: like },
-                { type: EDIT_POST, handler: edit },
-                { type: LOGIN_SUCCESS, handler: login },
-                { type: LEAVE_SESSION, handler: leave }];
+        const actions = [
+            { type: ADD_POST_SUCCESS, handler: receivePost },
+            { type: JOIN_SESSION, handler: joinSession },
+            { type: RENAME_SESSION, handler: renameSession },
+            { type: DELETE_POST, handler: deletePost },
+            { type: LIKE_SUCCESS, handler: like },
+            { type: EDIT_POST, handler: edit },
+            { type: LOGIN_SUCCESS, handler: login },
+            { type: LEAVE_SESSION, handler: leave }];
 
-            actions.forEach(action => {
-                socket.on(action.type, data => {
-                    antiSpam(ip, () => {
-                        console.log(d() + r(' <--  ') +
-                                    s(action.type),
-                                    gr(JSON.stringify(data)));
-                        const sid = action.type === LEAVE_SESSION ?
-                                    socket.sessionId : data.sessionId;
-                        if (sid) {
-                            store.get(sid).then(session => {
-                                action.handler(session, data.payload, socket);
-                            });
-                        }
+        actions.forEach(action => {
+            socket.on(action.type, data => {
+                console.log(d() + r(' <--  ') +
+                            s(action.type),
+                            gr(JSON.stringify(data)));
+                const sid = action.type === LEAVE_SESSION ?
+                            socket.sessionId : data.sessionId;
+                if (sid) {
+                    store.get(sid).then(session => {
+                        action.handler(session, data.payload, socket);
                     });
-                });
-            });
-
-            socket.on('disconnect', () => {
-                if (socket.sessionId) {
-                    sendClientList(socket.sessionId, socket);
                 }
             });
+        });
+
+        socket.on('disconnect', () => {
+            if (socket.sessionId) {
+                sendClientList(socket.sessionId, socket);
+            }
         });
     });
 
