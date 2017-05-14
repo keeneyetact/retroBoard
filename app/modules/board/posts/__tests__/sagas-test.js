@@ -1,11 +1,11 @@
 import { put, call, select } from 'redux-saga/effects';
-import uuid from 'node-uuid';
+import uuid from 'uuid/v1';
 import sagaHelper from 'redux-saga-testing';
 import { getCurrentUser } from 'modules/user/selectors';
 import { onAddPost, onLike } from '../sagas';
 import { addPostSuccess, likeSuccess } from '../state';
 
-jest.mock('node-uuid');
+jest.mock('uuid');
 
 describe('Sagas - posts', () => {
     describe('When a user adds a post', () => {
@@ -17,7 +17,7 @@ describe('Sagas - posts', () => {
         });
 
         it('then should then generate a unique id', result => {
-            expect(result).toEqual(call(uuid.v1));
+            expect(result).toEqual(call(uuid));
             return 'AA-BB-CC';
         });
 

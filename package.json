@@ -48,7 +48,6 @@
     "nedb": "1.8.0",
     "node-emoji": "1.5.1",
     "node-sass": "^4.5.2",
-    "node-uuid": "^1.4.8",
     "nodemon": "1.11.0",
     "normalize.css": "^7.0.0",
     "postcss-loader": "^2.0.5",
@@ -81,6 +80,7 @@
     "style-loader": "^0.17.0",
     "toolbox-loader": "0.0.3",
     "url-loader": "^0.5.8",
+    "uuid": "^3.0.1",
     "webpack": "^2.5.1",
     "webpack-bundle-size-analyzer": "^2.6.0",
     "webpack-dev-server": "^2.4.5"
@@ -124,6 +124,8 @@
   "jest": {
     "collectCoverage": true,
     "testRegex": "__tests__/.*\\-test.js$",
-    "modulePaths": ["app"]
+    "modulePaths": [
+      "app"
+    ]
   }
 }
