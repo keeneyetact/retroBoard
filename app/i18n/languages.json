@@ -8,5 +8,6 @@
     { "value": "ptbr", "iso": "br", "name": "Português Brasileiro", "englishName": "Brazilian Portuguese" },
     { "value": "ru", "iso": "ru", "name": "Русский", "englishName": "Russian" },
     { "value": "zhtw", "iso": "tw", "name": "繁中", "englishName": "Traditional Chinese" },
-    { "value": "zhcn", "iso": "cn", "name": "簡中", "englishName": "Simplified Chinese" }
+    { "value": "zhcn", "iso": "cn", "name": "簡中", "englishName": "Simplified Chinese" },
+    { "value": "ar", "iso": "ar", "name": "عربى", "englishName": "Arabic" }
 ]
