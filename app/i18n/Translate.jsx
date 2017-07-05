@@ -13,8 +13,9 @@ import nl from './nl';
 import ru from './ru';
 import zhtw from './zh-tw';
 import zhcn from './zh-cn';
+import ar from './ar';
 
-const languages = { en, es, fr, hu, pl, ptbr, nl, ru, zhtw, zhcn };
+const languages = { en, es, fr, hu, pl, ptbr, nl, ru, zhtw, zhcn, ar };
 
 export default function translate(key) {
     return Component => {
