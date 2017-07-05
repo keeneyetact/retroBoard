@@ -9,7 +9,7 @@ export default {
         header: 'إختيار اللُّغة'
     },
     Main: {
-        hint: 'يمكنُكَ دعوة أشخاص إلى هذه الجلسة عن طريق نسخ عنوان هاته الصفحة'
+        hint: 'يمكنُكَ دعوة أشخاص إلى هذه الجلسة عن طريق نسخ عنوان هذه الصفحة'
     },
     Post: {
         vote: 'صوت',
@@ -20,16 +20,16 @@ export default {
     PostBoard: {
         notWellQuestion: 'ما الذي يمكن تحسينه ؟',
         wellQuestion: 'ما الذي فُعِلَ بنجاح؟',
-        ideasQuestion: 'هل من أيِّ فكرةٍ عبقيِّة ؟'
+        ideasQuestion: 'هل من أيِّ فكرةٍ ذكيّة ؟'
     },
     Clients: {
         header: 'الضيوف الحاضرين معنا الآن:'
     },
     Join: {
-        welcome: 'مرحبا!',
+        welcome: ' ! مرحبا',
         standardTab: {
             header: 'موضوع جديد',
-            text: 'انقر أدناه و إبدء إعادة النظر:',
+            text: ': انقر أدناه و إبدء إعادة النظر',
             button: 'إنشاء جلسة عمل جديدة'
         },
         advancedTab: {
@@ -38,7 +38,7 @@ export default {
             button: 'إنشاء جلسة مخصصة'
         },
         previousTab: {
-            header: 'سابق',
+            header: 'الجلسات السابقة',
             rejoinButton: 'الإنضمام'
         }
     },
@@ -56,7 +56,7 @@ export default {
         inviteButton: 'دعوة',
         dialog: {
             title: 'دعوة أشخاص إلى الجلسة',
-            text: 'إرسل العنوان بكلّ بساطة'+'لدعوة أشخاص إلى جلسة',
+            text: 'لدعوة أشخاص إلى الجلسة يمكنك إرسال عنوان هذه الصفحة',
             copyButton: 'نسخ العنوان'
         }
     }

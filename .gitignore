@@ -38,3 +38,7 @@ configuration.json
 assets
 stats
 .vscode
+
+# intellij ide
+.idea/
+package-lock.json
