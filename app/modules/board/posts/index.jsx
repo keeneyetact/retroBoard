@@ -8,28 +8,28 @@ import SummaryBoard from './components/SummaryBoard';
 import SessionName from './components/SessionName';
 
 const stateToProps = state => ({
-    summaryMode: getSummaryMode(state)
+  summaryMode: getSummaryMode(state)
 });
 
 const Board = ({ summaryMode }) => (
-    <div>
-        <div style={ { width: '100%', textAlign: 'center' } }>
-            <SessionName />
-        </div>
-        { summaryMode ? <SummaryBoard /> : <PostBoard /> }
+  <div>
+    <div style={ { width: '100%', textAlign: 'center' } }>
+      <SessionName />
     </div>
+    { summaryMode ? <SummaryBoard /> : <PostBoard /> }
+  </div>
 );
 
 Board.propTypes = {
-    summaryMode: PropTypes.bool
+  summaryMode: PropTypes.bool
 };
 
 Board.defaultProps = {
-    summaryMode: false
+  summaryMode: false
 };
 
 const decorators = flow([
-    connect(stateToProps)
+  connect(stateToProps)
 ]);
 
 export default decorators(Board);

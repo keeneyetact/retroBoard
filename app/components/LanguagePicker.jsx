@@ -13,53 +13,53 @@ import { getCurrentLanguage } from 'modules/user/selectors';
 import style from './LanguagePicker.scss';
 
 const stateToProps = state => ({
-    currentLanguage: getCurrentLanguage(state)
+  currentLanguage: getCurrentLanguage(state)
 });
 
 const actionsToProps = dispatch => ({
-    onChangeLanguage: lang => dispatch(changeLanguage(lang))
+  onChangeLanguage: lang => dispatch(changeLanguage(lang))
 });
 
 const renderItem = item => (
-    <div>
-        <div className={ classNames(`flag-icon flag-icon-${item.iso}`, style.flag) }>
-            <div className={style.overlay} />
-        </div>
-        <div>
-            <strong>{item.name}</strong><br />
-            <small>{item.englishName}</small>
-        </div>
+  <div>
+    <div className={ classNames(`flag-icon flag-icon-${item.iso}`, style.flag) }>
+      <div className={style.overlay} />
     </div>
+    <div>
+      <strong>{item.name}</strong><br />
+      <small>{item.englishName}</small>
+    </div>
+  </div>
 );
 
 const LanguagePicker = ({ strings, currentLanguage, onChangeLanguage }) => (
-    <Dropdown
-      auto
-      source={languages}
-      label={strings.header}
-      template={renderItem}
-      value={currentLanguage}
-      onChange={onChangeLanguage}
-    />
+  <Dropdown
+    auto
+    source={languages}
+    label={strings.header}
+    template={renderItem}
+    value={currentLanguage}
+    onChange={onChangeLanguage}
+  />
 );
 
 LanguagePicker.propTypes = {
-    strings: PropTypes.object,
-    currentLanguage: PropTypes.string,
-    onChangeLanguage: PropTypes.func
+  strings: PropTypes.object,
+  currentLanguage: PropTypes.string,
+  onChangeLanguage: PropTypes.func
 };
 
 LanguagePicker.defaultProps = {
-    currentLanguage: 'en',
-    onChangeLanguage: noop,
-    strings: {
-        header: 'Choose a language'
-    }
+  currentLanguage: 'en',
+  onChangeLanguage: noop,
+  strings: {
+    header: 'Choose a language'
+  }
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps),
-    translate('LanguagePicker')
+  connect(stateToProps, actionsToProps),
+  translate('LanguagePicker')
 ]);
 
 export default decorators(LanguagePicker);

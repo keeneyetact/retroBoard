@@ -12,8 +12,8 @@ const rootElement = document.getElementById('content');
 render(<AppContainer><App /></AppContainer>, rootElement);
 
 if (module.hot) {
-    module.hot.accept('./app', () => {
-        const NextApp = require('./app').default;
-        render(<AppContainer><NextApp /></AppContainer>, rootElement);
-    });
+  module.hot.accept('./app', () => {
+    const NextApp = require('./app').default;
+    render(<AppContainer><NextApp /></AppContainer>, rootElement);
+  });
 }

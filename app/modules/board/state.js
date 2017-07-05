@@ -3,8 +3,8 @@ import posts from './posts/state';
 import session from './session/state';
 
 const reducer = combineReducers({
-    posts,
-    session
+  posts,
+  session
 });
 
 export default reducer;
