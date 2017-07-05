@@ -95,6 +95,11 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
+### Version 0.9.1
+
+* Polish Translation (thanks [@olaf-cichocki](https://github.com/olaf-cichocki))
+* Arabic Translation (thanks [@Meshredded](https://github.com/Meshredded))
+
 ### Version 0.9.0
 
 * Webpack 2 (for Webpack 1, look at version 0.8.1 and older)
@@ -110,7 +115,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 0.8.0
 
 * Using [redux-saga-testing](https://github.com/antoinejaussoin/redux-saga-testing) to test sagas
-* Chinese (Traditional and Simplified) Translation (Thanks @aqutw)
+* Chinese (Traditional and Simplified) Translation (Thanks [@aqutw](https://github.com/aqutw))
 * Using [Yarn](https://yarnpkg.com/en/)
 * Updating dependencies
 * Fixing some Spanish translation mistakes (Thanks @MrPolymath)
@@ -119,8 +124,8 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 0.7.0
 
 * Good test coverage, using Jest
-* Russian Translation (Thanks @vectart)
-* Spanish Translation (Thanks @andresin87)
+* Russian Translation (Thanks [@vectart](https://github.com/vectart))
+* Spanish Translation (Thanks [@andresin87](https://github.com/andresin87))
 * Replacing PNG flags by SVG/CSS versions
 * Using `react-hot-loader` 3.0.0 (beta2) for Hot reloading
 * Fixing a few mobile/responsive issues
@@ -150,7 +155,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ### Version 0.5.0
 
-* Adding the possibility to join a previously joined session quickly (Thanks @Sonaryr)
+* Adding the possibility to join a previously joined session quickly (Thanks [@Sonaryr](https://github.com/Sonaryr))
 * Performance improvement on title edit (Also thanks to @Sonaryr)
 * New Logo!
 * Added Favicons
@@ -231,6 +236,8 @@ Many thanks to the following contributors who helped translating the app:
 * Russian: [@vectart](https://github.com/vectart)
 * Spanish: [@andresin87](https://github.com/andresin87)
 * Chinese: [@aqutw](https://github.com/aqutw)
+* Polish: [@olaf-cichocki](https://github.com/olaf-cichocki)
+* Arabic: [@Meshredded](https://github.com/Meshredded)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 I'm especially looking for a German translation.
