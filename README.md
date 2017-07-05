@@ -12,7 +12,7 @@ It features the following technologies:
 * [Redux](https://github.com/reactjs/redux)
 * [React Router 4](https://github.com/ReactTraining/react-router)
 * [Socket IO](http://socket.io)
-* [Webpack 2](https://github.com/webpack/webpack) (See older versions for Webpack 1)
+* [Webpack 3](https://github.com/webpack/webpack) (See older versions for Webpack 1)
 * [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
 * [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
 * [CSS Modules](https://github.com/css-modules/css-modules)
@@ -95,8 +95,9 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
-### Version 0.9.1
+### Version 0.next
 
+* Wepack 3 (for Webpack 2, look at version 0.9.0)
 * Polish Translation (thanks [@olaf-cichocki](https://github.com/olaf-cichocki))
 * Arabic Translation (thanks [@Meshredded](https://github.com/Meshredded))
 
