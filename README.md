@@ -96,7 +96,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ## Versions history
 
-### Version 0.next
+### Version 0.10.0
 
 * Wepack 3 (for Webpack 2, look at version 0.9.0)
 * Converting entire project to 2-space indentation
