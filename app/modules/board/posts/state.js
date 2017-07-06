@@ -15,57 +15,57 @@ export const EDIT_POST = 'retrospected/posts/edit';
 export const RECEIVE_EDIT_POST = 'retrospected/posts/receive/edit';
 
 const postReducer = (state = {}, action) => {
-    switch (action.type) {
-    case LIKE_SUCCESS:
-    case RECEIVE_LIKE: {
-        const array = action.payload.like ? 'likes' : 'dislikes';
-        return {
-            ...state,
-            [array]: state[array].concat(action.payload.user)
-        };
-    }
-    case EDIT_POST:
-    case RECEIVE_EDIT_POST:
-        return {
-            ...state,
-            content: action.payload.content
-        };
-    default:
-        return state;
-    }
+  switch (action.type) {
+  case LIKE_SUCCESS:
+  case RECEIVE_LIKE: {
+    const array = action.payload.like ? 'likes' : 'dislikes';
+    return {
+      ...state,
+      [array]: state[array].concat(action.payload.user)
+    };
+  }
+  case EDIT_POST:
+  case RECEIVE_EDIT_POST:
+    return {
+      ...state,
+      content: action.payload.content
+    };
+  default:
+    return state;
+  }
 };
 
 export default function reducer(state = [], action) {
-    switch (action.type) {
-    case ADD_POST_SUCCESS:
-    case RECEIVE_POST:
-        return [
-            ...state,
-            action.payload
-        ];
-    case RECEIVE_BOARD:
-        return action.payload;
-    case DELETE_POST:
-    case RECEIVE_DELETE_POST:
-        return state.filter(p => p.id !== action.payload.id);
-    case LIKE_SUCCESS:
-    case RECEIVE_LIKE:
-    case EDIT_POST:
-    case RECEIVE_EDIT_POST: {
-        const index = findIndex(state, p => p.id === action.payload.post.id);
-        return index > -1 ? [
-            ...state.slice(0, index),
-            postReducer(state[index], action),
-            ...state.slice(index + 1)
-        ] : state;
-    }
-    case LEAVE_SESSION:
-    case CREATE_SESSION_SUCCESS:
-    case JOIN_SESSION:
-        return [];
-    default:
-        return state;
-    }
+  switch (action.type) {
+  case ADD_POST_SUCCESS:
+  case RECEIVE_POST:
+    return [
+      ...state,
+      action.payload
+    ];
+  case RECEIVE_BOARD:
+    return action.payload;
+  case DELETE_POST:
+  case RECEIVE_DELETE_POST:
+    return state.filter(p => p.id !== action.payload.id);
+  case LIKE_SUCCESS:
+  case RECEIVE_LIKE:
+  case EDIT_POST:
+  case RECEIVE_EDIT_POST: {
+    const index = findIndex(state, p => p.id === action.payload.post.id);
+    return index > -1 ? [
+      ...state.slice(0, index),
+      postReducer(state[index], action),
+      ...state.slice(index + 1)
+    ] : state;
+  }
+  case LEAVE_SESSION:
+  case CREATE_SESSION_SUCCESS:
+  case JOIN_SESSION:
+    return [];
+  default:
+    return state;
+  }
 }
 
 export const addPost = createAction(ADD_POST, (postType, content) => ({ postType, content }));

@@ -10,11 +10,11 @@ export const INITIALISE = 'retrospected/initialise';
 export const initialise = createAction(INITIALISE);
 
 const rootReducer = combineReducers({
-    board,
-    user,
-    configuration,
-    app,
-    routing: routerReducer
+  board,
+  user,
+  configuration,
+  app,
+  routing: routerReducer
 });
 
 export default rootReducer;

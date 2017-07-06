@@ -15,44 +15,44 @@ const store = configureStore({}, history);
 init(store);
 
 if (__USE_GA__) {
-    const ga = require('react-ga');
-    ga.initialize(__GA_ID__);
+  const ga = require('react-ga');
+  ga.initialize(__GA_ID__);
 }
 
 const routes = (
-    <ConnectedRouter history={history}>
-        <Route path="/" component={App} />
-    </ConnectedRouter>
+  <ConnectedRouter history={history}>
+    <Route path="/" component={App} />
+  </ConnectedRouter>
 );
 
 class Index extends React.Component {
-    render() {
-        let component;
-        if (__DEVTOOLS__) {
-            const DevTools = require('./components/DevTools').default;
+  render() {
+    let component;
+    if (__DEVTOOLS__) {
+      const DevTools = require('./components/DevTools').default;
 
-            component = (
-                <div>
-                    <Provider store={store}>
-                        <div>
-                            {routes}
-                            <DevTools />
-                        </div>
-                    </Provider>
-                </div>
-            );
-        } else {
-            component = (
-                <div>
-                    <Provider store={store}>
-                        {routes}
-                    </Provider>
-                </div>
-            );
-        }
-
-        return component;
+      component = (
+        <div>
+          <Provider store={store}>
+            <div>
+              {routes}
+              <DevTools />
+            </div>
+          </Provider>
+        </div>
+      );
+    } else {
+      component = (
+        <div>
+          <Provider store={store}>
+            {routes}
+          </Provider>
+        </div>
+      );
     }
+
+    return component;
+  }
 }
 
 export default Index;

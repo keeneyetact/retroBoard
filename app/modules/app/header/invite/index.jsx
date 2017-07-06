@@ -13,95 +13,97 @@ import { toggleInviteDialog } from './state';
 import { isInviteDialogOpen } from './selectors';
 
 const stateToProps = state => ({
-    url: getCurrentUrl(state),
-    showInvite: shouldDisplayDrawerButton(state),
-    dialogOpen: isInviteDialogOpen(state)
+  url: getCurrentUrl(state),
+  showInvite: shouldDisplayDrawerButton(state),
+  dialogOpen: isInviteDialogOpen(state)
 });
 
 const actionsToProps = dispatch => ({
-    toggle: () => dispatch(toggleInviteDialog())
+  toggle: () => dispatch(toggleInviteDialog())
 });
 
 const Invite = ({ url, showInvite, dialogOpen, toggle, strings }) => {
-    if (!showInvite) {
-        return null;
-    }
+  if (!showInvite) {
+    return null;
+  }
 
-    return (
-        <span>
-            <IconButton icon={icons.group_add}
-              onClick={toggle}
-              title={strings.inviteButton}
-              inverse
-            />
+  return (
+    <span>
+      <IconButton icon={icons.group_add}
+        onClick={toggle}
+        title={strings.inviteButton}
+        inverse
+      />
 
-            <CopyDialog
-              url={url}
-              dialogOpen={dialogOpen}
-              toggle={toggle}
-              strings={strings.dialog}
-            />
-        </span>
-    );
+      <CopyDialog
+        url={url}
+        dialogOpen={dialogOpen}
+        toggle={toggle}
+        strings={strings.dialog}
+      />
+    </span>
+  );
 };
 
 const CopyDialog = ({ url, dialogOpen, toggle, strings }) => (
-    <Dialog
-      active={dialogOpen}
-      title={strings.title}
-      onEscKeyDown={toggle}
-      onOverlayClick={toggle}
-      type="large"
-      actions={[
-          { label: 'Ok', onClick: toggle }
-      ]}
-    >
-        <p>
-            {strings.text}:
-            <br />
-            <strong>{url}</strong>
-        </p>
-        <br />
-        <Clipboard text={url}>
-            <Button
-              icon={icons.content_copy}
-              label={strings.copyButton}
-              flat primary accent
-            />
-        </Clipboard>
-    </Dialog>
+  <Dialog
+    active={dialogOpen}
+    title={strings.title}
+    onEscKeyDown={toggle}
+    onOverlayClick={toggle}
+    type="large"
+    actions={[
+      { label: 'Ok', onClick: toggle }
+    ]}
+  >
+    <p>
+      {strings.text}:
+      <br />
+      <strong>{url}</strong>
+    </p>
+    <br />
+    <Clipboard text={url}>
+      <Button
+        icon={icons.content_copy}
+        label={strings.copyButton}
+        flat
+        primary
+        accent
+      />
+    </Clipboard>
+  </Dialog>
 );
 
 CopyDialog.propTypes = {
-    url: PropTypes.string,
-    dialogOpen: PropTypes.bool,
-    toggle: PropTypes.func,
-    strings: PropTypes.object
+  url: PropTypes.string,
+  dialogOpen: PropTypes.bool,
+  toggle: PropTypes.func,
+  strings: PropTypes.object
 };
 
 Invite.propTypes = {
-    url: PropTypes.string,
-    showInvite: PropTypes.bool,
-    dialogOpen: PropTypes.bool,
-    toggle: PropTypes.func,
-    strings: PropTypes.object
+  url: PropTypes.string,
+  showInvite: PropTypes.bool,
+  dialogOpen: PropTypes.bool,
+  toggle: PropTypes.func,
+  strings: PropTypes.object
 };
 
 Invite.defaultProps = {
-    strings: {
-        inviteButton: 'Invite',
-        dialog: {
-            title: 'Invite people to your retrospective',
-            text: 'To invite people to your retrospected session, simply send them ' +
+  strings: {
+    inviteButton: 'Invite',
+    dialog: {
+      title: 'Invite people to your retrospective',
+      text: 'To invite people to your retrospected session, simply send them ' +
                   'the following URL',
-            copyButton: 'Copy URL to Clipboard'
-        }
+      copyButton: 'Copy URL to Clipboard'
     }
+  }
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps),
-    translate('Invite')
+  connect(stateToProps, actionsToProps),
+  translate('Invite')
 ]);
 
 export default decorators(Invite);

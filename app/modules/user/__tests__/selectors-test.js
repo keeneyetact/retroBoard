@@ -1,22 +1,22 @@
 import getState from 'modules/__tests__/getState';
 import {
-    getCurrentUser,
-    getCurrentLanguage,
-    getCurrentLanguageInfo
+  getCurrentUser,
+  getCurrentLanguage,
+  getCurrentLanguageInfo
 } from '../selectors';
 
 const state = getState();
 
 describe('Selectors - Index', () => {
-    it('getCurrentUser', () => {
-        expect(getCurrentUser(state)).toEqual('Antoine');
-    });
+  it('getCurrentUser', () => {
+    expect(getCurrentUser(state)).toEqual('Antoine');
+  });
 
-    it('getCurrentLanguage', () => {
-        expect(getCurrentLanguage(state)).toBe('fr');
-    });
+  it('getCurrentLanguage', () => {
+    expect(getCurrentLanguage(state)).toBe('fr');
+  });
 
-    it('getCurrentLanguageInfo', () => {
-        expect(getCurrentLanguageInfo(state).name).toBe('Français');
-    });
+  it('getCurrentLanguageInfo', () => {
+    expect(getCurrentLanguageInfo(state).name).toBe('Français');
+  });
 });

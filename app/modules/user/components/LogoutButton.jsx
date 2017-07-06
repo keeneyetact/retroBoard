@@ -9,33 +9,33 @@ import icons from 'constants/icons';
 import { logout } from '../state';
 
 const actionsToProps = dispatch => ({
-    onClick: () => dispatch(logout())
+  onClick: () => dispatch(logout())
 });
 
 const LogoutButton = ({ onClick, strings }) => (
-    <Button
-      label={strings.logout}
-      icon={icons.power_settings_new}
-      onClick={onClick}
-      accent
-    />
+  <Button
+    label={strings.logout}
+    icon={icons.power_settings_new}
+    onClick={onClick}
+    accent
+  />
 );
 
 LogoutButton.propTypes = {
-    onClick: PropTypes.func,
-    strings: PropTypes.object
+  onClick: PropTypes.func,
+  strings: PropTypes.object
 };
 
 LogoutButton.defaultProps = {
-    onClick: noop,
-    strings: {
-        logout: 'Logout'
-    }
+  onClick: noop,
+  strings: {
+    logout: 'Logout'
+  }
 };
 
 const decorators = flow([
-    connect(null, actionsToProps),
-    translate('Header')
+  connect(null, actionsToProps),
+  translate('Header')
 ]);
 
 export default decorators(LogoutButton);

@@ -11,30 +11,30 @@ import { shouldDisplayDrawerButton } from 'modules/configuration/selectors';
 import { openDrawer } from 'modules/configuration/state';
 
 const stateToProps = state => ({
-    displayDrawerButton: shouldDisplayDrawerButton(state)
+  displayDrawerButton: shouldDisplayDrawerButton(state)
 });
 
 const actionsToProps = dispatch => ({
-    onClick: () => dispatch(openDrawer())
+  onClick: () => dispatch(openDrawer())
 });
 
 const OpenDrawerButton = ({ displayDrawerButton, onClick }) => displayDrawerButton ? (
-    <IconButton icon="menu" inverse onClick={ onClick } />
-  ) : null;
+  <IconButton icon="menu" inverse onClick={ onClick } />
+) : null;
 
 OpenDrawerButton.propTypes = {
-    displayDrawerButton: PropTypes.bool,
-    onClick: PropTypes.func
+  displayDrawerButton: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 OpenDrawerButton.defaultProps = {
-    displayDrawerButton: false,
-    onClick: noop
+  displayDrawerButton: false,
+  onClick: noop
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps),
-    translate('Header')
+  connect(stateToProps, actionsToProps),
+  translate('Header')
 ]);
 
 export default decorators(OpenDrawerButton);

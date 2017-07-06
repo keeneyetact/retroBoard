@@ -14,47 +14,47 @@ import Invite from './invite';
 import OpenDrawerButton from './components/OpenDrawerButton';
 
 const stateToProps = state => ({
-    user: getCurrentUser(state)
+  user: getCurrentUser(state)
 });
 
 const actionsToProps = dispatch => ({
-    goToHomepage: () => dispatch(push('/'))
+  goToHomepage: () => dispatch(push('/'))
 });
 
 const Header = ({ strings, goToHomepage, user }) => (
-    <div>
-        <AppBar fixed className={style.header}>
-            <div className={style.titles}>
-                <a onClick={goToHomepage}>Retrospected <br />
-                    <span className={style.subtitle}>{ strings.subtitle }</span>
-                </a>
-            </div>
-            <div className={ style.navigation }>
-                <span className={style.user}>{ user }</span>
-                <Invite />
-                <OpenDrawerButton />
-            </div>
-        </AppBar>
-    </div>
+  <div>
+    <AppBar fixed className={style.header}>
+      <div className={style.titles}>
+        <a onClick={goToHomepage}>Retrospected <br />
+          <span className={style.subtitle}>{ strings.subtitle }</span>
+        </a>
+      </div>
+      <div className={ style.navigation }>
+        <span className={style.user}>{ user }</span>
+        <Invite />
+        <OpenDrawerButton />
+      </div>
+    </AppBar>
+  </div>
 );
 
 Header.propTypes = {
-    user: PropTypes.string,
-    goToHomepage: PropTypes.func,
-    strings: PropTypes.object
+  user: PropTypes.string,
+  goToHomepage: PropTypes.func,
+  strings: PropTypes.object
 };
 
 Header.defaultTypes = {
-    user: null,
-    goToHomepage: noop,
-    strings: {
-        subtitle: 'A good way of ranting in an orderly fashion'
-    }
+  user: null,
+  goToHomepage: noop,
+  strings: {
+    subtitle: 'A good way of ranting in an orderly fashion'
+  }
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps),
-    translate('Header')
+  connect(stateToProps, actionsToProps),
+  translate('Header')
 ]);
 
 export default decorators(Header);

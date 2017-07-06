@@ -5,33 +5,33 @@ import { doLoadPreviousSessions } from 'modules/board/session/sagas';
 import { changeLanguageSuccess, loginSuccess } from './state';
 
 export function* onLogout() {
-    yield call(ls, 'username', null);
-    yield call(ls, 'language', 'en');
+  yield call(ls, 'username', null);
+  yield call(ls, 'language', 'en');
 }
 
 export function* onChangeLanguage(action) {
-    yield call(ls, 'language', action.payload);
-    yield put(changeLanguageSuccess(action.payload));
+  yield call(ls, 'language', action.payload);
+  yield put(changeLanguageSuccess(action.payload));
 }
 
 export function* onLeaveSession() {
-    yield put(push('/'));
+  yield put(push('/'));
 }
 
 export function* onAutoLogin() {
-    const username = yield call(ls, 'username');
-    if (username) {
-        yield put(loginSuccess(username));
-    }
-    const language = yield call(ls, 'language');
-    if (language) {
-        yield put(changeLanguageSuccess(language));
-    }
-    yield call(doLoadPreviousSessions);
+  const username = yield call(ls, 'username');
+  if (username) {
+    yield put(loginSuccess(username));
+  }
+  const language = yield call(ls, 'language');
+  if (language) {
+    yield put(changeLanguageSuccess(language));
+  }
+  yield call(doLoadPreviousSessions);
 }
 
 export function* onLogin(action) {
-    yield call(ls, 'username', action.payload.name);
-    yield put(loginSuccess(action.payload.name));
-    yield call(doLoadPreviousSessions);
+  yield call(ls, 'username', action.payload.name);
+  yield put(loginSuccess(action.payload.name));
+  yield call(doLoadPreviousSessions);
 }
