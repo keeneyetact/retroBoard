@@ -103,6 +103,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Upgrade other dependencies
 * Polish Translation (thanks [@olaf-cichocki](https://github.com/olaf-cichocki))
 * Arabic Translation (thanks [@Meshredded](https://github.com/Meshredded))
+* Improved the loading screen
 
 ### Version 0.9.0
 
