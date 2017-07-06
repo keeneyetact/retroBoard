@@ -12,35 +12,35 @@ import { closeDrawer } from './state';
 import { isDrawerOpen } from './selectors';
 
 const stateToProps = state => ({
-    open: isDrawerOpen(state)
+  open: isDrawerOpen(state)
 });
 
 const actionsToProps = dispatch => ({
-    onClose: () => dispatch(closeDrawer())
+  onClose: () => dispatch(closeDrawer())
 });
 
 const NavDrawer = ({ open, onClose }) => (
-    <Drawer active={open}
-      type="right"
-      onOverlayClick={onClose}
-    >
-        <div style={{ margin: '0 10px' }}>
-            <LanguagePicker />
-            <SummaryModeSwitch />
-        </div>
+  <Drawer active={open}
+    type="right"
+    onOverlayClick={onClose}
+  >
+    <div style={{ margin: '0 10px' }}>
+      <LanguagePicker />
+      <SummaryModeSwitch />
+    </div>
 
-        <Clients />
-        <br />
-        <br />
-        <LeaveButton />
-        <LogoutButton />
-        <ForkMe />
-    </Drawer>
+    <Clients />
+    <br />
+    <br />
+    <LeaveButton />
+    <LogoutButton />
+    <ForkMe />
+  </Drawer>
 );
 
 NavDrawer.propTypes = {
-    open: PropTypes.bool,
-    onClose: PropTypes.func
+  open: PropTypes.bool,
+  onClose: PropTypes.func
 };
 
 export default connect(stateToProps, actionsToProps)(NavDrawer);

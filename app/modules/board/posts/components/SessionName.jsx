@@ -15,91 +15,91 @@ import icons from 'constants/icons';
 import style from './SessionName.scss';
 
 const stateToProps = state => ({
-    sessionName: getSessionName(state)
+  sessionName: getSessionName(state)
 });
 
 const actionsToProps = dispatch => ({
-    rename: name => dispatch(renameSession(name))
+  rename: name => dispatch(renameSession(name))
 });
 
 class SessionName extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { editMode: false };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { editMode: false };
+  }
 
-    onKeyPress(e) {
-        if (e.keyCode === 13 || e.keyCode === 27) {
-            this.setState({ editMode: false });
-        }
+  onKeyPress(e) {
+    if (e.keyCode === 13 || e.keyCode === 27) {
+      this.setState({ editMode: false });
     }
+  }
 
-    renderViewMode() {
-        const { sessionName, strings } = this.props;
+  renderViewMode() {
+    const { sessionName, strings } = this.props;
 
-        return (
-            <div
-              className={style.sessionName}
-              onClick={() => this.setState({ editMode: true }, () => this.refs.input.focus())}
-            >
-                <span className={style.name}>
-                    { sessionName || strings.defaultSessionName }&nbsp;
-                    <FontIcon className={style.editIcon} value={icons.create} />
-                </span>
-            </div>
-        );
+    return (
+      <div
+        className={style.sessionName}
+        onClick={() => this.setState({ editMode: true }, () => this.refs.input.focus())}
+      >
+        <span className={style.name}>
+          { sessionName || strings.defaultSessionName }&nbsp;
+          <FontIcon className={style.editIcon} value={icons.create} />
+        </span>
+      </div>
+    );
+  }
+
+  renderEditMode() {
+    const { sessionName, rename } = this.props;
+    return (
+      <div className={style.sessionName}>
+        <div className={style.edit}>
+          <Input
+            ref="input"
+            maxLength={30}
+            icon={icons.create}
+            value={sessionName}
+            onBlur={() => {
+              this.setState({ editMode: false });
+            }}
+            onKeyPress={e => this.onKeyPress(e.nativeEvent)}
+            onChange={rename}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    if (this.state.editMode) {
+      return this.renderEditMode();
     }
-
-    renderEditMode() {
-        const { sessionName, rename } = this.props;
-        return (
-            <div className={style.sessionName}>
-                <div className={style.edit}>
-                    <Input
-                      ref="input"
-                      maxLength={30}
-                      icon={icons.create}
-                      value={sessionName}
-                      onBlur={() => {
-                          this.setState({ editMode: false });
-                      }}
-                      onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-                      onChange={rename}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    render() {
-        if (this.state.editMode) {
-            return this.renderEditMode();
-        }
-        return this.renderViewMode();
-    }
+    return this.renderViewMode();
+  }
 }
 
 SessionName.propTypes = {
-    sessionName: PropTypes.string,
-    rename: PropTypes.func,
-    strings: PropTypes.object
+  sessionName: PropTypes.string,
+  rename: PropTypes.func,
+  strings: PropTypes.object
 };
 
 SessionName.defaultProps = {
-    sessionName: null,
-    rename: noop,
-    strings: {
-        advancedTab: {
-            input: 'Enter a name for your session'
-        },
-        defaultSessionName: 'My Retrospective'
-    }
+  sessionName: null,
+  rename: noop,
+  strings: {
+    advancedTab: {
+      input: 'Enter a name for your session'
+    },
+    defaultSessionName: 'My Retrospective'
+  }
 };
 
 const decorators = flow([
-    connect(stateToProps, actionsToProps),
-    translate('Join'),
-    translate('SessionName')
+  connect(stateToProps, actionsToProps),
+  translate('Join'),
+  translate('SessionName')
 ]);
 
 export default decorators(SessionName);

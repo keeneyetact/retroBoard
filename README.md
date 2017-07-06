@@ -28,6 +28,7 @@ It features the following technologies:
 ## How to run for production (or to try it out)
 
 * Clone this repository
+* Switch to the `master` branch (the default is `develop` which might not be stable)
 * `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
 * `npm run build` to build everything (client and server)
 * `npm start` to run the server on port 8080
@@ -65,7 +66,7 @@ Note: Google Analytics only works when using the production webpack config.
 
 By default, the database engine is NeDB, an in-process database with no external dependencies (i.e. no database to install on your system).
 
-If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
+If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above in the Google Analytics section and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
 
 
 ## How to debug
@@ -98,6 +99,8 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 0.next
 
 * Wepack 3 (for Webpack 2, look at version 0.9.0)
+* Converting entire project to 2-space indentation
+* Upgrade other dependencies
 * Polish Translation (thanks [@olaf-cichocki](https://github.com/olaf-cichocki))
 * Arabic Translation (thanks [@Meshredded](https://github.com/Meshredded))
 
@@ -177,7 +180,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Improving performance by using `shouldComponentUpdate` via a custom base [Component](app/Component.jsx)
 * Updated to the brand new React 15
 * Improving Windows support by allowing Windows users to use the same commands as \*nix users
-* Internationalisation: added Dutch to the list of supported languages
+* Internationalisation: added Dutch to the list of supported languages (Thanks [@Sonaryr](https://github.com/Sonaryr))
 
 ### Version 0.3.0
 
@@ -186,7 +189,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Change to the Like / Unlike logic: like and unlikes counts are separated
 * Adding ES7 decorators, more readable than the previous curry-ed functions
 * Better support for Windows
-* Internationalisation: added Brazilian Portuguese to the list of supported languages
+* Internationalisation: added Brazilian Portuguese to the list of supported languages (Thanks [@renancouto](https://github.com/renancouto))
 
 ### Version 0.2.0
 
@@ -196,7 +199,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 * Ability to logout, and to leave a session
 * Improve the reliability of the clients list (currently connected users)
 * Fix issues when the web fonts can't load (firewall blocking for example)
-* Internationalisation: support for English, French and Hungarian
+* Internationalisation: support for English, French and Hungarian (Thanks [@iaretiga](https://github.com/iaretiga))
 
 ### Version 0.1.1
 
