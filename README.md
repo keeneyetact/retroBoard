@@ -93,6 +93,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 * Add more languages
 * GraphQL
+* https://react.semantic-ui.com/introduction
 
 ## Versions history
 
