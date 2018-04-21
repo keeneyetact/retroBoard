@@ -12,6 +12,7 @@ export default class EditableLabel extends Component {
   constructor(props) {
     super(props);
     this.state = { editMode: false };
+    this.inputRef = React.createRef();
   }
 
   onKeyPress(e) {
@@ -40,7 +41,7 @@ export default class EditableLabel extends Component {
     return (
       <span
         className={style.view}
-        onClick={() => this.setState({ editMode: true }, () => this.refs.input.focus())}
+        onClick={() => this.setState({ editMode: true }, () => this.inputRef.current.focus())}
       >
         { value || placeholder }&nbsp;
         <FontIcon className={style.editIcon} value={icons.create} />
@@ -53,7 +54,7 @@ export default class EditableLabel extends Component {
     return (
       <span className={style.edit}>
         <textarea
-          ref="input"
+          ref={this.inputRef}
           value={value}
           onBlur={() => {
             this.setState({ editMode: false });
