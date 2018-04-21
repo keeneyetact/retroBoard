@@ -10,7 +10,7 @@ const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
-  mode: 'production',
+  // mode: 'production',
   entry: [
     './app/index.jsx'
   ],

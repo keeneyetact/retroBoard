@@ -7,7 +7,7 @@ const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
-  mode: 'development',
+  // mode: 'development',
   entry: [
     'react-hot-loader/patch',
     './app/index.jsx'
