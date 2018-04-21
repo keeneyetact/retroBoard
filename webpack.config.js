@@ -7,6 +7,7 @@ const staticFolder = path.resolve(__dirname, 'assets');
 const momentFilter = languages.map(lang => lang.iso).join('|');
 
 module.exports = {
+  mode: 'development',
   entry: [
     'react-hot-loader/patch',
     './app/index.jsx'
@@ -23,7 +24,10 @@ module.exports = {
       path.resolve('./app'),
       'node_modules',
       path.resolve(__dirname, './node_modules')
-    ]
+    ],
+    alias: {
+      'react-toolbox': path.resolve(__dirname, 'node_modules', '@bionikspoon', 'react-toolbox')
+    }
   },
   module: {
     rules: [

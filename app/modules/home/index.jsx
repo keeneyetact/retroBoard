@@ -30,7 +30,7 @@ const actionsToProps = dispatch => ({
 class Join extends Component {
   constructor(props) {
     super(props);
-    this.state = { tabIndex: 0, customSessionName: '' };
+    this.state = { tabIndex: 0 };
   }
 
   renderTabs() {
