@@ -32,7 +32,7 @@ export default {
       text: 'Klik hieronder en begin terug te denken:',
       button: 'Start een nieuwe sessie'
     },
-    advancedTab: {
+    optionsTab: {
       header: 'Geavanceerd',
       input: 'Geef een naam voor de sessie',
       button: 'Maak een aangepaste sessie'

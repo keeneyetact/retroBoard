@@ -32,7 +32,7 @@ export default {
       text: ': انقر أدناه و إبدء إعادة النظر',
       button: 'إنشاء جلسة عمل جديدة'
     },
-    advancedTab: {
+    optionsTab: {
       header: 'أكثر',
       input: 'عنوان',
       button: 'إنشاء جلسة مخصصة'

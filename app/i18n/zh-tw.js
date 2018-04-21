@@ -32,7 +32,7 @@ export default {
       text: '點擊以下開始進行回顧:',
       button: '建立新的議程'
     },
-    advancedTab: {
+    optionsTab: {
       header: '進階設定',
       input: '名稱',
       button: '建立議程'

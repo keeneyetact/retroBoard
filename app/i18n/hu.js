@@ -32,7 +32,7 @@ export default {
       text: 'Kattints ide a kezdéshez:',
       button: 'Új ülés indítása'
     },
-    advancedTab: {
+    optionsTab: {
       header: 'Haladó',
       input: 'Adj nevet az ülésnek',
       button: 'Ülés létrehozása'

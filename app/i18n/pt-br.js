@@ -32,7 +32,7 @@ export default {
       text: 'Clique abaixo e inicie a restropectiva:',
       button: 'Crie uma nova seção'
     },
-    advancedTab: {
+    optionsTab: {
       header: 'Avançado',
       input: 'Insira um nome para sua seção',
       button: 'Crie uma seção customizada'

@@ -32,7 +32,7 @@ export default {
       text: 'Kliknij poniżej i zacznij retrospektywę:',
       button: 'Stwórz nową sesję'
     },
-    advancedTab: {
+    optionsTab: {
       header: 'Zaawansowane',
       input: 'Imię',
       button: 'Stwórz custom session'

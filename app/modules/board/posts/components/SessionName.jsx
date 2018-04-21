@@ -89,7 +89,7 @@ SessionName.defaultProps = {
   sessionName: null,
   rename: noop,
   strings: {
-    advancedTab: {
+    optionsTab: {
       input: 'Enter a name for your session'
     },
     defaultSessionName: 'My Retrospective'
