@@ -8,11 +8,11 @@ This project is both an actual product, and also a technology demo using the lat
 
 It features the following technologies:
 
-* [React](https://github.com/facebook/react)
+* [React 16](https://github.com/facebook/react)
 * [Redux](https://github.com/reactjs/redux)
 * [React Router 4](https://github.com/ReactTraining/react-router)
 * [Socket IO](http://socket.io)
-* [Webpack 3](https://github.com/webpack/webpack) (See older versions for Webpack 1)
+* [Webpack 4](https://github.com/webpack/webpack) (See older versions for Webpack 1, 2 and 3)
 * [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
 * [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
 * [CSS Modules](https://github.com/css-modules/css-modules)
@@ -93,13 +93,23 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 * Add more languages
 * GraphQL
-* https://react.semantic-ui.com/introduction
+* Switch to a different component library (https://react.semantic-ui.com/introduction for instance)
 
 ## Versions history
 
+### Version 1.0.0
+
+I now feel the product is stable and does what it needs to do. I will keep maintaining it so it always uses the latest version of React and Webpack.
+
+* React 16
+* Webpack 4 (for previous versions of webpack, see below)
+* Using [@bionikspoon/react-toolbox](https://github.com/bionikspoon/react-toolbox) instead of the original `react-toolbox`, as the project is no longer maintained and doesn't work with React 16.
+* Upgraded all the other dependencies, everything should be up-to-date
+* Improved the home screen
+
 ### Version 0.10.0
 
-* Wepack 3 (for Webpack 2, look at version 0.9.0)
+* Webpack 3 (for Webpack 2, look at version 0.9.0)
 * Converting entire project to 2-space indentation
 * Upgrade other dependencies
 * Polish Translation (thanks [@olaf-cichocki](https://github.com/olaf-cichocki))
