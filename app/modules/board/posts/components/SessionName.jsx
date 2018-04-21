@@ -1,4 +1,3 @@
-/* eslint react/no-string-refs:0 */
 /* eslint jsx-a11y/no-static-element-interactions:0 */
 
 import React, { Component } from 'react';
@@ -6,7 +5,7 @@ import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
 import { connect } from 'react-redux';
-import Input from 'react-toolbox/lib/input';
+import Input from 'components/Input';
 import FontIcon from 'react-toolbox/lib/font_icon';
 import { getSessionName } from 'modules/board/session/selectors';
 import { renameSession } from 'modules/board/session/state';
@@ -26,6 +25,7 @@ class SessionName extends Component {
   constructor(props) {
     super(props);
     this.state = { editMode: false };
+    this.inputRef = React.createRef();
   }
 
   onKeyPress(e) {
@@ -40,7 +40,9 @@ class SessionName extends Component {
     return (
       <div
         className={style.sessionName}
-        onClick={() => this.setState({ editMode: true }, () => this.refs.input.focus())}
+        onClick={() => this.setState({ editMode: true }, () => {
+          this.inputRef.current.focus();
+        })}
       >
         <span className={style.name}>
           { sessionName || strings.defaultSessionName }&nbsp;
@@ -56,7 +58,7 @@ class SessionName extends Component {
       <div className={style.sessionName}>
         <div className={style.edit}>
           <Input
-            ref="input"
+            ref={this.inputRef}
             maxLength={30}
             icon={icons.create}
             value={sessionName}
@@ -89,7 +91,7 @@ SessionName.defaultProps = {
   sessionName: null,
   rename: noop,
   strings: {
-    advancedTab: {
+    optionsTab: {
       input: 'Enter a name for your session'
     },
     defaultSessionName: 'My Retrospective'

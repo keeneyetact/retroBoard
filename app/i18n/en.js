@@ -32,8 +32,8 @@ export default {
       text: 'Click below and start retrospecting:',
       button: 'Create a new session'
     },
-    advancedTab: {
-      header: 'Advanced',
+    optionsTab: {
+      header: 'Options',
       input: 'Name',
       button: 'Create custom session'
     },
