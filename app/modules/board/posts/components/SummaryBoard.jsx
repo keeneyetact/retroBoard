@@ -10,19 +10,21 @@ import style from './SummaryBoard.scss';
 const stateToProps = state => ({
   wellPosts: getSortedWellPosts(state),
   notWellPosts: getSortedNotWellPosts(state),
-  ideasPosts: getSortedIdeasPosts(state)
+  ideasPosts: getSortedIdeasPosts(state),
 });
 
 const Post = ({ post }) => (
   <li key={post.id}>
-    <span className={style.like}>+{post.likes.length}</span>&#9;
-    <span className={style.dislike}>-{post.dislikes.length}</span>&#9;
+    <span className={style.like}>+{post.likes.length}</span>
+    &#9;
+    <span className={style.dislike}>-{post.dislikes.length}</span>
+    &#9;
     {post.content}
   </li>
 );
 
 Post.propTypes = {
-  post: PropTypes.object
+  post: PropTypes.object,
 };
 
 const PostType = ({ label, className, posts }) => {
@@ -32,12 +34,12 @@ const PostType = ({ label, className, posts }) => {
   return (
     <div style={{ margin: 30 }}>
       <Card>
-        <CardTitle className={className}>{ label }</CardTitle>
+        <CardTitle className={className}>{label}</CardTitle>
         <CardText>
           <ul style={{ marginLeft: 0, marginTop: 20, listStyleType: 'none' }}>
-            { posts.map(post => (
+            {posts.map(post => (
               <Post post={post} />
-            )) }
+            ))}
           </ul>
         </CardText>
       </Card>
@@ -48,7 +50,7 @@ const PostType = ({ label, className, posts }) => {
 PostType.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
-  posts: PropTypes.array
+  posts: PropTypes.array,
 };
 
 const SummaryBoard = ({ wellPosts, notWellPosts, ideasPosts, strings }) => {
@@ -61,21 +63,9 @@ const SummaryBoard = ({ wellPosts, notWellPosts, ideasPosts, strings }) => {
   }
   return (
     <div className={style.summary}>
-      <PostType
-        posts={wellPosts}
-        className={style.well}
-        label={strings.wellQuestion}
-      />
-      <PostType
-        posts={notWellPosts}
-        className={style.notWell}
-        label={strings.notWellQuestion}
-      />
-      <PostType
-        posts={ideasPosts}
-        className={style.ideas}
-        label={strings.ideasQuestion}
-      />
+      <PostType posts={wellPosts} className={style.well} label={strings.wellQuestion} />
+      <PostType posts={notWellPosts} className={style.notWell} label={strings.notWellQuestion} />
+      <PostType posts={ideasPosts} className={style.ideas} label={strings.ideasQuestion} />
     </div>
   );
 };
@@ -84,7 +74,7 @@ SummaryBoard.propTypes = {
   wellPosts: PropTypes.array.isRequired,
   notWellPosts: PropTypes.array.isRequired,
   ideasPosts: PropTypes.array.isRequired,
-  strings: PropTypes.object
+  strings: PropTypes.object,
 };
 
 SummaryBoard.defaultProps = {
@@ -97,15 +87,10 @@ SummaryBoard.defaultProps = {
     ideasQuestion: 'A brilliant idea to share?',
     vote: 'vote',
     votes: 'votes',
-    noPosts: 'There are no posts to display'
-  }
+    noPosts: 'There are no posts to display',
+  },
 };
 
-const decorators = flow([
-  connect(stateToProps),
-  translate('PostBoard'),
-  translate('SummaryBoard'),
-  translate('Post')
-]);
+const decorators = flow([connect(stateToProps), translate('PostBoard'), translate('SummaryBoard'), translate('Post')]);
 
 export default decorators(SummaryBoard);

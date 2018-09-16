@@ -12,12 +12,22 @@ const rootElement = document.getElementById('content');
 if (rootElement) {
   document.body.style.backgroundColor = 'inherit';
 
-  render(<AppContainer><App /></AppContainer>, rootElement);
+  render(
+    <AppContainer>
+      <App />
+    </AppContainer>,
+    rootElement,
+  );
 
   if (module.hot) {
     module.hot.accept('./app', () => {
       const NextApp = require('./app').default;
-      render(<AppContainer><NextApp /></AppContainer>, rootElement);
+      render(
+        <AppContainer>
+          <NextApp />
+        </AppContainer>,
+        rootElement,
+      );
     });
   }
 }

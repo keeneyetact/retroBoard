@@ -10,9 +10,7 @@ import translate from 'i18n/Translate';
 import style from './Post.scss';
 
 const canVote = (post, currentUser) =>
-  post.likes.indexOf(currentUser) === -1 &&
-    post.dislikes.indexOf(currentUser) === -1 &&
-    currentUser !== post.user;
+  post.likes.indexOf(currentUser) === -1 && post.dislikes.indexOf(currentUser) === -1 && currentUser !== post.user;
 
 const canEdit = (post, currentUser) => currentUser === post.user;
 
@@ -20,11 +18,11 @@ const renderDelete = (post, currentUser, strings, onDelete) => {
   if (currentUser === post.user) {
     return (
       <Button
-        icon={ icons.delete_forever }
-        label={ strings.deleteButton }
+        icon={icons.delete_forever}
+        label={strings.deleteButton}
         raised
-        className={ style.deleteButton }
-        onClick={ () => onDelete(post) }
+        className={style.deleteButton}
+        onClick={() => onDelete(post)}
       />
     );
   }
@@ -67,17 +65,9 @@ const Post = ({ post, currentUser, onEdit, onLike, onUnlike, onDelete, strings }
       </CardText>
       <CardActions>
         <div className={style.actions}>
-          { renderButton(post, currentUser,
-            'likes',
-            icons.thumb_up,
-            style.like,
-            () => onLike(post)) }
-          { renderButton(post, currentUser,
-            'dislikes',
-            icons.thumb_down,
-            style.dislike,
-            () => onUnlike(post)) }
-          { renderDelete(post, currentUser, strings, onDelete) }
+          {renderButton(post, currentUser, 'likes', icons.thumb_up, style.like, () => onLike(post))}
+          {renderButton(post, currentUser, 'dislikes', icons.thumb_down, style.dislike, () => onUnlike(post))}
+          {renderDelete(post, currentUser, strings, onDelete)}
         </div>
       </CardActions>
     </Card>
@@ -91,7 +81,7 @@ Post.propTypes = {
   onLike: PropTypes.func,
   onUnlike: PropTypes.func,
   onEdit: PropTypes.func,
-  strings: PropTypes.object
+  strings: PropTypes.object,
 };
 
 Post.defaultProps = {
@@ -103,8 +93,8 @@ Post.defaultProps = {
   onEdit: noop,
   strings: {
     deleteButton: 'Delete',
-    noContent: '(This post has no content)'
-  }
+    noContent: '(This post has no content)',
+  },
 };
 
 export default translate('Post')(Post);
