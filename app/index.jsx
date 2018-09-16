@@ -1,6 +1,6 @@
 /* eslint import/no-unresolved:0 global-require:0 */
 /* eslint no-undef:0 */
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'react-toolbox/lib/commons.scss';
 import { render } from 'react-dom';
 import React from 'react';
