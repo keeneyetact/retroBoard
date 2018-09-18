@@ -28,7 +28,8 @@ class Login extends Component {
           ref={this.inputRef}
           maxLength={12}
         />
-        <Button label={this.props.strings.buttonLabel}
+        <Button
+          label={this.props.strings.buttonLabel}
           accent
           raised
           onClick={() => {
@@ -45,19 +46,17 @@ class Login extends Component {
 
 Login.propTypes = {
   onLogin: PropTypes.func,
-  strings: PropTypes.object
+  strings: PropTypes.object,
 };
 
 Login.defaultProps = {
   onLogin: noop,
   strings: {
     namePlaceholder: 'Who are you exactly? Enter your name here',
-    buttonLabel: 'Let\'s start'
-  }
+    buttonLabel: 'Let\'s start',
+  },
 };
 
-const decorators = flow([
-  translate('Login')
-]);
+const decorators = flow([translate('Login')]);
 
 export default decorators(Login);

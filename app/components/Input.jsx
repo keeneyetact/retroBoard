@@ -10,9 +10,9 @@ class ImprovedInput extends Component {
     this.inputRef = null;
   }
 
-  setInputRef = (node) => {
+  setInputRef = node => {
     this.inputRef = node;
-  }
+  };
 
   focus() {
     // This is an ugly hack, until I replace react-toolbox by something that's maintained
@@ -22,9 +22,7 @@ class ImprovedInput extends Component {
   }
 
   render() {
-    return (
-      <Input ref={this.setInputRef} {...this.props} />
-    );
+    return <Input ref={this.setInputRef} {...this.props} />;
   }
 }
 

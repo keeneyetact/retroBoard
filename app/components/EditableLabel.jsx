@@ -24,11 +24,7 @@ export default class EditableLabel extends Component {
   renderReadOnlyMode() {
     const { value, placeholder } = this.props;
 
-    return (
-      <span className={style.view}>
-        { value || placeholder }
-      </span>
-    );
+    return <span className={style.view}>{value || placeholder}</span>;
   }
 
   renderViewMode() {
@@ -43,7 +39,8 @@ export default class EditableLabel extends Component {
         className={style.view}
         onClick={() => this.setState({ editMode: true }, () => this.inputRef.current.focus())}
       >
-        { value || placeholder }&nbsp;
+        {value || placeholder}
+        &nbsp;
         <FontIcon className={style.editIcon} value={icons.create} />
       </span>
     );
@@ -70,9 +67,7 @@ export default class EditableLabel extends Component {
 
   render() {
     return (
-      <span className={style.editableLabel}>
-        { this.state.editMode ? this.renderEditMode() : this.renderViewMode() }
-      </span>
+      <span className={style.editableLabel}>{this.state.editMode ? this.renderEditMode() : this.renderViewMode()}</span>
     );
   }
 }
@@ -81,12 +76,12 @@ EditableLabel.propTypes = {
   value: PropTypes.string,
   readOnly: PropTypes.bool,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 EditableLabel.defaultProps = {
   value: '',
   readOnly: false,
   placeholder: 'nothing',
-  onChange: noop
+  onChange: noop,
 };

@@ -14,11 +14,11 @@ import icons from 'constants/icons';
 import style from './SessionName.scss';
 
 const stateToProps = state => ({
-  sessionName: getSessionName(state)
+  sessionName: getSessionName(state),
 });
 
 const actionsToProps = dispatch => ({
-  rename: name => dispatch(renameSession(name))
+  rename: name => dispatch(renameSession(name)),
 });
 
 class SessionName extends Component {
@@ -40,12 +40,15 @@ class SessionName extends Component {
     return (
       <div
         className={style.sessionName}
-        onClick={() => this.setState({ editMode: true }, () => {
-          this.inputRef.current.focus();
-        })}
+        onClick={() =>
+          this.setState({ editMode: true }, () => {
+            this.inputRef.current.focus();
+          })
+        }
       >
         <span className={style.name}>
-          { sessionName || strings.defaultSessionName }&nbsp;
+          {sessionName || strings.defaultSessionName}
+          &nbsp;
           <FontIcon className={style.editIcon} value={icons.create} />
         </span>
       </div>
@@ -84,7 +87,7 @@ class SessionName extends Component {
 SessionName.propTypes = {
   sessionName: PropTypes.string,
   rename: PropTypes.func,
-  strings: PropTypes.object
+  strings: PropTypes.object,
 };
 
 SessionName.defaultProps = {
@@ -92,16 +95,19 @@ SessionName.defaultProps = {
   rename: noop,
   strings: {
     optionsTab: {
-      input: 'Enter a name for your session'
+      input: 'Enter a name for your session',
     },
-    defaultSessionName: 'My Retrospective'
-  }
+    defaultSessionName: 'My Retrospective',
+  },
 };
 
 const decorators = flow([
-  connect(stateToProps, actionsToProps),
+  connect(
+    stateToProps,
+    actionsToProps,
+  ),
   translate('Join'),
-  translate('SessionName')
+  translate('SessionName'),
 ]);
 
 export default decorators(SessionName);

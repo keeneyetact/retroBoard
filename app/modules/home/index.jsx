@@ -16,14 +16,13 @@ import { getSavedSessionsByDate } from 'modules/board/session/selectors';
 import SessionTile from 'components/SessionTile';
 import style from './index.scss';
 
-
 const stateToProps = state => ({
-  previousSessions: getSavedSessionsByDate(state)
+  previousSessions: getSavedSessionsByDate(state),
 });
 
 const actionsToProps = dispatch => ({
   create: () => dispatch(createSession()),
-  goToSession: session => dispatch(push(`/session/${session.id}`))
+  goToSession: session => dispatch(push(`/session/${session.id}`)),
 });
 
 const Join = ({ strings, previousSessions, goToSession, create }) => (
@@ -32,7 +31,7 @@ const Join = ({ strings, previousSessions, goToSession, create }) => (
       <CardMedia style={{ backgroundColor: '#EEE' }}>
         <img
           alt="Background image"
-          src={ backgroundImage }
+          src={backgroundImage}
           style={{ objectFit: 'contain', width: '100%', backgroundSize: 'contain', maxHeight: 150 }}
           role="presentation"
         />
@@ -42,12 +41,7 @@ const Join = ({ strings, previousSessions, goToSession, create }) => (
     <Card>
       <CardTitle title={strings.welcome} subtitle={strings.standardTab.text} />
       <CardText className={style.create}>
-        <Button
-          label={ strings.standardTab.button }
-          accent
-          raised
-          onClick={ create }
-        />
+        <Button label={strings.standardTab.button} accent raised onClick={create} />
       </CardText>
     </Card>
 
@@ -55,12 +49,8 @@ const Join = ({ strings, previousSessions, goToSession, create }) => (
       <CardTitle title={strings.previousTab.header} />
       <CardText>
         <List selectable ripple>
-          { previousSessions.map(session => (
-            <SessionTile
-              key={session.id}
-              session={session}
-              onClick={() => goToSession(session)}
-            />
+          {previousSessions.map(session => (
+            <SessionTile key={session.id} session={session} onClick={() => goToSession(session)} />
           ))}
         </List>
       </CardText>
@@ -80,7 +70,7 @@ Join.propTypes = {
   previousSessions: PropTypes.array,
   create: PropTypes.func,
   goToSession: PropTypes.func,
-  strings: PropTypes.object
+  strings: PropTypes.object,
 };
 
 Join.defaultProps = {
@@ -92,21 +82,24 @@ Join.defaultProps = {
     standardTab: {
       header: 'Create a Session',
       text: 'Click below and start retrospecting:',
-      button: 'Create a new session'
+      button: 'Create a new session',
     },
     optionsTab: {
-      header: 'Options'
+      header: 'Options',
     },
     previousTab: {
       header: 'Previous sessions',
-      rejoinButton: 'Rejoin'
-    }
-  }
+      rejoinButton: 'Rejoin',
+    },
+  },
 };
 
 const decorators = flow([
-  connect(stateToProps, actionsToProps),
-  translate('Join')
+  connect(
+    stateToProps,
+    actionsToProps,
+  ),
+  translate('Join'),
 ]);
 
 export default decorators(Join);
