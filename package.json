@@ -57,7 +57,7 @@
     "md5": "^2.2.1",
     "mini-css-extract-plugin": "0.4.3",
     "moment": "^2.22.1",
-    "mongoose": "^4.11.11",
+    "mongoose": "5.2.15",
     "nedb": "^1.8.0",
     "node-emoji": "^1.8.1",
     "node-sass": "^4.8.3",
