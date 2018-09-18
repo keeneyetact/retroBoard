@@ -93,6 +93,9 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 ### Version 1.0.1
 
 - Japanese Translation (thanks [@sat0yu](https://github.com/sat0yu))
+- Simplified the TSLint configuration
+- Introducing Prettier (`yarn format`)
+- Upgrading to Babel 7
 
 ### Version 1.0.0
 
