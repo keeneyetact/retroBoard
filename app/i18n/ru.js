@@ -19,7 +19,7 @@ export default {
   },
   PostBoard: {
     notWellQuestion: 'Что можно улучшить?',
-    wellQuestion: 'Что было не так?',
+    wellQuestion: 'Что было хорошего?',
     ideasQuestion: 'Другие хорошие идеи?',
   },
   Clients: {
