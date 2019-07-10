@@ -11,7 +11,5 @@ export interface Configuration {
   DB_PASSWORD: string;
   DB_HOST: string;
   DB_PORT: number;
-  JWT_SECRET: string;
-  SESSION_SECRET: string;
-  PORT: number;
+  BACKEND_PORT: number;
 }

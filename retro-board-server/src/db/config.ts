@@ -20,10 +20,8 @@ const config: Configuration = {
   DB_PASSWORD: process.env.DB_PASSWORD!,
   DB_HOST: process.env.DB_HOST!,
   DB_PORT: parseInt(process.env.DB_PORT!),
-  JWT_SECRET: process.env.JWT_SECRET!,
   SERVER_SALT: process.env.SERVER_SALT!,
-  SESSION_SECRET: process.env.SESSION_SECRET!,
-  PORT: parseInt(process.env.PORT!),
+  BACKEND_PORT: parseInt(process.env.BACKEND_PORT!),
 };
 
 export default config;

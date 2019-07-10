@@ -29,7 +29,7 @@ const {
 const app = express();
 const httpServer = new http.Server(app);
 const io = socketIo(httpServer);
-const port = config.PORT || 8081;
+const port = config.BACKEND_PORT || 8081;
 
 const s = (str: string) => chalk`{blue ${str.replace('retrospected/', '')}}`;
 

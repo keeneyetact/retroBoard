@@ -37,9 +37,8 @@ services:
       DB_PASSWORD: postgres # Must be the same as POSTGRES_PASSWORD above
       DB_HOST: postgres # Must be the name of the Postgres container
       DB_PORT: 5432 # Don't change this.
-      JWT_SECRET: somerandomstring # Change this to a random value
-      SESSION_SECRET: someotherrandomstring # Change this to a random value
-      PORT: 3201 # Don't change this (or change it in nginx.conf as well)
+      SERVER_SALT: changeme # Change this to a random value
+      BACKEND_PORT: 3201 # Don't change this (or change it in nginx.conf as well)
     restart: unless-stopped
 
   frontend:

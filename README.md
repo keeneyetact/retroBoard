@@ -40,7 +40,7 @@ Previous versions, up to v1.0.1 featured the following libraries:
 ## How to try it out
 
 - Clone this repository
-- Switch to the `master` branch (the default is `develop` which might not be stable)
+- Switch to the `master` branch (the default is `develop` which might not be stable: `git checkout master`)
 - `yarn` to install the dependencies (_not_ `npm i`!)
 - `yarn start` to transpile the server, run the server on port 8080 and start the UI
 - Open your browser on [http://localhost:3000](http://localhost:3000)
@@ -58,7 +58,7 @@ Previous versions, up to v1.0.1 featured the following libraries:
 
 ### Prerequisites
 
-You need to have `docker` and `docker-compose` installed on your system.
+You must have `docker` and `docker-compose` installed on your system.
 
 ### Result
 
@@ -74,6 +74,7 @@ This will install a production-ready version of Retrospected automatically, usin
 - Copy `docker-compose.yml.example` to `docker-compose.yml`
 - Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable GA.
 - Run `docker-compose build`: this will build the backend and frontend images, based on your settings.
+- Get yourself a coffee ☕️
 - Run `docker-compose up -d`
 - Voilà!
 

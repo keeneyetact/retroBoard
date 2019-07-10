@@ -1,6 +1,8 @@
 {
   "name": "retro-board-server",
   "version": "2.0.0",
+  "license": "GNU GPLv3",
+  "private": true,
   "scripts": {
     "build": "rm -rf dist && ../node_modules/typescript/bin/tsc --build",
     "start": "nodemon --exec ts-node ./src/index.ts"
