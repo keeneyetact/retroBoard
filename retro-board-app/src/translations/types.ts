@@ -45,6 +45,7 @@ export interface Translation {
   Login: {
     namePlaceholder: string;
     buttonLabel: string;
+    header: string;
   };
   SummaryBoard: {
     noPosts: string;

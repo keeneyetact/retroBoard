@@ -5,7 +5,6 @@ export interface Store {
 
 export interface Configuration {
   DB_TYPE: 'postgres' | 'nedb';
-  SERVER_SALT: string;
   DB_NAME: string;
   DB_USER: string;
   DB_PASSWORD: string;

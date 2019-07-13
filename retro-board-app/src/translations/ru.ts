@@ -46,6 +46,7 @@ export default {
   Login: {
     namePlaceholder: 'Как вас зовут? Введите имя',
     buttonLabel: 'Начать',
+    header: 'Login',
   },
   SummaryBoard: {
     noPosts: 'Здесь пока пусто',

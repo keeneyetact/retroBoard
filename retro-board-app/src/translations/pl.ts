@@ -46,6 +46,7 @@ export default {
   Login: {
     namePlaceholder: 'Kim dokładnie jesteś? Wprowadź tu swoje imię',
     buttonLabel: 'Zacznijmy',
+    header: 'Login',
   },
   SummaryBoard: {
     noPosts: 'Nie ma wpisów do wyświetlenia',

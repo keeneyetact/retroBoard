@@ -16,7 +16,6 @@ COPY ./retro-board-server ./retro-board-server
 COPY ./retro-board-common ./retro-board-common
 
 # Arguments (these are default but can be overridden)
-ENV SERVER_SALT=changeme
 ENV DB_TYPE=postgres
 ENV DB_NAME=retroboard
 ENV DB_USER=postgres

@@ -46,6 +46,7 @@ export default {
   Login: {
     namePlaceholder: '您是誰? 在此輸入您的名稱',
     buttonLabel: '開始!',
+    header: 'Login',
   },
   SummaryBoard: {
     noPosts: '目前無任何內容',

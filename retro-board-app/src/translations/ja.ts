@@ -46,6 +46,7 @@ export default {
   Login: {
     namePlaceholder: '名前を入力',
     buttonLabel: 'スタート',
+    header: 'Login',
   },
   SummaryBoard: {
     noPosts: '表示する項目がありません',

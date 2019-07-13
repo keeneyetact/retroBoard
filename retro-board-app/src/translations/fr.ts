@@ -47,6 +47,7 @@ export default {
   Login: {
     namePlaceholder: 'Qui êtes-vous au juste? Entrez votre nom ici',
     buttonLabel: "C'est parti !",
+    header: 'Se connecter',
   },
   SummaryBoard: {
     noPosts: 'Aucun post à afficher',

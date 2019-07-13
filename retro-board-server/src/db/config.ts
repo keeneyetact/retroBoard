@@ -20,7 +20,6 @@ const config: Configuration = {
   DB_PASSWORD: process.env.DB_PASSWORD!,
   DB_HOST: process.env.DB_HOST!,
   DB_PORT: parseInt(process.env.DB_PORT!),
-  SERVER_SALT: process.env.SERVER_SALT!,
   BACKEND_PORT: parseInt(process.env.BACKEND_PORT!),
 };
 

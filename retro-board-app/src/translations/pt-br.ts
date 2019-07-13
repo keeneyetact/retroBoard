@@ -47,6 +47,7 @@ export default {
   Login: {
     namePlaceholder: 'Quem é você? Insira seu nome aqui',
     buttonLabel: 'Vamos começar',
+    header: 'Login',
   },
   SummaryBoard: {
     noPosts: 'There are no posts to display',

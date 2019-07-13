@@ -17,8 +17,8 @@ export default () => {
   const url = window.location.href;
   return (
     <>
-      <Button>
-        <GroupAddIcon onClick={toggle} style={{ color: 'white' }} />
+      <Button onClick={toggle}>
+        <GroupAddIcon style={{ color: 'white' }} />
       </Button>
       <Dialog open={isOpen} onClose={toggle}>
         <DialogTitle>{translations.Invite.dialog.title}</DialogTitle>

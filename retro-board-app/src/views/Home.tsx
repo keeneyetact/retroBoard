@@ -3,14 +3,16 @@ import styled from 'styled-components';
 import shortid from 'shortid';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import {
-  Button,
+  Fab,
   Card,
   CardMedia,
   Typography,
   CardContent,
   CardActions,
   makeStyles,
+  colors,
 } from '@material-ui/core';
+import { ThumbUpAlt } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
 import logo from './home/logo.png';
@@ -20,10 +22,14 @@ interface HomeProps extends RouteComponentProps {}
 const useStyles = makeStyles({
   media: {
     objectFit: 'cover',
+    backgroundColor: colors.grey[200],
   },
   actions: {
     justifyContent: 'center',
     margin: 20,
+  },
+  buttonIcon: {
+    marginRight: 10,
   },
 });
 
@@ -51,14 +57,15 @@ function Home(props: HomeProps) {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions}>
-          <Button
+          <Fab
+            variant="extended"
             onClick={createSession}
-            variant="contained"
             size="large"
             color="secondary"
           >
+            <ThumbUpAlt className={classes.buttonIcon} />
             {translations.Join.standardTab.button}
-          </Button>
+          </Fab>
         </CardActions>
       </MainCard>
       <MainCard>

@@ -16,8 +16,10 @@ const Login = () => {
   const { login } = useGlobalState();
   const [username, setUsername] = useState('');
   const loginHandler = useCallback(() => {
-    const id = md5(username);
-    login(username, id);
+    if (username.length) {
+      const id = md5(username);
+      login(username, id);
+    }
   }, [login, username]);
   const handleUsernameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value),
@@ -27,11 +29,13 @@ const Login = () => {
   return (
     <Dialog
       fullScreen={false}
-      open={true}
+      open
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">Login</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">
+        {translations.Login.header}
+      </DialogTitle>
       <DialogContent>
         <Input
           value={username}
@@ -41,7 +45,12 @@ const Login = () => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={loginHandler} color="primary" autoFocus>
+        <Button
+          onClick={loginHandler}
+          color="primary"
+          autoFocus
+          disabled={!username.length}
+        >
           {translations.Login.buttonLabel}
         </Button>
       </DialogActions>

@@ -7,8 +7,8 @@ interface Language {
 
 export default [
   { value: 'en', iso: 'gb', name: 'English', englishName: 'English' },
-  { value: 'es', iso: 'es', name: 'Español', englishName: 'Spanish' },
   { value: 'fr', iso: 'fr', name: 'Français', englishName: 'French' },
+  { value: 'es', iso: 'es', name: 'Español', englishName: 'Spanish' },
   { value: 'hu', iso: 'hu', name: 'Magyar', englishName: 'Hungarian' },
   { value: 'nl', iso: 'nl', name: 'Nederlands', englishName: 'Dutch' },
   { value: 'pl', iso: 'pl', name: 'Polski', englishName: 'Polish' },
