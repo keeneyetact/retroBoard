@@ -3,12 +3,14 @@ import {
   Column,
   PrimaryColumn,
   ManyToOne,
-  OneToMany,
   ManyToMany,
   JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import Session from './Session';
 import User from './User';
+import { DEFAULT_TIMESTAMP } from '../utils';
 
 @Entity({ name: 'posts' })
 export default class Post {
@@ -28,6 +30,10 @@ export default class Post {
   @ManyToMany(() => User, { eager: true, cascade: true })
   @JoinTable({ name: 'posts-dislikes' })
   public dislikes: User[] | undefined;
+  @CreateDateColumn({ type: 'timestamp with time zone' })
+  public created: Date | undefined;
+  @UpdateDateColumn({ type: 'timestamp with time zone' })
+  public updated: Date | undefined;
   constructor(
     id: string,
     session: Session,

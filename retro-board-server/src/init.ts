@@ -1,7 +1,8 @@
-import { init } from './db/postgres';
+import buildConfig from './build-config';
 
 async function go() {
-  await init();
+  console.log('Creating ormconfig.json before migrations');
+  buildConfig();
 }
 
 go();

@@ -9,6 +9,6 @@ export default (): Promise<Store> => {
     console.log(chalk`{yellow 💻  Using {red Postgres} database}`);
     return postgres();
   }
-  chalk`{yellow 💻  Using {red NeDB} database}`;
+  console.log(chalk`{yellow 💻  Using {red NeDB} database}`);
   return nedb();
 };

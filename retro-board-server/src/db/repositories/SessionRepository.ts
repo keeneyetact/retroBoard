@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { User, Session } from '../entities';
+import { Session } from '../entities';
 import { Session as JsonSession } from 'retro-board-common/src/types';
 
 @EntityRepository(Session)

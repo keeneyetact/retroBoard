@@ -11,4 +11,5 @@ export interface Configuration {
   DB_HOST: string;
   DB_PORT: number;
   BACKEND_PORT: number;
+  SQL_LOG: boolean;
 }

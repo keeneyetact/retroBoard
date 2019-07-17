@@ -24,6 +24,7 @@ ENV DB_HOST=localhost
 ENV DB_PORT=5432
 ENV BACKEND_PORT=3005
 ENV NODE_ENV=production
+ENV SQL_LOG=false
 
 RUN yarn build-server
 

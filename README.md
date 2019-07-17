@@ -138,6 +138,11 @@ If you had a MongoDB database, there are no migration path yet.
 
 ## Versions history
 
+### Version 2.0.1
+
+- Adding support for Postgres migrations
+- Adding created/updated fields on Post and Session
+
 ### Version 2.0.0
 
 - Complete rewrite

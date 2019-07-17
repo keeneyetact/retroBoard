@@ -21,6 +21,7 @@ const config: Configuration = {
   DB_HOST: process.env.DB_HOST!,
   DB_PORT: parseInt(process.env.DB_PORT!),
   BACKEND_PORT: parseInt(process.env.BACKEND_PORT!),
+  SQL_LOG: process.env.SQL_LOG === 'true'
 };
 
 export default config;

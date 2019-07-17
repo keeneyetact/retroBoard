@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn, Index } from 'typeorm';
 
 @Entity({ name: 'users' })
 export default class User {
-  @PrimaryColumn({ primary: true, generated: false })
+  @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
   @Column()
   @Index()
