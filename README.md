@@ -142,6 +142,7 @@ If you had a MongoDB database, there are no migration path yet.
 
 - Adding support for Postgres migrations
 - Adding created/updated fields on Post and Session
+- Bugfix: Summary mode wasn't ordered by votes anymore. (thanks [@cindyccook](https://github.com/cindyccook))
 
 ### Version 2.0.0
 

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { createConnection, Connection } from 'typeorm';
 import { SessionRepository } from './repositories';
+import { Post } from './entities';
 import { Session as JsonSession } from 'retro-board-common/src/types';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
@@ -16,7 +17,15 @@ const get = (_: Connection, sessionRepository: SessionRepository) => async (
   try {
     const session = await sessionRepository.findOne({ id: sessionId });
     if (session) {
-      return session;
+      const postRepository = await _.getRepository(Post);
+      const posts = await postRepository.find({
+        where: { session },
+        order: { created: 'ASC' },
+      });
+      return {
+        ...session,
+        posts,
+      };
     } else {
       return {
         id: sessionId,

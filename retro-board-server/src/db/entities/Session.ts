@@ -18,7 +18,7 @@ export default class Session {
   @Index()
   public name: string;
   @OneToMany(() => Post, post => post.session, {
-    eager: true,
+    // eager: true,
     cascade: true,
   })
   public posts: Post[] | undefined;

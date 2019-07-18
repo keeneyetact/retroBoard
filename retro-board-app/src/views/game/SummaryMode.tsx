@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import {
   Typography,
@@ -20,7 +20,7 @@ interface SectionProps {
 }
 
 const Section = ({ column }: SectionProps) => (
-  <Grid container spacing={4}>
+  <Grid container spacing={4} component="section" role="list">
     <Grid item xs={12}>
       <Card>
         <CardHeader
@@ -28,25 +28,50 @@ const Section = ({ column }: SectionProps) => (
           style={{ backgroundColor: column.color }}
         />
         <CardContent>
-          {column.posts.map(post => (
-            <PostLine post={post} key={post.id} />
-          ))}
+          <PostsList posts={column.posts} />
         </CardContent>
       </Card>
     </Grid>
   </Grid>
 );
 
+interface PostsListProps {
+  posts: Post[];
+}
+
+function sortFunction(a: Post, b: Post): number {
+  const scoreA = a.likes.length - a.dislikes.length;
+  const scoreB = b.likes.length - b.dislikes.length;
+  if (scoreA === scoreB) {
+    return 0;
+  }
+
+  return scoreA < scoreB ? 1 : -1;
+}
+
+const PostsList = ({ posts }: PostsListProps) => {
+  const sortedList = useMemo(() => {
+    return posts.sort(sortFunction);
+  }, [posts]);
+  return (
+    <>
+      {sortedList.map(post => (
+        <PostLine post={post} key={post.id} />
+      ))}
+    </>
+  );
+};
+
 interface PostLineProps {
   post: Post;
 }
 
 const PostLine = ({ post }: PostLineProps) => (
-  <PostContainer>
+  <PostContainer role="listitem">
     <Typography>
-      <PositiveNumber>+{post.likes.length}</PositiveNumber>
+      <PositiveNumber>+{post.likes.length}</PositiveNumber>&nbsp;
       <NegativeNumber>-{post.dislikes.length}</NegativeNumber>
-      &nbsp;{post.content}
+      &nbsp;<span aria-label="post content">{post.content}</span>
     </Typography>
   </PostContainer>
 );
@@ -59,17 +84,15 @@ const NegativeNumber = styled.span`
   color: ${Palette.negative};
 `;
 
-const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => {
-  return (
+const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => (
+  <div>
     <div>
-      <div>
-        {columns.map(column => (
-          <Section key={column.type} column={column} />
-        ))}
-      </div>
+      {columns.map(column => (
+        <Section key={column.type} column={column} />
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 const PostContainer = styled.div``;
 
