@@ -78,6 +78,12 @@ const Column: SFC<ColumnProps> = ({
                 content,
               })
             }
+            onEditAction={action =>
+              onEdit({
+                ...post,
+                action,
+              })
+            }
           />
         ))}
       </div>

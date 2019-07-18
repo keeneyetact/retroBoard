@@ -64,6 +64,12 @@ export default {
   },
   Generic: {
     ok: 'OK',
-    cancel: 'Cancel',
+    cancel: '取消',
+  },
+  Actions: {
+    tooltip: '在此项目的背面创建一个操作',
+    label: '打开“操作”面板',
+    summaryTitle: '你的行动',
+    title: '行动',
   },
 } as Translation;

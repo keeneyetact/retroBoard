@@ -66,4 +66,10 @@ export default {
     ok: 'OK',
     cancel: 'Cancel',
   },
+  Actions: {
+    tooltip: 'إنشاء إجراء على ظهر هذا العنصر',
+    label: 'افتح لوحة Action',
+    summaryTitle: 'أفعالك',
+    title: 'عمل',
+  },
 } as Translation;

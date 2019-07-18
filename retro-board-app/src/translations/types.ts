@@ -65,4 +65,10 @@ export interface Translation {
     ok: string;
     cancel: string;
   };
+  Actions: {
+    label: string;
+    tooltip: string;
+    title: string;
+    summaryTitle: string;
+  };
 }

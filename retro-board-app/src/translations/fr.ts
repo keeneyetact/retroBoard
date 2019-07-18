@@ -69,4 +69,10 @@ export default {
     ok: 'Ok',
     cancel: 'Annuler',
   },
+  Actions: {
+    tooltip: 'Créer une action relative à ce commentaire',
+    label: 'Ajouter une action',
+    summaryTitle: 'Vos Actions',
+    title: 'Action',
+  },
 } as Translation;

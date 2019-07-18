@@ -68,4 +68,10 @@ export default {
     ok: 'OK',
     cancel: 'Cancel',
   },
+  Actions: {
+    tooltip: 'Create an action on the back of this item',
+    label: 'Open the Action panel',
+    summaryTitle: 'Your Actions',
+    title: 'Action',
+  },
 } as Translation;

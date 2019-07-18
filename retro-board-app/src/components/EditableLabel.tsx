@@ -8,6 +8,7 @@ interface EditableLabelProps extends CenteredProp {
   readOnly?: boolean;
   placeholder?: string;
   label?: string;
+  innerRef?: React.RefObject<HTMLTextAreaElement>;
   onChange: (value: string) => void;
 }
 
@@ -82,6 +83,12 @@ export default class EditableLabel extends Component<
         />
       </EditMode>
     );
+  }
+
+  focus() {
+    this.setState({ editMode: true }, () => {
+      this.inputRef.current!.focus();
+    });
   }
 
   render() {

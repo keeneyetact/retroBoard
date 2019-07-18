@@ -64,6 +64,12 @@ export default {
   },
   Generic: {
     ok: 'OK',
-    cancel: 'Cancel',
+    cancel: '取消',
+  },
+  Actions: {
+    tooltip: '在此項目的背面創建一個操作',
+    label: '打開“操作”面板',
+    summaryTitle: '你的行動',
+    title: '行動',
   },
 } as Translation;

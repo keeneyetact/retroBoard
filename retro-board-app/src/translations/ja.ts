@@ -64,6 +64,12 @@ export default {
   },
   Generic: {
     ok: 'OK',
-    cancel: 'Cancel',
+    cancel: 'キャンセル',
+  },
+  Actions: {
+    tooltip: 'アクションを作成する',
+    label: 'アクションパネルを開く',
+    summaryTitle: 'あなたの行動',
+    title: 'アクション',
   },
 } as Translation;

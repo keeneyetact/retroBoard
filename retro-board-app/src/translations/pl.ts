@@ -66,6 +66,12 @@ export default {
   },
   Generic: {
     ok: 'OK',
-    cancel: 'Cancel',
+    cancel: 'Anuluj',
+  },
+  Actions: {
+    tooltip: 'Utwórz akcję z tyłu tego elementu',
+    label: 'Otwórz panel Akcja',
+    summaryTitle: 'Twoje działania',
+    title: 'Akcja',
   },
 } as Translation;

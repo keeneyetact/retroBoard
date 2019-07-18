@@ -180,6 +180,7 @@ db().then(store => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
       post.content = data.post.content;
+      post.action = data.post.action;
       persist(session);
       sendToAll(socket, session.id, RECEIVE_EDIT_POST, data);
     }

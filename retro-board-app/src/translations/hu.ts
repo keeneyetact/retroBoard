@@ -66,6 +66,12 @@ export default {
   },
   Generic: {
     ok: 'OK',
-    cancel: 'Cancel',
+    cancel: 'Megszünteti',
+  },
+  Actions: {
+    tooltip: 'Hozzon létre egy műveletet az elem hátoldalán',
+    label: 'Nyissa meg a Művelet panelt',
+    summaryTitle: 'Az Ön tevékenységei',
+    title: 'Akció',
   },
 } as Translation;

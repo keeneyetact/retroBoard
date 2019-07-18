@@ -169,6 +169,7 @@ const useGame = (sessionId: string) => {
       if (send) {
         const post: Post = {
           content,
+          action: null,
           dislikes: [],
           likes: [],
           id: v4(),

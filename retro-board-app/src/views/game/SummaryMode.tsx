@@ -6,9 +6,17 @@ import {
   CardHeader,
   CardContent,
   Grid,
+  useTheme,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Avatar,
 } from '@material-ui/core';
+import { Feedback } from '@material-ui/icons';
 import { ColumnContent } from './types';
 import { Palette } from '../../Theme';
+import useTranslations from '../../translations';
 import { Post } from 'retro-board-common';
 
 interface SummaryModeProps {
@@ -28,7 +36,11 @@ const Section = ({ column }: SectionProps) => (
           style={{ backgroundColor: column.color }}
         />
         <CardContent>
-          <PostsList posts={column.posts} />
+          {column.posts.length ? (
+            <PostsList posts={column.posts} />
+          ) : (
+            <Typography variant="body1">No posts in this category.</Typography>
+          )}
         </CardContent>
       </Card>
     </Grid>
@@ -84,15 +96,68 @@ const NegativeNumber = styled.span`
   color: ${Palette.negative};
 `;
 
-const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => (
-  <div>
+const ActionsList = ({ posts }: PostsListProps) => {
+  const theme = useTheme();
+  const {
+    Actions: { summaryTitle },
+  } = useTranslations();
+  return (
+    <Grid
+      container
+      spacing={4}
+      component="section"
+      role="list"
+      style={{ marginTop: 30 }}
+    >
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader
+            title={summaryTitle}
+            style={{
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+            }}
+          />
+          <CardContent>
+            <List>
+              {posts.map(post => (
+                <ListItem key={post.id}>
+                  <ListItemIcon>
+                    <Avatar>
+                      <Feedback />
+                    </Avatar>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={post.action}
+                    secondary={post.content}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+};
+
+const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => {
+  const posts = useMemo(() => {
+    return columns.reduce<Post[]>((prev, current) => {
+      return [...prev, ...current.posts.filter(post => !!post.action)];
+    }, []);
+  }, [columns]);
+  return (
     <div>
-      {columns.map(column => (
-        <Section key={column.type} column={column} />
-      ))}
+      <div>
+        {columns.map(column => (
+          <Section key={column.type} column={column} />
+        ))}
+        {posts.length ? <ActionsList posts={posts} /> : null}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PostContainer = styled.div``;
 
