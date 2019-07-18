@@ -1,6 +1,6 @@
 {
   "name": "retro-board-server",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "GNU GPLv3",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "@types/lodash": "^4.14.136",
     "@types/md5": "^2.1.33",
     "@types/nedb": "^1.8.8",
-    "@types/node": "^12.6.4",
+    "@types/node": "^12.6.8",
     "@types/socket.io": "^2.1.2",
     "@types/uuid": "^3.4.5",
     "chalk": "^2.4.2",
