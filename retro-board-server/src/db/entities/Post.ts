@@ -10,13 +10,12 @@ import {
 } from 'typeorm';
 import Session from './Session';
 import User from './User';
-import { DEFAULT_TIMESTAMP } from '../utils';
 
 @Entity({ name: 'posts' })
 export default class Post {
   @PrimaryColumn({ primary: true, generated: false })
   public id: string;
-  @ManyToOne(() => Session)
+  @ManyToOne(() => Session, { nullable: false })
   public session: Session;
   @Column()
   public postType: string;
@@ -24,12 +23,12 @@ export default class Post {
   public content: string;
   @Column({ nullable: true, type: 'character varying' })
   public action: null | string;
-  @ManyToOne(() => User, { eager: true, cascade: true })
+  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
   public user: User;
-  @ManyToMany(() => User, { eager: true, cascade: true })
+  @ManyToMany(() => User, { eager: true, cascade: true, nullable: false })
   @JoinTable({ name: 'posts-likes' })
   public likes: User[] | undefined;
-  @ManyToMany(() => User, { eager: true, cascade: true })
+  @ManyToMany(() => User, { eager: true, cascade: true, nullable: false })
   @JoinTable({ name: 'posts-dislikes' })
   public dislikes: User[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })

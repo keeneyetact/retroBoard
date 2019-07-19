@@ -1,8 +1,7 @@
 import 'reflect-metadata';
-import { createConnection, Connection } from 'typeorm';
-import { SessionRepository } from './repositories';
-import { Post } from './entities';
-import { Session as JsonSession } from 'retro-board-common/src/types';
+import { createConnection } from 'typeorm';
+import { SessionRepository, PostRepository } from './repositories';
+import { Session as JsonSession, Post as JsonPost } from 'retro-board-common';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
 
@@ -11,17 +10,17 @@ export async function getDb() {
   return connection;
 }
 
-const get = (_: Connection, sessionRepository: SessionRepository) => async (
-  sessionId: string
-) => {
+const get = (
+  sessionRepository: SessionRepository,
+  postRepository: PostRepository
+) => async (sessionId: string): Promise<JsonSession> => {
   try {
     const session = await sessionRepository.findOne({ id: sessionId });
     if (session) {
-      const postRepository = await _.getRepository(Post);
-      const posts = await postRepository.find({
+      const posts = (await postRepository.find({
         where: { session },
         order: { created: 'ASC' },
-      });
+      })) as JsonPost[];
       return {
         ...session,
         posts,
@@ -38,10 +37,24 @@ const get = (_: Connection, sessionRepository: SessionRepository) => async (
   }
 };
 
-const set = (_: Connection, sessionRepository: SessionRepository) => async (
+const saveSession = (sessionRepository: SessionRepository) => async (
   session: JsonSession
-) => {
-  await sessionRepository.save(session);
+): Promise<void> => {
+  await sessionRepository.saveFromJson(session);
+};
+
+const savePost = (postRepository: PostRepository) => async (
+  sessionId: string,
+  post: JsonPost
+): Promise<void> => {
+  await postRepository.saveFromJson(sessionId, post);
+};
+
+const deletePost = (postRepository: PostRepository) => async (
+  _: string,
+  postId: string
+): Promise<void> => {
+  await postRepository.delete({ id: postId });
 };
 
 export default async function db(): Promise<Store> {
@@ -49,8 +62,11 @@ export default async function db(): Promise<Store> {
   const sessionRepository = await connection.getCustomRepository(
     SessionRepository
   );
+  const postRepository = await connection.getCustomRepository(PostRepository);
   return {
-    set: set(connection, sessionRepository),
-    get: get(connection, sessionRepository),
+    get: get(sessionRepository, postRepository),
+    saveSession: saveSession(sessionRepository),
+    savePost: savePost(postRepository),
+    deletePost: deletePost(postRepository),
   };
 }

@@ -8,18 +8,18 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Post from './Post';
-import { DEFAULT_TIMESTAMP } from '../utils';
 
 @Entity({ name: 'sessions' })
 export default class Session {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'character varying' })
   @Index()
-  public name: string;
+  public name: string | null;
   @OneToMany(() => Post, post => post.session, {
-    // eager: true,
     cascade: true,
+    nullable: false,
+    eager: false,
   })
   public posts: Post[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
@@ -27,7 +27,7 @@ export default class Session {
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
 
-  constructor(id: string, name: string) {
+  constructor(id: string, name: string | null) {
     this.id = id;
     this.name = name;
   }

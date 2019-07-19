@@ -138,6 +138,12 @@ If you had a MongoDB database, there are no migration path yet.
 
 ## Versions history
 
+### Version 2.0.2
+
+- Added an "Action" field on each Post: this allows the user to define a list of actions that need doing in the next sprint, and allows displaying this list in the Summary Mode.
+- Bugfix: In certain conditions, some race-condition would store a post with a null session ID (so the post was lost forever).
+- Bugfix: Disabled the Web Worker, as it's not working properly when loading a game directly (and not loading the homepage).
+
 ### Version 2.0.1
 
 - Adding support for Postgres migrations

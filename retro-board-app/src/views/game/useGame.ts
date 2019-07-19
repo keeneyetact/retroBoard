@@ -159,7 +159,7 @@ const useGame = (sessionId: string) => {
       if (debug) {
         console.log('Add to previous sessions');
       }
-      addToPreviousSessions(sessionId, sessionName, user);
+      addToPreviousSessions(sessionId, sessionName || '', user);
     }
   }, [user, sessionId, sessionName, addToPreviousSessions]);
 

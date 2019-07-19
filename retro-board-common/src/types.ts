@@ -1,6 +1,6 @@
 export interface Session {
   id: string;
-  name: string;
+  name: string | null;
   posts: Post[];
 }
 

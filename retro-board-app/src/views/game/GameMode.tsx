@@ -49,7 +49,7 @@ function GameMode({
       >
         <EditableLabel
           placeholder={translations.SessionName.defaultSessionName}
-          value={state.session.name}
+          value={state.session.name || ''}
           centered
           onChange={onRenameSession}
         />

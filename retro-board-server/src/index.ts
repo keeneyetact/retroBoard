@@ -82,8 +82,16 @@ db().then(store => {
     socket.emit(action, data);
   };
 
-  const persist = (session: Session) =>
-    store.set(session).catch((err: string) => console.error(err));
+  const persistSession = (session: Session) =>
+    store.saveSession(session).catch((err: string) => console.error(err));
+
+  const persistPost = (sessionId: string, post: Post) =>
+    store.savePost(sessionId, post).catch((err: string) => console.error(err));
+
+  const deletePost = (sessionId: string, postId: string) =>
+    store
+      .deletePost(sessionId, postId)
+      .catch((err: string) => console.error(err));
 
   const sendClientList = (sessionId: string, socket: ExtendedSocket) => {
     const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
@@ -109,17 +117,16 @@ db().then(store => {
     sendClientList(sessionId, socket);
   };
 
-  const receivePost = (
+  const receivePost = async (
     session: Session,
-    data: Post,
+    post: Post,
     socket: ExtendedSocket
   ) => {
-    session.posts.push(data);
-    persist(session);
-    sendToAll(socket, session.id, RECEIVE_POST, data);
+    persistPost(session.id, post);
+    sendToAll(socket, session.id, RECEIVE_POST, post);
   };
 
-  const joinSession = (
+  const joinSession = async (
     session: Session,
     data: UserData,
     socket: ExtendedSocket
@@ -137,51 +144,67 @@ db().then(store => {
     });
   };
 
-  const renameSession = (
+  const renameSession = async (
     session: Session,
     data: NameData,
     socket: ExtendedSocket
   ) => {
     session.name = data.name;
-    persist(session);
+    persistSession(session);
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 
-  const leave = (session: Session, _: void, socket: ExtendedSocket) => {
+  const leave = async (session: Session, _: void, socket: ExtendedSocket) => {
     socket.leave(getRoom(session.id), () => {
       sendClientList(session.id, socket);
     });
   };
 
-  const login = (session: Session, data: UserData, socket: ExtendedSocket) => {
+  const login = async (
+    session: Session,
+    data: UserData,
+    socket: ExtendedSocket
+  ) => {
     recordUser(session.id, data.user, socket);
   };
 
-  const deletePost = (session: Session, data: Post, socket: ExtendedSocket) => {
+  const onDeletePost = async (
+    session: Session,
+    data: Post,
+    socket: ExtendedSocket
+  ) => {
     session.posts = session.posts.filter(p => p.id !== data.id);
-    persist(session);
+    deletePost(session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
   };
 
-  const like = (session: Session, data: LikeUpdate, socket: ExtendedSocket) => {
+  const like = async (
+    session: Session,
+    data: LikeUpdate,
+    socket: ExtendedSocket
+  ) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
       const array = data.like ? post.likes : post.dislikes;
 
       if (!array.find(u => u.id === data.user.id)) {
         array.push(data.user);
-        persist(session);
+        persistPost(session.id, post);
         sendToAll(socket, session.id, RECEIVE_LIKE, post);
       }
     }
   };
 
-  const edit = (session: Session, data: PostUpdate, socket: ExtendedSocket) => {
+  const edit = async (
+    session: Session,
+    data: PostUpdate,
+    socket: ExtendedSocket
+  ) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
       post.content = data.post.content;
       post.action = data.post.action;
-      persist(session);
+      persistPost(session.id, post);
       sendToAll(socket, session.id, RECEIVE_EDIT_POST, data);
     }
   };
@@ -198,14 +221,18 @@ db().then(store => {
 
     interface Action {
       type: string;
-      handler: (session: Session, data: any, socket: ExtendedSocket) => void;
+      handler: (
+        session: Session,
+        data: any,
+        socket: ExtendedSocket
+      ) => Promise<void>;
     }
 
     const actions: Action[] = [
       { type: ADD_POST_SUCCESS, handler: receivePost },
       { type: JOIN_SESSION, handler: joinSession },
       { type: RENAME_SESSION, handler: renameSession },
-      { type: DELETE_POST, handler: deletePost },
+      { type: DELETE_POST, handler: onDeletePost },
       { type: LIKE_SUCCESS, handler: like },
       { type: EDIT_POST, handler: edit },
       { type: LOGIN_SUCCESS, handler: login },
