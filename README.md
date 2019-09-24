@@ -65,14 +65,14 @@ You must have `docker` and `docker-compose` installed on your system.
 This will install a production-ready version of Retrospected automatically, using Postgres. You don't need to have anything installed other than Docker. This will install and run:
 
 - Postgres
-- pgAdmin4 (Web ui for postgres)
+- pgAdmin4 (Web UI for postgres)
 - The Retrospected Nodejs backend
 - The frontend, served by `nginx`.
 
 ### Installation
 
 - Copy `docker-compose.yml.example` to `docker-compose.yml`
-- Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable GA.
+- Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable Google Analytics tracking.
 - Run `docker-compose build`: this will build the backend and frontend images, based on your settings.
 - Get yourself a coffee ☕️
 - Run `docker-compose up -d`
@@ -107,21 +107,6 @@ By default, the database engine is NeDB, an in-process database with no external
 
 If you want to use a more "production-ready" database such as Postgres (without Docker), copy `.env.example` to `.env`, change `DB_TYPE` to `postgres` and fill the rest.
 
-## Migrating an old NeDB database from V1
-
-If you were running retrospected on your own, and were using NeDB, you can migrate the data to Postgres by following these instructions:
-
-- Copy (from your v1 folder), the file `/build/persist/db`
-- Paste it at the root of your v2 folder (same directory as this README)
-- Run `yarn migrate`
-
-### Migrating while using Docker
-
-- To copy the db file into the (running) container: `docker cp ~/db abcd1234:/usr/src/backend` where `abcd1234` is your container ID.
-- Then get a bash prompt on your container by doing `docker exec -it abcd1234 sh`, navigate to `/usr/src/backend` and run `yarn migrate`.
-
-If you had a MongoDB database, there are no migration path yet.
-
 ## How to debug
 
 ### Debugging the client
@@ -137,6 +122,11 @@ If you had a MongoDB database, there are no migration path yet.
 - Making the app more flexible (name of each "columns", etc.)
 
 ## Versions history
+
+### Version 2.0.3
+
+- Upgraded dependencies
+- Fixed an issue with Docker eating too much space with its unlimited log size. Log is now limited to 50mb.
 
 ### Version 2.0.2
 
