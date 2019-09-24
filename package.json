@@ -46,8 +46,8 @@
   },
   "homepage": "http://www.retrospected.com",
   "dependencies": {
-    "@types/node": "^12.6.1",
-    "del-cli": "^2.0.0",
-    "typescript": "3.5.3"
+    "@types/node": "^12.7.5",
+    "del-cli": "^3.0.0",
+    "typescript": "3.6.3"
   }
 }
