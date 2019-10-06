@@ -32,7 +32,7 @@ export default class EditableLabel extends Component<
   }
 
   onKeyPress(e: KeyboardEvent) {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && !e.shiftKey) {
       this.setState({ editMode: false });
     }
   }
@@ -102,7 +102,11 @@ export default class EditableLabel extends Component<
 
 const LabelContainer = styled.span``;
 
-const ViewMode = styled.span``;
+const ViewMode = styled.span`
+  > span {
+    white-space: pre;
+  }
+`;
 
 const EditMode = styled.span<CenteredProp>`
   margin: auto;
