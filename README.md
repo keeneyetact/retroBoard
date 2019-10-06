@@ -13,6 +13,7 @@ It features the following technologies:
 - [React Router 4](https://github.com/ReactTraining/react-router)
 - [Mono Repo / Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Hot-reloading](https://github.com/gaearon/react-hot-loader)
 - [Socket IO](http://socket.io)
 - [Webpack 4](https://github.com/webpack/webpack) (See older versions for Webpack 1, 2 and 3)
 - [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
@@ -31,7 +32,6 @@ Previous versions, up to v1.0.1 featured the following libraries:
 - ~~[redux-saga](https://github.com/yelouafi/redux-saga)~~
 - ~~[reselect](https://github.com/reactjs/reselect)~~
 - ~~[ESLint](http://eslint.org/) for JS and JSX~~
-- ~~[Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html): Not working with Typescript (yet)~~
 
 ## Prerequisites
 
@@ -72,7 +72,7 @@ This will install a production-ready version of Retrospected automatically, usin
 ### Installation
 
 - Copy `docker-compose.yml.example` to `docker-compose.yml`
-- Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable Google Analytics tracking.
+- Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable Google Analytics tracking. You can also leave the file "as-is", it has sensible defaults.
 - Run `docker-compose build`: this will build the backend and frontend images, based on your settings.
 - Get yourself a coffee ☕️
 - Run `docker-compose up -d`
@@ -118,10 +118,15 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Roadmap
 
-- Making Hot Reloading work with CRA + Typescript.
 - Making the app more flexible (name of each "columns", etc.)
 
 ## Versions history
+
+### Version 2.0.4
+
+- Upgraded dependencies
+- Allows multi-line posts and comments (use the shift key to add a new line) (Thanks [@andyk314](https://github.com/andyk314))
+- Re-adding Hot Reload, which now works great with TypeScript and Create-React-App.
 
 ### Version 2.0.3
 
