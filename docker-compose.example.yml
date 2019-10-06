@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres
+    image: postgres:11.5
     hostname: postgres
     environment:
       POSTGRES_USER: postgres # Must be the same as DB_USER below
@@ -16,7 +16,7 @@ services:
         max-size: '50m'
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     depends_on:
       - postgres
     ports:
