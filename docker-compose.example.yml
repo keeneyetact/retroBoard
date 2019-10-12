@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: postgres # Must be the same as DB_PASSWORD below
       POSTGRES_DB: retroboard # Must be the same as DB_NAME below
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
     restart: unless-stopped
     logging:
       driver: 'json-file'
@@ -24,6 +24,8 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@retrospected.com # Can be anything
       PGADMIN_DEFAULT_PASSWORD: admin # Please change this!
+    volumes:
+      - pgadmin:/var/lib/pgadmin
     restart: unless-stopped
     logging:
       driver: 'json-file'
@@ -73,4 +75,5 @@ services:
         max-size: '50m'
 
 volumes:
-  postgres-data:
+  database:
+  pgadmin:
