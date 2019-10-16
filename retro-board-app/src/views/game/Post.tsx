@@ -76,6 +76,7 @@ const PostItem = ({
             value={post.content}
             onChange={onEdit}
             label="Post content"
+            multiline
           />
         </Typography>
       </CardContent>
@@ -88,6 +89,7 @@ const PostItem = ({
               onChange={onEditAction}
               label={translations.title}
               ref={actionInput}
+              multiline
             />
           </Typography>
         </CardContent>

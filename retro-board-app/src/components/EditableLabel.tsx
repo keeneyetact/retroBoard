@@ -7,6 +7,7 @@ interface EditableLabelProps extends CenteredProp {
   value: string;
   readOnly?: boolean;
   placeholder?: string;
+  multiline?: boolean;
   label?: string;
   innerRef?: React.RefObject<HTMLTextAreaElement>;
   onChange: (value: string) => void;
@@ -24,11 +25,11 @@ export default class EditableLabel extends Component<
   EditableLabelProps,
   EditableLabelState
 > {
-  inputRef: React.RefObject<HTMLTextAreaElement>;
+  inputRef: React.RefObject<HTMLElement>;
   constructor(props: EditableLabelProps) {
     super(props);
     this.state = { editMode: false };
-    this.inputRef = React.createRef<HTMLTextAreaElement>();
+    this.inputRef = React.createRef<HTMLElement>();
   }
 
   onKeyPress(e: KeyboardEvent) {
@@ -66,21 +67,37 @@ export default class EditableLabel extends Component<
   }
 
   renderEditMode() {
-    const { value, onChange, label } = this.props;
+    const { value, onChange, label, multiline = false } = this.props;
     return (
       <EditMode>
-        <TextareaAutosize
-          ref={this.inputRef}
-          aria-label={`${label} input`}
-          value={value}
-          onBlur={() => {
-            this.setState({ editMode: false });
-          }}
-          onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-          onChange={v => {
-            onChange(v.currentTarget.value);
-          }}
-        />
+        {multiline ? (
+          <TextareaAutosize
+            ref={this.inputRef as React.RefObject<HTMLTextAreaElement>}
+            aria-label={`${label} input`}
+            value={value}
+            onBlur={() => {
+              this.setState({ editMode: false });
+            }}
+            onKeyPress={e => this.onKeyPress(e.nativeEvent)}
+            onChange={v => {
+              onChange(v.currentTarget.value);
+            }}
+          />
+        ) : (
+          <input
+            ref={this.inputRef as React.RefObject<HTMLInputElement>}
+            aria-label={`${label} input`}
+            value={value}
+            onBlur={() => {
+              this.setState({ editMode: false });
+            }}
+            onKeyPress={e => this.onKeyPress(e.nativeEvent)}
+            onChange={v => {
+              onChange(v.currentTarget.value);
+            }}
+          />
+        )}
+        <InvisibleEditIcon fontSize="inherit" />
       </EditMode>
     );
   }
@@ -103,15 +120,25 @@ export default class EditableLabel extends Component<
 const LabelContainer = styled.span``;
 
 const ViewMode = styled.span`
+  display: inline-block;
   > span {
     white-space: pre;
+    line-height: 1.5;
   }
 `;
 
 const EditMode = styled.span<CenteredProp>`
-  margin: auto;
+  display: inline-flex;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
 
-  textarea {
+  textarea,
+  input {
+    flex: 1;
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
     width: 100%;
     background: none;
     border: none;
@@ -119,7 +146,6 @@ const EditMode = styled.span<CenteredProp>`
     font-size: inherit;
     text-align: ${props => (props.centered ? 'center' : 'inherit')};
     padding: 0;
-    margin: -1px;
     line-height: 1.5;
   }
 `;
@@ -128,4 +154,9 @@ const EditIcon = styled(Edit)`
   font-size: 0.01em;
   position: relative;
   top: 2px;
+`;
+
+const InvisibleEditIcon = styled(EditIcon)`
+  opacity: 0;
+  margin-left: 6px;
 `;
