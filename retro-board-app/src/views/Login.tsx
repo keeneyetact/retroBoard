@@ -29,6 +29,8 @@ const Login = () => {
   return (
     <Dialog
       fullScreen={false}
+      maxWidth="xs"
+      fullWidth
       open
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
@@ -42,6 +44,7 @@ const Login = () => {
           onChange={handleUsernameChange}
           title={translations.Login.buttonLabel}
           placeholder={translations.Login.namePlaceholder}
+          fullWidth
         />
       </DialogContent>
       <DialogActions>
