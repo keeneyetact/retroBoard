@@ -122,6 +122,12 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Versions history
 
+### Version 2.0.5 WIP WIP WIP
+
+- Upgraded dependencies
+- Various UI fixes (Login modal, editable labels)
+- Various Docker improvements
+
 ### Version 2.0.4
 
 - Upgraded dependencies
