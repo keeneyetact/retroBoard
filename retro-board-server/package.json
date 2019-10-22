@@ -19,6 +19,7 @@
     "@types/node": "^12.11.1",
     "@types/socket.io": "^2.1.4",
     "@types/uuid": "^3.4.5",
+    "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
     "cross-env": "6.0.3",
     "date-fns": "^2.5.1",

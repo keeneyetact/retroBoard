@@ -25,7 +25,8 @@ function GamePage({
 }: GameProps) {
   const translations = useTranslations();
   const { state } = useGlobalState();
-  const { summaryMode } = state;
+  const { summaryMode, session } = state;
+  const { wellLabel, notWellLabel, ideasLabel, posts } = session;
 
   const {
     initialised,
@@ -40,27 +41,27 @@ function GamePage({
     () => [
       {
         type: PostType.Well,
-        posts: state.session.posts.filter(p => p.postType === PostType.Well),
+        posts: posts.filter(p => p.postType === PostType.Well),
         icon: SentimentSatisfied,
-        label: translations.PostBoard.wellQuestion,
+        label: wellLabel || translations.PostBoard.wellQuestion,
         color: '#E8F5E9',
       },
       {
         type: PostType.NotWell,
-        posts: state.session.posts.filter(p => p.postType === PostType.NotWell),
+        posts: posts.filter(p => p.postType === PostType.NotWell),
         icon: SentimentVeryDissatisfied,
-        label: translations.PostBoard.notWellQuestion,
+        label: notWellLabel || translations.PostBoard.notWellQuestion,
         color: '#FFEBEE',
       },
       {
         type: PostType.Ideas,
-        posts: state.session.posts.filter(p => p.postType === PostType.Ideas),
+        posts: posts.filter(p => p.postType === PostType.Ideas),
         icon: WbSunny,
-        label: translations.PostBoard.ideasQuestion,
+        label: ideasLabel || translations.PostBoard.ideasQuestion,
         color: '#FFFDE7',
       },
     ],
-    [state.session.posts, translations.PostBoard]
+    [posts, translations.PostBoard, wellLabel, notWellLabel, ideasLabel]
   );
 
   return (

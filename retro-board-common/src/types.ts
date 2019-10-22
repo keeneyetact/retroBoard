@@ -1,7 +1,18 @@
-export interface Session {
+export interface Session extends SessionOptions {
   id: string;
   name: string | null;
   posts: Post[];
+}
+
+export interface SessionOptions {
+  maxUpVotes: number | null;
+  maxDownVotes: number | null;
+  allowActions: boolean;
+  allowSelfVoting: boolean;
+  allowMultipleVotes: boolean;
+  wellLabel: string | null;
+  notWellLabel: string | null;
+  ideasLabel: string | null;
 }
 
 export interface Post {

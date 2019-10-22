@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import socketIo from 'socket.io';
 import http from 'http';
 import { find } from 'lodash';
@@ -27,7 +28,14 @@ const {
 } = Actions;
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 const httpServer = new http.Server(app);
+
+app.get('/api/ping', (req, res) => {
+  res.send('pong');
+});
+
 const io = socketIo(httpServer);
 const port = config.BACKEND_PORT || 8081;
 
@@ -134,7 +142,7 @@ db().then(store => {
     socket.join(getRoom(session.id), () => {
       socket.sessionId = session.id;
       if (session.posts.length) {
-        sendToSelf(socket, RECEIVE_BOARD, session.posts);
+        sendToSelf(socket, RECEIVE_BOARD, session);
       }
       if (session.name) {
         sendToSelf(socket, RECEIVE_SESSION_NAME, session.name);
@@ -143,6 +151,13 @@ db().then(store => {
       recordUser(session.id, data.user, socket);
     });
   };
+
+  // Create session
+  app.post('/api/create/:id', async (req, res) => {
+    console.log('Create: ', req.body, req.params.id);
+    await store.create(req.params.id, req.body);
+    res.status(200).send();
+  });
 
   const renameSession = async (
     session: Session,
@@ -214,9 +229,7 @@ db().then(store => {
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
     console.log(
       d() +
-        chalk`{blue Connection: {red New user connected} {grey ${
-          socket.id
-        } ${ip}}}`
+        chalk`{blue Connection: {red New user connected} {grey ${socket.id} ${ip}}}`
     );
 
     interface Action {

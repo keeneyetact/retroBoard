@@ -59,10 +59,7 @@ export default (state: State, action: Action): State => {
     case RECEIVE_BOARD:
       return {
         ...state,
-        session: {
-          ...state.session,
-          posts: action.payload,
-        },
+        session: action.payload,
       };
     case RENAME_SESSION:
       return {
@@ -72,7 +69,6 @@ export default (state: State, action: Action): State => {
           name: action.payload,
         },
       };
-
     case RESET_SESSION:
       return {
         ...state,
@@ -81,6 +77,14 @@ export default (state: State, action: Action): State => {
           id: '',
           name: '',
           posts: [],
+          allowActions: true,
+          allowMultipleVotes: false,
+          allowSelfVoting: false,
+          maxDownVotes: null,
+          maxUpVotes: null,
+          wellLabel: null,
+          ideasLabel: null,
+          notWellLabel: null,
         },
       };
     case TOGGLE_SUMMARY_MODE:

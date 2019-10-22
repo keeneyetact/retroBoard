@@ -9,7 +9,7 @@ export default class PostRepository extends Repository<Post> {
     if (session) {
       await this.save(toPost(post, session));
     } else {
-      const newSession = new Session(sessionId, null);
+      const newSession = new Session(sessionId, null, {});
       newSession.posts = [toPost(post, newSession)];
       await this.manager.save(Session, newSession);
     }

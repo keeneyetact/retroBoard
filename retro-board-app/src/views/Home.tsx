@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import shortid from 'shortid';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -15,7 +15,9 @@ import {
 import { ThumbUpAlt } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
+import CreateSessionModal from './home/CreateSession';
 import logo from './home/logo.png';
+import { SessionOptions } from 'retro-board-common';
 
 interface HomeProps extends RouteComponentProps {}
 
@@ -35,10 +37,37 @@ const useStyles = makeStyles({
 
 function Home(props: HomeProps) {
   const translations = useTranslations();
-  const createSession = useCallback(() => {
-    props.history.push('/game/' + shortid());
-  }, [props.history]);
+  const createSession = useCallback(
+    async (options: SessionOptions) => {
+      const id = shortid();
+      const response = await fetch(`/api/create/${id}`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(options),
+      });
+      console.log('Response: ', response);
+      if (response.ok) {
+        props.history.push(`/game/${id}`);
+      }
+    },
+    [props.history]
+  );
   const classes = useStyles();
+  const [modalOpen, setModalOpen] = useState(false);
+  const onCloseModal = useCallback(() => {
+    setModalOpen(false);
+  }, []);
+  const onOpenModal = useCallback(() => {
+    setModalOpen(true);
+  }, []);
   return (
     <>
       <MainCard>
@@ -59,13 +88,18 @@ function Home(props: HomeProps) {
         <CardActions className={classes.actions}>
           <Fab
             variant="extended"
-            onClick={createSession}
+            onClick={onOpenModal}
             size="large"
             color="secondary"
           >
             <ThumbUpAlt className={classes.buttonIcon} />
             {translations.Join.standardTab.button}
           </Fab>
+          <CreateSessionModal
+            open={modalOpen}
+            onClose={onCloseModal}
+            onLaunch={createSession}
+          />
         </CardActions>
       </MainCard>
       <MainCard>

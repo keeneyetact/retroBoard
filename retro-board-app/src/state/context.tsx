@@ -30,6 +30,14 @@ export const initialState: State = {
     id: '',
     name: '',
     posts: [],
+    allowActions: true,
+    allowMultipleVotes: false,
+    allowSelfVoting: false,
+    maxDownVotes: null,
+    maxUpVotes: null,
+    wellLabel: null,
+    ideasLabel: null,
+    notWellLabel: null,
   },
 };
 

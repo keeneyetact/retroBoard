@@ -1,7 +1,8 @@
-import { Session, Post } from 'retro-board-common';
+import { Session, Post, SessionOptions } from 'retro-board-common';
 
 export interface Store {
   get: (key: string) => Promise<Session>;
+  create: (id: string, options: SessionOptions) => Promise<void>;
   saveSession: (session: Session) => Promise<void>;
   savePost: (sessionId: string, post: Post) => Promise<void>;
   deletePost: (sessionId: string, postId: string) => Promise<void>;

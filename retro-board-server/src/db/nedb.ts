@@ -1,9 +1,40 @@
 import Datastore from 'nedb';
 import path from 'path';
-import { Session, Post } from 'retro-board-common';
+import { Session, Post, SessionOptions } from 'retro-board-common';
 import { Store } from '../types';
 
 const dbFile = path.resolve(__dirname, '..', 'persist', 'db');
+
+const create = (store: Datastore) => (
+  id: string,
+  options: SessionOptions
+): Promise<void> =>
+  new Promise((resolve, reject) => {
+    store.findOne({ id }, (err, session) => {
+      if (err) {
+        reject(err);
+      } else if (session) {
+        resolve();
+      } else {
+        store.update(
+          { id },
+          {
+            name: '',
+            posts: [],
+            ...options,
+          },
+          { upsert: true },
+          err => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          }
+        );
+      }
+    });
+  });
 
 const get = (store: Datastore) => (sessionId: string): Promise<Session> =>
   new Promise((resolve, reject) => {
@@ -17,6 +48,15 @@ const get = (store: Datastore) => (sessionId: string): Promise<Session> =>
           id: sessionId,
           name: null,
           posts: [],
+          // TODO
+          allowActions: true,
+          allowMultipleVotes: false,
+          allowSelfVoting: false,
+          maxDownVotes: null,
+          maxUpVotes: null,
+          ideasLabel: null,
+          notWellLabel: null,
+          wellLabel: null,
         });
       }
     });
@@ -66,6 +106,15 @@ const savePost = (store: Datastore) => (
           id: sessionId,
           name: null,
           posts: [],
+          // TODO
+          allowActions: true,
+          allowMultipleVotes: false,
+          allowSelfVoting: false,
+          maxDownVotes: null,
+          maxUpVotes: null,
+          ideasLabel: null,
+          notWellLabel: null,
+          wellLabel: null,
         };
         session.posts.push(post);
         store.update({ id: session.id }, session, { upsert: true }, err => {
@@ -109,5 +158,6 @@ export default function db() {
     saveSession: saveSession(store),
     savePost: savePost(store),
     deletePost: deletePost(store),
+    create: create(store),
   });
 }
