@@ -1,13 +1,8 @@
 import React, { useMemo } from 'react';
-import {
-  SentimentSatisfied,
-  SentimentVeryDissatisfied,
-  WbSunny,
-} from '@material-ui/icons';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { PostType } from 'retro-board-common';
 import useTranslations from '../translations';
 import useGlobalState from '../state';
+import { extrapolate } from '../state/columns';
 import useGame from './game/useGame';
 import GameMode from './game/GameMode';
 import SummaryMode from './game/SummaryMode';
@@ -26,7 +21,7 @@ function GamePage({
   const translations = useTranslations();
   const { state } = useGlobalState();
   const { summaryMode, session } = state;
-  const { wellLabel, notWellLabel, ideasLabel, posts } = session;
+  const { posts } = session;
 
   const {
     initialised,
@@ -38,30 +33,18 @@ function GamePage({
   } = useGame(gameId);
 
   const columns: ColumnContent[] = useMemo(
-    () => [
-      {
-        type: PostType.Well,
-        posts: posts.filter(p => p.postType === PostType.Well),
-        icon: SentimentSatisfied,
-        label: wellLabel || translations.PostBoard.wellQuestion,
-        color: '#E8F5E9',
-      },
-      {
-        type: PostType.NotWell,
-        posts: posts.filter(p => p.postType === PostType.NotWell),
-        icon: SentimentVeryDissatisfied,
-        label: notWellLabel || translations.PostBoard.notWellQuestion,
-        color: '#FFEBEE',
-      },
-      {
-        type: PostType.Ideas,
-        posts: posts.filter(p => p.postType === PostType.Ideas),
-        icon: WbSunny,
-        label: ideasLabel || translations.PostBoard.ideasQuestion,
-        color: '#FFFDE7',
-      },
-    ],
-    [posts, translations.PostBoard, wellLabel, notWellLabel, ideasLabel]
+    () =>
+      session.columns
+        .map(col => extrapolate(col, translations))
+        .map(
+          (col, index) =>
+            ({
+              index,
+              posts: posts.filter(p => p.column === index),
+              ...col,
+            } as ColumnContent)
+        ),
+    [posts, session.columns, translations]
   );
 
   return (

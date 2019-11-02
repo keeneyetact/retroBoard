@@ -141,13 +141,7 @@ db().then(store => {
   ) => {
     socket.join(getRoom(session.id), () => {
       socket.sessionId = session.id;
-      if (session.posts.length) {
-        sendToSelf(socket, RECEIVE_BOARD, session);
-      }
-      if (session.name) {
-        sendToSelf(socket, RECEIVE_SESSION_NAME, session.name);
-      }
-
+      sendToSelf(socket, RECEIVE_BOARD, session);
       recordUser(session.id, data.user, socket);
     });
   };
@@ -155,7 +149,7 @@ db().then(store => {
   // Create session
   app.post('/api/create/:id', async (req, res) => {
     console.log('Create: ', req.body, req.params.id);
-    await store.create(req.params.id, req.body);
+    await store.create(req.params.id, req.body.options, req.body.columns);
     res.status(200).send();
   });
 
@@ -202,7 +196,10 @@ db().then(store => {
     if (post) {
       const array = data.like ? post.likes : post.dislikes;
 
-      if (!array.find(u => u.id === data.user.id)) {
+      if (
+        session.allowMultipleVotes ||
+        !array.find(u => u.id === data.user.id)
+      ) {
         array.push(data.user);
         persistPost(session.id, post);
         sendToAll(socket, session.id, RECEIVE_LIKE, post);

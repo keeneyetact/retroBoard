@@ -1,10 +1,10 @@
 import config from './config';
 import { ConnectionOptions } from 'typeorm';
-import { Post, Session, User } from './entities';
+import { Post, Session, User, ColumnDefinition } from './entities';
 
 const migrationsDirectory = 'src/db/migrations';
 
-export default function (): ConnectionOptions {
+export default function(): ConnectionOptions {
   return {
     type: 'postgres',
     host: config.DB_HOST,
@@ -12,7 +12,7 @@ export default function (): ConnectionOptions {
     username: config.DB_USER,
     password: config.DB_PASSWORD,
     database: config.DB_NAME,
-    entities: [Post, Session, User],
+    entities: [Post, Session, User, ColumnDefinition],
     synchronize: false,
     logging: config.SQL_LOG ? 'all' : undefined,
     migrations: [`${migrationsDirectory}/*.ts`],

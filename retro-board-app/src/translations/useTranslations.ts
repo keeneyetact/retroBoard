@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import LanguageContext from './Context';
 import en from './en';
 import es from './es';
@@ -13,6 +13,7 @@ import zhcn from './zh-cn';
 import ar from './ar';
 import ja from './ja';
 import { Translation } from './types';
+import { merge, cloneDeep } from 'lodash';
 
 interface Translations {
   [key: string]: Translation;
@@ -35,7 +36,16 @@ const languages: Translations = {
 
 function useTranslation() {
   const language = useContext(LanguageContext);
-  return languages[language.language];
+
+  const result = useMemo(() => {
+    const translations = languages[language.language];
+    const english = languages['en'];
+    return language.language === 'en'
+      ? translations
+      : merge(cloneDeep(english), translations);
+  }, [language.language]);
+
+  return result;
 }
 
 export default useTranslation;

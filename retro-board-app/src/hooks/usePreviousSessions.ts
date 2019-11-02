@@ -40,14 +40,14 @@ function addToPreviousSessions(id: string, name: string, username: User) {
     lastJoin: new Date().valueOf(),
   };
   if (currentIndex === -1) {
-    sessions.push(newSession);
+    sessions.unshift(newSession);
   } else {
     sessions.splice(currentIndex, 1);
-    sessions.push(newSession);
+    sessions.unshift(newSession);
   }
   const newStore = {
     ...store,
-    [username.id]: sessions,
+    [username.id]: sessions.slice(0, 20),
   };
   localStorage.setItem('sessions', JSON.stringify(newStore));
 }

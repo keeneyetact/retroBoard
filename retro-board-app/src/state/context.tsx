@@ -20,6 +20,7 @@ import {
   renameSession,
   resetSession,
 } from './actions';
+import { defaultSession } from 'retro-board-common';
 
 export const initialState: State = {
   panelOpen: false,
@@ -27,17 +28,7 @@ export const initialState: State = {
   players: [],
   summaryMode: false,
   session: {
-    id: '',
-    name: '',
-    posts: [],
-    allowActions: true,
-    allowMultipleVotes: false,
-    allowSelfVoting: false,
-    maxDownVotes: null,
-    maxUpVotes: null,
-    wellLabel: null,
-    ideasLabel: null,
-    notWellLabel: null,
+    ...defaultSession,
   },
 };
 

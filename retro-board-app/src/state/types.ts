@@ -1,4 +1,9 @@
-import { Session, User } from 'retro-board-common';
+import {
+  Session,
+  User,
+  IconName,
+  ColumnDefinitionType,
+} from 'retro-board-common';
 
 export interface Action {
   type: string;
@@ -11,6 +16,25 @@ export interface State {
   players: User[];
   session: Session;
   summaryMode: boolean;
+}
+
+export interface ColumnSettings {
+  color: string;
+  label: string;
+  icon: IconName | null;
+  type: ColumnDefinitionType;
+}
+
+export type Template =
+  | 'default'
+  | 'well-not-well'
+  | 'start-stop-continue'
+  | 'four-l'
+  | 'sailboat';
+
+export interface TemplateDefinition {
+  type: Template;
+  name: string;
 }
 
 export type Dispatch = (action: Action) => void;

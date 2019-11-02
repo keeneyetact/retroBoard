@@ -6,7 +6,7 @@ import { Post } from 'retro-board-common';
 
 interface ColumnProps {
   posts: Post[];
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | null;
   question: string;
   color: string;
   onAdd: (content: string) => void;
@@ -57,9 +57,11 @@ const Column: SFC<ColumnProps> = ({
           value={content}
           onKeyDown={onKeyDown}
           startAdornment={
-            <InputAdornment position="start">
-              <Icon className={classes.icon} />
-            </InputAdornment>
+            Icon ? (
+              <InputAdornment position="start">
+                <Icon className={classes.icon} />
+              </InputAdornment>
+            ) : null
           }
         />
       </Add>

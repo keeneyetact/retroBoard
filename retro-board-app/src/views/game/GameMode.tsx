@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PostType, Post } from 'retro-board-common';
+import { Post } from 'retro-board-common';
 import { Typography, makeStyles, Box } from '@material-ui/core';
 import useTranslations from '../../translations';
 import useGlobalState from '../../state';
+import { getIcon } from '../../state/icons';
 import Column from './Column';
 import EditableLabel from '../../components/EditableLabel';
 import { ColumnContent } from './types';
@@ -11,7 +12,7 @@ import { ColumnContent } from './types';
 interface GameModeProps {
   columns: ColumnContent[];
   onRenameSession: (name: string) => void;
-  onAddPost: (type: PostType, content: string) => void;
+  onAddPost: (columnIndex: number, content: string) => void;
   onDeletePost: (post: Post) => void;
   onLike: (post: Post, like: boolean) => void;
   onEdit: (post: Post) => void;
@@ -57,12 +58,12 @@ function GameMode({
       <Columns>
         {columns.map(column => (
           <Column
-            key={column.type}
+            key={column.index}
             posts={column.posts}
             question={column.label}
-            icon={column.icon}
+            icon={getIcon(column.icon)}
             color={column.color}
-            onAdd={content => onAddPost(column.type, content)}
+            onAdd={content => onAddPost(column.index, content)}
             onDelete={onDeletePost}
             onLike={post => onLike(post, true)}
             onDislike={post => onLike(post, false)}

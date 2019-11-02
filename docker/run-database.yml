@@ -22,9 +22,12 @@ services:
     ports:
       - '5433:80' # Change 5433 to whatever port you want to access pgAdmin from
     environment:
-      PGADMIN_DEFAULT_EMAIL: local@retrospected.com # Can be anything
+      PGADMIN_DEFAULT_EMAIL: admin # Can be anything
       PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data-dev:/var/lib/pgadmin
     restart: unless-stopped
 
 volumes:
   postgres-data-dev:
+  pgadmin-data-dev:

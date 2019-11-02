@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, PostType, User } from 'retro-board-common';
+import { Actions, Post, User } from 'retro-board-common';
 import { v4 } from 'uuid';
-import uniq from 'lodash/uniq';
+import { uniq } from 'lodash';
 import { trackEvent } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
@@ -44,7 +44,7 @@ const useGame = (sessionId: string) => {
 
   const {
     username: user,
-    session: { name: sessionName },
+    session: { name: sessionName, allowMultipleVotes },
   } = state;
 
   // Send function, built with current socket, user and sessionId
@@ -165,7 +165,7 @@ const useGame = (sessionId: string) => {
 
   // Callbacks
   const onAddPost = useCallback(
-    (type: PostType, content: string) => {
+    (columnIndex: number, content: string) => {
       if (send) {
         const post: Post = {
           content,
@@ -173,7 +173,7 @@ const useGame = (sessionId: string) => {
           dislikes: [],
           likes: [],
           id: v4(),
-          postType: type,
+          column: columnIndex,
           user: user!,
         };
 
@@ -210,14 +210,12 @@ const useGame = (sessionId: string) => {
   const onLike = useCallback(
     (post: Post, like: boolean) => {
       if (send) {
-        const likes = like ? uniq(post.likes.concat([user!])) : post.likes;
-        const dislikes = !like
-          ? uniq(post.dislikes.concat([user!]))
-          : post.dislikes;
+        const likes = like ? post.likes.concat([user!]) : post.likes;
+        const dislikes = !like ? post.dislikes.concat([user!]) : post.dislikes;
         const modifiedPost: Post = {
           ...post,
-          likes,
-          dislikes,
+          likes: like && !allowMultipleVotes ? uniq(likes) : likes,
+          dislikes: like && !allowMultipleVotes ? uniq(dislikes) : dislikes,
         };
         updatePost(modifiedPost);
         send(Actions.LIKE_SUCCESS, {
@@ -227,7 +225,7 @@ const useGame = (sessionId: string) => {
         trackEvent(Actions.LIKE_SUCCESS);
       }
     },
-    [user, send, updatePost]
+    [user, send, updatePost, allowMultipleVotes]
   );
 
   const onRenameSession = useCallback(

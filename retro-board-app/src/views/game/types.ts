@@ -1,9 +1,7 @@
-import { PostType, Post } from 'retro-board-common';
+import { Post } from 'retro-board-common';
+import { ColumnSettings } from '../../state/types';
 
-export interface ColumnContent {
-  type: PostType;
+export interface ColumnContent extends ColumnSettings {
+  index: number;
   posts: Post[];
-  icon: React.ComponentType;
-  label: string;
-  color: string;
 }

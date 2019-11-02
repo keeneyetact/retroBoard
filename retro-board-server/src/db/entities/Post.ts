@@ -17,8 +17,8 @@ export default class Post {
   public id: string;
   @ManyToOne(() => Session, { nullable: false })
   public session: Session;
-  @Column()
-  public postType: string;
+  @Column({ default: 0 })
+  public column: number;
   @Column()
   public content: string;
   @Column({ nullable: true, type: 'character varying' })
@@ -38,13 +38,13 @@ export default class Post {
   constructor(
     id: string,
     session: Session,
-    postType: string,
+    column: number,
     content: string,
     user: User
   ) {
     this.id = id;
     this.session = session;
-    this.postType = postType;
+    this.column = column;
     this.content = content;
     this.user = user;
     this.action = null;

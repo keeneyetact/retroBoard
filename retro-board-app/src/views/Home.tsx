@@ -11,13 +11,14 @@ import {
   CardActions,
   makeStyles,
   colors,
+  Button,
 } from '@material-ui/core';
-import { ThumbUpAlt } from '@material-ui/icons';
+import { ThumbUpAlt, Settings } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
 import CreateSessionModal from './home/CreateSession';
 import logo from './home/logo.png';
-import { SessionOptions } from 'retro-board-common';
+import { SessionOptions, ColumnDefinition } from 'retro-board-common';
 
 interface HomeProps extends RouteComponentProps {}
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
 function Home(props: HomeProps) {
   const translations = useTranslations();
   const createSession = useCallback(
-    async (options: SessionOptions) => {
+    async (options: SessionOptions, columns: ColumnDefinition[]) => {
       const id = shortid();
       const response = await fetch(`/api/create/${id}`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -51,9 +52,8 @@ function Home(props: HomeProps) {
         },
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(options),
+        body: JSON.stringify({ options, columns }),
       });
-      console.log('Response: ', response);
       if (response.ok) {
         props.history.push(`/game/${id}`);
       }
@@ -68,6 +68,9 @@ function Home(props: HomeProps) {
   const onOpenModal = useCallback(() => {
     setModalOpen(true);
   }, []);
+  const createDefaultSession = useCallback(() => {
+    props.history.push('/game/' + shortid());
+  }, [props.history]);
   return (
     <>
       <MainCard>
@@ -88,13 +91,17 @@ function Home(props: HomeProps) {
         <CardActions className={classes.actions}>
           <Fab
             variant="extended"
-            onClick={onOpenModal}
+            onClick={createDefaultSession}
             size="large"
             color="secondary"
           >
             <ThumbUpAlt className={classes.buttonIcon} />
             {translations.Join.standardTab.button}
           </Fab>
+          <Button onClick={onOpenModal} color="primary">
+            <Settings className={classes.buttonIcon} />
+            {translations.Join.standardTab.customizeButton}
+          </Button>
           <CreateSessionModal
             open={modalOpen}
             onClose={onCloseModal}

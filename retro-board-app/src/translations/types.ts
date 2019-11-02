@@ -1,74 +1,118 @@
 export interface Translation {
   Header: {
-    subtitle: string;
-    logout: string;
-    leave: string;
-    summaryMode: string;
+    subtitle?: string;
+    logout?: string;
+    leave?: string;
+    summaryMode?: string;
   };
   LanguagePicker: {
-    header: string;
+    header?: string;
   };
   Main: {
-    hint: string;
+    hint?: string;
   };
   Post: {
-    vote: string;
-    votes: string;
-    deleteButton: string;
-    noContent: string;
+    vote?: string;
+    votes?: string;
+    deleteButton?: string;
+    noContent?: string;
+  };
+  Customize: {
+    title?: string;
+    votingCategory?: string;
+    votingCategorySub?: string;
+    postCategory?: string;
+    postCategorySub?: string;
+    customTemplateCategory?: string;
+    customTemplateCategorySub?: string;
+    startButton?: string;
+    maxUpVotes?: string;
+    maxUpVotesHelp?: string;
+    maxDownVotes?: string;
+    maxDownVotesHelp?: string;
+    allowSelfVoting?: string;
+    allowSelfVotingHelp?: string;
+    allowMultipleVotes?: string;
+    allowMultipleVotesHelp?: string;
+    allowActions?: string;
+    allowActionsHelp?: string;
+    template?: string;
+    templateHelp?: string;
+    numberOfColumns?: string;
+    numberOfColumnsHelp?: string;
   };
   PostBoard: {
-    notWellQuestion: string;
-    wellQuestion: string;
-    ideasQuestion: string;
+    notWellQuestion?: string;
+    wellQuestion?: string;
+    ideasQuestion?: string;
+    startQuestion?: string;
+    stopQuestion?: string;
+    continueQuestion?: string;
+    likedQuestion?: string;
+    lackedQuestion?: string;
+    learnedQuestion?: string;
+    longedForQuestion?: string;
+    anchorQuestion?: string;
+    boatQuestion?: string;
+    islandQuestion?: string;
+    windQuestion?: string;
+    rockQuestion?: string;
+  };
+  Template: {
+    default?: string;
+    wellNotWell?: string;
+    startStopContinue?: string;
+    fourLs?: string;
+    sailboat?: string;
   };
   Clients: {
-    header: string;
+    header?: string;
   };
   Join: {
-    welcome: string;
+    welcome?: string;
     standardTab: {
-      header: string;
-      text: string;
-      button: string;
+      header?: string;
+      text?: string;
+      button?: string;
+      customizeButton?: string;
     };
     optionsTab: {
-      header: string;
-      input: string;
-      button: string;
+      header?: string;
+      input?: string;
+      button?: string;
     };
     previousTab: {
-      header: string;
-      rejoinButton: string;
+      header?: string;
+      rejoinButton?: string;
     };
   };
   Login: {
-    namePlaceholder: string;
-    buttonLabel: string;
-    header: string;
+    namePlaceholder?: string;
+    buttonLabel?: string;
+    header?: string;
   };
   SummaryBoard: {
-    noPosts: string;
+    noPosts?: string;
   };
   SessionName: {
-    defaultSessionName: string;
+    defaultSessionName?: string;
   };
   Invite: {
-    inviteButton: string;
+    inviteButton?: string;
     dialog: {
-      title: string;
-      text: string;
-      copyButton: string;
+      title?: string;
+      text?: string;
+      copyButton?: string;
     };
   };
   Generic: {
-    ok: string;
-    cancel: string;
+    ok?: string;
+    cancel?: string;
   };
   Actions: {
-    label: string;
-    tooltip: string;
-    title: string;
-    summaryTitle: string;
+    label?: string;
+    tooltip?: string;
+    title?: string;
+    summaryTitle?: string;
   };
 }

@@ -151,7 +151,7 @@ const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => {
     <div>
       <div>
         {columns.map(column => (
-          <Section key={column.type} column={column} />
+          <Section key={column.index} column={column} />
         ))}
         {posts.length ? <ActionsList posts={posts} /> : null}
       </div>

@@ -122,11 +122,26 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Versions history
 
-### Version 2.0.5 WIP WIP WIP
+### Version 2.1.0 (NEXT RELEASE, PENDING)
 
-- Upgraded dependencies
-- Various UI fixes (Login modal, editable labels)
+CURRENT ISSUES:
+
+- NeDB not working
+- Multiple votes not working
+
+Changelog:
+
+- Adding full customisation of columns and rules:
+  - You can now create a board with 1 to 5 columns
+  - You can allow a user to vote for his own posts
+  - You can allow multiple votes on the same post
+  - You can limit the number of up and down votes
+- Your language selection is now remembered between sessions
+- Various UI fixes:
+  - Login modal improvements
+  - Editable label improvements
 - Various Docker improvements
+- Upgraded dependencies
 
 ### Version 2.0.4
 
@@ -168,8 +183,6 @@ If you want to use a more "production-ready" database such as Postgres (without 
 - Upgrading to Babel 7
 
 ### Version 1.0.0
-
-I now feel the product is stable and does what it needs to do. I will keep maintaining it so it always uses the latest version of React and Webpack.
 
 - React 16
 - Webpack 4 (for previous versions of webpack, see below)

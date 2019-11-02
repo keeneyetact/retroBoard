@@ -1,11 +1,5 @@
 import { permissionLogic } from '../permissions-logic';
-import {
-  Post,
-  Session,
-  User,
-  PostType,
-  SessionOptions,
-} from 'retro-board-common';
+import { Post, Session, User, SessionOptions } from 'retro-board-common';
 
 const currentUser: User = {
   id: '1',
@@ -19,7 +13,7 @@ const anotherUser: User = {
 
 const post = (user: User, likes?: User[], dislikes?: User[]): Post => ({
   user,
-  postType: PostType.Well,
+  column: 0,
   content: 'Some content',
   id: 'acme',
   action: '',
@@ -32,17 +26,15 @@ const session = (options: SessionOptions, ...posts: Post[]): Session => ({
   id: 'acme',
   name: 'Session title',
   posts,
+  columns: [],
 });
 
-const defaultOptions = {
+const defaultOptions: SessionOptions = {
   allowActions: true,
   allowMultipleVotes: false,
   allowSelfVoting: false,
   maxDownVotes: null,
   maxUpVotes: null,
-  ideasLabel: null,
-  notWellLabel: null,
-  wellLabel: null,
 };
 
 describe('Permission Logic', () => {

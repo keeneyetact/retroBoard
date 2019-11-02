@@ -13,6 +13,7 @@ import {
   RENAME_SESSION,
   RESET_SESSION,
 } from './actions';
+import { defaultSession } from 'retro-board-common';
 
 export default (state: State, action: Action): State => {
   switch (action.type) {
@@ -74,17 +75,7 @@ export default (state: State, action: Action): State => {
         ...state,
         summaryMode: false,
         session: {
-          id: '',
-          name: '',
-          posts: [],
-          allowActions: true,
-          allowMultipleVotes: false,
-          allowSelfVoting: false,
-          maxDownVotes: null,
-          maxUpVotes: null,
-          wellLabel: null,
-          ideasLabel: null,
-          notWellLabel: null,
+          ...defaultSession,
         },
       };
     case TOGGLE_SUMMARY_MODE:

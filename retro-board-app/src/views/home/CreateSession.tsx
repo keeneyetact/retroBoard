@@ -1,21 +1,27 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MaxVoteSlider from './components/MaxVoteSlider';
+import Slider from './components/Slider';
 import BooleanOption from './components/BooleanOption';
-import EditableLabel from '../../components/EditableLabel';
-import { SessionOptions } from 'retro-board-common';
+import { SessionOptions, ColumnDefinition } from 'retro-board-common';
 import OptionItem from './components/OptionItem';
+import SettingCategory from './components/SettingCategory';
+import ColumnEditor from './components/ColumnEditor';
+import TemplatePicker from './components/TemplatePicker';
+import { buildDefaults, merge } from '../../state/columns';
+import { ColumnSettings, Template } from '../../state/types';
+import { getTemplate } from '../../state/templates';
 import useTranslations from '../../translations';
 
 interface CreateSessionModalProps {
   open: boolean;
   onClose: () => void;
-  onLaunch: (options: SessionOptions) => void;
+  onLaunch: (options: SessionOptions, columns: ColumnDefinition[]) => void;
 }
 
 const CreateSessionModal = ({
@@ -24,25 +30,51 @@ const CreateSessionModal = ({
   onLaunch,
 }: CreateSessionModalProps) => {
   const translations = useTranslations();
+  const { Customize } = translations;
+  const fullScreen = useMediaQuery('(max-width:600px)');
   const [maxUpVotes, setMaxUpVotes] = useState<number | null>(null);
   const [maxDownVotes, setMaxDownVotes] = useState<number | null>(null);
   const [allowActions, setAllowActions] = useState<boolean>(true);
   const [allowSelfVoting, setAllowSelfVoting] = useState<boolean>(false);
   const [allowMultipleVotes, setAllowMultipleVotes] = useState<boolean>(false);
-  const [wellLabel, setWellLabel] = useState<string | null>(null);
-  const [notWellLabel, setNotWellLabel] = useState<string | null>(null);
-  const [ideasLabel, setIdeasLabel] = useState<string | null>(null);
+  const [numberOfColumns, setNumberOfColumns] = useState<number>(3);
+  const [defaultDefinitions, setDefaultDefinitions] = useState(
+    buildDefaults('default', translations)
+  );
+  const [definitions, setDefinitions] = useState<ColumnSettings[]>(
+    buildDefaults('default', translations).map(
+      d =>
+        ({ type: d.type, color: '', icon: null, label: '' } as ColumnSettings)
+    )
+  );
+  useEffect(() => {
+    setDefaultDefinitions(buildDefaults('default', translations));
+  }, [translations]);
+  const handleColumnChange = useCallback(
+    (value: ColumnSettings, index: number) => {
+      setDefinitions(cols => Object.assign([], cols, { [index]: value }));
+    },
+    []
+  );
+  const handleTemplateChange = useCallback(
+    (templateType: Template) => {
+      const template = buildDefaults(templateType, translations);
+      setNumberOfColumns(getTemplate(templateType, translations).length);
+      setDefaultDefinitions(template);
+    },
+    [translations]
+  );
   const handleLaunch = useCallback(() => {
-    onLaunch({
-      allowActions,
-      allowMultipleVotes,
-      allowSelfVoting,
-      maxDownVotes,
-      maxUpVotes,
-      wellLabel,
-      notWellLabel,
-      ideasLabel,
-    });
+    onLaunch(
+      {
+        allowActions,
+        allowMultipleVotes,
+        allowSelfVoting,
+        maxDownVotes,
+        maxUpVotes,
+      },
+      merge(definitions, defaultDefinitions, numberOfColumns)
+    );
   }, [
     onLaunch,
     allowActions,
@@ -50,90 +82,102 @@ const CreateSessionModal = ({
     allowSelfVoting,
     maxDownVotes,
     maxUpVotes,
-    wellLabel,
-    notWellLabel,
-    ideasLabel,
+    definitions,
+    defaultDefinitions,
+    numberOfColumns,
   ]);
   return (
-    <Dialog open={open} onClose={onClose} fullWidth>
-      <DialogTitle>New Game with Custom Rules</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      fullScreen={fullScreen}
+      keepMounted={false}
+    >
+      <DialogTitle>{Customize.title}</DialogTitle>
       <DialogContent>
-        <OptionItem
-          label="Max Up Votes"
-          help="Maximum number of 'likes' votes a user is allowed to cast"
+        <SettingCategory
+          title={Customize.customTemplateCategory!}
+          subtitle={Customize.customTemplateCategorySub!}
         >
-          <MaxVoteSlider value={maxUpVotes} onChange={setMaxUpVotes} />
-        </OptionItem>
-        <OptionItem
-          label="Max Down Votes"
-          help="Maximum number of 'dislikes' votes a user is allowed to cast"
-        >
-          <MaxVoteSlider value={maxDownVotes} onChange={setMaxDownVotes} />
-        </OptionItem>
-        <OptionItem
-          label="Allow Actions"
-          help="Whether to allow the 'Action' (follow-up) field on each post"
-        >
-          <BooleanOption value={allowActions} onChange={setAllowActions} />
-        </OptionItem>
-        <OptionItem
-          label="Allow Self Voting"
-          help="Whether to allow a user to vote on their own post"
-        >
-          <BooleanOption
-            value={allowSelfVoting}
-            onChange={setAllowSelfVoting}
-          />
-        </OptionItem>
-        <OptionItem
-          label="Allow Multiple Votes"
-          help="Whether to allow a user to vote multiple times on the same post"
-        >
-          <BooleanOption
-            value={allowMultipleVotes}
-            onChange={setAllowMultipleVotes}
-          />
-        </OptionItem>
-        <OptionItem
-          label="First Column Label"
-          help="Change the name of the first column"
-        >
-          <Typography>
-            <EditableLabel
-              value={wellLabel || ''}
-              onChange={setWellLabel}
-              placeholder={translations.PostBoard.wellQuestion}
+          <OptionItem
+            label={Customize.template!}
+            help={Customize.templateHelp!}
+          >
+            <TemplatePicker onSelect={handleTemplateChange} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.numberOfColumns!}
+            help={Customize.numberOfColumnsHelp!}
+          >
+            <Slider
+              value={numberOfColumns}
+              onChange={setNumberOfColumns}
+              from={1}
+              to={5}
             />
-          </Typography>
-        </OptionItem>
-        <OptionItem
-          label="Second Column Label"
-          help="Change the name of the second column"
+          </OptionItem>
+          <>
+            {definitions.slice(0, numberOfColumns).map((def, index) => (
+              <ColumnEditor
+                key={index}
+                value={def}
+                defaults={defaultDefinitions[index]}
+                onChange={value => handleColumnChange(value, index)}
+              />
+            ))}
+          </>
+        </SettingCategory>
+        <SettingCategory
+          title={Customize.votingCategory!}
+          subtitle={Customize.votingCategorySub!}
         >
-          <Typography>
-            <EditableLabel
-              value={notWellLabel || ''}
-              onChange={setNotWellLabel}
-              placeholder={translations.PostBoard.notWellQuestion}
+          <OptionItem
+            label={Customize.maxUpVotes!}
+            help={Customize.maxUpVotesHelp!}
+          >
+            <MaxVoteSlider value={maxUpVotes} onChange={setMaxUpVotes} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.maxDownVotes!}
+            help={Customize.maxDownVotesHelp!}
+          >
+            <MaxVoteSlider value={maxDownVotes} onChange={setMaxDownVotes} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.allowSelfVoting!}
+            help={Customize.allowSelfVotingHelp!}
+          >
+            <BooleanOption
+              value={allowSelfVoting}
+              onChange={setAllowSelfVoting}
             />
-          </Typography>
-        </OptionItem>
-        <OptionItem
-          label="Third Column Label"
-          help="Change the name of the third column"
+          </OptionItem>
+          <OptionItem
+            label={Customize.allowMultipleVotes!}
+            help={Customize.allowMultipleVotesHelp!}
+          >
+            <BooleanOption
+              value={allowMultipleVotes}
+              onChange={setAllowMultipleVotes}
+            />
+          </OptionItem>
+        </SettingCategory>
+        <SettingCategory
+          title={Customize.postCategory!}
+          subtitle={Customize.postCategorySub!}
         >
-          <Typography>
-            <EditableLabel
-              value={ideasLabel || ''}
-              onChange={setIdeasLabel}
-              placeholder={translations.PostBoard.ideasQuestion}
-            />
-          </Typography>
-        </OptionItem>
+          <OptionItem
+            label={Customize.allowActions!}
+            help={Customize.allowActionsHelp!}
+          >
+            <BooleanOption value={allowActions} onChange={setAllowActions} />
+          </OptionItem>
+        </SettingCategory>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleLaunch} color="primary" variant="contained">
-          Start the game!
+          {Customize.startButton}
         </Button>
       </DialogActions>
     </Dialog>

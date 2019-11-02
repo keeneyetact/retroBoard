@@ -12,7 +12,9 @@ interface LanguagePickerProps {
 const LanguagePicker: SFC<LanguagePickerProps> = ({ value, onChange }) => {
   const handleSelect = useCallback(
     (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-      onChange(event.target.value as string);
+      const language = event.target.value as string;
+      onChange(language);
+      localStorage.setItem('language', language);
     },
     [onChange]
   );

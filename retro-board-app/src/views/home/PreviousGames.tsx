@@ -24,7 +24,7 @@ const PreviousGames: SFC<PreviousGamesProps> = ({ history }) => {
   );
   return (
     <List component="section">
-      {previousSessions.map(session => (
+      {previousSessions.slice(0, 10).map(session => (
         <ClickableListItem
           button
           key={session.id}

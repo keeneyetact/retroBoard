@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Post from './Post';
+import ColumnDefinition from './ColumnDefinition';
 import { SessionOptions } from 'retro-board-common';
 
 @Entity({ name: 'sessions' })
@@ -23,16 +24,16 @@ export default class Session {
     eager: false,
   })
   public posts: Post[] | undefined;
+  @OneToMany(() => ColumnDefinition, colDef => colDef.session, {
+    cascade: true,
+    nullable: false,
+    eager: false,
+  })
+  public columns: ColumnDefinition[] | undefined;
   @Column({ nullable: true, type: 'numeric', default: null })
   public maxUpVotes: number | null;
   @Column({ nullable: true, type: 'numeric', default: null })
   public maxDownVotes: number | null;
-  @Column({ nullable: true, type: 'character varying', default: null })
-  public wellLabel: string | null;
-  @Column({ nullable: true, type: 'character varying', default: null })
-  public notWellLabel: string | null;
-  @Column({ nullable: true, type: 'character varying', default: null })
-  public ideasLabel: string | null;
   @Column({ default: true })
   public allowActions: boolean;
   @Column({ default: false })
@@ -55,9 +56,6 @@ export default class Session {
     this.maxUpVotes = optionsWithDefault.maxUpVotes;
     this.maxDownVotes = optionsWithDefault.maxDownVotes;
     this.allowActions = optionsWithDefault.allowActions;
-    this.wellLabel = optionsWithDefault.wellLabel;
-    this.notWellLabel = optionsWithDefault.notWellLabel;
-    this.ideasLabel = optionsWithDefault.ideasLabel;
     this.allowSelfVoting = optionsWithDefault.allowSelfVoting;
     this.allowMultipleVotes = optionsWithDefault.allowMultipleVotes;
   }
@@ -70,9 +68,6 @@ function getDefaultOptions(options: Partial<SessionOptions>): SessionOptions {
     allowActions: true,
     allowSelfVoting: false,
     allowMultipleVotes: false,
-    ideasLabel: null,
-    notWellLabel: null,
-    wellLabel: null,
     ...options,
   };
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import Box from '@material-ui/core/Box';
 
 interface OptionItemProps {
   children: JSX.Element;
@@ -15,8 +14,8 @@ const OptionItem = ({ label, help, children }: OptionItemProps) => {
     <Container>
       <Label>
         <Tooltip title={help} placement="top">
-          <Typography>
-            <Box fontWeight="bold">{label}</Box>
+          <Typography component="div" style={{ fontWeight: 'bold' }}>
+            {label}
           </Typography>
         </Tooltip>
       </Label>
@@ -30,7 +29,7 @@ const ComponentContainer = styled.div`
 `;
 
 const Label = styled.div`
-  width: 200px;
+  width: 220px;
   font-weight: bold;
 `;
 
@@ -41,6 +40,7 @@ const Container = styled.div`
   @media screen and (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 10px;
     ${ComponentContainer} {
       width: 100%;
     }
