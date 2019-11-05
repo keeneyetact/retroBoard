@@ -19,6 +19,8 @@ import PreviousGames from './home/PreviousGames';
 import CreateSessionModal from './home/CreateSession';
 import logo from './home/logo.png';
 import { SessionOptions, ColumnDefinition } from 'retro-board-common';
+import { trackEvent } from './../track';
+import { createCustomGame } from '../api';
 
 interface HomeProps extends RouteComponentProps {}
 
@@ -40,22 +42,12 @@ function Home(props: HomeProps) {
   const translations = useTranslations();
   const createSession = useCallback(
     async (options: SessionOptions, columns: ColumnDefinition[]) => {
-      const id = shortid();
-      const response = await fetch(`/api/create/${id}`, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify({ options, columns }),
-      });
-      if (response.ok) {
+      const id = await createCustomGame(options, columns);
+      if (id) {
+        trackEvent('custom-modal/create');
         props.history.push(`/game/${id}`);
+      } else {
+        trackEvent('custom-modal/fail');
       }
     },
     [props.history]
@@ -64,11 +56,14 @@ function Home(props: HomeProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const onCloseModal = useCallback(() => {
     setModalOpen(false);
+    trackEvent('custom-modal/close');
   }, []);
   const onOpenModal = useCallback(() => {
     setModalOpen(true);
+    trackEvent('custom-modal/open');
   }, []);
   const createDefaultSession = useCallback(() => {
+    trackEvent('home/create/default');
     props.history.push('/game/' + shortid());
   }, [props.history]);
   return (

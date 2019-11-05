@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga';
+import { TrackingEvent } from 'retro-board-common';
 
 export const initialiseAnalytics = () => {
   if (isGAEnabled()) {
@@ -6,11 +7,20 @@ export const initialiseAnalytics = () => {
   }
 };
 
-export const trackEvent = (event: string) => {
+export const trackAction = (event: string) => {
   if (isGAEnabled()) {
     ReactGA.event({
       category: 'Action',
       action: event.replace('retrospected/', ''),
+    });
+  }
+};
+
+export const trackEvent = (event: TrackingEvent) => {
+  if (isGAEnabled()) {
+    ReactGA.event({
+      category: 'Event',
+      action: event,
     });
   }
 };

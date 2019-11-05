@@ -124,13 +124,6 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ### Version 2.1.0 (NEXT RELEASE, PENDING)
 
-CURRENT ISSUES:
-
-- NeDB not working
-- Multiple votes not working
-
-Changelog:
-
 - Adding full customisation of columns and rules:
   - You can now create a board with 1 to 5 columns
   - You can allow a user to vote for his own posts

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Actions, Post, User } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { uniq } from 'lodash';
-import { trackEvent } from './../../track';
+import { trackAction } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
 import usePreviousSessions from '../../hooks/usePreviousSessions';
@@ -80,7 +80,7 @@ const useGame = (sessionId: string) => {
       setInitialised(true);
       send(Actions.LOGIN_SUCCESS);
       send(Actions.JOIN_SESSION);
-      trackEvent(Actions.JOIN_SESSION);
+      trackAction(Actions.JOIN_SESSION);
     });
 
     newSocket.on(Actions.RECEIVE_POST, (post: Post) => {
@@ -179,7 +179,7 @@ const useGame = (sessionId: string) => {
 
         receivePost(post);
         send(Actions.ADD_POST_SUCCESS, post);
-        trackEvent(Actions.ADD_POST_SUCCESS);
+        trackAction(Actions.ADD_POST_SUCCESS);
       }
     },
     [receivePost, send, user]
@@ -190,7 +190,7 @@ const useGame = (sessionId: string) => {
       if (send) {
         updatePost(post);
         send(Actions.EDIT_POST, { post });
-        trackEvent(Actions.EDIT_POST);
+        trackAction(Actions.EDIT_POST);
       }
     },
     [updatePost, send]
@@ -201,7 +201,7 @@ const useGame = (sessionId: string) => {
       if (send) {
         deletePost(post);
         send(Actions.DELETE_POST, post);
-        trackEvent(Actions.DELETE_POST);
+        trackAction(Actions.DELETE_POST);
       }
     },
     [deletePost, send]
@@ -222,7 +222,7 @@ const useGame = (sessionId: string) => {
           like,
           post,
         });
-        trackEvent(Actions.LIKE_SUCCESS);
+        trackAction(Actions.LIKE_SUCCESS);
       }
     },
     [user, send, updatePost, allowMultipleVotes]
@@ -233,7 +233,7 @@ const useGame = (sessionId: string) => {
       if (send) {
         renameSession(name);
         send(Actions.RENAME_SESSION, { name });
-        trackEvent(Actions.RENAME_SESSION);
+        trackAction(Actions.RENAME_SESSION);
       }
     },
     [send, renameSession]

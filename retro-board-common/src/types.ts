@@ -37,6 +37,15 @@ export interface User {
   name: string;
 }
 
+export type TrackingEvent =
+  | 'custom-modal/open'
+  | 'custom-modal/close'
+  | 'custom-modal/create'
+  | 'custom-modal/fail'
+  | 'custom-modal/template/select'
+  | 'custom-modal/column/change'
+  | 'home/create/default';
+
 export type ColumnDefinitionType =
   | 'custom'
   | 'well'

@@ -17,6 +17,7 @@ import { buildDefaults, merge } from '../../state/columns';
 import { ColumnSettings, Template } from '../../state/types';
 import { getTemplate } from '../../state/templates';
 import useTranslations from '../../translations';
+import { trackEvent } from './../../track';
 
 interface CreateSessionModalProps {
   open: boolean;
@@ -30,7 +31,7 @@ const CreateSessionModal = ({
   onLaunch,
 }: CreateSessionModalProps) => {
   const translations = useTranslations();
-  const { Customize } = translations;
+  const { Customize, Generic } = translations;
   const fullScreen = useMediaQuery('(max-width:600px)');
   const [maxUpVotes, setMaxUpVotes] = useState<number | null>(null);
   const [maxDownVotes, setMaxDownVotes] = useState<number | null>(null);
@@ -53,6 +54,7 @@ const CreateSessionModal = ({
   const handleColumnChange = useCallback(
     (value: ColumnSettings, index: number) => {
       setDefinitions(cols => Object.assign([], cols, { [index]: value }));
+      trackEvent('custom-modal/column/change');
     },
     []
   );
@@ -61,10 +63,12 @@ const CreateSessionModal = ({
       const template = buildDefaults(templateType, translations);
       setNumberOfColumns(getTemplate(templateType, translations).length);
       setDefaultDefinitions(template);
+      trackEvent('custom-modal/template/select');
     },
     [translations]
   );
   const handleLaunch = useCallback(() => {
+    trackEvent('custom-modal/create');
     onLaunch(
       {
         allowActions,
@@ -176,6 +180,9 @@ const CreateSessionModal = ({
         </SettingCategory>
       </DialogContent>
       <DialogActions>
+        <Button onClick={onClose} color="default" variant="text">
+          {Generic.cancel}
+        </Button>
         <Button onClick={handleLaunch} color="primary" variant="contained">
           {Customize.startButton}
         </Button>
