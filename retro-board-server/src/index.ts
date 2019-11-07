@@ -6,8 +6,16 @@ import { find } from 'lodash';
 import chalk from 'chalk';
 import moment from 'moment';
 import db from './db';
-import { Actions, Session, Post, User } from 'retro-board-common';
+import {
+  Actions,
+  Session,
+  Post,
+  User,
+  Vote,
+  VoteType,
+} from 'retro-board-common';
 import config from './db/config';
+import uuid from 'uuid';
 
 const {
   RECEIVE_POST,
@@ -62,7 +70,7 @@ interface PostUpdate extends UserData {
 }
 
 interface LikeUpdate extends PostUpdate {
-  like: boolean;
+  type: VoteType;
 }
 
 db().then(store => {
@@ -95,6 +103,9 @@ db().then(store => {
 
   const persistPost = (sessionId: string, post: Post) =>
     store.savePost(sessionId, post).catch((err: string) => console.error(err));
+
+  const persistVote = (sessionId: string, postId: string, vote: Vote) =>
+    store.saveVote(sessionId, postId, vote);
 
   const deletePost = (sessionId: string, postId: string) =>
     store
@@ -194,14 +205,19 @@ db().then(store => {
   ) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
-      const array = data.like ? post.likes : post.dislikes;
+      const existingVote: Vote | undefined = find(
+        post.votes,
+        v => v.user.id === data.user.id
+      );
 
-      if (
-        session.allowMultipleVotes ||
-        !array.find(u => u.id === data.user.id)
-      ) {
-        array.push(data.user);
-        persistPost(session.id, post);
+      if (session.allowMultipleVotes || !existingVote) {
+        const vote: Vote = {
+          id: uuid.v4(),
+          user: data.user,
+          type: data.type,
+        };
+        post.votes.push(vote);
+        persistVote(session.id, post.id, vote);
         sendToAll(socket, session.id, RECEIVE_LIKE, post);
       }
     }

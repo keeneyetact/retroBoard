@@ -14,16 +14,16 @@ import {
   RESET_SESSION,
   UPDATE_POST,
 } from '../actions';
-import { Post, PostType } from 'retro-board-common';
+import { Post, defaultOptions } from 'retro-board-common';
 
 function post(id: string): Post {
   return {
     id,
     content: 'foo',
-    dislikes: [],
-    likes: [],
-    postType: PostType.Well,
-    user: 'danièle',
+    votes: [],
+    action: '',
+    column: 0,
+    user: { id: '1', name: 'danièle' },
   };
 }
 
@@ -34,12 +34,14 @@ describe('Global state reducer', () => {
       panelOpen: false,
       players: [],
       session: {
+        ...defaultOptions,
         id: '1',
         name: '',
+        columns: [],
         posts: [],
       },
       summaryMode: false,
-      username: 'Alice',
+      username: { id: '2', name: 'Alice' },
     };
   });
   it('Should toggle the panel on TOGGLE_PANEL', () => {
@@ -87,7 +89,10 @@ describe('Global state reducer', () => {
     };
     state = reducer(state, {
       type: RECEIVE_BOARD,
-      payload: [post('2'), post('3')],
+      payload: {
+        ...state.session,
+        posts: [post('2'), post('3')],
+      },
     });
     expect(state.session.posts).toEqual([post('2'), post('3')]);
   });
@@ -162,15 +167,17 @@ describe('Global state reducer', () => {
       ...state,
       summaryMode: true,
       session: {
+        ...defaultOptions,
         name: 'foo',
         id: '1234',
+        columns: [],
         posts: [post('1'), post('2'), post('3')],
       },
     };
     state = reducer(state, {
       type: RESET_SESSION,
     });
-    expect(state.session.name).toBe('');
+    expect(state.session.name).toBe(null);
     expect(state.session.id).toBe('');
     expect(state.session.posts).toHaveLength(0);
     expect(state.summaryMode).toBe(false);

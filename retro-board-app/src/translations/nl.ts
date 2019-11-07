@@ -38,6 +38,8 @@ export default {
     allowMultipleVotesHelp: undefined,
     allowActions: undefined,
     allowActionsHelp: undefined,
+    allowAuthorVisible: undefined,
+    allowAuthorVisibleHelp: undefined,
     template: undefined,
     templateHelp: undefined,
     numberOfColumns: undefined,

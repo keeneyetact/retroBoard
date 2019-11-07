@@ -6,6 +6,7 @@ import {
   ColumnDefinition,
   SessionOptions,
   defaultSession,
+  Vote,
 } from 'retro-board-common';
 import { Store } from '../types';
 
@@ -117,6 +118,33 @@ const savePost = (store: Datastore) => (
     });
   });
 
+const saveVote = (store: Datastore) => (
+  sessionId: string,
+  postId: string,
+  vote: Vote
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    store.findOne({ id: sessionId }, (err, session: Session) => {
+      if (err) {
+        reject(err);
+      } else if (session) {
+        const post = session.posts.find(p => p.id === postId);
+
+        if (post) {
+          post.votes.push(vote);
+          store.update({ id: session.id }, session, { upsert: true }, err => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        }
+      }
+    });
+  });
+};
+
 const deletePost = (store: Datastore) => (
   sessionId: string,
   postId: string
@@ -146,6 +174,7 @@ export default function db() {
     get: get(store),
     saveSession: saveSession(store),
     savePost: savePost(store),
+    saveVote: saveVote(store),
     deletePost: deletePost(store),
     create: create(store),
   });

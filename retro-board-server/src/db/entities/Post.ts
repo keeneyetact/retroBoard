@@ -3,13 +3,13 @@ import {
   Column,
   PrimaryColumn,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import Session from './Session';
 import User from './User';
+import Vote from './Vote';
 
 @Entity({ name: 'posts' })
 export default class Post {
@@ -25,12 +25,12 @@ export default class Post {
   public action: null | string;
   @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
   public user: User;
-  @ManyToMany(() => User, { eager: true, cascade: true, nullable: false })
-  @JoinTable({ name: 'posts-likes' })
-  public likes: User[] | undefined;
-  @ManyToMany(() => User, { eager: true, cascade: true, nullable: false })
-  @JoinTable({ name: 'posts-dislikes' })
-  public dislikes: User[] | undefined;
+  @OneToMany(() => Vote, vote => vote.post, {
+    cascade: true,
+    nullable: false,
+    eager: true,
+  })
+  public votes: Vote[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })

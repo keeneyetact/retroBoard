@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, User } from 'retro-board-common';
+import { Actions, Post, User, Vote, VoteType } from 'retro-board-common';
 import { v4 } from 'uuid';
-import { uniq } from 'lodash';
+import { find } from 'lodash';
 import { trackAction } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
@@ -170,8 +170,7 @@ const useGame = (sessionId: string) => {
         const post: Post = {
           content,
           action: null,
-          dislikes: [],
-          likes: [],
+          votes: [],
           id: v4(),
           column: columnIndex,
           user: user!,
@@ -210,16 +209,26 @@ const useGame = (sessionId: string) => {
   const onLike = useCallback(
     (post: Post, like: boolean) => {
       if (send) {
-        const likes = like ? post.likes.concat([user!]) : post.likes;
-        const dislikes = !like ? post.dislikes.concat([user!]) : post.dislikes;
+        const type: VoteType = like ? 'like' : 'dislike';
+        const existingVote = find(
+          post.votes,
+          v => v.type === type && v.user.id === user!.id
+        );
+        if (existingVote && !allowMultipleVotes) {
+          return;
+        }
+        const vote: Vote = {
+          id: v4(),
+          type,
+          user: user!,
+        };
         const modifiedPost: Post = {
           ...post,
-          likes: like && !allowMultipleVotes ? uniq(likes) : likes,
-          dislikes: like && !allowMultipleVotes ? uniq(dislikes) : dislikes,
+          votes: [...post.votes, vote],
         };
         updatePost(modifiedPost);
         send(Actions.LIKE_SUCCESS, {
-          like,
+          type,
           post,
         });
         trackAction(Actions.LIKE_SUCCESS);

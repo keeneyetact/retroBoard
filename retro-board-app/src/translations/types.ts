@@ -36,6 +36,8 @@ export interface Translation {
     allowMultipleVotesHelp?: string;
     allowActions?: string;
     allowActionsHelp?: string;
+    allowAuthorVisible?: string;
+    allowAuthorVisibleHelp?: string;
     template?: string;
     templateHelp?: string;
     numberOfColumns?: string;

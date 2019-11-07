@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { IconName } from 'retro-board-common';
 import Session from './Session';
 
@@ -18,6 +25,11 @@ export default class ColumnDefinition {
   public color: string;
   @Column({ nullable: true, type: 'character varying' })
   public icon: IconName | null;
+  @CreateDateColumn({ type: 'timestamp with time zone' })
+  public created: Date | undefined;
+  @UpdateDateColumn({ type: 'timestamp with time zone' })
+  public updated: Date | undefined;
+
   constructor(
     id: string,
     session: Session,
@@ -25,7 +37,7 @@ export default class ColumnDefinition {
     index: number,
     label: string,
     color: string,
-    icon?: IconName
+    icon?: IconName | null
   ) {
     this.id = id;
     this.type = type;

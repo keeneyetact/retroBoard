@@ -4,6 +4,7 @@ export const defaultOptions: SessionOptions = {
   allowActions: true,
   allowMultipleVotes: false,
   allowSelfVoting: false,
+  allowAuthorVisible: false,
   maxDownVotes: null,
   maxUpVotes: null,
 };

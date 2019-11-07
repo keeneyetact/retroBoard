@@ -1,6 +1,12 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from 'react';
 import styled from 'styled-components';
-import { Button, Typography, makeStyles } from '@material-ui/core';
+import { Button, Typography, makeStyles, Tooltip } from '@material-ui/core';
 import {
   ThumbUpOutlined,
   ThumbDownOutlined,
@@ -16,6 +22,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import { useUserPermissions } from './useUserPermissions';
+import { countVotes } from './utils';
 
 interface PostItemProps {
   post: Post;
@@ -51,6 +58,7 @@ const PostItem = ({
     canDelete,
     canUpVote,
     canDownVote,
+    canShowAuthor,
   } = useUserPermissions(post);
   const classes = useStyles();
   const { Actions: translations } = useTranslations();
@@ -64,6 +72,16 @@ const PostItem = ({
       actionInput.current.focus();
     }
   }, [actionsToggled, actionInput, post]);
+  const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
+  const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
+  const upVoters = useMemo(
+    () => post.votes.filter(t => t.type === 'like').map(t => t.user.name),
+    [post]
+  );
+  const downVoters = useMemo(
+    () => post.votes.filter(t => t.type === 'dislike').map(t => t.user.name),
+    [post]
+  );
   const displayAction = actionsToggled || !!post.action;
   return (
     <PostCard>
@@ -77,6 +95,16 @@ const PostItem = ({
             multiline
           />
         </Typography>
+        {canShowAuthor && (
+          <AuthorContainer>
+            <Typography variant="caption" color="textSecondary" component="div">
+              by&nbsp;
+            </Typography>
+            <Typography variant="caption" color="textPrimary" component="div">
+              {post.user.name}
+            </Typography>
+          </AuthorContainer>
+        )}
       </CardContent>
       {displayAction && canCreateAction && (
         <CardContent className={classes.actionContainer}>
@@ -93,18 +121,24 @@ const PostItem = ({
         </CardContent>
       )}
       <CardActions style={{ backgroundColor: color }}>
-        <Button onClick={onLike} disabled={!canUpVote} aria-label="Like">
-          <ThumbUpOutlined style={{ color: Palette.positive }} />
-          &nbsp;{post.likes.length}
-        </Button>
-        <Button
+        <VoteButton
+          voters={upVoters}
+          canVote={canUpVote}
+          count={upVotes}
+          icon={<ThumbUpOutlined style={{ color: Palette.positive }} />}
+          onClick={onLike}
+          showTooltip={canShowAuthor}
+          ariaLabel="Like"
+        />
+        <VoteButton
+          voters={downVoters}
+          canVote={canDownVote}
+          count={downVotes}
+          icon={<ThumbDownOutlined style={{ color: Palette.negative }} />}
           onClick={onDislike}
-          disabled={!canDownVote}
-          aria-label="Dislike"
-        >
-          <ThumbDownOutlined style={{ color: Palette.negative }} />
-          &nbsp;{post.dislikes.length}
-        </Button>
+          showTooltip={canShowAuthor}
+          ariaLabel="Dislike"
+        />
         {canDelete && (
           <Button onClick={onDelete} aria-label="Delete">
             <DeleteForeverOutlined style={{ color: Palette.negative }} />
@@ -129,9 +163,66 @@ const PostItem = ({
   );
 };
 
+interface VoteButtonProps {
+  voters: string[];
+  showTooltip: boolean;
+  canVote: boolean;
+  onClick: () => void;
+  count: number;
+  icon: JSX.Element;
+  ariaLabel: string;
+}
+
+const VoteButton = ({
+  voters,
+  showTooltip,
+  canVote,
+  count,
+  icon,
+  onClick,
+  ariaLabel,
+}: VoteButtonProps) => {
+  const show = showTooltip && voters.length;
+  return (
+    <Tooltip
+      placement="bottom"
+      disableHoverListener={!show}
+      disableFocusListener={!show}
+      disableTouchListener={!show}
+      title={
+        show ? (
+          <div>
+            {voters.map((voter, i) => (
+              <p key={i}>{voter}</p>
+            ))}
+          </div>
+        ) : (
+          ''
+        )
+      }
+    >
+      <span>
+        <Button onClick={onClick} disabled={!canVote} aria-label={ariaLabel}>
+          {icon}
+          &nbsp;{count}
+        </Button>
+      </span>
+    </Tooltip>
+  );
+};
+
 const PostCard = styled(Card)`
   margin: 10px 5px;
   margin-bottom: 20px;
+`;
+
+const AuthorContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  margin-top: -10px;
+  top: 10px;
+  right: -5px;
 `;
 
 export default PostItem;

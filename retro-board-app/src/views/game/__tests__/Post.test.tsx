@@ -1,19 +1,38 @@
 import React from 'react';
-import noop from 'lodash/noop';
+import { noop, groupBy, values } from 'lodash';
 import { render, fireEvent } from '../../../testing';
 import PostItem from '../Post';
-import { Post, PostType, User } from 'retro-board-common';
+import { Post, User, Vote, VoteType } from 'retro-board-common';
 
 const u = (name: string): User => ({ name, id: name });
 
+function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
+  const grouped = groupBy(users, u => u.id);
+  return values(grouped).map(
+    group =>
+      ({
+        id: 'whatever',
+        count: group.length,
+        post,
+        type,
+        user: group[0],
+      } as Vote)
+  );
+}
+
 const post: Post = {
   content: 'Foo',
-  dislikes: ['Didier', 'Danièle'].map(u),
-  likes: ['Charlotte', 'Apolline', 'Armand'].map(u),
+  votes: [],
   user: u('Anne-Claire'),
-  postType: PostType.Well,
   id: '1',
+  column: 0,
+  action: '',
 };
+
+post.votes = [
+  ...buildVotes('like', ['Charlotte', 'Apolline', 'Armand'].map(u), post),
+  ...buildVotes('dislike', ['Didier', 'Danièle'].map(u), post),
+];
 
 describe('Post', () => {
   it('Should properly display the post content', () => {
@@ -24,6 +43,7 @@ describe('Post', () => {
         onDislike={noop}
         onEdit={noop}
         onLike={noop}
+        onEditAction={noop}
         color="red"
       />
     );
@@ -42,6 +62,7 @@ describe('Post', () => {
         onDislike={dislikeHandler}
         onEdit={noop}
         onLike={likeHandler}
+        onEditAction={noop}
         color="red"
       />
     );
@@ -79,6 +100,7 @@ describe('Post', () => {
         onDislike={dislikeHandler}
         onEdit={noop}
         onLike={likeHandler}
+        onEditAction={noop}
         color="red"
       />
     );
@@ -110,6 +132,7 @@ describe('Post', () => {
         onDelete={noop}
         onDislike={noop}
         onEdit={editHandler}
+        onEditAction={noop}
         onLike={noop}
         color="red"
       />
@@ -137,6 +160,7 @@ describe('Post', () => {
         onDelete={noop}
         onDislike={noop}
         onEdit={editHandler}
+        onEditAction={noop}
         onLike={noop}
         color="red"
       />

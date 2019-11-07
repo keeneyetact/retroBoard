@@ -3,23 +3,43 @@ import uuid from 'uuid';
 import { render, getAllByRole } from '../../../testing';
 import SummaryMode from '../SummaryMode';
 import { ColumnContent } from '../types';
-import { Post, PostType } from 'retro-board-common';
+import { Post } from 'retro-board-common';
 
-const buildPost = (likes: number, dislikes: number): Post => ({
-  content: `${likes}/${dislikes}`,
-  id: uuid.v4(),
-  postType: PostType.Well,
-  user: { id: uuid.v4(), name: 'bar' },
-  likes: new Array(likes).fill({ id: uuid.v4(), name: 'bar' }),
-  dislikes: new Array(dislikes).fill({ id: uuid.v4(), name: 'bar' }),
-});
+const buildPost = (likes: number, dislikes: number): Post => {
+  const post: Post = {
+    content: `${likes}/${dislikes}`,
+    id: uuid.v4(),
+    column: 0,
+    user: { id: uuid.v4(), name: 'bar' },
+    votes: [],
+    action: '',
+  };
+
+  post.votes = [
+    ...new Array(likes).fill({
+      id: uuid.v4(),
+      type: 'like',
+      count: 1,
+      user: { id: uuid.v4(), name: 'bar' },
+    }),
+    ...new Array(dislikes).fill({
+      id: uuid.v4(),
+      type: 'dislike',
+      count: 1,
+      user: { id: uuid.v4(), name: 'bar' },
+    }),
+  ];
+
+  return post;
+};
 
 const data: ColumnContent[] = [
   {
     label: 'First column',
+    index: 0,
     color: 'red',
-    icon: React.Component,
-    type: PostType.Well,
+    icon: 'satisfied',
+    type: 'well',
     posts: [
       buildPost(4, 0),
       buildPost(1, 0),
@@ -30,9 +50,10 @@ const data: ColumnContent[] = [
   },
   {
     label: 'Second column',
+    index: 1,
     color: 'green',
-    icon: React.Component,
-    type: PostType.NotWell,
+    icon: 'disatisfied',
+    type: 'notWell',
     posts: [],
   },
 ];

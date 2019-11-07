@@ -3,6 +3,7 @@ import {
   Post,
   SessionOptions,
   ColumnDefinition,
+  Vote,
 } from 'retro-board-common';
 
 export interface Store {
@@ -14,6 +15,7 @@ export interface Store {
   ) => Promise<void>;
   saveSession: (session: Session) => Promise<void>;
   savePost: (sessionId: string, post: Post) => Promise<void>;
+  saveVote: (sessionId: string, postId: string, vote: Vote) => Promise<void>;
   deletePost: (sessionId: string, postId: string) => Promise<void>;
 }
 

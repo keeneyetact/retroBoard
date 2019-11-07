@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import Post from './Post';
 import ColumnDefinition from './ColumnDefinition';
-import { SessionOptions } from 'retro-board-common';
+import { SessionOptions, defaultOptions } from 'retro-board-common';
 
 @Entity({ name: 'sessions' })
 export default class Session {
@@ -30,9 +30,9 @@ export default class Session {
     eager: false,
   })
   public columns: ColumnDefinition[] | undefined;
-  @Column({ nullable: true, type: 'numeric', default: null })
+  @Column({ nullable: true, type: 'numeric' })
   public maxUpVotes: number | null;
-  @Column({ nullable: true, type: 'numeric', default: null })
+  @Column({ nullable: true, type: 'numeric' })
   public maxDownVotes: number | null;
   @Column({ default: true })
   public allowActions: boolean;
@@ -40,6 +40,8 @@ export default class Session {
   public allowSelfVoting: boolean;
   @Column({ default: false })
   public allowMultipleVotes: boolean;
+  @Column({ default: false })
+  public allowAuthorVisible: boolean;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
@@ -55,6 +57,7 @@ export default class Session {
     const optionsWithDefault = getDefaultOptions(options);
     this.maxUpVotes = optionsWithDefault.maxUpVotes;
     this.maxDownVotes = optionsWithDefault.maxDownVotes;
+    this.allowAuthorVisible = optionsWithDefault.allowAuthorVisible;
     this.allowActions = optionsWithDefault.allowActions;
     this.allowSelfVoting = optionsWithDefault.allowSelfVoting;
     this.allowMultipleVotes = optionsWithDefault.allowMultipleVotes;
@@ -63,11 +66,7 @@ export default class Session {
 
 function getDefaultOptions(options: Partial<SessionOptions>): SessionOptions {
   return {
-    maxUpVotes: null,
-    maxDownVotes: null,
-    allowActions: true,
-    allowSelfVoting: false,
-    allowMultipleVotes: false,
+    ...defaultOptions,
     ...options,
   };
 }

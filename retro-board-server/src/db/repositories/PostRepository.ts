@@ -1,6 +1,6 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { v4 } from 'uuid';
-import { Session, Post, ColumnDefinition } from '../entities';
+import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
+import { Session, Post, ColumnDefinition, Vote } from '../entities';
+import SessionRepository from './SessionRepository';
 import {
   Post as JsonPost,
   ColumnDefinition as JsonColumn,
@@ -14,28 +14,34 @@ export default class PostRepository extends Repository<Post> {
     if (session) {
       await this.save(toPost(post, session));
     } else {
-      const newSession = new Session(sessionId, null, {});
-      newSession.posts = [toPost(post, newSession)];
-      newSession.columns = defaultSession.columns.map(col =>
-        toColumnDef(col, newSession)
-      );
-      await this.manager.save(Session, newSession);
+      const sessionRepository = getCustomRepository(SessionRepository);
+      const newSession = {
+        ...defaultSession,
+        id: sessionId,
+        posts: [{ ...post, session: { id: sessionId } }],
+      };
+      await sessionRepository.saveFromJson(newSession);
     }
   }
 }
 
 function toPost(json: JsonPost, session: Session): Post {
   const post = new Post(json.id, session, json.column, json.content, json.user);
-  post.likes = json.likes.map(u => ({ id: u.id, name: u.name }));
-  post.dislikes = json.dislikes.map(u => ({ id: u.id, name: u.name }));
+  post.votes = json.votes.map(
+    jsonVote => new Vote(jsonVote.id, post, jsonVote.user, jsonVote.type)
+  );
   post.action = json.action;
   return post;
 }
 
 function toColumnDef(json: JsonColumn, session: Session): ColumnDefinition {
-  return {
-    ...json,
-    id: v4(),
+  return new ColumnDefinition(
+    json.id,
     session,
-  };
+    json.type,
+    json.index,
+    json.label,
+    json.color,
+    json.icon
+  );
 }

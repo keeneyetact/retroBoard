@@ -20,6 +20,7 @@ export interface SessionOptions {
   allowActions: boolean;
   allowSelfVoting: boolean;
   allowMultipleVotes: boolean;
+  allowAuthorVisible: boolean;
 }
 
 export interface Post {
@@ -28,14 +29,21 @@ export interface Post {
   content: string;
   action: string | null;
   user: User;
-  likes: User[];
-  dislikes: User[];
+  votes: Vote[];
 }
 
 export interface User {
   id: string;
   name: string;
 }
+
+export interface Vote {
+  id: string;
+  user: User;
+  type: VoteType;
+}
+
+export type VoteType = 'like' | 'dislike';
 
 export type TrackingEvent =
   | 'custom-modal/open'

@@ -4,13 +4,14 @@ import {
   SessionRepository,
   PostRepository,
   ColumnRepository,
+  VoteRepository,
 } from './repositories';
 import {
   Session as JsonSession,
   Post as JsonPost,
+  Vote as JsonVote,
   ColumnDefinition as JsonColumnDefintion,
   SessionOptions,
-  defaultOptions,
   defaultSession,
 } from 'retro-board-common';
 import { Store } from '../types';
@@ -86,6 +87,14 @@ const savePost = (postRepository: PostRepository) => async (
   await postRepository.saveFromJson(sessionId, post);
 };
 
+const saveVote = (voteRepository: VoteRepository) => async (
+  sessionId: string,
+  postId: string,
+  vote: JsonVote
+): Promise<void> => {
+  await voteRepository.saveFromJson(postId, vote);
+};
+
 const deletePost = (postRepository: PostRepository) => async (
   _: string,
   postId: string
@@ -102,10 +111,12 @@ export default async function db(): Promise<Store> {
   const columnRepository = await connection.getCustomRepository(
     ColumnRepository
   );
+  const voteRepository = await connection.getCustomRepository(VoteRepository);
   return {
     get: get(sessionRepository, postRepository, columnRepository),
     saveSession: saveSession(sessionRepository),
     savePost: savePost(postRepository),
+    saveVote: saveVote(voteRepository),
     deletePost: deletePost(postRepository),
     create: create(sessionRepository),
   };

@@ -1,5 +1,13 @@
 import { permissionLogic } from '../permissions-logic';
-import { Post, Session, User, SessionOptions } from 'retro-board-common';
+import {
+  Post,
+  Session,
+  User,
+  SessionOptions,
+  Vote,
+  VoteType,
+} from 'retro-board-common';
+import { v4 } from 'uuid';
 
 const currentUser: User = {
   id: '1',
@@ -11,15 +19,33 @@ const anotherUser: User = {
   name: 'Another User',
 };
 
-const post = (user: User, likes?: User[], dislikes?: User[]): Post => ({
-  user,
-  column: 0,
-  content: 'Some content',
-  id: 'acme',
-  action: '',
-  likes: likes || [],
-  dislikes: dislikes || [],
-});
+function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
+  return users.map(
+    user =>
+      ({
+        id: v4(),
+        post,
+        type,
+        user,
+      } as Vote)
+  );
+}
+
+const post = (user: User, likes?: User[], dislikes?: User[]): Post => {
+  const p: Post = {
+    user,
+    column: 0,
+    content: 'Some content',
+    id: 'acme',
+    action: '',
+    votes: [],
+  };
+  p.votes = [
+    ...buildVotes('like', likes || [], p),
+    ...buildVotes('dislike', dislikes || [], p),
+  ];
+  return p;
+};
 
 const session = (options: SessionOptions, ...posts: Post[]): Session => ({
   ...options,
@@ -33,6 +59,7 @@ const defaultOptions: SessionOptions = {
   allowActions: true,
   allowMultipleVotes: false,
   allowSelfVoting: false,
+  allowAuthorVisible: false,
   maxDownVotes: null,
   maxUpVotes: null,
 };

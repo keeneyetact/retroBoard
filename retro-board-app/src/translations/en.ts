@@ -40,6 +40,9 @@ export default {
       'Whether to allow a user to vote multiple times on the same post',
     allowActions: 'Allow Actions',
     allowActionsHelp: `Whether to allow the 'Action' (follow-up) field on each post`,
+    allowAuthorVisible: 'Show author',
+    allowAuthorVisibleHelp:
+      'Display the author of the post, on the post itself.',
     template: 'Template',
     templateHelp: 'Use a pre-defined set of columns',
     numberOfColumns: 'Number of columns',

@@ -18,6 +18,7 @@ import { ColumnContent } from './types';
 import { Palette } from '../../Theme';
 import useTranslations from '../../translations';
 import { Post } from 'retro-board-common';
+import { countVotes } from './utils';
 
 interface SummaryModeProps {
   columns: ColumnContent[];
@@ -52,8 +53,8 @@ interface PostsListProps {
 }
 
 function sortFunction(a: Post, b: Post): number {
-  const scoreA = a.likes.length - a.dislikes.length;
-  const scoreB = b.likes.length - b.dislikes.length;
+  const scoreA = countVotes(a, 'like') - countVotes(a, 'dislike');
+  const scoreB = countVotes(b, 'like') - countVotes(b, 'dislike');
   if (scoreA === scoreB) {
     return 0;
   }
@@ -81,8 +82,8 @@ interface PostLineProps {
 const PostLine = ({ post }: PostLineProps) => (
   <PostContainer role="listitem">
     <Typography>
-      <PositiveNumber>+{post.likes.length}</PositiveNumber>&nbsp;
-      <NegativeNumber>-{post.dislikes.length}</NegativeNumber>
+      <PositiveNumber>+{countVotes(post, 'like')}</PositiveNumber>&nbsp;
+      <NegativeNumber>-{countVotes(post, 'dislike')}</NegativeNumber>
       &nbsp;<span aria-label="post content">{post.content}</span>
     </Typography>
   </PostContainer>

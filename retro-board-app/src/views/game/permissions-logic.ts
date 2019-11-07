@@ -1,4 +1,4 @@
-import { Post, Session, User } from 'retro-board-common';
+import { Post, Session, User, VoteType } from 'retro-board-common';
 import { some } from 'lodash';
 
 export interface UserPermissions {
@@ -7,6 +7,7 @@ export interface UserPermissions {
   canCreateAction: boolean;
   canEdit: boolean;
   canDelete: boolean;
+  canShowAuthor: boolean;
 }
 
 export function permissionLogic(
@@ -27,11 +28,13 @@ export function permissionLogic(
   const isAuthor = user ? user.id === post.user.id : false;
   const canPotentiallyVote = allowSelfVoting ? true : !isAuthor;
   const hasVotedOrAuthor =
-    (!allowMultipleVotes && some(post.likes, u => u.id === userId)) ||
-    (!allowMultipleVotes && some(post.dislikes, u => u.id === userId)) ||
+    (!allowMultipleVotes &&
+      some(post.votes, u => u.user.id === userId && u.type === 'like')) ||
+    (!allowMultipleVotes &&
+      some(post.votes, u => u.user.id === userId && u.type === 'dislike')) ||
     !canPotentiallyVote;
-  const upVotes = numberOfVotes('likes', userId, session);
-  const downVotes = numberOfVotes('dislikes', userId, session);
+  const upVotes = numberOfVotes('like', userId, session);
+  const downVotes = numberOfVotes('dislike', userId, session);
   const hasMaxedUpVotes = maxUpVotes === null ? false : upVotes >= maxUpVotes;
   const hasMaxedDownVotes =
     maxDownVotes === null ? false : downVotes >= maxDownVotes;
@@ -39,6 +42,7 @@ export function permissionLogic(
   const canDownVote = !hasVotedOrAuthor && !hasMaxedDownVotes;
   const canEdit = isAuthor;
   const canDelete = isAuthor;
+  const canShowAuthor = session.allowAuthorVisible;
 
   return {
     canCreateAction,
@@ -46,15 +50,19 @@ export function permissionLogic(
     canUpVote,
     canEdit,
     canDelete,
+    canShowAuthor,
   };
 }
 
 function numberOfVotes(
-  type: 'likes' | 'dislikes',
+  type: VoteType,
   userId: string | number,
   session: Session
 ) {
   return session.posts.reduce<number>((prev, cur) => {
-    return prev + cur[type].filter(v => v.id === userId).length;
+    return (
+      prev +
+      cur.votes.filter(v => v.user.id === userId && v.type === type).length
+    );
   }, 0);
 }

@@ -38,6 +38,7 @@ const CreateSessionModal = ({
   const [allowActions, setAllowActions] = useState<boolean>(true);
   const [allowSelfVoting, setAllowSelfVoting] = useState<boolean>(false);
   const [allowMultipleVotes, setAllowMultipleVotes] = useState<boolean>(false);
+  const [allowAuthorVisible, setAllowAuthorVisible] = useState<boolean>(false);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(3);
   const [defaultDefinitions, setDefaultDefinitions] = useState(
     buildDefaults('default', translations)
@@ -74,6 +75,7 @@ const CreateSessionModal = ({
         allowActions,
         allowMultipleVotes,
         allowSelfVoting,
+        allowAuthorVisible,
         maxDownVotes,
         maxUpVotes,
       },
@@ -84,6 +86,7 @@ const CreateSessionModal = ({
     allowActions,
     allowMultipleVotes,
     allowSelfVoting,
+    allowAuthorVisible,
     maxDownVotes,
     maxUpVotes,
     definitions,
@@ -176,6 +179,15 @@ const CreateSessionModal = ({
             help={Customize.allowActionsHelp!}
           >
             <BooleanOption value={allowActions} onChange={setAllowActions} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.allowAuthorVisible!}
+            help={Customize.allowAuthorVisibleHelp!}
+          >
+            <BooleanOption
+              value={allowAuthorVisible}
+              onChange={setAllowAuthorVisible}
+            />
           </OptionItem>
         </SettingCategory>
       </DialogContent>

@@ -41,6 +41,8 @@ export default {
     allowActions: 'Activer les Actions',
     allowActionsHelp:
       'Autoriser un utilisateur à entrer une action sur un post',
+    allowAuthorVisible: "Afficher l'auteur",
+    allowAuthorVisibleHelp: `Afficher l'auteur du post sur le post lui-même.`,
     template: 'Règles prédéfinies',
     templateHelp: 'Sélectionnez un jeu de colonnes prédéfini',
     numberOfColumns: 'Nombre de colonnes',
