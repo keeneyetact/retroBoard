@@ -122,7 +122,7 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Versions history
 
-### Version 2.1.0 (NEXT RELEASE, PENDING)
+### Version 2.1.0
 
 - Adding full customisation of columns and rules:
   - You can now create a board with 1 to 5 columns
