@@ -18,6 +18,7 @@ export default {
     votes: 'votes',
     deleteButton: 'Supprimer',
     noContent: '(Aucun contenu)',
+    by: 'par',
   },
   Customize: {
     title: 'Nouvelle session personalisée',

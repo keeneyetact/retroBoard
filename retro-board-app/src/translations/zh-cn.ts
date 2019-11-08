@@ -17,6 +17,7 @@ export default {
     votes: '表决',
     deleteButton: '删除',
     noContent: '(目前无任何内容)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

@@ -6,7 +6,6 @@ import { Session as JsonSession } from 'retro-board-common/src/types';
 @EntityRepository(Session)
 export default class SessionRepository extends Repository<Session> {
   async saveFromJson(session: JsonSession): Promise<void> {
-    console.log('Trying to save: ', session);
     const sessionWithoutPosts = {
       ...session,
     };

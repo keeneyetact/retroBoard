@@ -129,12 +129,14 @@ If you want to use a more "production-ready" database such as Postgres (without 
   - You can allow a user to vote for his own posts
   - You can allow multiple votes on the same post
   - You can limit the number of up and down votes
+  - You can choose to display the name of the author, and the name of the persons who vote
 - Your language selection is now remembered between sessions
 - Various UI fixes:
   - Login modal improvements
   - Editable label improvements
 - Various Docker improvements
 - Upgraded dependencies
+- Special thanks to [@jesusabp](https://github.com/jesusabp), [@zalexki](https://github.com/zalexki) and [@jfritz](https://github.com/jfritz) for their inputs and ideas!
 
 ### Version 2.0.4
 

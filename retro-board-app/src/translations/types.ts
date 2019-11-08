@@ -16,6 +16,7 @@ export interface Translation {
     votes?: string;
     deleteButton?: string;
     noContent?: string;
+    by?: string;
   };
   Customize: {
     title?: string;

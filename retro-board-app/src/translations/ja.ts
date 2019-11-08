@@ -17,6 +17,7 @@ export default {
     votes: '表決',
     deleteButton: '削除',
     noContent: '(項目が空です)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

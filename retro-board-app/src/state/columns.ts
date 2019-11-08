@@ -20,7 +20,7 @@ export function buildDefaults(
     for (let i = 0; i <= MAX_NUMBER_OF_COLUMNS - base.length; i++) {
       base.push({
         color: 'purple',
-        icon: 'satisfied', // TODO
+        icon: 'satisfied',
         label: 'Custom Column',
         type: 'custom',
       });

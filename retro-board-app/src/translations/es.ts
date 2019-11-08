@@ -17,6 +17,7 @@ export default {
     votes: 'votos',
     deleteButton: 'Suprimir',
     noContent: '(Esta publicacion no tiene contenido)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

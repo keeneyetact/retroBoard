@@ -104,14 +104,10 @@ const deletePost = (postRepository: PostRepository) => async (
 
 export default async function db(): Promise<Store> {
   const connection = await getDb();
-  const sessionRepository = await connection.getCustomRepository(
-    SessionRepository
-  );
-  const postRepository = await connection.getCustomRepository(PostRepository);
-  const columnRepository = await connection.getCustomRepository(
-    ColumnRepository
-  );
-  const voteRepository = await connection.getCustomRepository(VoteRepository);
+  const sessionRepository = connection.getCustomRepository(SessionRepository);
+  const postRepository = connection.getCustomRepository(PostRepository);
+  const columnRepository = connection.getCustomRepository(ColumnRepository);
+  const voteRepository = connection.getCustomRepository(VoteRepository);
   return {
     get: get(sessionRepository, postRepository, columnRepository),
     saveSession: saveSession(sessionRepository),

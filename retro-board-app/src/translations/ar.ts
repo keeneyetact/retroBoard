@@ -17,6 +17,7 @@ export default {
     votes: 'أصوات',
     deleteButton: 'حذف',
     noContent: '(هذا الموضوع فارغ)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

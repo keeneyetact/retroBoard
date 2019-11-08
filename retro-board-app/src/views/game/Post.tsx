@@ -22,7 +22,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import { useUserPermissions } from './useUserPermissions';
-import { countVotes } from './utils';
+import { countVotes, enumerateVotes, VoteEnumeration } from './utils';
 
 interface PostItemProps {
   post: Post;
@@ -61,7 +61,7 @@ const PostItem = ({
     canShowAuthor,
   } = useUserPermissions(post);
   const classes = useStyles();
-  const { Actions: translations } = useTranslations();
+  const { Actions: translations, Post: postTranslations } = useTranslations();
   const [actionsToggled, setActionToggled] = useState(false);
   const actionInput = useRef<EditableLabel>(null);
   const toggleActionPanel = useCallback(() => {
@@ -74,14 +74,8 @@ const PostItem = ({
   }, [actionsToggled, actionInput, post]);
   const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
   const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
-  const upVoters = useMemo(
-    () => post.votes.filter(t => t.type === 'like').map(t => t.user.name),
-    [post]
-  );
-  const downVoters = useMemo(
-    () => post.votes.filter(t => t.type === 'dislike').map(t => t.user.name),
-    [post]
-  );
+  const upVoters = useMemo(() => enumerateVotes(post, 'like'), [post]);
+  const downVoters = useMemo(() => enumerateVotes(post, 'dislike'), [post]);
   const displayAction = actionsToggled || !!post.action;
   return (
     <PostCard>
@@ -98,7 +92,7 @@ const PostItem = ({
         {canShowAuthor && (
           <AuthorContainer>
             <Typography variant="caption" color="textSecondary" component="div">
-              by&nbsp;
+              {postTranslations.by}&nbsp;
             </Typography>
             <Typography variant="caption" color="textPrimary" component="div">
               {post.user.name}
@@ -140,7 +134,7 @@ const PostItem = ({
           ariaLabel="Dislike"
         />
         {canDelete && (
-          <Button onClick={onDelete} aria-label="Delete">
+          <Button onClick={onDelete} aria-label="Delete" tabIndex={-1}>
             <DeleteForeverOutlined style={{ color: Palette.negative }} />
           </Button>
         )}
@@ -150,6 +144,7 @@ const PostItem = ({
             aria-label={translations.label}
             title={translations.tooltip}
             disabled={!!post.action}
+            tabIndex={-1}
           >
             {post.action ? (
               <Feedback className={classes.actionIcon} />
@@ -164,7 +159,7 @@ const PostItem = ({
 };
 
 interface VoteButtonProps {
-  voters: string[];
+  voters: VoteEnumeration[];
   showTooltip: boolean;
   canVote: boolean;
   onClick: () => void;
@@ -193,7 +188,10 @@ const VoteButton = ({
         show ? (
           <div>
             {voters.map((voter, i) => (
-              <p key={i}>{voter}</p>
+              <p key={i}>
+                {voter.name}
+                {voter.count > 1 ? ` (x${voter.count})` : ''}
+              </p>
             ))}
           </div>
         ) : (
@@ -202,7 +200,12 @@ const VoteButton = ({
       }
     >
       <span>
-        <Button onClick={onClick} disabled={!canVote} aria-label={ariaLabel}>
+        <Button
+          onClick={onClick}
+          disabled={!canVote}
+          aria-label={ariaLabel}
+          tabIndex={-1}
+        >
           {icon}
           &nbsp;{count}
         </Button>

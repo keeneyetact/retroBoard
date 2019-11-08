@@ -84,19 +84,21 @@ function Home(props: HomeProps) {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions}>
-          <Fab
-            variant="extended"
-            onClick={createDefaultSession}
-            size="large"
-            color="secondary"
-          >
-            <ThumbUpAlt className={classes.buttonIcon} />
-            {translations.Join.standardTab.button}
-          </Fab>
-          <Button onClick={onOpenModal} color="primary">
-            <Settings className={classes.buttonIcon} />
-            {translations.Join.standardTab.customizeButton}
-          </Button>
+          <LaunchButtons>
+            <Fab
+              variant="extended"
+              onClick={createDefaultSession}
+              size="large"
+              color="secondary"
+            >
+              <ThumbUpAlt className={classes.buttonIcon} />
+              {translations.Join.standardTab.button}
+            </Fab>
+            <Button onClick={onOpenModal} color="primary">
+              <Settings className={classes.buttonIcon} />
+              {translations.Join.standardTab.customizeButton}
+            </Button>
+          </LaunchButtons>
           <CreateSessionModal
             open={modalOpen}
             onClose={onCloseModal}
@@ -121,4 +123,17 @@ const MainCard = styled(Card)`
   margin: auto;
   margin-bottom: 20px;
 `;
+
+const LaunchButtons = styled.div`
+  display: flex;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+
+    > button:last-child {
+      margin-top: 20px;
+    }
+  }
+`;
+
 export default withRouter(Home);

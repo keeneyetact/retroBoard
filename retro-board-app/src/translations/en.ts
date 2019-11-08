@@ -17,18 +17,19 @@ export default {
     votes: 'votes',
     deleteButton: 'Delete',
     noContent: '(This post has no content)',
+    by: 'by',
   },
   Customize: {
-    title: 'New Game with Custom Rules',
+    title: 'Customize your Game',
     votingCategory: 'Voting',
     votingCategorySub: 'Set the rules about likes and dislikes',
-    postCategory: 'Post behaviour',
+    postCategory: 'Post settings',
     postCategorySub:
       'Set the rules about what a user can do when creating or viewing a post',
     customTemplateCategory: 'Column Template',
     customTemplateCategorySub:
       'Set the number of columns and their characteristics',
-    startButton: 'Start the game!',
+    startButton: 'Launch the game!',
     maxUpVotes: 'Max Up Votes',
     maxUpVotesHelp: `Maximum number of 'likes' votes a user is allowed to cast`,
     maxDownVotes: 'Max Down Votes',

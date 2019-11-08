@@ -17,6 +17,7 @@ export default {
     votes: 'szavazat',
     deleteButton: 'törlés',
     noContent: '(This post has no content)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

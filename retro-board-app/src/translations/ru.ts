@@ -17,6 +17,7 @@ export default {
     votes: 'голоса',
     deleteButton: 'Удалить',
     noContent: '(пусто)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

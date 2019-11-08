@@ -18,6 +18,7 @@ export default {
     votes: 'Stemmen',
     deleteButton: 'Verwijderen',
     noContent: '(Dit bericht heeft geen inhoud)',
+    by: undefined,
   },
   Customize: {
     title: undefined,

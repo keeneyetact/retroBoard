@@ -17,6 +17,7 @@ export default {
     votes: 'głosów',
     deleteButton: 'Usuń',
     noContent: '(Ten wpis nie ma zawartości)',
+    by: undefined,
   },
   Customize: {
     title: undefined,
