@@ -38,6 +38,7 @@ const useGame = (sessionId: string) => {
     setPlayers,
     deletePost,
     updatePost,
+    receiveVote,
     renameSession,
     resetSession,
   } = useGlobalState();
@@ -111,12 +112,15 @@ const useGame = (sessionId: string) => {
       deletePost(post);
     });
 
-    newSocket.on(Actions.RECEIVE_LIKE, (post: Post) => {
-      if (debug) {
-        console.log('Receive like: ', post);
+    newSocket.on(
+      Actions.RECEIVE_LIKE,
+      ({ postId, vote }: { postId: string; vote: Vote }) => {
+        if (debug) {
+          console.log('Receive vote: ', postId, vote);
+        }
+        receiveVote(postId, vote);
       }
-      updatePost(post);
-    });
+    );
 
     newSocket.on(Actions.RECEIVE_EDIT_POST, (post: { post: Post }) => {
       if (debug) {
@@ -145,6 +149,7 @@ const useGame = (sessionId: string) => {
     sessionId,
     resetSession,
     receivePost,
+    receiveVote,
     receiveBoard,
     setPlayers,
     deletePost,

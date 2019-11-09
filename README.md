@@ -123,12 +123,15 @@ If you want to use a more "production-ready" database such as Postgres (without 
 ## Roadmap
 
 - Adding a real (but optional) login mechanism (Google/GitHub etc.)
+- Fixing de-sync when like/dislike
 
 ## Versions history
 
 ### Version 2.1.1 (PENDING)
 
 - MS Windows support/fixes (Thanks [@srraf](https://github.com/srraf)).
+- [PR-48](https://github.com/antoinejaussoin/retro-board/pull/48) - Fixed a word-wrapping issue when we have only one (long) post (Thanks [@manicmaniac](https://github.com/manicmaniac)).
+- Fixes a possible race-condition issue with "vote" syncing.
 
 ### Version 2.1.0
 

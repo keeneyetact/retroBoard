@@ -1,5 +1,5 @@
 import { Dispatch } from './types';
-import { Post } from 'retro-board-common';
+import { Post, Vote } from 'retro-board-common';
 
 export const TOGGLE_PANEL = 'retrospected/panel/toggle';
 export const LOGIN = 'retrospected/user/login';
@@ -8,6 +8,7 @@ export const SET_PLAYERS = 'retrospected/game/players/set';
 export const RENAME_SESSION = 'retrospected/game/session/rename';
 export const RESET_SESSION = 'retrospected/game/session/reset';
 export const RECEIVE_POST = 'retrospected/game/post/receive';
+export const RECEIVE_VOTE = 'retrospected/game/post/vote/receive';
 export const DELETE_POST = 'retrospected/game/post/delete';
 export const UPDATE_POST = 'retrospected/game/post/update';
 export const RECEIVE_BOARD = 'retrospected/game/board/receive';
@@ -62,6 +63,13 @@ export const receiveBoard = (dispatch: Dispatch) => (posts: Post[]) => {
 
 export const updatePost = (dispatch: Dispatch) => (post: Post) => {
   dispatch(createAction(UPDATE_POST, post));
+};
+
+export const receiveVote = (dispatch: Dispatch) => (
+  postId: string,
+  vote: Vote
+) => {
+  dispatch(createAction(RECEIVE_VOTE, { postId, vote }));
 };
 
 export const deletePost = (dispatch: Dispatch) => (post: Post) => {

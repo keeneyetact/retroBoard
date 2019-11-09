@@ -207,7 +207,7 @@ db().then(store => {
     if (post) {
       const existingVote: Vote | undefined = find(
         post.votes,
-        v => v.user.id === data.user.id
+        v => v.user.id === data.user.id && v.type === data.type
       );
 
       if (session.allowMultipleVotes || !existingVote) {
@@ -216,9 +216,8 @@ db().then(store => {
           user: data.user,
           type: data.type,
         };
-        post.votes.push(vote);
         persistVote(session.id, post.id, vote);
-        sendToAll(socket, session.id, RECEIVE_LIKE, post);
+        sendToAll(socket, session.id, RECEIVE_LIKE, { postId: post.id, vote });
       }
     }
   };

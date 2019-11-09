@@ -12,6 +12,7 @@ import {
   TOGGLE_SUMMARY_MODE,
   RENAME_SESSION,
   RESET_SESSION,
+  RECEIVE_VOTE,
 } from './actions';
 import { defaultSession } from 'retro-board-common';
 
@@ -31,6 +32,26 @@ export default (state: State, action: Action): State => {
         session: {
           ...state.session,
           posts: [...state.session.posts, action.payload],
+        },
+      };
+    case RECEIVE_VOTE:
+      const postIndex = findIndex(
+        state.session.posts,
+        p => p.id === action.payload.postId
+      );
+      const post = state.session.posts[postIndex];
+      return {
+        ...state,
+        session: {
+          ...state.session,
+          posts: [
+            ...state.session.posts.slice(0, postIndex),
+            {
+              ...post,
+              votes: [...post.votes, action.payload.vote],
+            },
+            ...state.session.posts.slice(postIndex + 1),
+          ],
         },
       };
     case DELETE_POST:
