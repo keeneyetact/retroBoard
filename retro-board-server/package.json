@@ -4,7 +4,7 @@
   "license": "GNU GPLv3",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && ../node_modules/typescript/bin/tsc --build",
+    "build": "rimraf dist && tsc --build",
     "start": "nodemon --exec ts-node ./src/index.ts",
     "create-migration": "ts-node ../node_modules/typeorm/cli.js migration:generate -n ",
     "migrate": "ts-node ./src/init.ts && ts-node ../node_modules/typeorm/cli.js migration:run",
@@ -32,6 +32,7 @@
     "nodemon": "^1.19.4",
     "pg": "^7.12.1",
     "retro-board-common": "*",
+    "rimraf": "^3.0.0",
     "socket.io": "^2.3.0",
     "ts-node": "^8.4.1",
     "typeorm": "^0.2.20",

@@ -37,7 +37,7 @@ Previous versions, up to v1.0.1 featured the following libraries:
 
 - `Yarn`: Please install [Yarn](https://yarnpkg.com/en/), as this mono-repo uses **Yarn Workspaces** which won't work with NPM.
 
-## How to try it out
+## How to try it out (Mac/Linux)
 
 - Clone this repository
 - Switch to the `master` branch (the default is `develop` which might not be stable: `git checkout master`)
@@ -45,13 +45,17 @@ Previous versions, up to v1.0.1 featured the following libraries:
 - `yarn start` to transpile the server, run the server on port 8080 and start the UI
 - Open your browser on [http://localhost:3000](http://localhost:3000)
 
+## How to try it out (Windows)
+
+Follow the steps in "How to run for development" below.
+
 ## How to run for development
 
 - Clone this repository
 - `yarn` to install the dependencies (_not_ `npm i`!)
-- Open another terminal (you need two of those)
-- `yarn start-server` on the first terminal to start the server bit
-- `yarn start-ui` on the second terminal, to run live webpack with hot-reload
+- Open another terminal (you need two of those, and the order is important)
+- `yarn start-ui` on the first terminal to run live Webpack with hot-reload
+- `yarn start-server` on the second terminal to start the backend
 - Open your browser on [http://localhost:3000](http://localhost:3000)
 
 ## How to run for Production using Docker
@@ -118,9 +122,13 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Roadmap
 
-- Making the app more flexible (name of each "columns", etc.)
+- Adding a real (but optional) login mechanism (Google/GitHub etc.)
 
 ## Versions history
+
+### Version 2.1.1 (PENDING)
+
+- MS Windows support/fixes (Thanks [@srraf](https://github.com/srraf)).
 
 ### Version 2.1.0
 

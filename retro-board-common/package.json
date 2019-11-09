@@ -5,6 +5,9 @@
   "private": true,
   "main": "dist/src/index.js",
   "scripts": {
-    "build": "rm -rf dist && ../node_modules/typescript/bin/tsc --build"
+    "build": "rimraf dist && tsc --build"
+  },
+  "dependencies": {
+    "rimraf": "^3.0.0"
   }
 }
