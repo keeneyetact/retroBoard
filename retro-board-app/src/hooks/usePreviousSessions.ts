@@ -1,4 +1,5 @@
 import useGlobalState from '../state';
+import { findIndex } from 'lodash';
 import { User } from 'retro-board-common';
 
 interface SessionStore {
@@ -33,7 +34,7 @@ function getStore(): SessionStore {
 function addToPreviousSessions(id: string, name: string, username: User) {
   const store = getStore();
   const sessions = store[username.id] || [];
-  const currentIndex = sessions.findIndex(session => session.id === id);
+  const currentIndex = findIndex(sessions, session => session.id === id);
   const newSession: Session = {
     id,
     name,

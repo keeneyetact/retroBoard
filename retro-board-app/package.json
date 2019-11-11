@@ -22,6 +22,8 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/styled-components": "4.1.22",
     "@types/uuid": "^3.4.6",
+    "bowser": "^2.7.0",
+    "core-js": "^3.4.0",
     "date-fns": "^2.7.0",
     "flag-icon-css": "3.4.5",
     "http-proxy-middleware": "^0.20.0",
@@ -29,6 +31,7 @@
     "md5": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
+    "react-app-polyfill": "^1.0.4",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewire-yarn-workspaces": "^1.0.3",
     "react-app-rewired": "^2.1.5",
@@ -58,7 +61,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
+    "not ie <= 9",
     "not op_mini all"
   ]
 }

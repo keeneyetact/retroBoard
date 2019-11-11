@@ -123,8 +123,15 @@ If you want to use a more "production-ready" database such as Postgres (without 
 ## Roadmap
 
 - Adding a real (but optional) login mechanism (Google/GitHub etc.)
+- Display remaining votes
+- Highlight posts where the user voted
 
 ## Versions history
+
+### Version 2.1.2
+
+- Older browser support (IE11, somewhat works with IE10 and IE9).
+- Adding an "outdated browser" warning
 
 ### Version 2.1.1
 

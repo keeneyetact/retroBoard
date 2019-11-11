@@ -25,6 +25,8 @@ import Login from './views/Login';
 import Invite from './views/layout/Invite';
 import useGlobalState from './state';
 import useLoginFromLocalStorage from './hooks/useLoginFromLocalStorage';
+import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
+import OutdatedBrowser from './components/OutdatedBrowser';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -35,6 +37,7 @@ interface AppProps extends RouteComponentProps {}
 
 function App({ history }: AppProps) {
   useLoginFromLocalStorage();
+  const isCompatible = useIsCompatibleBrowser();
   const { state, togglePanel, logout } = useGlobalState();
   const [open, setOpen] = useState(false);
   const goToHome = useCallback(() => history.push('/'), [history]);
@@ -93,6 +96,7 @@ function App({ history }: AppProps) {
         {!state.username && <Login />}
       </Page>
       <Panel />
+      <OutdatedBrowser show={!isCompatible} />
     </div>
   );
 }

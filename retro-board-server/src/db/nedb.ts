@@ -8,6 +8,7 @@ import {
   defaultSession,
   Vote,
 } from 'retro-board-common';
+import { findIndex } from 'lodash';
 import { Store } from '../types';
 
 const dbFile = path.resolve(__dirname, '..', 'persist', 'db');
@@ -82,7 +83,8 @@ const savePost = (store: Datastore) => (
       if (err) {
         reject(err);
       } else if (session) {
-        const existingPostIndex = session.posts.findIndex(
+        const existingPostIndex = findIndex(
+          session.posts,
           p => p.id === post.id
         );
         if (existingPostIndex > -1) {
