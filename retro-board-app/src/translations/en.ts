@@ -20,7 +20,7 @@ export default {
     by: 'by',
   },
   Customize: {
-    title: 'Customize your Game',
+    title: 'Customise your Game',
     votingCategory: 'Voting',
     votingCategorySub: 'Set the rules about likes and dislikes',
     postCategory: 'Post settings',
@@ -30,9 +30,9 @@ export default {
     customTemplateCategorySub:
       'Set the number of columns and their characteristics',
     startButton: 'Launch the game!',
-    maxUpVotes: 'Max Up Votes',
+    maxUpVotes: 'Max Up-Votes',
     maxUpVotesHelp: `Maximum number of 'likes' votes a user is allowed to cast`,
-    maxDownVotes: 'Max Down Votes',
+    maxDownVotes: 'Max Down-Votes',
     maxDownVotesHelp: `Maximum number of 'dislikes' votes a user is allowed to cast`,
     allowSelfVoting: 'Allow Self Voting',
     allowSelfVotingHelp: 'Whether to allow a user to vote on their own post',
@@ -41,7 +41,7 @@ export default {
       'Whether to allow a user to vote multiple times on the same post',
     allowActions: 'Allow Actions',
     allowActionsHelp: `Whether to allow the 'Action' (follow-up) field on each post`,
-    allowAuthorVisible: 'Show author',
+    allowAuthorVisible: 'Show Author',
     allowAuthorVisibleHelp:
       'Display the author of the post, on the post itself.',
     template: 'Template',

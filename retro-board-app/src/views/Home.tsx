@@ -126,10 +126,15 @@ const MainCard = styled(Card)`
 
 const LaunchButtons = styled.div`
   display: flex;
+  > button {
+    margin: 0 10px;
+  }
 
   @media (max-width: 500px) {
     flex-direction: column;
-
+    > button {
+      margin: 0;
+    }
     > button:last-child {
       margin-top: 20px;
     }
