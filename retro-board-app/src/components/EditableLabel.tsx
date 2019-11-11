@@ -122,7 +122,7 @@ const LabelContainer = styled.span``;
 const ViewMode = styled.span`
   display: inline-block;
   > span {
-    white-space: pre;
+    white-space: pre-wrap;
     line-height: 1.5;
   }
 `;
