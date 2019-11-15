@@ -25,7 +25,7 @@ import { defaultSession } from 'retro-board-common';
 
 export const initialState: State = {
   panelOpen: false,
-  username: null,
+  user: null,
   players: [],
   summaryMode: false,
   session: {

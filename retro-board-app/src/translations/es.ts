@@ -18,6 +18,11 @@ export default {
     deleteButton: 'Suprimir',
     noContent: '(Esta publicacion no tiene contenido)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

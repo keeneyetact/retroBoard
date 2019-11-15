@@ -4,10 +4,12 @@ import { Post } from 'retro-board-common';
 import { Typography, makeStyles, Box } from '@material-ui/core';
 import useTranslations from '../../translations';
 import useGlobalState from '../../state';
+import useRemainingVotes from './useRemainingVotes';
 import { getIcon } from '../../state/icons';
 import Column from './Column';
 import EditableLabel from '../../components/EditableLabel';
 import { ColumnContent } from './types';
+import RemainingVotes from './RemainingVotes';
 
 interface GameModeProps {
   columns: ColumnContent[];
@@ -38,23 +40,29 @@ function GameMode({
   const translations = useTranslations();
   const { state } = useGlobalState();
   const classes = useStyles();
+  const remainingVotes = useRemainingVotes();
 
   return (
     <Box className={classes.container}>
-      <Typography
-        variant="h5"
-        align="center"
-        gutterBottom
-        paragraph
-        className={classes.sessionName}
-      >
-        <EditableLabel
-          placeholder={translations.SessionName.defaultSessionName}
-          value={state.session.name || ''}
-          centered
-          onChange={onRenameSession}
-        />
-      </Typography>
+      <HeaderWrapper>
+        <div />
+        <Typography
+          variant="h5"
+          align="center"
+          gutterBottom
+          paragraph
+          className={classes.sessionName}
+        >
+          <EditableLabel
+            placeholder={translations.SessionName.defaultSessionName}
+            value={state.session.name || ''}
+            centered
+            onChange={onRenameSession}
+          />
+        </Typography>
+        <RemainingVotes up={remainingVotes.up} down={remainingVotes.down} />
+      </HeaderWrapper>
+
       <Columns numberOfColumns={columns.length}>
         {columns.map(column => (
           <Column
@@ -86,6 +94,28 @@ const Columns = styled.div<{ numberOfColumns: number }>`
 
     > * {
       margin-bottom: 20px;
+    }
+  }
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > *:first-child {
+    width: 90px;
+  }
+  > *:nth-child(2) {
+    flex: 1;
+    margin: 0 20px;
+  }
+  > *:last-child {
+    width: 90px;
+  }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    > *:last-child {
+      margin: 20px 0;
     }
   }
 `;

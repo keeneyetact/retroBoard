@@ -19,6 +19,14 @@ export default {
     deleteButton: 'Supprimer',
     noContent: '(Aucun contenu)',
     by: 'par',
+    upVote: 'positif',
+    downVote: 'négatif',
+    voteRemainingMultiple: (count: number, type: string) =>
+      `Il vous reste ${count} votes ${type}s.`,
+    voteRemainingOne: (type: string) =>
+      `Il ne vous reste plus qu'un vote ${type}, ne le gâchez pas !`,
+    voteRemainingNone: (type: string) =>
+      `Il ne vous reste plus aucun vote ${type}.`,
   },
   Customize: {
     title: 'Nouvelle session personalisée',

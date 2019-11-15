@@ -18,6 +18,11 @@ export default {
     deleteButton: 'Удалить',
     noContent: '(пусто)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

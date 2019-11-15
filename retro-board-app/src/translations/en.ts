@@ -18,6 +18,14 @@ export default {
     deleteButton: 'Delete',
     noContent: '(This post has no content)',
     by: 'by',
+    upVote: 'up-vote',
+    downVote: 'down-vote',
+    voteRemainingMultiple: (count: number, type: string) =>
+      `You have ${count} ${type}s remaining.`,
+    voteRemainingOne: (type: string) =>
+      `You only have one ${type} remaining, make it count!`,
+    voteRemainingNone: (type: string) =>
+      `You don't have any ${type} remaining.`,
   },
   Customize: {
     title: 'Customise your Game',

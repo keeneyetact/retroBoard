@@ -68,7 +68,7 @@ function App({ history }: AppProps) {
           </MainTitle>
           <Route exact path="/game/:gameId" render={() => <Invite />} />
           <Button color="inherit" buttonRef={menuAnchor} onClick={openMenu}>
-            {state.username ? state.username.name : '--'}
+            {state.user ? state.user.name : '--'}
           </Button>
           <Menu
             anchorEl={menuAnchor.current}
@@ -93,7 +93,7 @@ function App({ history }: AppProps) {
           <Redirect from="/session/:gameId" to="/game/:gameId" />
           <Route path="/game/:gameId" component={Game} />
         </Switch>
-        {!state.username && <Login />}
+        {!state.user && <Login />}
       </Page>
       <Panel />
       <OutdatedBrowser show={!isCompatible} />

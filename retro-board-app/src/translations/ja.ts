@@ -18,6 +18,11 @@ export default {
     deleteButton: '削除',
     noContent: '(項目が空です)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

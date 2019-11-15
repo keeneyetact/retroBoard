@@ -18,6 +18,11 @@ export default {
     deleteButton: 'Usuń',
     noContent: '(Ten wpis nie ma zawartości)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

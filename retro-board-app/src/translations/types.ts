@@ -17,6 +17,11 @@ export interface Translation {
     deleteButton?: string;
     noContent?: string;
     by?: string;
+    upVote?: string;
+    downVote?: string;
+    voteRemainingMultiple?: (count: number, type: string) => string;
+    voteRemainingOne?: (type: string) => string;
+    voteRemainingNone?: (type: string) => string;
   };
   Customize: {
     title?: string;

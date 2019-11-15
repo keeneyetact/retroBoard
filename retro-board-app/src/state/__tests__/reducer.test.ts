@@ -41,7 +41,7 @@ describe('Global state reducer', () => {
         posts: [],
       },
       summaryMode: false,
-      username: { id: '2', name: 'Alice' },
+      user: { id: '2', name: 'Alice' },
     };
   });
   it('Should toggle the panel on TOGGLE_PANEL', () => {
@@ -64,14 +64,14 @@ describe('Global state reducer', () => {
 
   it('Should update the username on login', () => {
     state = reducer(state, { type: LOGIN, payload: 'Bob' });
-    expect(state.username).toBe('Bob');
+    expect(state.user).toBe('Bob');
   });
 
   it('Should clear the username on logout', () => {
     state = reducer(state, { type: LOGIN, payload: 'Bob' });
-    expect(state.username).toBe('Bob');
+    expect(state.user).toBe('Bob');
     state = reducer(state, { type: LOGOUT });
-    expect(state.username).toBe(null);
+    expect(state.user).toBe(null);
   });
 
   it('Should set the players on SET_PLAYERS', () => {

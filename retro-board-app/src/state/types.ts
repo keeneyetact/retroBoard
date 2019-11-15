@@ -12,7 +12,7 @@ export interface Action {
 
 export interface State {
   panelOpen: boolean;
-  username: User | null;
+  user: User | null;
   players: User[];
   session: Session;
   summaryMode: boolean;

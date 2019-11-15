@@ -56,8 +56,8 @@ function addToPreviousSessions(id: string, name: string, username: User) {
 export default () => {
   const { state } = useGlobalState();
 
-  if (state.username) {
-    const previousSessions = getPreviousSessions(state.username.id);
+  if (state.user) {
+    const previousSessions = getPreviousSessions(state.user.id);
     return { previousSessions, addToPreviousSessions };
   }
 

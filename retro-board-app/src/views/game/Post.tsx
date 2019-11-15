@@ -162,10 +162,10 @@ interface VoteButtonProps {
   voters: VoteEnumeration[];
   showTooltip: boolean;
   canVote: boolean;
-  onClick: () => void;
   count: number;
   icon: JSX.Element;
   ariaLabel: string;
+  onClick: () => void;
 }
 
 const VoteButton = ({

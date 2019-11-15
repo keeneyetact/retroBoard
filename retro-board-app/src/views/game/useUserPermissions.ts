@@ -4,5 +4,5 @@ import { permissionLogic, UserPermissions } from './permissions-logic';
 
 export function useUserPermissions(post: Post): UserPermissions {
   const { state } = useGlobalState();
-  return permissionLogic(post, state.session, state.username);
+  return permissionLogic(post, state.session, state.user);
 }

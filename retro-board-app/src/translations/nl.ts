@@ -19,6 +19,11 @@ export default {
     deleteButton: 'Verwijderen',
     noContent: '(Dit bericht heeft geen inhoud)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

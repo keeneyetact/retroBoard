@@ -54,7 +54,7 @@ export function permissionLogic(
   };
 }
 
-function numberOfVotes(
+export function numberOfVotes(
   type: VoteType,
   userId: string | number,
   session: Session

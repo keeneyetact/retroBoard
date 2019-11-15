@@ -19,6 +19,11 @@ export default {
     deleteButton: 'Remover',
     noContent: '(This post has no content)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

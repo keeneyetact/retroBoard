@@ -18,6 +18,11 @@ export default {
     deleteButton: 'حذف',
     noContent: '(هذا الموضوع فارغ)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,

@@ -123,8 +123,8 @@ If you want to use a more "production-ready" database such as Postgres (without 
 ## Roadmap
 
 - Adding a real (but optional) login mechanism (Google/GitHub etc.)
-- Display remaining votes
 - Highlight posts where the user voted
+- Not firing onChange event on editableLabel on every keystroke
 
 ## Versions history
 
@@ -132,6 +132,7 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 - Older browser support (IE11, somewhat works with IE10 and IE9).
 - Adding an "outdated browser" warning
+- Adding a remaining votes counter when using a maximum number of votes rule.
 
 ### Version 2.1.1
 

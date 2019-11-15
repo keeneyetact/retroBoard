@@ -18,6 +18,11 @@ export default {
     deleteButton: '删除',
     noContent: '(目前无任何内容)',
     by: undefined,
+    upVote: undefined,
+    downVote: undefined,
+    voteRemainingMultiple: undefined,
+    voteRemainingOne: undefined,
+    voteRemainingNone: undefined,
   },
   Customize: {
     title: undefined,
