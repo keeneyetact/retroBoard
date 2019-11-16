@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, Typography, makeStyles, Tooltip } from '@material-ui/core';
 import {
@@ -63,15 +57,9 @@ const PostItem = ({
   const classes = useStyles();
   const { Actions: translations, Post: postTranslations } = useTranslations();
   const [actionsToggled, setActionToggled] = useState(false);
-  const actionInput = useRef<EditableLabel>(null);
   const toggleActionPanel = useCallback(() => {
     setActionToggled(!actionsToggled);
   }, [actionsToggled]);
-  useEffect(() => {
-    if (actionsToggled && actionInput.current && !post.action) {
-      actionInput.current.focus();
-    }
-  }, [actionsToggled, actionInput, post]);
   const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
   const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
   const upVoters = useMemo(() => enumerateVotes(post, 'like'), [post]);
@@ -108,7 +96,7 @@ const PostItem = ({
               value={post.action || ''}
               onChange={onEditAction}
               label={translations.title}
-              ref={actionInput}
+              focused={actionsToggled && !post.action}
               multiline
             />
           </Typography>

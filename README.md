@@ -124,7 +124,6 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 - Adding a real (but optional) login mechanism (Google/GitHub etc.)
 - Highlight posts where the user voted
-- Not firing onChange event on editableLabel on every keystroke
 
 ## Versions history
 
@@ -133,6 +132,7 @@ If you want to use a more "production-ready" database such as Postgres (without 
 - Older browser support (IE11, somewhat works with IE10 and IE9).
 - Adding an "outdated browser" warning
 - Adding a remaining votes counter when using a maximum number of votes rule.
+- Changing how Editable Labels work: they now only fire onChange on blur or Enter, minimizing the amount of traffic over the socket
 
 ### Version 2.1.1
 

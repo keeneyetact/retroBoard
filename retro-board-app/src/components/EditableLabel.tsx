@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Edit } from '@material-ui/icons';
 import TextareaAutosize from 'react-autosize-textarea';
@@ -9,7 +9,7 @@ interface EditableLabelProps extends CenteredProp {
   placeholder?: string;
   multiline?: boolean;
   label?: string;
-  innerRef?: React.RefObject<HTMLTextAreaElement>;
+  focused?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -17,105 +17,97 @@ interface CenteredProp {
   centered?: boolean;
 }
 
-interface EditableLabelState {
-  editMode: boolean;
-}
+const EditableLabel = ({
+  value,
+  readOnly,
+  placeholder,
+  multiline,
+  label,
+  focused,
+  onChange,
+}: EditableLabelProps) => {
+  const [editMode, setEditMode] = useState(false);
+  const [current, setCurrent] = useState(value);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const enableViewMode = useCallback(() => {
+    setEditMode(false);
+    onChange(current);
+  }, [onChange, current]);
+  const enableEditMode = useCallback(() => {
+    setEditMode(true);
+  }, []);
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      if (event.nativeEvent.keyCode === 13 && !event.nativeEvent.shiftKey) {
+        setEditMode(false);
+        onChange(current);
+      }
+    },
+    [onChange, current]
+  );
+  const handleChange = useCallback(
+    (event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      setCurrent(event.currentTarget.value);
+    },
+    []
+  );
 
-export default class EditableLabel extends Component<
-  EditableLabelProps,
-  EditableLabelState
-> {
-  inputRef: React.RefObject<HTMLElement>;
-  constructor(props: EditableLabelProps) {
-    super(props);
-    this.state = { editMode: false };
-    this.inputRef = React.createRef<HTMLElement>();
-  }
-
-  onKeyPress(e: KeyboardEvent) {
-    if (e.keyCode === 13 && !e.shiftKey) {
-      this.setState({ editMode: false });
+  useEffect(() => {
+    if (editMode && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
     }
-  }
+  }, [editMode]);
 
-  renderReadOnlyMode() {
-    const { value, placeholder, label } = this.props;
-
-    return <ViewMode aria-label={label}>{value || placeholder}</ViewMode>;
-  }
-
-  renderViewMode() {
-    const { value, placeholder, readOnly, label } = this.props;
-
-    if (readOnly) {
-      return this.renderReadOnlyMode();
+  useEffect(() => {
+    if (focused) {
+      setEditMode(true);
     }
+  }, [focused]);
 
-    return (
-      <ViewMode
-        onClick={() =>
-          this.setState({ editMode: true }, () =>
-            this.inputRef.current!.focus()
-          )
-        }
-      >
-        <span aria-label={label}>{value || placeholder}</span>
-        &nbsp;
-        <EditIcon fontSize="inherit" />
-      </ViewMode>
-    );
-  }
+  useEffect(() => {
+    setCurrent(value);
+  }, [value]);
 
-  renderEditMode() {
-    const { value, onChange, label, multiline = false } = this.props;
-    return (
-      <EditMode>
-        {multiline ? (
-          <TextareaAutosize
-            ref={this.inputRef as React.RefObject<HTMLTextAreaElement>}
-            aria-label={`${label} input`}
-            value={value}
-            onBlur={() => {
-              this.setState({ editMode: false });
-            }}
-            onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-            onChange={v => {
-              onChange(v.currentTarget.value);
-            }}
-          />
-        ) : (
-          <input
-            ref={this.inputRef as React.RefObject<HTMLInputElement>}
-            aria-label={`${label} input`}
-            value={value}
-            onBlur={() => {
-              this.setState({ editMode: false });
-            }}
-            onKeyPress={e => this.onKeyPress(e.nativeEvent)}
-            onChange={v => {
-              onChange(v.currentTarget.value);
-            }}
-          />
-        )}
-        <InvisibleEditIcon fontSize="inherit" />
-      </EditMode>
-    );
-  }
+  return (
+    <LabelContainer>
+      {editMode ? (
+        <EditMode>
+          {multiline ? (
+            <TextareaAutosize
+              ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+              aria-label={`${label} input`}
+              value={current}
+              onBlur={enableViewMode}
+              onKeyPress={handleKeyPress}
+              onChange={handleChange}
+            />
+          ) : (
+            <input
+              ref={inputRef as React.RefObject<HTMLInputElement>}
+              aria-label={`${label} input`}
+              value={current}
+              onBlur={enableViewMode}
+              onKeyPress={handleKeyPress}
+              onChange={handleChange}
+            />
+          )}
+          <InvisibleEditIcon fontSize="inherit" />
+        </EditMode>
+      ) : readOnly ? (
+        <ViewMode aria-label={label}>{current || placeholder}</ViewMode>
+      ) : (
+        <ViewMode onClick={enableEditMode}>
+          <span aria-label={label}>{current || placeholder}</span>
+          &nbsp;
+          <EditIcon fontSize="inherit" />
+        </ViewMode>
+      )}
+    </LabelContainer>
+  );
+};
 
-  focus() {
-    this.setState({ editMode: true }, () => {
-      this.inputRef.current!.focus();
-    });
-  }
-
-  render() {
-    return (
-      <LabelContainer>
-        {this.state.editMode ? this.renderEditMode() : this.renderViewMode()}
-      </LabelContainer>
-    );
-  }
-}
+export default EditableLabel;
 
 const LabelContainer = styled.span``;
 

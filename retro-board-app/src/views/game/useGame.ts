@@ -44,7 +44,7 @@ const useGame = (sessionId: string) => {
   } = useGlobalState();
 
   const {
-    user: user,
+    user,
     session: { name: sessionName, allowMultipleVotes },
   } = state;
 
