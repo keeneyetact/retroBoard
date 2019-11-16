@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import useGlobalState from '../../state';
 import usePreviousSessions from '../../hooks/usePreviousSessions';
 
-const debug = process.env.REACT_APP_DEBUG === 'true';
+const debug = process.env.NODE_ENV === 'development';
 
 function sendFactory(
   socket: SocketIOClient.Socket,

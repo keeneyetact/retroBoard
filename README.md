@@ -133,6 +133,7 @@ If you want to use a more "production-ready" database such as Postgres (without 
 - Adding an "outdated browser" warning
 - Adding a remaining votes counter when using a maximum number of votes rule.
 - Changing how Editable Labels work: they now only fire onChange on blur or Enter, minimizing the amount of traffic over the socket
+- Removing the REACT_APP_DEBUG environment variable (using NODE_ENV instead).
 
 ### Version 2.1.1
 
