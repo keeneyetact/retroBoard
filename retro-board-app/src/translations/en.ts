@@ -58,6 +58,7 @@ export default {
     numberOfColumnsHelp: 'Set the number of columns',
   },
   PostBoard: {
+    customQuestion: 'Custom Column',
     notWellQuestion: 'What could be improved?',
     wellQuestion: 'What went well?',
     ideasQuestion: 'A brilliant idea to share?',

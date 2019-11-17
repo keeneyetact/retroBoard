@@ -51,6 +51,7 @@ export default {
     numberOfColumnsHelp: undefined,
   },
   PostBoard: {
+    customQuestion: undefined,
     notWellQuestion: 'ما الذي يمكن تحسينه ؟',
     wellQuestion: 'ما الذي فُعِلَ بنجاح؟',
     ideasQuestion: 'هل من أيِّ فكرةٍ ذكيّة ؟',

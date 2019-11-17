@@ -51,6 +51,7 @@ export default {
     numberOfColumnsHelp: undefined,
   },
   PostBoard: {
+    customQuestion: undefined,
     notWellQuestion: 'Mit lehetne jobban csinálni?',
     wellQuestion: 'Mit ment jól?',
     ideasQuestion: 'Van valami nagyszerű ötleted?',

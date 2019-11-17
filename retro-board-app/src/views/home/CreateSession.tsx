@@ -93,6 +93,7 @@ const CreateSessionModal = ({
     defaultDefinitions,
     numberOfColumns,
   ]);
+
   return (
     <Dialog
       open={open}

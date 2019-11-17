@@ -51,6 +51,7 @@ export default {
     numberOfColumnsHelp: undefined,
   },
   PostBoard: {
+    customQuestion: undefined,
     notWellQuestion: '哪些已經改善?',
     wellQuestion: '哪些做的很好?',
     ideasQuestion: '分享優秀的點子?',

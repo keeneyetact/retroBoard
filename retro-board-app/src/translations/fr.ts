@@ -58,6 +58,7 @@ export default {
     numberOfColumnsHelp: 'Réglez le nombre de colonnes',
   },
   PostBoard: {
+    customQuestion: 'Question Additionelle',
     notWellQuestion: 'Des améliorations ?',
     wellQuestion: "Qu'est-ce qui s'est bien passé ?",
     ideasQuestion: 'Une bonne idée à partager ?',

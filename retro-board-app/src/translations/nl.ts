@@ -52,6 +52,7 @@ export default {
     numberOfColumnsHelp: undefined,
   },
   PostBoard: {
+    customQuestion: undefined,
     notWellQuestion: 'Wat kan er beter?',
     wellQuestion: 'Wat ging goed?',
     ideasQuestion: 'Een geweldig idee om te delen?',

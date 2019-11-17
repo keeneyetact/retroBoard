@@ -16,14 +16,10 @@ export function buildDefaults(
   translations: Translation
 ): ColumnSettings[] {
   const base = getTemplate(template, translations);
+  const custom = getTemplateColumnByType(translations)('custom');
   if (base.length < MAX_NUMBER_OF_COLUMNS) {
     for (let i = 0; i <= MAX_NUMBER_OF_COLUMNS - base.length; i++) {
-      base.push({
-        color: 'purple',
-        icon: 'satisfied',
-        label: 'Custom Column',
-        type: 'custom',
-      });
+      base.push({ ...custom });
     }
   }
   return base;
@@ -37,11 +33,9 @@ export function merge(
   return colDef.slice(0, numberOfColumns).map(
     (def, index) =>
       ({
-        color:
-          def.color || (def.type === 'custom' ? defaultDef[index].color : ''),
-        icon: def.icon || (def.type === 'custom' ? defaultDef[index].icon : ''),
-        label:
-          def.label || (def.type === 'custom' ? defaultDef[index].label : ''),
+        color: def.color,
+        icon: def.icon,
+        label: def.label,
         id: v4(),
         index,
         type: defaultDef[index].type,
@@ -68,6 +62,12 @@ export const getTemplateColumnByType = (translations: Translation) => (
 ) => {
   const dic = keyBy(
     [
+      {
+        color: '#D1C4E9',
+        icon: 'help',
+        label: translations.PostBoard.customQuestion,
+        type: 'custom',
+      },
       {
         color: '#E8F5E9',
         icon: 'satisfied',

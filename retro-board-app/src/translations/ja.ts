@@ -51,6 +51,7 @@ export default {
     numberOfColumnsHelp: undefined,
   },
   PostBoard: {
+    customQuestion: undefined,
     notWellQuestion: '改善できること',
     wellQuestion: '良かったこと',
     ideasQuestion: '共有したいアイディア',

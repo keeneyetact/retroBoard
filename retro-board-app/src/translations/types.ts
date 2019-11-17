@@ -50,6 +50,7 @@ export interface Translation {
     numberOfColumnsHelp?: string;
   };
   PostBoard: {
+    customQuestion?: string;
     notWellQuestion?: string;
     wellQuestion?: string;
     ideasQuestion?: string;
