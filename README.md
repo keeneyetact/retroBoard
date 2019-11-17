@@ -135,6 +135,8 @@ If you want to use a more "production-ready" database such as Postgres (without 
 - Changing how Editable Labels work: they now only fire onChange on blur or Enter, minimizing the amount of traffic over the socket
 - Removing the REACT_APP_DEBUG environment variable (using NODE_ENV instead).
 - Adding a loading spinner while loading the game now that we can't predict which number of columns are going to appear on screen.
+- Making sure index.html is not cached by Nginx on production
+- Removing .map files on production
 
 ### Version 2.1.1
 
