@@ -14,7 +14,6 @@ import {
   RESET_SESSION,
   RECEIVE_VOTE,
 } from './actions';
-import { defaultSession } from 'retro-board-common';
 
 export default (state: State, action: Action): State => {
   switch (action.type) {
@@ -27,6 +26,9 @@ export default (state: State, action: Action): State => {
     case SET_PLAYERS:
       return { ...state, players: action.payload };
     case RECEIVE_POST:
+      if (!state.session) {
+        return state;
+      }
       return {
         ...state,
         session: {
@@ -35,6 +37,9 @@ export default (state: State, action: Action): State => {
         },
       };
     case RECEIVE_VOTE:
+      if (!state.session) {
+        return state;
+      }
       const postIndex = findIndex(
         state.session.posts,
         p => p.id === action.payload.postId
@@ -55,6 +60,9 @@ export default (state: State, action: Action): State => {
         },
       };
     case DELETE_POST:
+      if (!state.session) {
+        return state;
+      }
       return {
         ...state,
         session: {
@@ -63,6 +71,9 @@ export default (state: State, action: Action): State => {
         },
       };
     case UPDATE_POST:
+      if (!state.session) {
+        return state;
+      }
       const index = findIndex(
         state.session.posts,
         p => p.id === action.payload.id
@@ -84,6 +95,9 @@ export default (state: State, action: Action): State => {
         session: action.payload,
       };
     case RENAME_SESSION:
+      if (!state.session) {
+        return state;
+      }
       return {
         ...state,
         session: {
@@ -95,9 +109,7 @@ export default (state: State, action: Action): State => {
       return {
         ...state,
         summaryMode: false,
-        session: {
-          ...defaultSession,
-        },
+        session: null,
       };
     case TOGGLE_SUMMARY_MODE:
       return { ...state, summaryMode: !state.summaryMode };

@@ -12,9 +12,19 @@ export interface UserPermissions {
 
 export function permissionLogic(
   post: Post,
-  session: Session,
+  session: Session | null,
   user: User | null
 ): UserPermissions {
+  if (!session) {
+    return {
+      canCreateAction: false,
+      canDelete: false,
+      canDownVote: false,
+      canEdit: false,
+      canShowAuthor: false,
+      canUpVote: false,
+    };
+  }
   const {
     maxDownVotes,
     maxUpVotes,

@@ -42,6 +42,10 @@ function GameMode({
   const classes = useStyles();
   const remainingVotes = useRemainingVotes();
 
+  if (!state.session) {
+    return <span>Loading...</span>;
+  }
+
   return (
     <Box className={classes.container}>
       <HeaderWrapper>

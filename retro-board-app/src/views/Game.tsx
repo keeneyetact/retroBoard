@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import useTranslations from '../translations';
 import useGlobalState from '../state';
 import { extrapolate } from '../state/columns';
@@ -21,7 +23,8 @@ function GamePage({
   const translations = useTranslations();
   const { state } = useGlobalState();
   const { summaryMode, session } = state;
-  const { posts } = session;
+  const posts = session ? session.posts : [];
+  const cols = session ? session.columns : [];
 
   const {
     initialised,
@@ -34,7 +37,7 @@ function GamePage({
 
   const columns: ColumnContent[] = useMemo(
     () =>
-      session.columns
+      cols
         .map(col => extrapolate(col, translations))
         .map(
           (col, index) =>
@@ -44,8 +47,16 @@ function GamePage({
               ...col,
             } as ColumnContent)
         ),
-    [posts, session.columns, translations]
+    [posts, cols, translations]
   );
+
+  if (!session) {
+    return (
+      <LoadingContainer>
+        <CircularProgress />
+      </LoadingContainer>
+    );
+  }
 
   return (
     <div>
@@ -63,5 +74,11 @@ function GamePage({
     </div>
   );
 }
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+`;
 
 export default withRouter(GamePage);

@@ -43,10 +43,10 @@ const useGame = (sessionId: string) => {
     resetSession,
   } = useGlobalState();
 
-  const {
-    user,
-    session: { name: sessionName, allowMultipleVotes },
-  } = state;
+  const { user, session } = state;
+
+  const name = session ? session.name : '';
+  const allowMultipleVotes = session ? session.allowMultipleVotes : false;
 
   // Send function, built with current socket, user and sessionId
   const send = useMemo(
@@ -71,7 +71,9 @@ const useGame = (sessionId: string) => {
 
     // Socket events listeners
     newSocket.on('disconnect', () => {
-      console.warn('Server disconnected');
+      if (debug) {
+        console.warn('Server disconnected');
+      }
     });
 
     newSocket.on('connect', () => {
@@ -164,9 +166,9 @@ const useGame = (sessionId: string) => {
       if (debug) {
         console.log('Add to previous sessions');
       }
-      addToPreviousSessions(sessionId, sessionName || '', user);
+      addToPreviousSessions(sessionId, name || '', user);
     }
-  }, [user, sessionId, sessionName, addToPreviousSessions]);
+  }, [user, sessionId, name, addToPreviousSessions]);
 
   // Callbacks
   const onAddPost = useCallback(

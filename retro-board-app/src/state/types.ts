@@ -14,7 +14,7 @@ export interface State {
   panelOpen: boolean;
   user: User | null;
   players: User[];
-  session: Session;
+  session: Session | null;
   summaryMode: boolean;
 }
 
