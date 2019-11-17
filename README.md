@@ -127,6 +127,10 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Versions history
 
+### Version 2.1.3
+
+- IE fix: the previous polyfill didn't quite work with IE9 to IE11.
+
 ### Version 2.1.2
 
 - Older browser support (IE11, somewhat works with IE10 and IE9).
