@@ -44,6 +44,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "retro-board-common": "*",
+    "rimraf": "^3.0.0",
     "shortid": "^2.2.15",
     "socket.io-client": "^2.3.0",
     "styled-components": "4.4.1",
@@ -52,7 +53,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "NODE_ENV=production && react-app-rewired build && rimraf ./build/**/*.map",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
