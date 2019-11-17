@@ -83,7 +83,7 @@ describe('Global state reducer', () => {
     state = {
       ...state,
       session: {
-        ...state.session,
+        ...state.session!,
         posts: [post('1')],
       },
     };
@@ -94,14 +94,14 @@ describe('Global state reducer', () => {
         posts: [post('2'), post('3')],
       },
     });
-    expect(state.session.posts).toEqual([post('2'), post('3')]);
+    expect(state.session!.posts).toEqual([post('2'), post('3')]);
   });
 
   it('Should delete the correct post on DELETE_POST', () => {
     state = {
       ...state,
       session: {
-        ...state.session,
+        ...state.session!,
         posts: [post('1'), post('2'), post('3')],
       },
     };
@@ -109,14 +109,14 @@ describe('Global state reducer', () => {
       type: DELETE_POST,
       payload: post('2'),
     });
-    expect(state.session.posts).toEqual([post('1'), post('3')]);
+    expect(state.session!.posts).toEqual([post('1'), post('3')]);
   });
 
   it('Should replace the correct post on UPDATE_POST', () => {
     state = {
       ...state,
       session: {
-        ...state.session,
+        ...state.session!,
         posts: [post('1'), post('2'), post('3')],
       },
     };
@@ -126,16 +126,16 @@ describe('Global state reducer', () => {
       type: UPDATE_POST,
       payload: editedPost,
     });
-    expect(state.session.posts[0].content).toBe('foo');
-    expect(state.session.posts[1].content).toBe('bar');
-    expect(state.session.posts[2].content).toBe('foo');
+    expect(state.session!.posts[0].content).toBe('foo');
+    expect(state.session!.posts[1].content).toBe('bar');
+    expect(state.session!.posts[2].content).toBe('foo');
   });
 
   it('Should add the post to the end of the list on RECEIVE_POST', () => {
     state = {
       ...state,
       session: {
-        ...state.session,
+        ...state.session!,
         posts: [post('1'), post('2'), post('3')],
       },
     };
@@ -143,15 +143,15 @@ describe('Global state reducer', () => {
       type: RECEIVE_POST,
       payload: post('4'),
     });
-    expect(state.session.posts).toHaveLength(4);
-    expect(state.session.posts[3].id).toBe('4');
+    expect(state.session!.posts).toHaveLength(4);
+    expect(state.session!.posts[3].id).toBe('4');
   });
 
   it('Should rename the session on RENAME_SESSION', () => {
     state = {
       ...state,
       session: {
-        ...state.session,
+        ...state.session!,
         name: 'foo',
       },
     };
@@ -159,7 +159,7 @@ describe('Global state reducer', () => {
       type: RENAME_SESSION,
       payload: 'bar',
     });
-    expect(state.session.name).toBe('bar');
+    expect(state.session!.name).toBe('bar');
   });
 
   it('Should reset the session on RESET_SESSION', () => {
@@ -177,9 +177,7 @@ describe('Global state reducer', () => {
     state = reducer(state, {
       type: RESET_SESSION,
     });
-    expect(state.session.name).toBe(null);
-    expect(state.session.id).toBe('');
-    expect(state.session.posts).toHaveLength(0);
+    expect(state.session).toBe(null);
     expect(state.summaryMode).toBe(false);
   });
 });
