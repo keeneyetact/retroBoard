@@ -124,8 +124,14 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 - Adding a real (but optional) login mechanism (Google/GitHub etc.)
 - Highlight posts where the user voted
+- Markdown summary of posts to copy to confluence or other tool
+- Migrating to latest react-router with hooks
 
 ## Versions history
+
+### Version NEXT
+
+- German Translation (thanks [@PaulBrandt](https://github.com/PaulBrandt))
 
 ### Version 2.1.3
 
