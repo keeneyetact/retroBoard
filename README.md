@@ -129,9 +129,10 @@ If you want to use a more "production-ready" database such as Postgres (without 
 
 ## Versions history
 
-### Version NEXT
+### Version 2.1.4
 
 - German Translation (thanks [@PaulBrandt](https://github.com/PaulBrandt))
+- Bugfix: First post was sometimes not saved on regular sessions
 
 ### Version 2.1.3
 
