@@ -18,9 +18,9 @@ export default class PostRepository extends Repository<Post> {
       const newSession = {
         ...defaultSession,
         id: sessionId,
-        posts: [{ ...post, session: { id: sessionId } }],
       };
       await sessionRepository.saveFromJson(newSession);
+      await this.saveFromJson(sessionId, post);
     }
   }
 }
