@@ -3,7 +3,7 @@ FROM node:12-alpine
 # App directory
 WORKDIR /usr/src/backend
 
-RUN npm i -g yarn
+RUN apk add yarn
 
 COPY ./package.json ./
 COPY ./yarn.lock ./
