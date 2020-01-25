@@ -17,7 +17,7 @@
     "@types/lodash": "^4.14.149",
     "@types/md5": "^2.1.33",
     "@types/nedb": "^1.8.9",
-    "@types/node": "^13.1.7",
+    "@types/node": "^13.5.0",
     "@types/socket.io": "^2.1.4",
     "@types/socket.io-redis": "^1.0.25",
     "@types/uuid": "^3.4.6",
@@ -39,7 +39,7 @@
     "socket.io-redis": "^5.2.0",
     "ts-node": "^8.6.2",
     "typeorm": "^0.2.22",
-    "uuid": "^3.3.3"
+    "uuid": "^3.4.0"
   },
   "nodemonConfig": {
     "watch": "./src/",
