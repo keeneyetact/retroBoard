@@ -142,6 +142,7 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 ### Version Next
 
 - 🇮🇹 Italian Translation (👏 Thanks [@mventuri](https://github.com/mventuri))
+- Upgrading dependencies
 
 ### Version 2.2.2
 
