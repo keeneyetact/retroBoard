@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/antoinejaussoin/retro-board.svg?branch=develop)](https://travis-ci.org/antoinejaussoin/retro-board)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/antoinejaussoin/retro-board)
-![David](https://img.shields.io/david/antoinejaussoin/retro-board)
 
 This is a Retrospective Idea board, powering [retrospected.com](http://www.retrospected.com).
 
@@ -88,7 +87,7 @@ You must have `docker` and `docker-compose` installed on your system.
 
 ### Run 🚀
 
-- Copy `docker-compose.yml.example` to `docker-compose.yml`
+- Copy `docker-compose.example.yml` to `docker-compose.yml`
 - Run `docker-compose up -d`
 - Voilà!
 
@@ -139,6 +138,10 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 - Highlight posts where the user voted
 
 ## Versions History
+
+### Version Next
+
+- 🇮🇹 Italian Translation (👏 Thanks [@mventuri](https://github.com/mventuri))
 
 ### Version 2.2.2
 
@@ -407,6 +410,7 @@ Many thanks to the following contributors who helped translating the app:
 - Arabic: [@Meshredded](https://github.com/Meshredded)
 - Japanese: [@sat0yu](https://github.com/sat0yu)
 - German: [@PaulBrandt](https://github.com/PaulBrandt)
+- Italian: [@mventuri](https://github.com/mventuri)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 

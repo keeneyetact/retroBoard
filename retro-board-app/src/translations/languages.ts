@@ -24,6 +24,7 @@ export default [
   { value: 'nl', iso: 'nl', name: 'Nederlands', englishName: 'Dutch' },
   { value: 'de', iso: 'de', name: 'Deutsch', englishName: 'German' },
   { value: 'hu', iso: 'hu', name: 'Magyar', englishName: 'Hungarian' },
+  { value: 'it', iso: 'it', name: 'Italiano', englishName: 'Italian' },
   { value: 'ja', iso: 'jp', name: '日本語', englishName: 'Japanese' },
   { value: 'pl', iso: 'pl', name: 'Polski', englishName: 'Polish' },
   {
@@ -34,5 +35,4 @@ export default [
   },
   { value: 'ru', iso: 'ru', name: 'Русский', englishName: 'Russian' },
   { value: 'es', iso: 'es', name: 'Español', englishName: 'Spanish' },
-  { value: 'it', iso: 'it', name: 'Italiano', englishName: 'Italian' },
 ] as Language[];
