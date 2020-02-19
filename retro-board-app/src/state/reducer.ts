@@ -44,6 +44,11 @@ export default (state: State, action: Action): State => {
         p => p.id === action.payload.postId
       );
       const post = state.session.posts[postIndex];
+
+      if (!post) {
+        return state;
+      }
+
       return {
         ...state,
         session: {
@@ -77,6 +82,9 @@ export default (state: State, action: Action): State => {
         state.session.posts,
         p => p.id === action.payload.id
       );
+      if (index === -1) {
+        return state;
+      }
       return {
         ...state,
         session: {
