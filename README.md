@@ -139,11 +139,12 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 
 ## Versions History
 
-### Version Next
+### Version 2.2.4
 
 - 🇷🇺 Russian Translation improvements (👏 Thanks [@regmagik](https://github.com/regmagik))
 - Fixing logout button translation
 - Adding fetch polyfill for IE
+- Upgrading dependencies
 
 ### Version 2.2.3
 
