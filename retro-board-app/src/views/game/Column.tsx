@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Input, InputAdornment, makeStyles } from '@material-ui/core';
 import PostItem from './Post';
 import { Post } from 'retro-board-common';
+import useUser from '../../auth/useUser';
 
 interface ColumnProps {
   posts: Post[];
@@ -33,6 +34,8 @@ const Column: SFC<ColumnProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const user = useUser();
+  const isLoggedIn = !!user;
   const [content, setContent] = useState('');
   const onContentChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value),
@@ -56,6 +59,7 @@ const Column: SFC<ColumnProps> = ({
           onChange={onContentChange}
           value={content}
           onKeyDown={onKeyDown}
+          readOnly={!isLoggedIn}
           startAdornment={
             Icon ? (
               <InputAdornment position="start">

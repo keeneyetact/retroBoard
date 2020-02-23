@@ -11,13 +11,13 @@ import {
   Session as JsonSession,
   Post as JsonPost,
   Vote as JsonVote,
+  User as JsonUser,
   ColumnDefinition as JsonColumnDefintion,
   SessionOptions,
   defaultSession,
 } from 'retro-board-common';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
-import { User } from './entities';
 
 export async function getDb() {
   const connection = await createConnection(getOrmConfig());
@@ -27,17 +27,21 @@ export async function getDb() {
 const create = (sessionRepository: SessionRepository) => async (
   id: string,
   options: SessionOptions,
-  columns: JsonColumnDefintion[]
+  columns: JsonColumnDefintion[],
+  author: JsonUser
 ) => {
   try {
     const session = await sessionRepository.findOne({ id });
     if (!session) {
-      await sessionRepository.saveFromJson({
-        ...defaultSession,
-        id,
-        ...options,
-        columns,
-      });
+      await sessionRepository.saveFromJson(
+        {
+          ...defaultSession,
+          id,
+          ...options,
+          columns,
+        },
+        author.id
+      );
     }
   } catch (err) {
     throw err;
@@ -48,7 +52,7 @@ const get = (
   sessionRepository: SessionRepository,
   postRepository: PostRepository,
   columnRepository: ColumnRepository
-) => async (sessionId: string): Promise<JsonSession> => {
+) => async (_: JsonUser, sessionId: string): Promise<JsonSession | null> => {
   try {
     const session = await sessionRepository.findOne({ id: sessionId });
     if (session) {
@@ -66,10 +70,7 @@ const get = (
         posts,
       };
     } else {
-      return {
-        ...defaultSession,
-        id: sessionId,
-      };
+      return null;
     }
   } catch (err) {
     throw err;
@@ -77,37 +78,53 @@ const get = (
 };
 
 const saveSession = (sessionRepository: SessionRepository) => async (
+  user: JsonUser,
   session: JsonSession
 ): Promise<void> => {
-  await sessionRepository.saveFromJson(session);
+  await sessionRepository.saveFromJson(session, user.id);
 };
 
 const savePost = (postRepository: PostRepository) => async (
+  user: JsonUser,
   sessionId: string,
   post: JsonPost
 ): Promise<void> => {
-  await postRepository.saveFromJson(sessionId, post);
+  await postRepository.saveFromJson(sessionId, user.id, post);
 };
 
 const saveVote = (voteRepository: VoteRepository) => async (
+  user: JsonUser,
   sessionId: string,
   postId: string,
   vote: JsonVote
 ): Promise<void> => {
-  await voteRepository.saveFromJson(postId, vote);
+  await voteRepository.saveFromJson(postId, user.id, vote);
 };
 
 const deletePost = (postRepository: PostRepository) => async (
+  user: JsonUser,
   _: string,
   postId: string
 ): Promise<void> => {
-  await postRepository.delete({ id: postId });
+  await postRepository.delete({ id: postId, user: { id: user.id } });
 };
 
-const saveUser = (userRepository: UserRepository) => async (
-  user: User
-): Promise<void> => {
-  await userRepository.saveFromJson(user);
+const getOrSaveUser = (userRepository: UserRepository) => async (
+  user: JsonUser
+): Promise<JsonUser> => {
+  const existingUser = await userRepository.findOne({
+    where: { username: user.username, accountType: user.accountType },
+  });
+  if (existingUser) {
+    return existingUser as JsonUser;
+  }
+  return await userRepository.saveFromJson(user);
+};
+
+const previousSessions = (sessionRepository: SessionRepository) => async (
+  user: JsonUser
+): Promise<JsonSession[]> => {
+  return Promise.resolve([]);
 };
 
 export default async function db(): Promise<Store> {
@@ -123,7 +140,9 @@ export default async function db(): Promise<Store> {
     savePost: savePost(postRepository),
     saveVote: saveVote(voteRepository),
     deletePost: deletePost(postRepository),
-    saveUser: saveUser(userRepository),
+    // saveUser: saveUser(userRepository),
+    getOrSaveUser: getOrSaveUser(userRepository),
     create: create(sessionRepository),
+    previousSessions: previousSessions(sessionRepository),
   };
 }

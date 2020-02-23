@@ -15,6 +15,8 @@ stages:
     if: branch = master && type != pull_request
   - name: deploy-canary
     if: branch = develop && type != pull_request
+  - name: deploy-v3
+    if: branch = v3 && type != pull_request
 
 before_install:
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
@@ -41,3 +43,10 @@ jobs:
         - docker build -f ./docker/Frontend.Dockerfile -t antoinejaussoin/retro-board-frontend:canary .
         - docker push antoinejaussoin/retro-board-backend:canary
         - docker push antoinejaussoin/retro-board-frontend:canary
+    - stage: deploy-v3
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -f ./docker/Backend.Dockerfile -t antoinejaussoin/retro-board-backend:v3 .
+        - docker build -f ./docker/Frontend.Dockerfile -t antoinejaussoin/retro-board-frontend:v3 .
+        - docker push antoinejaussoin/retro-board-backend:v3
+        - docker push antoinejaussoin/retro-board-frontend:v3

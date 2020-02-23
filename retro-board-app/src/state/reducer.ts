@@ -2,8 +2,6 @@ import findIndex from 'lodash/findIndex';
 import { State, Action } from './types';
 import {
   TOGGLE_PANEL,
-  LOGIN,
-  LOGOUT,
   SET_PLAYERS,
   RECEIVE_POST,
   DELETE_POST,
@@ -18,10 +16,6 @@ export default (state: State, action: Action): State => {
   switch (action.type) {
     case TOGGLE_PANEL:
       return { ...state, panelOpen: !state.panelOpen };
-    case LOGIN:
-      return { ...state, user: action.payload };
-    case LOGOUT:
-      return { ...state, user: null };
     case SET_PLAYERS:
       return { ...state, players: action.payload };
     case RECEIVE_POST:

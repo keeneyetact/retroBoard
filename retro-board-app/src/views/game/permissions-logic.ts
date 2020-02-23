@@ -33,10 +33,11 @@ export function permissionLogic(
     allowMultipleVotes,
   } = session;
 
-  const canCreateAction = allowActions;
+  const isLoggedIn = !!user;
+  const canCreateAction = isLoggedIn && allowActions;
   const userId = user ? user.id : -1;
   const isAuthor = user ? user.id === post.user.id : false;
-  const canPotentiallyVote = allowSelfVoting ? true : !isAuthor;
+  const canPotentiallyVote = isLoggedIn && allowSelfVoting ? true : !isAuthor;
   const hasVotedOrAuthor =
     (!allowMultipleVotes &&
       some(post.votes, u => u.user.id === userId && u.type === 'like')) ||
@@ -48,10 +49,10 @@ export function permissionLogic(
   const hasMaxedUpVotes = maxUpVotes === null ? false : upVotes >= maxUpVotes;
   const hasMaxedDownVotes =
     maxDownVotes === null ? false : downVotes >= maxDownVotes;
-  const canUpVote = !hasVotedOrAuthor && !hasMaxedUpVotes;
-  const canDownVote = !hasVotedOrAuthor && !hasMaxedDownVotes;
-  const canEdit = isAuthor;
-  const canDelete = isAuthor;
+  const canUpVote = isLoggedIn && !hasVotedOrAuthor && !hasMaxedUpVotes;
+  const canDownVote = isLoggedIn && !hasVotedOrAuthor && !hasMaxedDownVotes;
+  const canEdit = isLoggedIn && isAuthor;
+  const canDelete = isLoggedIn && isAuthor;
   const canShowAuthor = session.allowAuthorVisible;
 
   return {

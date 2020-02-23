@@ -76,6 +76,17 @@ describe('Permission Logic', () => {
     expect(result.canUpVote).toBe(false);
   });
 
+  it('When using default rules, a non-logged in user', () => {
+    const p = post(currentUser);
+    const s = session(defaultOptions, p);
+    const result = permissionLogic(p, s, null);
+    expect(result.canCreateAction).toBe(false);
+    expect(result.canEdit).toBe(false);
+    expect(result.canDelete).toBe(false);
+    expect(result.canDownVote).toBe(false);
+    expect(result.canUpVote).toBe(false);
+  });
+
   it('When using default rules, a user on another users post', () => {
     const p = post(anotherUser);
     const s = session(defaultOptions, p);

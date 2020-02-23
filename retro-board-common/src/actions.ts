@@ -14,6 +14,4 @@ export default {
   JOIN_SESSION: 'retrospected/session/join',
   LEAVE_SESSION: 'retrospected/session/leave',
   RECEIVE_CLIENT_LIST: 'retrospected/session/receive/client-list',
-
-  LOGIN_SUCCESS: 'retrospected/user/login/success',
 };

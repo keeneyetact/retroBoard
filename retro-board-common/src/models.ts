@@ -9,7 +9,7 @@ export const defaultOptions: SessionOptions = {
   maxUpVotes: null,
 };
 
-export const defaultSession: Session = {
+export const defaultSession: Omit<Session, 'createdBy'> = {
   ...defaultOptions,
   id: '',
   columns: [

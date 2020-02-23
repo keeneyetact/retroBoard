@@ -9,8 +9,6 @@ import { State, Action } from './types';
 import reducer from './reducer';
 import {
   togglePanel,
-  login,
-  logout,
   setPlayers,
   receivePost,
   deletePost,
@@ -24,10 +22,10 @@ import { defaultSession } from 'retro-board-common';
 
 export const initialState: State = {
   panelOpen: false,
-  user: null,
   players: [],
   session: {
     ...defaultSession,
+    createdBy: null,
   },
 };
 
@@ -54,8 +52,6 @@ export function useGlobalState() {
   const actions = useMemo(() => {
     return {
       togglePanel: togglePanel(dispatch),
-      login: login(dispatch),
-      logout: logout(dispatch),
       setPlayers: setPlayers(dispatch),
       receivePost: receivePost(dispatch),
       deletePost: deletePost(dispatch),

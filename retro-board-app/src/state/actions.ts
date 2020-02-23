@@ -1,10 +1,9 @@
 import { Dispatch } from './types';
 import { Post, Vote } from 'retro-board-common';
-import { setItem, removeItem } from '../utils/localStorage';
 
 export const TOGGLE_PANEL = 'retrospected/panel/toggle';
-export const LOGIN = 'retrospected/user/login';
-export const LOGOUT = 'retrospected/user/logout';
+// export const LOGIN = 'retrospected/user/login';
+// export const LOGOUT = 'retrospected/user/logout';
 export const SET_PLAYERS = 'retrospected/game/players/set';
 export const RENAME_SESSION = 'retrospected/game/session/rename';
 export const RESET_SESSION = 'retrospected/game/session/reset';
@@ -23,22 +22,18 @@ export const togglePanel = (dispatch: Dispatch) => () => {
   dispatch(createAction(TOGGLE_PANEL));
 };
 
-export const login = (dispatch: Dispatch) => (username: string, id: string) => {
-  setItem('user_name', username);
-  setItem('user_id', id);
-  dispatch(
-    createAction(LOGIN, {
-      id,
-      name: username,
-    })
-  );
-};
+// export const login = (dispatch: Dispatch) => (username: string, id: string) => {
+//   dispatch(
+//     createAction(LOGIN, {
+//       id,
+//       name: username,
+//     })
+//   );
+// };
 
-export const logout = (dispatch: Dispatch) => () => {
-  removeItem('user_name');
-  removeItem('user_id');
-  dispatch(createAction(LOGOUT));
-};
+// export const logout = (dispatch: Dispatch) => () => {
+//   dispatch(createAction(LOGOUT));
+// };
 
 export const renameSession = (dispatch: Dispatch) => (name: string) => {
   dispatch(createAction(RENAME_SESSION, name));

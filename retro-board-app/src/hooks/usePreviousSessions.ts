@@ -1,7 +1,7 @@
-import useGlobalState from '../state';
 import { findIndex } from 'lodash';
 import { User } from 'retro-board-common';
 import { getItem, setItem } from '../utils/localStorage';
+import useUser from '../auth/useUser';
 
 interface SessionStore {
   [username: string]: Session[];
@@ -55,10 +55,10 @@ function addToPreviousSessions(id: string, name: string, username: User) {
 }
 
 export default () => {
-  const { state } = useGlobalState();
+  const user = useUser();
 
-  if (state.user) {
-    const previousSessions = getPreviousSessions(state.user.id);
+  if (user) {
+    const previousSessions = getPreviousSessions(user.id);
     return { previousSessions, addToPreviousSessions };
   }
 

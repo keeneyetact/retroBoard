@@ -1,27 +1,21 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, User, Vote, VoteType } from 'retro-board-common';
+import { Actions, Post, Vote, VoteType } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
 import { trackAction, trackEvent } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
 import usePreviousSessions from '../../hooks/usePreviousSessions';
+import useUser from '../../auth/useUser';
 
 const debug = process.env.NODE_ENV === 'development';
 
-function sendFactory(
-  socket: SocketIOClient.Socket,
-  user: User,
-  sessionId: string
-) {
+function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
   return function(action: string, payload?: any) {
-    if (socket && user) {
+    if (socket) {
       socket.emit(action, {
         sessionId: sessionId,
-        payload: {
-          user,
-          ...payload,
-        },
+        payload,
       });
     }
   };
@@ -44,16 +38,18 @@ const useGame = (sessionId: string) => {
     resetSession,
   } = useGlobalState();
 
-  const { user, session } = state;
+  const { session } = state;
+  const user = useUser();
+  const [prevUser, setPrevUser] = useState(user);
 
   const name = session ? session.name : '';
   const allowMultipleVotes = session ? session.allowMultipleVotes : false;
 
   // Send function, built with current socket, user and sessionId
-  const send = useMemo(
-    () => (socket && user ? sendFactory(socket, user, sessionId) : null),
-    [socket, user, sessionId]
-  );
+  const send = useMemo(() => (socket ? sendFactory(socket, sessionId) : null), [
+    socket,
+    sessionId,
+  ]);
 
   const reconnect = useCallback(() => setDisconnected(false), []);
 
@@ -68,20 +64,33 @@ const useGame = (sessionId: string) => {
     };
   }, [resetSession]);
 
+  // Handles re-connection if the user changes (login/logout)
+  useEffect(() => {
+    if (user !== prevUser) {
+      if (debug) {
+        console.log('User changed, set disconnected to false');
+      }
+      setDisconnected(false);
+      setPrevUser(user);
+    }
+  }, [user, prevUser]);
+
   // This effect will run everytime the gameId, the user, or the socket changes.
   // It will close and restart the socket every time.
   useEffect(() => {
-    if (!user || disconnected) {
+    if (disconnected) {
       return;
     }
     if (debug) {
       console.log('Initialising Game socket');
     }
-    const newSocket = io();
+    const newSocket = io({
+      query: { token: 'foo ' },
+    });
     resetSession();
     setSocket(newSocket);
 
-    const send = sendFactory(newSocket, user, sessionId);
+    const send = sendFactory(newSocket, sessionId);
 
     // Socket events listeners
     newSocket.on('disconnect', () => {
@@ -97,7 +106,7 @@ const useGame = (sessionId: string) => {
         console.log('Connected to the socket');
       }
       setInitialised(true);
-      send(Actions.LOGIN_SUCCESS);
+      // send(Actions.LOGIN_SUCCESS);
       send(Actions.JOIN_SESSION);
       trackAction(Actions.JOIN_SESSION);
     });

@@ -68,6 +68,7 @@ function Home() {
     trackEvent('home/create/default');
     history.push('/game/' + shortid());
   }, [history]);
+
   return (
     <Page>
       <MainCard>

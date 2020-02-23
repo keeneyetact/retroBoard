@@ -3,6 +3,7 @@ export interface Session extends SessionOptions {
   name: string | null;
   posts: Post[];
   columns: ColumnDefinition[];
+  createdBy: User;
 }
 
 export interface ColumnDefinition {
@@ -35,7 +36,12 @@ export interface Post {
 export interface User {
   id: string;
   name: string;
+  accountType: AccountType;
+  username: string | null;
+  photo: string | null;
 }
+
+export type AccountType = 'anonymous' | 'google' | 'twitter' | 'github';
 
 export interface Vote {
   id: string;

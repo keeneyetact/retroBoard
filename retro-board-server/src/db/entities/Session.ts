@@ -6,10 +6,12 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import Post from './Post';
 import ColumnDefinition from './ColumnDefinition';
 import { SessionOptions, defaultOptions } from 'retro-board-common';
+import User from './User';
 
 @Entity({ name: 'sessions' })
 export default class Session {
@@ -18,17 +20,27 @@ export default class Session {
   @Column({ nullable: true, type: 'character varying' })
   @Index()
   public name: string | null;
-  @OneToMany(() => Post, post => post.session, {
-    cascade: true,
-    nullable: false,
-    eager: false,
-  })
+  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
+  public createdBy: User;
+  @OneToMany(
+    () => Post,
+    post => post.session,
+    {
+      cascade: true,
+      nullable: false,
+      eager: false,
+    }
+  )
   public posts: Post[] | undefined;
-  @OneToMany(() => ColumnDefinition, colDef => colDef.session, {
-    cascade: true,
-    nullable: false,
-    eager: false,
-  })
+  @OneToMany(
+    () => ColumnDefinition,
+    colDef => colDef.session,
+    {
+      cascade: true,
+      nullable: false,
+      eager: false,
+    }
+  )
   public columns: ColumnDefinition[] | undefined;
   @Column({ nullable: true, type: 'numeric' })
   public maxUpVotes: number | null;
@@ -50,10 +62,12 @@ export default class Session {
   constructor(
     id: string,
     name: string | null,
+    createdBy: User,
     options: Partial<SessionOptions>
   ) {
     this.id = id;
     this.name = name;
+    this.createdBy = createdBy;
     const optionsWithDefault = getDefaultOptions(options);
     this.maxUpVotes = optionsWithDefault.maxUpVotes;
     this.maxDownVotes = optionsWithDefault.maxDownVotes;

@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import GlobalStyles from './GlobalStyles';
 import { LanguageContext } from './translations';
+import AuthProvider from './auth/AuthProvider';
 import theme from './Theme';
 import { Provider as StateContext } from './state';
 import Layout from './Layout';
@@ -29,14 +30,16 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <LanguageContext.Provider value={{ language, setLanguage }}>
-          <StateContext>
-            <GlobalStyles />
-            <ErrorBoundary>
-              <Layout />
-            </ErrorBoundary>
-          </StateContext>
-        </LanguageContext.Provider>
+        <AuthProvider>
+          <LanguageContext.Provider value={{ language, setLanguage }}>
+            <StateContext>
+              <GlobalStyles />
+              <ErrorBoundary>
+                <Layout />
+              </ErrorBoundary>
+            </StateContext>
+          </LanguageContext.Provider>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   );

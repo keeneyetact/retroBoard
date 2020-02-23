@@ -11,6 +11,8 @@ import EditableLabel from '../../components/EditableLabel';
 import { Page } from '../../components/Page';
 import { ColumnContent } from './types';
 import RemainingVotes from './RemainingVotes';
+import useUser from '../../auth/useUser';
+import { Alert } from '@material-ui/lab';
 
 interface GameModeProps {
   columns: ColumnContent[];
@@ -42,6 +44,8 @@ function GameMode({
   const { state } = useGlobalState();
   const classes = useStyles();
   const remainingVotes = useRemainingVotes();
+  const user = useUser();
+  const isLoggedIn = !!user;
 
   if (!state.session) {
     return <span>Loading...</span>;
@@ -49,6 +53,12 @@ function GameMode({
 
   return (
     <Page>
+      {!isLoggedIn ? (
+        <Alert severity="warning">
+          You are not logged in. You can view this session as a spectator, but
+          must login to participate.
+        </Alert>
+      ) : null}
       <Box className={classes.container}>
         <HeaderWrapper>
           <div />
@@ -64,6 +74,7 @@ function GameMode({
               value={state.session.name || ''}
               centered
               onChange={onRenameSession}
+              readOnly={!isLoggedIn}
             />
           </Typography>
           <RemainingVotes up={remainingVotes.up} down={remainingVotes.down} />
