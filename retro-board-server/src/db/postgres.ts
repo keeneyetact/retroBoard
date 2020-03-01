@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 import {
   SessionRepository,
   PostRepository,
@@ -18,6 +18,7 @@ import {
 } from 'retro-board-common';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
+import shortId from 'shortid';
 
 export async function getDb() {
   const connection = await createConnection(getOrmConfig());
@@ -25,20 +26,20 @@ export async function getDb() {
 }
 
 const create = (sessionRepository: SessionRepository) => async (
-  id: string,
-  options: SessionOptions,
-  columns: JsonColumnDefintion[],
+  options: SessionOptions | null,
+  columns: JsonColumnDefintion[] | null,
   author: JsonUser
-) => {
+): Promise<JsonSession> => {
   try {
+    const id = shortId();
     const session = await sessionRepository.findOne({ id });
     if (!session) {
-      await sessionRepository.saveFromJson(
+      return await sessionRepository.saveFromJson(
         {
           ...defaultSession,
           id,
-          ...options,
-          columns,
+          ...(options || {}),
+          columns: columns || defaultSession.columns,
         },
         author.id
       );
@@ -46,6 +47,7 @@ const create = (sessionRepository: SessionRepository) => async (
   } catch (err) {
     throw err;
   }
+  throw Error('The session already existed');
 };
 
 const get = (
@@ -124,7 +126,21 @@ const getOrSaveUser = (userRepository: UserRepository) => async (
 const previousSessions = (sessionRepository: SessionRepository) => async (
   user: JsonUser
 ): Promise<JsonSession[]> => {
-  return Promise.resolve([]);
+  const sessions = await sessionRepository
+    .createQueryBuilder('session')
+    .leftJoin('session.posts', 'posts')
+    .leftJoin('posts.votes', 'votes')
+    .where('session.createdBy.id = :id', { id: user.id })
+    .orWhere('posts.user.id = :id', { id: user.id })
+    .orWhere('votes.user.id = :id', { id: user.id })
+    .getMany();
+
+  return sessions.map(
+    session =>
+      ({
+        ...session,
+      } as JsonSession)
+  );
 };
 
 export default async function db(): Promise<Store> {

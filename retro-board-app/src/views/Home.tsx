@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import shortid from 'shortid';
 import { useHistory } from 'react-router-dom';
 import {
   Fab,
@@ -20,9 +19,10 @@ import CreateSessionModal from './home/CreateSession';
 import logo from './home/logo.png';
 import { SessionOptions, ColumnDefinition } from 'retro-board-common';
 import { trackEvent } from './../track';
-import { createCustomGame } from '../api';
+import { createGame } from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
+import useUser from '../auth/useUser';
 
 const useStyles = makeStyles({
   media: {
@@ -40,14 +40,16 @@ const useStyles = makeStyles({
 
 function Home() {
   const history = useHistory();
+  const user = useUser();
+  const isLoggedIn = !!user;
   const translations = useTranslations();
-  const hasPreviousSessions = usePreviousSessions().previousSessions.length > 0;
+  const hasPreviousSessions = usePreviousSessions().length > 0;
   const createSession = useCallback(
     async (options: SessionOptions, columns: ColumnDefinition[]) => {
-      const id = await createCustomGame(options, columns);
-      if (id) {
+      const session = await createGame(options, columns);
+      if (session) {
         trackEvent('custom-modal/create');
-        history.push(`/game/${id}`);
+        history.push(`/game/${session.id}`);
       } else {
         trackEvent('custom-modal/fail');
       }
@@ -64,9 +66,10 @@ function Home() {
     setModalOpen(true);
     trackEvent('custom-modal/open');
   }, []);
-  const createDefaultSession = useCallback(() => {
+  const createDefaultSession = useCallback(async () => {
+    const session = await createGame();
     trackEvent('home/create/default');
-    history.push('/game/' + shortid());
+    history.push('/game/' + session.id);
   }, [history]);
 
   return (
@@ -93,11 +96,16 @@ function Home() {
               onClick={createDefaultSession}
               size="large"
               color="secondary"
+              disabled={!isLoggedIn}
             >
               <ThumbUpAlt className={classes.buttonIcon} />
               {translations.Join.standardTab.button}
             </Fab>
-            <Button onClick={onOpenModal} color="primary">
+            <Button
+              onClick={onOpenModal}
+              color="primary"
+              disabled={!isLoggedIn}
+            >
               <Settings className={classes.buttonIcon} />
               {translations.Join.standardTab.customizeButton}
             </Button>

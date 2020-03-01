@@ -5,7 +5,6 @@ import { find } from 'lodash';
 import { trackAction, trackEvent } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
-import usePreviousSessions from '../../hooks/usePreviousSessions';
 import useUser from '../../auth/useUser';
 
 const debug = process.env.NODE_ENV === 'development';
@@ -25,7 +24,6 @@ const useGame = (sessionId: string) => {
   const [initialised, setInitialised] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
-  const { addToPreviousSessions } = usePreviousSessions();
   const {
     state,
     receivePost,
@@ -41,8 +39,6 @@ const useGame = (sessionId: string) => {
   const { session } = state;
   const user = useUser();
   const [prevUser, setPrevUser] = useState(user);
-
-  const name = session ? session.name : '';
   const allowMultipleVotes = session ? session.allowMultipleVotes : false;
 
   // Send function, built with current socket, user and sessionId
@@ -84,9 +80,7 @@ const useGame = (sessionId: string) => {
     if (debug) {
       console.log('Initialising Game socket');
     }
-    const newSocket = io({
-      query: { token: 'foo ' },
-    });
+    const newSocket = io();
     resetSession();
     setSocket(newSocket);
 
@@ -106,7 +100,6 @@ const useGame = (sessionId: string) => {
         console.log('Connected to the socket');
       }
       setInitialised(true);
-      // send(Actions.LOGIN_SUCCESS);
       send(Actions.JOIN_SESSION);
       trackAction(Actions.JOIN_SESSION);
     });
@@ -183,17 +176,6 @@ const useGame = (sessionId: string) => {
     renameSession,
     disconnected,
   ]);
-
-  // This drives the addition of the game to the list
-  // of previous sessions on the homepage (stored in local storage).
-  useEffect(() => {
-    if (user) {
-      if (debug) {
-        console.log('Add to previous sessions');
-      }
-      addToPreviousSessions(sessionId, name || '', user);
-    }
-  }, [user, sessionId, name, addToPreviousSessions]);
 
   // Callbacks
   const onAddPost = useCallback(

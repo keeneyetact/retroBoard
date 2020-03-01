@@ -14,10 +14,8 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <Context.Provider value={{ setUser, user }}>
-      {children}
-    </Context.Provider>
-  )
-}
+    <Context.Provider value={{ setUser, user }}>{children}</Context.Provider>
+  );
+};
 
 export default AuthProvider;

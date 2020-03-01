@@ -11,7 +11,7 @@ export default class SessionRepository extends Repository<Session> {
   async saveFromJson(
     session: Omit<JsonSession, 'createdBy'>,
     authorId: string
-  ): Promise<void> {
+  ): Promise<JsonSession> {
     const sessionWithoutPosts = {
       ...session,
       createdBy: { id: authorId },
@@ -20,11 +20,15 @@ export default class SessionRepository extends Repository<Session> {
     delete sessionWithoutPosts.columns;
 
     const columnsRepo = getCustomRepository(ColumnRepository);
-
-    await this.save(sessionWithoutPosts);
+    const createdSession = await this.save(sessionWithoutPosts);
 
     for (let i = 0; i < session.columns.length; i++) {
       await columnsRepo.saveFromJson(session.columns[i], session.id);
     }
+
+    return {
+      ...createdSession,
+      posts: [],
+    };
   }
 }

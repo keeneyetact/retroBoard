@@ -14,7 +14,7 @@ const getGravatar = (id: string) =>
 
 const PreviousGames = () => {
   const history = useHistory();
-  const { previousSessions } = usePreviousSessions();
+  const previousSessions = usePreviousSessions();
   const redirectToGame = useCallback(
     (id: string) => {
       history.push(`/game/${id}`);

@@ -18,15 +18,12 @@ import {
   renameSession,
   resetSession,
 } from './actions';
-import { defaultSession } from 'retro-board-common';
+// import { defaultSession } from 'retro-board-common';
 
 export const initialState: State = {
   panelOpen: false,
   players: [],
-  session: {
-    ...defaultSession,
-    createdBy: null,
-  },
+  session: null,
 };
 
 const Context = createContext({

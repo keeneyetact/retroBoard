@@ -97,16 +97,15 @@ db().then(store => {
   game(store, io);
 
   // Create session
-  app.post('/api/create/:id', async (req, res) => {
+  app.post('/api/create', async (req, res) => {
     const user = getUser(req);
     if (user) {
-      await store.create(
-        req.params.id,
-        req.body.options,
-        req.body.columns,
+      const session = await store.create(
+        req.body.options || null,
+        req.body.columns || null,
         user
       );
-      res.status(200).send();
+      res.status(200).send(session);
     } else {
       res
         .status(401)
@@ -135,7 +134,7 @@ db().then(store => {
 
   app.get('/api/previous', async (req, res) => {
     const user = getUser(req);
-    if (user) {
+    if (user && user.accountType !== 'anonymous') {
       const sessions = await store.previousSessions(user);
       res.status(200).send(sessions);
     } else {
