@@ -18,6 +18,7 @@ const AllTheProviders: React.SFC = ({ children }) => {
       accountType: 'anonymous',
       photo: null,
       username: 'johndoe',
+      language: 'en',
     });
   }, []);
   return (

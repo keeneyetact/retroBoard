@@ -22,6 +22,8 @@ export default class User {
   public username: string | null;
   @Column({ nullable: true, type: 'character varying' })
   public photo: string | null;
+  @Column({ nullable: false, type: 'character varying', default: 'en' })
+  public language: string;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
@@ -29,6 +31,7 @@ export default class User {
   constructor(id: string, name: string) {
     this.id = id;
     this.name = name;
+    this.language = 'en';
     this.accountType = 'anonymous';
     this.username = null;
     this.photo = null;

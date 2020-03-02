@@ -8,9 +8,7 @@ const providers = ['twitter', 'google', 'github'];
 const CLIENT_ORIGIN = config.BASE_URL || 'http://localhost:3000';
 
 const callbacks = providers.map(provider => {
-  const url = `${CLIENT_ORIGIN}/api/auth/${provider}/callback`;
-  // console.log('Callback URL: ', url);
-  return url;
+  return `${CLIENT_ORIGIN}/api/auth/${provider}/callback`;
 });
 
 const [twitterURL, googleURL, githubURL] = callbacks;

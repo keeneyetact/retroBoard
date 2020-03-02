@@ -39,6 +39,7 @@ export interface User {
   accountType: AccountType;
   username: string | null;
   photo: string | null;
+  language: string;
 }
 
 export type AccountType = 'anonymous' | 'google' | 'twitter' | 'github';

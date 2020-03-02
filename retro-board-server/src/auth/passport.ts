@@ -10,11 +10,17 @@ import { User, AccountType } from 'retro-board-common';
 
 export default (store: Store) => {
   // Allowing passport to serialize and deserialize users into sessions
-  passport.serializeUser((user, cb) => {
-    cb(null, user);
+  passport.serializeUser((user: User, cb) => {
+    cb(null, user.id);
   });
-  passport.deserializeUser((obj, cb) => {
-    cb(null, obj);
+  passport.deserializeUser(async (userId: string, cb) => {
+    cb(null, userId);
+    // if (userId && userId.length) {
+    //   const user = await store.getUser(userId);
+    //   cb(null, user);
+    // } else {
+    //   cb('User not found', null);
+    // }
   });
 
   // The callback that is invoked when an OAuth provider sends back user
@@ -31,6 +37,7 @@ export default (store: Store) => {
       id: uuid.v4(),
       name: profile.displayName,
       photo: profile.photos?.length ? profile.photos[0].value : null,
+      language: 'en',
       username:
         profile.username ||
         (profile.emails.length ? profile.emails[0].value : null),
@@ -57,6 +64,7 @@ export default (store: Store) => {
           name: username,
           photo: null,
           username: username,
+          language: 'en',
         };
         const dbUser = await store.getOrSaveUser(user);
         done(null, dbUser);

@@ -48,24 +48,28 @@ if (config.REDIS_ENABLED) {
     resave: true,
     saveUninitialized: true,
     store: new RedisStore({ client: redisClient }),
+    cookie: {
+      secure: false,
+    },
   });
 } else {
   sessionMiddleware = session({
     secret: process.env.SESSION_SECRET!,
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      secure: false,
+    },
   });
 }
 
 app.use(sessionMiddleware);
-
 app.use(passport.initialize());
+app.use(passport.session());
 
 const httpServer = new http.Server(app);
 
 app.get('/api/ping', (req, res) => {
-  console.log('Session: ', req.session);
-  console.log('User: ', getUser(req));
   res.send('pong');
 });
 
@@ -98,7 +102,7 @@ db().then(store => {
 
   // Create session
   app.post('/api/create', async (req, res) => {
-    const user = getUser(req);
+    const user = await getUser(store, req);
     if (user) {
       const session = await store.create(
         req.body.options || null,
@@ -123,8 +127,8 @@ db().then(store => {
     });
   });
 
-  app.get('/api/me', (req, res) => {
-    const user = getUser(req);
+  app.get('/api/me', async (req, res) => {
+    const user = await getUser(store, req);
     if (user) {
       res.status(200).send(user);
     } else {
@@ -133,9 +137,9 @@ db().then(store => {
   });
 
   app.get('/api/previous', async (req, res) => {
-    const user = getUser(req);
+    const user = await getUser(store, req);
     if (user && user.accountType !== 'anonymous') {
-      const sessions = await store.previousSessions(user);
+      const sessions = await store.previousSessions(user.id);
       res.status(200).send(sessions);
     } else {
       res.status(401).send();

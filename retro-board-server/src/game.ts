@@ -32,7 +32,7 @@ const {
 
 interface ExtendedSocket extends socketIo.Socket {
   sessionId: string;
-  user: User | null;
+  userId: string | null;
 }
 
 interface Users {
@@ -82,40 +82,50 @@ export default (store: Store, io: SocketIO.Server) => {
     socket.emit(action, data);
   };
 
-  const persistSession = (user: User, session: Session) => {
-    if (!user) {
-      return;
-    }
-    store.saveSession(user, session).catch((err: string) => console.error(err));
-  };
-
-  const persistPost = (user: User, sessionId: string, post: Post) => {
-    if (!user) {
+  const persistSession = (userId: string | null, session: Session) => {
+    if (!userId) {
       return;
     }
     store
-      .savePost(user, sessionId, post)
+      .saveSession(userId, session)
+      .catch((err: string) => console.error(err));
+  };
+
+  const persistPost = (
+    userId: string | null,
+    sessionId: string,
+    post: Post
+  ) => {
+    if (!userId) {
+      return;
+    }
+    store
+      .savePost(userId, sessionId, post)
       .catch((err: string) => console.error(err));
   };
 
   const persistVote = (
-    user: User,
+    userId: string | null,
     sessionId: string,
     postId: string,
     vote: Vote
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
-    store.saveVote(user, sessionId, postId, vote);
+    store.saveVote(userId, sessionId, postId, vote);
   };
 
-  const deletePost = (user: User, sessionId: string, postId: string) => {
-    if (!user) {
+  const deletePost = (
+    userId: string | null,
+    sessionId: string,
+    postId: string
+  ) => {
+    if (!userId) {
       return;
     }
     store
-      .deletePost(user, sessionId, postId)
+      .deletePost(userId, sessionId, postId)
       .catch((err: string) => console.error(err));
   };
 
@@ -155,47 +165,52 @@ export default (store: Store, io: SocketIO.Server) => {
   };
 
   const receivePost = async (
-    user: User,
+    userId: string | null,
     session: Session,
     post: Post,
     socket: ExtendedSocket
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
-    persistPost(user, session.id, post);
+    persistPost(userId, session.id, post);
     sendToAll(socket, session.id, RECEIVE_POST, post);
   };
 
   const joinSession = async (
-    user: User,
+    userId: string | null,
     session: Session,
     _: UserData,
     socket: ExtendedSocket
   ) => {
-    socket.join(getRoom(session.id), () => {
+    socket.join(getRoom(session.id), async () => {
       socket.sessionId = session.id;
       sendToSelf(socket, RECEIVE_BOARD, session);
-      recordUser(session.id, user, socket);
+      if (userId) {
+        const user = await store.getUser(userId);
+        if (user) {
+          recordUser(session.id, user, socket);
+        }
+      }
     });
   };
 
   const renameSession = async (
-    user: User,
+    userId: string | null,
     session: Session,
     data: NameData,
     socket: ExtendedSocket
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
     session.name = data.name;
-    persistSession(user, session);
+    persistSession(userId, session);
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 
   const leave = async (
-    _user: User,
+    _userId: string | null,
     session: Session,
     _data: void,
     socket: ExtendedSocket
@@ -206,26 +221,26 @@ export default (store: Store, io: SocketIO.Server) => {
   };
 
   const onDeletePost = async (
-    user: User,
+    userId: string | null,
     session: Session,
     data: Post,
     socket: ExtendedSocket
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
     session.posts = session.posts.filter(p => p.id !== data.id);
-    deletePost(user, session.id, data.id);
+    deletePost(userId, session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
   };
 
   const like = async (
-    user: User,
+    userId: string | null,
     session: Session,
     data: LikeUpdate,
     socket: ExtendedSocket
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
     const post = find(session.posts, p => p.id === data.post.id);
@@ -241,46 +256,47 @@ export default (store: Store, io: SocketIO.Server) => {
           user: data.user,
           type: data.type,
         };
-        persistVote(user, session.id, post.id, vote);
+        persistVote(userId, session.id, post.id, vote);
         sendToAll(socket, session.id, RECEIVE_LIKE, { postId: post.id, vote });
       }
     }
   };
 
   const edit = async (
-    user: User,
+    userId: string | null,
     session: Session,
     data: PostUpdate,
     socket: ExtendedSocket
   ) => {
-    if (!user) {
+    if (!userId) {
       return;
     }
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
       post.content = data.post.content;
       post.action = data.post.action;
-      persistPost(user, session.id, post);
+      persistPost(userId, session.id, post);
       sendToAll(socket, session.id, RECEIVE_EDIT_POST, data);
     }
   };
 
-  io.on('connection', (socket: ExtendedSocket) => {
+  io.on('connection', async (socket: ExtendedSocket) => {
     const ip =
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
-    const user = socket.request.session?.passport?.user;
-    socket.user = user;
+    // Todo: this is a bit hacky
+    const userId: string = socket.request.session?.passport?.user;
+    socket.userId = userId;
     console.log(
       d() +
         chalk`{blue Connection: {red New user connected} {grey ${
           socket.id
-        } ${ip} ${user ? user.username : 'anon'}}}`
+        } ${ip} ${userId ? userId : 'anon'}}}`
     );
 
     interface Action {
       type: string;
       handler: (
-        user: User,
+        userId: string | null,
         session: Session,
         data: any,
         socket: ExtendedSocket
@@ -298,7 +314,7 @@ export default (store: Store, io: SocketIO.Server) => {
     ];
 
     actions.forEach(action => {
-      socket.on(action.type, data => {
+      socket.on(action.type, async data => {
         console.log(
           chalk`${d()}{red  <-- } ${s(action.type)} {grey ${JSON.stringify(
             data
@@ -307,11 +323,10 @@ export default (store: Store, io: SocketIO.Server) => {
         const sid =
           action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
         if (sid) {
-          store.get(user, sid).then((session: Session | null) => {
-            if (session) {
-              action.handler(user, session, data.payload, socket);
-            }
-          });
+          const session = await store.getSession(userId, sid);
+          if (session) {
+            action.handler(userId, session, data.payload, socket);
+          }
         }
       });
     });

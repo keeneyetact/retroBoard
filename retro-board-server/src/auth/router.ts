@@ -14,7 +14,11 @@ const anonAuth = passport.authenticate('local');
 export const endOAuthHandler = (req: Request, res: Response) => {
   const io = req.app.get('io');
   io.in(req.session!.socketId).emit('auth', req.user);
-  res.end();
+  console.log('endOAuthHandler', req.user);
+  req.logIn(req.user!, err => {
+    res.end();
+  });
+  // res.end();
 };
 
 export const endAnonHandler = (req: Request, res: Response) => {
@@ -31,7 +35,7 @@ router.post('/anonymous/login', anonAuth, endAnonHandler);
 // This custom middleware allows us to attach the socket id to the session
 // With that socket id we can send back the right user info to the right
 // socket
-router.use((req, res, next) => {
+router.use((req, _, next) => {
   req.session!.socketId = req.query.socketId;
   next();
 });

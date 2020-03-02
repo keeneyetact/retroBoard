@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState, useEffect } from 'react';
 import LanguageContext from './Context';
 import en from './en';
 import es from './es';
@@ -16,6 +16,8 @@ import de from './de';
 import it from './it';
 import { Translation } from './types';
 import { merge, cloneDeep } from 'lodash';
+import useUser from '../auth/useUser';
+import { getItem, setItem } from '../utils/localStorage';
 
 interface Translations {
   [key: string]: Translation;
@@ -38,16 +40,34 @@ const languages: Translations = {
   it,
 };
 
+function useLanguage() {
+  const user = useUser();
+  const [language, setLanguage] = useState('en');
+
+  useEffect(() => {
+    console.log('useLanguage effect', user);
+    if (!user) {
+      const lng = getItem('language');
+      setLanguage(lng || 'en');
+    } else {
+      setLanguage(user.language);
+    }
+  }, [user]);
+
+  return language;
+}
+
 function useTranslation() {
-  const language = useContext(LanguageContext);
+  const language = useLanguage();
+  console.log('Language: ', language);
 
   const result = useMemo(() => {
-    const translations = languages[language.language];
+    const translations = languages[language];
     const english = languages['en'];
-    return language.language === 'en'
+    return language === 'en'
       ? translations
       : merge(cloneDeep(english), translations);
-  }, [language.language]);
+  }, [language]);
 
   return result;
 }
