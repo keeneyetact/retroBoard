@@ -2,19 +2,12 @@ import React, { useEffect, useCallback } from 'react';
 import { useHistory, Redirect, Switch, Route } from 'react-router-dom';
 import { trackPageView } from './track';
 import styled from 'styled-components';
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Home from './views/Home';
 import Game from './views/Game';
 import Panel from './views/Panel';
-
 import Invite from './views/layout/Invite';
-import Sandbox from './views/Sandbox';
 import LoginButton from './auth/LoginButton';
 import useGlobalState from './state';
 import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
@@ -53,7 +46,6 @@ function App() {
         </Toolbar>
       </AppBar>
       <Route path="/" exact component={Home} />
-      <Route path="/sandbox" exact component={Sandbox} />
       <Switch>
         <Redirect from="/session/:gameId" to="/game/:gameId" />
         <Route path="/game/:gameId" component={Game} />

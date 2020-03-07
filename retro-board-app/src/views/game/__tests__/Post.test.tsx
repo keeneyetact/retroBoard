@@ -4,7 +4,14 @@ import { render, fireEvent } from '../../../testing';
 import PostItem from '../Post';
 import { Post, User, Vote, VoteType } from 'retro-board-common';
 
-const u = (name: string): User => ({ name, id: name });
+const u = (name: string): User => ({
+  name,
+  id: name,
+  accountType: 'anonymous',
+  username: name,
+  photo: null,
+  language: 'en',
+});
 
 function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
   const grouped = groupBy(users, u => u.id);

@@ -86,3 +86,22 @@ export async function anonymousLogin(username: string): Promise<User | null> {
   }
   return null;
 }
+
+export async function updateLanguage(language: string): Promise<User | null> {
+  const response = await fetch(`/api/me/language`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify({ language }),
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  return null;
+}

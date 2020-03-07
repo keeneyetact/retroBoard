@@ -17,6 +17,10 @@ export interface Store {
   ) => Promise<Session>;
   saveSession: (userId: string, session: Session) => Promise<void>;
   getOrSaveUser: (user: User) => Promise<User>;
+  updateUser: (
+    userId: string,
+    updatedFields: Partial<User>
+  ) => Promise<User | null>;
   savePost: (userId: string, sessionId: string, post: Post) => Promise<void>;
   saveVote: (
     userId: string,

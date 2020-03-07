@@ -9,14 +9,27 @@ import {
 } from 'retro-board-common';
 import { v4 } from 'uuid';
 
+const userBase: User = {
+  language: 'en',
+  photo: null,
+  accountType: 'anonymous',
+  id: '0',
+  name: 'name',
+  username: 'username',
+};
+
 const currentUser: User = {
+  ...userBase,
   id: '1',
   name: 'Current',
+  username: 'current',
 };
 
 const anotherUser: User = {
+  ...userBase,
   id: '2',
   name: 'Another User',
+  username: 'another-user',
 };
 
 function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
@@ -53,6 +66,7 @@ const session = (options: SessionOptions, ...posts: Post[]): Session => ({
   name: 'Session title',
   posts,
   columns: [],
+  createdBy: currentUser,
 });
 
 const defaultOptions: SessionOptions = {

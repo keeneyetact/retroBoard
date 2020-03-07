@@ -146,6 +146,17 @@ db().then(store => {
     }
   });
 
+  app.post('/api/me/language', async (req, res) => {
+    if (req.user) {
+      const updatedUser = await store.updateUser(req.user, {
+        language: req.body.language,
+      });
+      res.status(200).send(updatedUser);
+    } else {
+      res.status(401).send();
+    }
+  });
+
   if (useSentry) {
     app.use(Sentry.Handlers.errorHandler());
   }

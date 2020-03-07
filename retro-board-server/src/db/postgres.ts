@@ -89,6 +89,19 @@ const getUser = (userRepository: UserRepository) => async (
   return user || null;
 };
 
+const updateUser = (userRepository: UserRepository) => async (
+  id: string,
+  updatedUser: Partial<JsonUser>
+): Promise<JsonUser | null> => {
+  const user = await userRepository.findOne(id);
+  if (user) {
+    await userRepository.update(id, updatedUser);
+    const newUser = await userRepository.findOne(id);
+    return newUser || null;
+  }
+  return null;
+};
+
 const saveSession = (sessionRepository: SessionRepository) => async (
   userId: string,
   session: JsonSession
@@ -168,6 +181,7 @@ export default async function db(): Promise<Store> {
     saveVote: saveVote(voteRepository),
     deletePost: deletePost(postRepository),
     getOrSaveUser: getOrSaveUser(userRepository),
+    updateUser: updateUser(userRepository),
     create: create(sessionRepository),
     previousSessions: previousSessions(sessionRepository),
   };
