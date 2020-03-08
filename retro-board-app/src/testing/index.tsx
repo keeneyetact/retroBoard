@@ -49,7 +49,7 @@ const AllTheProviders: React.SFC = ({ children }) => {
     });
   }, []);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, initialised: true }}>
       <Provider initialState={testingInitialState}>{children}</Provider>
     </UserContext.Provider>
   );

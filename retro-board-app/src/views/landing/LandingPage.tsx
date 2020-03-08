@@ -1,0 +1,22 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const LandingPage = () => {
+  return (
+    <Container>
+      <iframe src="/homepage" title="Retrospected's homepage content" />
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  height: 100vh;
+  width: 100%;
+  iframe {
+    height: 100vh;
+    width: 100%;
+    border: none;
+  }
+`;
+
+export default LandingPage;
