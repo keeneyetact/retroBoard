@@ -9,7 +9,10 @@ const LandingPage = () => {
       {isDev ? (
         <div>Home Page Placeholder.</div>
       ) : (
-        <iframe src="/homepage" title="Retrospected's homepage content" />
+        <iframe
+          src="/homepage/index.html"
+          title="Retrospected's homepage content"
+        />
       )}
     </Container>
   );
