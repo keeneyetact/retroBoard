@@ -185,6 +185,7 @@ const useGame = (sessionId: string) => {
         const post: Post = {
           content,
           action: null,
+          giphy: null,
           votes: [],
           id: v4(),
           column: columnIndex,

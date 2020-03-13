@@ -1,10 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 const LandingPage = () => {
   return (
     <Container>
-      <iframe src="/homepage" title="Retrospected's homepage content" />
+      {isDev ? (
+        <div>Home Page Placeholder.</div>
+      ) : (
+        <iframe src="/homepage" title="Retrospected's homepage content" />
+      )}
     </Container>
   );
 };

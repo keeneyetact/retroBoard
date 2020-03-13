@@ -23,6 +23,8 @@ export default class Post {
   public content: string;
   @Column({ nullable: true, type: 'character varying' })
   public action: null | string;
+  @Column({ nullable: true, type: 'character varying' })
+  public giphy: null | string;
   @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
   public user: User;
   @OneToMany(
@@ -52,5 +54,6 @@ export default class Post {
     this.content = content;
     this.user = user;
     this.action = null;
+    this.giphy = null;
   }
 }

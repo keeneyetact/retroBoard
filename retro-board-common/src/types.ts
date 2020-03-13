@@ -29,6 +29,7 @@ export interface Post {
   column: number;
   content: string;
   action: string | null;
+  giphy: string | null;
   user: User;
   votes: Vote[];
 }

@@ -4,6 +4,7 @@ import {
   User,
   Session,
 } from 'retro-board-common';
+import config from '../utils/getConfig';
 
 export async function createGame(
   options?: SessionOptions,
@@ -102,6 +103,17 @@ export async function updateLanguage(language: string): Promise<User | null> {
   });
   if (response.ok) {
     return await response.json();
+  }
+  return null;
+}
+
+export async function getGiphyUrl(giphyId: string): Promise<string | null> {
+  const response = await fetch(
+    `//api.giphy.com/v1/gifs/${giphyId}?api_key=${config.GiphyApiKey}`
+  );
+  if (response.ok) {
+    const { data } = await response.json();
+    return data.images.downsized_medium.url;
   }
   return null;
 }

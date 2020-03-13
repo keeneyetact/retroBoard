@@ -1,9 +1,7 @@
 import ReactGA from 'react-ga';
 import { TrackingEvent } from 'retro-board-common';
 import * as Sentry from '@sentry/browser';
-import { getConfig } from './utils/getConfig';
-
-const config = getConfig();
+import config from './utils/getConfig';
 
 export const initialiseAnalytics = () => {
   if (isGAEnabled()) {
