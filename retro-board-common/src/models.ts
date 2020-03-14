@@ -10,7 +10,6 @@ export const defaultOptions: SessionOptions = {
 };
 
 export const defaultSession: Omit<Session, 'createdBy'> = {
-  ...defaultOptions,
   id: '',
   columns: [
     { id: '', index: 0, label: '', type: 'well', color: '', icon: null },
@@ -19,4 +18,5 @@ export const defaultSession: Omit<Session, 'createdBy'> = {
   ],
   name: null,
   posts: [],
+  options: { ...defaultOptions },
 };

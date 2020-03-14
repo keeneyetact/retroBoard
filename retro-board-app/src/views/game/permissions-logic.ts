@@ -31,7 +31,8 @@ export function permissionLogic(
     allowActions,
     allowSelfVoting,
     allowMultipleVotes,
-  } = session;
+    allowAuthorVisible,
+  } = session.options;
 
   const isLoggedIn = !!user;
   const canCreateAction = isLoggedIn && allowActions;
@@ -53,7 +54,7 @@ export function permissionLogic(
   const canDownVote = isLoggedIn && !hasVotedOrAuthor && !hasMaxedDownVotes;
   const canEdit = isLoggedIn && isAuthor;
   const canDelete = isLoggedIn && isAuthor;
-  const canShowAuthor = session.allowAuthorVisible;
+  const canShowAuthor = allowAuthorVisible;
 
   return {
     canCreateAction,

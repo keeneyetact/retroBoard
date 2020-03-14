@@ -10,8 +10,9 @@ import {
 } from 'typeorm';
 import Post from './Post';
 import ColumnDefinition from './ColumnDefinition';
-import { SessionOptions, defaultOptions } from 'retro-board-common';
+import { SessionOptions as JsonSessionOptions } from 'retro-board-common';
 import User from './User';
+import SessionOptions from './SessionOptions';
 
 @Entity({ name: 'sessions' })
 export default class Session {
@@ -42,18 +43,8 @@ export default class Session {
     }
   )
   public columns: ColumnDefinition[] | undefined;
-  @Column({ nullable: true, type: 'numeric' })
-  public maxUpVotes: number | null;
-  @Column({ nullable: true, type: 'numeric' })
-  public maxDownVotes: number | null;
-  @Column({ default: true })
-  public allowActions: boolean;
-  @Column({ default: false })
-  public allowSelfVoting: boolean;
-  @Column({ default: false })
-  public allowMultipleVotes: boolean;
-  @Column({ default: false })
-  public allowAuthorVisible: boolean;
+  @Column(() => SessionOptions)
+  public options: SessionOptions;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
@@ -63,24 +54,11 @@ export default class Session {
     id: string,
     name: string | null,
     createdBy: User,
-    options: Partial<SessionOptions>
+    options: Partial<JsonSessionOptions>
   ) {
     this.id = id;
     this.name = name;
     this.createdBy = createdBy;
-    const optionsWithDefault = getDefaultOptions(options);
-    this.maxUpVotes = optionsWithDefault.maxUpVotes;
-    this.maxDownVotes = optionsWithDefault.maxDownVotes;
-    this.allowAuthorVisible = optionsWithDefault.allowAuthorVisible;
-    this.allowActions = optionsWithDefault.allowActions;
-    this.allowSelfVoting = optionsWithDefault.allowSelfVoting;
-    this.allowMultipleVotes = optionsWithDefault.allowMultipleVotes;
+    this.options = new SessionOptions(options);
   }
-}
-
-function getDefaultOptions(options: Partial<SessionOptions>): SessionOptions {
-  return {
-    ...defaultOptions,
-    ...options,
-  };
 }

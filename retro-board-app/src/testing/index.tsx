@@ -9,10 +9,8 @@ const testingInitialState: State = {
   ...initialState,
   session: {
     id: 'test-session',
-    allowActions: true,
-    allowAuthorVisible: false,
-    allowMultipleVotes: false,
-    allowSelfVoting: false,
+    name: 'My Retro',
+    posts: [],
     columns: [],
     createdBy: {
       id: 'John Doe',
@@ -22,10 +20,14 @@ const testingInitialState: State = {
       username: 'johndoe',
       language: 'en',
     },
-    maxDownVotes: null,
-    maxUpVotes: null,
-    name: 'My Retro',
-    posts: [],
+    options: {
+      maxDownVotes: null,
+      maxUpVotes: null,
+      allowActions: true,
+      allowAuthorVisible: false,
+      allowMultipleVotes: false,
+      allowSelfVoting: false,
+    },
   },
 };
 

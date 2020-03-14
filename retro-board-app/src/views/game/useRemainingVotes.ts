@@ -23,12 +23,12 @@ export default function useRemainingVotes(): RemainingVotes {
 
     return {
       up:
-        session.maxUpVotes !== null
-          ? Math.max(session.maxUpVotes - upVotes, 0)
+        session.options.maxUpVotes !== null
+          ? Math.max(session.options.maxUpVotes - upVotes, 0)
           : null,
       down:
-        session.maxDownVotes !== null
-          ? Math.max(session.maxDownVotes - downVotes, 0)
+        session.options.maxDownVotes !== null
+          ? Math.max(session.options.maxDownVotes - downVotes, 0)
           : null,
     };
   }, [session, user]);

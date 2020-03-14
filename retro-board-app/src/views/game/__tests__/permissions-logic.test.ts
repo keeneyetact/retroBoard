@@ -61,12 +61,14 @@ const post = (user: User, likes?: User[], dislikes?: User[]): Post => {
 };
 
 const session = (options: SessionOptions, ...posts: Post[]): Session => ({
-  ...options,
   id: 'acme',
   name: 'Session title',
   posts,
   columns: [],
   createdBy: currentUser,
+  options: {
+    ...options,
+  },
 });
 
 const defaultOptions: SessionOptions = {

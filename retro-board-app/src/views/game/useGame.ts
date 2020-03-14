@@ -40,7 +40,9 @@ const useGame = (sessionId: string) => {
   const user = useUser();
   const userId = user?.id;
   const [prevUserId, setPrevUserId] = useState(userId);
-  const allowMultipleVotes = session ? session.allowMultipleVotes : false;
+  const allowMultipleVotes = session
+    ? session.options.allowMultipleVotes
+    : false;
 
   // Send function, built with current socket, user and sessionId
   const send = useMemo(() => (socket ? sendFactory(socket, sessionId) : null), [

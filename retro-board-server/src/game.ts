@@ -250,7 +250,7 @@ export default (store: Store, io: SocketIO.Server) => {
         v => v.user.id === data.user.id && v.type === data.type
       );
 
-      if (session.allowMultipleVotes || !existingVote) {
+      if (session.options.allowMultipleVotes || !existingVote) {
         const vote: Vote = {
           id: uuid.v4(),
           user: data.user,

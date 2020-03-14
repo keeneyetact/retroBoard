@@ -1,8 +1,9 @@
-export interface Session extends SessionOptions {
+export interface Session {
   id: string;
   name: string | null;
   posts: Post[];
   columns: ColumnDefinition[];
+  options: SessionOptions;
   createdBy: User;
 }
 
