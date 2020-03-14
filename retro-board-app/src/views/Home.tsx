@@ -19,7 +19,7 @@ import CreateSessionModal from './home/CreateSession';
 import logo from './home/logo.png';
 import { SessionOptions, ColumnDefinition } from 'retro-board-common';
 import { trackEvent } from './../track';
-import { createGame } from '../api';
+import { createGame, createCustomGame } from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
 import useUser from '../auth/useUser';
@@ -45,8 +45,12 @@ function Home() {
   const translations = useTranslations();
   const hasPreviousSessions = usePreviousSessions().length > 0;
   const createSession = useCallback(
-    async (options: SessionOptions, columns: ColumnDefinition[]) => {
-      const session = await createGame(options, columns);
+    async (
+      options: SessionOptions,
+      columns: ColumnDefinition[],
+      defaultTemplate: boolean
+    ) => {
+      const session = await createCustomGame(defaultTemplate, options, columns);
       if (session) {
         trackEvent('custom-modal/create');
         history.push(`/game/${session.id}`);

@@ -5,8 +5,10 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { AccountType } from 'retro-board-common';
+import { SessionTemplate } from '.';
 
 @Entity({ name: 'users' })
 @Index(['username', 'accountType'], { unique: true })
@@ -24,6 +26,8 @@ export default class User {
   public photo: string | null;
   @Column({ nullable: false, type: 'character varying', default: 'en' })
   public language: string;
+  @ManyToOne(() => SessionTemplate, { nullable: true, eager: false })
+  public defaultTemplate: SessionTemplate | null | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })

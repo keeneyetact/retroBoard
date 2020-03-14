@@ -104,9 +104,22 @@ db().then(store => {
   app.post('/api/create', async (req, res) => {
     const user = await getUser(store, req);
     if (user) {
-      const session = await store.create(
-        req.body.options || null,
-        req.body.columns || null,
+      const session = await store.create(user);
+      res.status(200).send(session);
+    } else {
+      res
+        .status(401)
+        .send('You must be logged in in order to create a session');
+    }
+  });
+
+  app.post('/api/create-custom', async (req, res) => {
+    const user = await getUser(store, req);
+    if (user) {
+      const session = await store.createCustom(
+        req.body.options,
+        req.body.columns,
+        req.body.setDefault,
         user
       );
       res.status(200).send(session);

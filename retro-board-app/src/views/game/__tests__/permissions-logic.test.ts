@@ -51,6 +51,7 @@ const post = (user: User, likes?: User[], dislikes?: User[]): Post => {
     content: 'Some content',
     id: 'acme',
     action: '',
+    giphy: null,
     votes: [],
   };
   p.votes = [

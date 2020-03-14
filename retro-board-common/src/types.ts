@@ -7,6 +7,14 @@ export interface Session {
   createdBy: User;
 }
 
+export interface SessionTemplate {
+  id: string;
+  name: string;
+  columns: ColumnDefinition[];
+  options: SessionOptions;
+  createdBy: User;
+}
+
 export interface ColumnDefinition {
   id: string;
   type: ColumnDefinitionType;

@@ -6,10 +6,7 @@ import {
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 
-export async function createGame(
-  options?: SessionOptions,
-  columns?: ColumnDefinition[]
-): Promise<Session> {
+export async function createGame(): Promise<Session> {
   const response = await fetch(`/api/create`, {
     method: 'POST',
     mode: 'cors',
@@ -20,9 +17,32 @@ export async function createGame(
     },
     redirect: 'follow',
     referrer: 'no-referrer',
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  throw new Error('Could not create a session');
+}
+
+export async function createCustomGame(
+  setDefault: boolean,
+  options: SessionOptions,
+  columns: ColumnDefinition[]
+): Promise<Session> {
+  const response = await fetch(`/api/create-custom`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
     body: JSON.stringify({
-      options: options || null,
-      columns: columns || null,
+      options,
+      columns,
+      setDefault,
     }),
   });
   if (response.ok) {

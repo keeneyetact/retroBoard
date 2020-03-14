@@ -10,9 +10,11 @@ import {
 export interface Store {
   getSession: (userId: string | null, key: string) => Promise<Session | null>;
   getUser: (id: string) => Promise<User | null>;
-  create: (
-    options: SessionOptions | null,
-    columns: ColumnDefinition[] | null,
+  create: (author: User) => Promise<Session>;
+  createCustom: (
+    options: SessionOptions,
+    columns: ColumnDefinition[],
+    setDefault: boolean,
     author: User
   ) => Promise<Session>;
   saveSession: (userId: string, session: Session) => Promise<void>;

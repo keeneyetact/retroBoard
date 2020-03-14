@@ -8,41 +8,30 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import Post from './Post';
-import { ColumnDefinition } from './ColumnDefinition';
+import { TemplateColumnDefinition } from './ColumnDefinition';
 import { SessionOptions as JsonSessionOptions } from 'retro-board-common';
 import User from './User';
 import SessionOptions from './SessionOptions';
 
-@Entity({ name: 'sessions' })
-export default class Session {
+@Entity({ name: 'templates' })
+export default class SessionTemplate {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @Column({ nullable: true, type: 'character varying' })
+  @Column({ nullable: false, type: 'character varying' })
   @Index()
   public name: string | null;
   @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
   public createdBy: User;
   @OneToMany(
-    () => Post,
-    post => post.session,
+    () => TemplateColumnDefinition,
+    colDef => colDef.template,
     {
       cascade: true,
       nullable: false,
       eager: false,
     }
   )
-  public posts: Post[] | undefined;
-  @OneToMany(
-    () => ColumnDefinition,
-    colDef => colDef.session,
-    {
-      cascade: true,
-      nullable: false,
-      eager: false,
-    }
-  )
-  public columns: ColumnDefinition[] | undefined;
+  public columns: TemplateColumnDefinition[] | undefined;
   @Column(() => SessionOptions)
   public options: SessionOptions;
   @CreateDateColumn({ type: 'timestamp with time zone' })

@@ -18,11 +18,17 @@ import { ColumnSettings, Template } from '../../state/types';
 import { getTemplate } from '../../state/templates';
 import useTranslations from '../../translations';
 import { trackEvent } from './../../track';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
+import useToggle from '../../hooks/useToggle';
 
 interface CreateSessionModalProps {
   open: boolean;
   onClose: () => void;
-  onLaunch: (options: SessionOptions, columns: ColumnDefinition[]) => void;
+  onLaunch: (
+    options: SessionOptions,
+    columns: ColumnDefinition[],
+    makeDefault: boolean
+  ) => void;
 }
 
 const CreateSessionModal = ({
@@ -33,6 +39,7 @@ const CreateSessionModal = ({
   const translations = useTranslations();
   const { Customize, Generic } = translations;
   const fullScreen = useMediaQuery('(max-width:600px)');
+  const [isDefaultTemplate, toggleIsDefaultTemplate] = useToggle(false);
   const [maxUpVotes, setMaxUpVotes] = useState<number | null>(null);
   const [maxDownVotes, setMaxDownVotes] = useState<number | null>(null);
   const [allowActions, setAllowActions] = useState<boolean>(true);
@@ -79,7 +86,8 @@ const CreateSessionModal = ({
         maxDownVotes,
         maxUpVotes,
       },
-      merge(definitions, defaultDefinitions, numberOfColumns)
+      merge(definitions, defaultDefinitions, numberOfColumns),
+      isDefaultTemplate
     );
   }, [
     onLaunch,
@@ -92,6 +100,7 @@ const CreateSessionModal = ({
     definitions,
     defaultDefinitions,
     numberOfColumns,
+    isDefaultTemplate,
   ]);
 
   return (
@@ -193,6 +202,15 @@ const CreateSessionModal = ({
         </SettingCategory>
       </DialogContent>
       <DialogActions>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isDefaultTemplate}
+              onChange={toggleIsDefaultTemplate}
+            />
+          }
+          label="Make this my default template"
+        />
         <Button onClick={onClose} color="default" variant="text">
           {Generic.cancel}
         </Button>
