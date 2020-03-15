@@ -170,6 +170,19 @@ db().then(store => {
     }
   });
 
+  app.get('/api/me/default-template', async (req, res) => {
+    if (req.user) {
+      const defaultTemplate = await store.getDefaultTemplate(req.user);
+      if (defaultTemplate) {
+        res.status(200).send(defaultTemplate);
+      } else {
+        res.status(404);
+      }
+    } else {
+      res.status(401).send();
+    }
+  });
+
   if (useSentry) {
     app.use(Sentry.Handlers.errorHandler());
   }

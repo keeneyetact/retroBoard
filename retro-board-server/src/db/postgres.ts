@@ -21,6 +21,7 @@ import {
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
 import shortId from 'shortid';
+import { SessionTemplate } from './entities';
 
 export async function getDb() {
   const connection = await createConnection(getOrmConfig());
@@ -147,6 +148,16 @@ const getUser = (userRepository: UserRepository) => async (
   return user || null;
 };
 
+const getDefaultTemplate = (userRepository: UserRepository) => async (
+  id: string
+): Promise<SessionTemplate | null> => {
+  const userWithDefaultTemplate = await userRepository.findOne(
+    { id },
+    { relations: ['defaultTemplate', 'defaultTemplate.columns'] }
+  );
+  return userWithDefaultTemplate?.defaultTemplate || null;
+};
+
 const updateUser = (userRepository: UserRepository) => async (
   id: string,
   updatedUser: Partial<JsonUser>
@@ -250,5 +261,6 @@ export default async function db(): Promise<Store> {
       userRepository
     ),
     previousSessions: previousSessions(sessionRepository),
+    getDefaultTemplate: getDefaultTemplate(userRepository),
   };
 }

@@ -3,6 +3,7 @@ import {
   ColumnDefinition,
   User,
   Session,
+  SessionTemplate,
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 
@@ -57,6 +58,16 @@ export async function me(): Promise<User | null> {
   });
   if (response.ok) {
     return (await response.json()) as User;
+  }
+  return null;
+}
+
+export async function fetchDefaultTemplate(): Promise<SessionTemplate | null> {
+  const response = await fetch('/api/me/default-template', {
+    credentials: 'same-origin',
+  });
+  if (response.ok) {
+    return (await response.json()) as SessionTemplate | null;
   }
   return null;
 }

@@ -231,7 +231,7 @@ const PostItem = ({
         <Card>
           <CardContent>
             <GiphySearchBox
-              apiKey="cnX8V9qGT801TRFb1mOz8dj0N5mKSe0U"
+              apiKey={config.GiphyApiKey}
               onSelect={handleChooseGiphyEditor}
             />
           </CardContent>
