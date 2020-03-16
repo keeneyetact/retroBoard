@@ -7,6 +7,18 @@ export interface Session {
   createdBy: User;
 }
 
+export interface SessionMetadata {
+  id: string;
+  name: string | null;
+  participants: User[];
+  numberOfPosts: number;
+  numberOfPositiveVotes: number;
+  numberOfNegativeVotes: number;
+  numberOfActions: number;
+  created: Date;
+  createdBy: User;
+}
+
 export interface SessionTemplate {
   id: string;
   name: string;

@@ -1,10 +1,10 @@
-import { Session } from 'retro-board-common';
+import { SessionMetadata } from 'retro-board-common';
 import useUser from '../auth/useUser';
 import { fetchPreviousSessions } from '../api';
 import { useState, useEffect } from 'react';
 
-export default () => {
-  const [sessions, setSessions] = useState<Session[]>([]);
+export default (): SessionMetadata[] => {
+  const [sessions, setSessions] = useState<SessionMetadata[]>([]);
   const user = useUser();
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import {
   User,
   Session,
   SessionTemplate,
+  SessionMetadata,
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 
@@ -72,12 +73,12 @@ export async function fetchDefaultTemplate(): Promise<SessionTemplate | null> {
   return null;
 }
 
-export async function fetchPreviousSessions(): Promise<Session[]> {
+export async function fetchPreviousSessions(): Promise<SessionMetadata[]> {
   const response = await fetch('/api/previous', {
     credentials: 'same-origin',
   });
   if (response.ok) {
-    return (await response.json()) as Session[];
+    return (await response.json()) as SessionMetadata[];
   }
   return Promise.resolve([]);
 }

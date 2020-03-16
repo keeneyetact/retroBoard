@@ -5,6 +5,7 @@ import {
   ColumnDefinition,
   Vote,
   User,
+  SessionMetadata,
 } from 'retro-board-common';
 import { SessionTemplate } from './db/entities';
 
@@ -37,7 +38,7 @@ export interface Store {
     sessionId: string,
     postId: string
   ) => Promise<void>;
-  previousSessions: (userId: string) => Promise<Session[]>;
+  previousSessions: (userId: string) => Promise<SessionMetadata[]>;
 }
 
 export interface Configuration {
