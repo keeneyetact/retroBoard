@@ -11,14 +11,16 @@ import {
   togglePanel,
   setPlayers,
   receivePost,
+  receivePostGroup,
   deletePost,
   updatePost,
+  deletePostGroup,
+  updatePostGroup,
   receiveVote,
   receiveBoard,
   renameSession,
   resetSession,
 } from './actions';
-// import { defaultSession } from 'retro-board-common';
 
 export const initialState: State = {
   panelOpen: false,
@@ -51,8 +53,11 @@ export function useGlobalState() {
       togglePanel: togglePanel(dispatch),
       setPlayers: setPlayers(dispatch),
       receivePost: receivePost(dispatch),
+      receivePostGroup: receivePostGroup(dispatch),
       deletePost: deletePost(dispatch),
       updatePost: updatePost(dispatch),
+      deletePostGroup: deletePostGroup(dispatch),
+      updatePostGroup: updatePostGroup(dispatch),
       receiveVote: receiveVote(dispatch),
       receiveBoard: receiveBoard(dispatch),
       renameSession: renameSession(dispatch),

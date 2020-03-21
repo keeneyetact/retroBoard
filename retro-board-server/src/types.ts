@@ -6,6 +6,7 @@ import {
   Vote,
   User,
   SessionMetadata,
+  PostGroup,
 } from 'retro-board-common';
 import { SessionTemplate } from './db/entities';
 
@@ -27,6 +28,11 @@ export interface Store {
     updatedFields: Partial<User>
   ) => Promise<User | null>;
   savePost: (userId: string, sessionId: string, post: Post) => Promise<void>;
+  savePostGroup: (
+    userId: string,
+    sessionId: string,
+    group: PostGroup
+  ) => Promise<void>;
   saveVote: (
     userId: string,
     sessionId: string,
@@ -37,6 +43,11 @@ export interface Store {
     userId: string,
     sessionId: string,
     postId: string
+  ) => Promise<void>;
+  deletePostGroup: (
+    userId: string,
+    sessionId: string,
+    groupId: string
   ) => Promise<void>;
   previousSessions: (userId: string) => Promise<SessionMetadata[]>;
 }

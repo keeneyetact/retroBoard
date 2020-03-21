@@ -2,6 +2,7 @@ import config from './config';
 import { ConnectionOptions } from 'typeorm';
 import {
   Post,
+  PostGroup,
   Session,
   User,
   ColumnDefinition,
@@ -22,6 +23,7 @@ export default function(): ConnectionOptions {
     database: config.DB_NAME,
     entities: [
       Post,
+      PostGroup,
       Session,
       User,
       ColumnDefinition,

@@ -20,6 +20,11 @@ export default class PostRepository extends Repository<Post> {
         session: {
           id: sessionId,
         },
+        group: post.group
+          ? {
+              id: post.group.id,
+            }
+          : null,
       });
     } else {
       const sessionRepository = getCustomRepository(SessionRepository);

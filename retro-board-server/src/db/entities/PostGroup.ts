@@ -11,46 +11,33 @@ import {
 import { LexoRank } from 'lexorank';
 import Session from './Session';
 import User from './User';
-import Vote from './Vote';
-import PostGroup from './PostGroup';
+import Post from './Post';
 
-@Entity({ name: 'posts' })
-export default class Post {
+@Entity({ name: 'groups' })
+export default class PostGroup {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
   @ManyToOne(() => Session, { nullable: false })
   public session: Session;
-  @ManyToOne(() => PostGroup, {
-    nullable: true,
-    eager: true,
-    cascade: true,
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  public group: PostGroup | null;
   @Column({ default: 0 })
   public column: number;
   @Index()
   @Column({ default: LexoRank.middle().toString() })
   public rank: string;
   @Column()
-  public content: string;
-  @Column({ nullable: true, type: 'character varying' })
-  public action: null | string;
-  @Column({ nullable: true, type: 'character varying' })
-  public giphy: null | string;
+  public label: string;
   @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
   public user: User;
   @OneToMany(
-    () => Vote,
-    vote => vote.post,
+    () => Post,
+    post => post.session,
     {
       cascade: true,
       nullable: false,
-      eager: true,
+      eager: false,
     }
   )
-  public votes: Vote[] | undefined;
+  public posts: Post[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
@@ -59,17 +46,14 @@ export default class Post {
     id: string,
     session: Session,
     column: number,
-    content: string,
+    label: string,
     user: User
   ) {
     this.id = id;
     this.session = session;
     this.column = column;
-    this.content = content;
+    this.label = label;
     this.user = user;
-    this.action = null;
-    this.giphy = null;
-    this.group = null;
     this.rank = LexoRank.middle().toString();
   }
 }

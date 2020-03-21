@@ -1,16 +1,36 @@
 import React, { SFC, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Input, InputAdornment, makeStyles } from '@material-ui/core';
+import {
+  Input,
+  InputAdornment,
+  Button,
+  makeStyles,
+  IconButton,
+  Tooltip,
+} from '@material-ui/core';
+import { Add as AddIcon, CreateNewFolder } from '@material-ui/icons';
 import PostItem from './Post';
-import { Post } from 'retro-board-common';
+import { Post, PostGroup } from 'retro-board-common';
 import useUser from '../../auth/useUser';
+import Group from './Group';
+import {
+  Droppable,
+  DroppableProvided,
+  DroppableStateSnapshot,
+} from 'react-beautiful-dnd';
+import { ColumnContent } from './types';
 
 interface ColumnProps {
+  column: ColumnContent;
   posts: Post[];
+  groups: PostGroup[];
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | null;
   question: string;
   color: string;
   onAdd: (content: string) => void;
+  onAddGroup: () => void;
+  onEditGroup: (group: PostGroup) => void;
+  onDeleteGroup: (group: PostGroup) => void;
   onLike: (post: Post) => void;
   onDislike: (post: Post) => void;
   onEdit: (post: Post) => void;
@@ -24,15 +44,20 @@ const useStyles = makeStyles({
 });
 
 const Column: SFC<ColumnProps> = ({
+  column,
   posts,
+  groups,
   icon: Icon,
   question,
   color,
   onAdd,
+  onAddGroup,
   onLike,
   onDislike,
   onEdit,
   onDelete,
+  onEditGroup,
+  onDeleteGroup,
 }) => {
   const user = useUser();
   const isLoggedIn = !!user;
@@ -68,56 +93,143 @@ const Column: SFC<ColumnProps> = ({
             ) : null
           }
         />
+        <AddGroup>
+          <Tooltip title="Create a group to group posts together">
+            <IconButton onClick={onAddGroup}>
+              <CreateNewFolder />
+            </IconButton>
+          </Tooltip>
+        </AddGroup>
       </Add>
-      <div>
-        {posts.map(post => (
-          <PostItem
-            key={post.id}
-            post={post}
-            color={color}
-            onLike={() => onLike(post)}
-            onDislike={() => onDislike(post)}
-            onDelete={() => onDelete(post)}
-            onEdit={content =>
-              onEdit({
-                ...post,
-                content,
+      <Groups>
+        {groups.map(group => (
+          <Group
+            key={group.id}
+            group={group}
+            readonly={false}
+            onEditLabel={label =>
+              onEditGroup({
+                ...group,
+                label,
               })
             }
-            onEditAction={action =>
-              onEdit({
-                ...post,
-                action,
-              })
-            }
-            onEditGiphy={giphy =>
-              onEdit({
-                ...post,
-                giphy,
-              })
-            }
-          />
+            onDelete={() => onDeleteGroup(group)}
+          >
+            {group.posts.map((post, index) => (
+              <PostItem
+                index={index}
+                key={post.id}
+                post={post}
+                color={color}
+                onLike={() => onLike(post)}
+                onDislike={() => onDislike(post)}
+                onDelete={() => onDelete(post)}
+                onEdit={content =>
+                  onEdit({
+                    ...post,
+                    content,
+                  })
+                }
+                onEditAction={action =>
+                  onEdit({
+                    ...post,
+                    action,
+                  })
+                }
+                onEditGiphy={giphy =>
+                  onEdit({
+                    ...post,
+                    giphy,
+                  })
+                }
+              />
+            ))}
+          </Group>
         ))}
-      </div>
+      </Groups>
+      <Droppable droppableId={'column#' + column.index} isCombineEnabled>
+        {(
+          dropProvided: DroppableProvided,
+          dropSnapshot: DroppableStateSnapshot
+        ) => (
+          <PostsWrapper
+            ref={dropProvided.innerRef}
+            {...dropProvided.droppableProps}
+            draggingOver={dropSnapshot.isDraggingOver}
+            draggingColor={column.color}
+          >
+            {posts.map((post, index) => (
+              <PostItem
+                index={index}
+                key={post.id}
+                post={post}
+                color={color}
+                onLike={() => onLike(post)}
+                onDislike={() => onDislike(post)}
+                onDelete={() => onDelete(post)}
+                onEdit={content =>
+                  onEdit({
+                    ...post,
+                    content,
+                  })
+                }
+                onEditAction={action =>
+                  onEdit({
+                    ...post,
+                    action,
+                  })
+                }
+                onEditGiphy={giphy =>
+                  onEdit({
+                    ...post,
+                    giphy,
+                  })
+                }
+              />
+            ))}
+          </PostsWrapper>
+        )}
+      </Droppable>
     </ColumnWrapper>
   );
 };
 
 const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
   margin-bottom: 10px;
   padding: 0 5px;
 `;
 
+const PostsWrapper = styled.div<{
+  draggingOver: boolean;
+  draggingColor: string;
+}>`
+  background-color: ${props =>
+    props.draggingOver ? props.draggingColor : 'unset'};
+  flex: 1;
+  min-height: 500px;
+`;
+
+const Groups = styled.div``;
+
 const Add = styled.div`
+  display: flex;
   margin-bottom: 20px;
 
-  > div {
-    width: 100%;
+  > :first-child {
+    flex: 1;
+    // width: 100%;
   }
   input {
     width: 100%;
   }
+`;
+
+const AddGroup = styled.div`
+  position: relative;
+  top: 5px;
 `;
 
 export default Column;

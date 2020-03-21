@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
 import { Provider, initialState } from '../state/context';
 import { User } from 'retro-board-common';
+import {
+  DragDropContext,
+  Droppable,
+  DroppableProvided,
+  DroppableStateSnapshot,
+} from 'react-beautiful-dnd';
 import UserContext from '../auth/Context';
 import { State } from '../state/types';
 
@@ -11,6 +17,7 @@ const testingInitialState: State = {
     id: 'test-session',
     name: 'My Retro',
     posts: [],
+    groups: [],
     columns: [],
     createdBy: {
       id: 'John Doe',
@@ -51,9 +58,20 @@ const AllTheProviders: React.SFC = ({ children }) => {
     });
   }, []);
   return (
-    <UserContext.Provider value={{ user, setUser, initialised: true }}>
-      <Provider initialState={testingInitialState}>{children}</Provider>
-    </UserContext.Provider>
+    <DragDropContext onDragEnd={() => {}}>
+      <Droppable droppableId="test">
+        {(
+          dropProvided: DroppableProvided,
+          dropSnapshot: DroppableStateSnapshot
+        ) => (
+          <div ref={dropProvided.innerRef}>
+            <UserContext.Provider value={{ user, setUser, initialised: true }}>
+              <Provider initialState={testingInitialState}>{children}</Provider>
+            </UserContext.Provider>
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 

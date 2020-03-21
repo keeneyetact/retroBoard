@@ -4,7 +4,6 @@ import {
   Button,
   Typography,
   makeStyles,
-  Tooltip,
   Popover,
   Card,
   CardActions,
@@ -19,19 +18,23 @@ import {
   Feedback,
   Close,
   EmojiEmotions,
+  DragIndicator,
 } from '@material-ui/icons';
+import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import useTranslations from '../../translations';
 import EditableLabel from '../../components/EditableLabel';
 import { Palette } from '../../Theme';
 import { Post } from 'retro-board-common';
 import { useUserPermissions } from './useUserPermissions';
-import { countVotes, enumerateVotes, VoteEnumeration } from './utils';
+import { countVotes, enumerateVotes } from './utils';
 import GiphySearchBox from 'react-giphy-searchbox';
 import useGiphy from '../../hooks/useGiphy';
 import config from '../../utils/getConfig';
 import useToggle from '../../hooks/useToggle';
+import VoteButton from './VoteButton';
 
 interface PostItemProps {
+  index: number;
   post: Post;
   color: string;
   onLike: () => void;
@@ -55,6 +58,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PostItem = ({
+  index,
   post,
   color,
   onLike,
@@ -98,122 +102,133 @@ const PostItem = ({
   );
   return (
     <>
-      <PostCard>
-        <CardContent>
-          <Typography variant="body1">
-            <EditableLabel
-              readOnly={!canEdit}
-              value={post.content}
-              onChange={onEdit}
-              label="Post content"
-              multiline
-            />
-          </Typography>
-          {canShowAuthor && (
-            <AuthorContainer>
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                component="div"
-              >
-                {postTranslations.by}&nbsp;
+      <Draggable draggableId={post.id} index={index}>
+        {(provided: DraggableProvided) => (
+          <PostCard ref={provided.innerRef} {...provided.draggableProps}>
+            <DragHandle {...provided.dragHandleProps}>
+              <DragIndicator />
+            </DragHandle>
+            <CardContent>
+              <Typography variant="body1">
+                <EditableLabel
+                  readOnly={!canEdit}
+                  value={post.content}
+                  onChange={onEdit}
+                  label="Post content"
+                  multiline
+                />
               </Typography>
-              <Typography variant="caption" color="textPrimary" component="div">
-                {post.user.name}
-              </Typography>
-            </AuthorContainer>
-          )}
-          {giphyImageUrl && showGiphyImage && (
-            <GiphyContainer>
-              <CloseButtonContainer>
+              {canShowAuthor && (
+                <AuthorContainer>
+                  <Typography
+                    variant="caption"
+                    color="textSecondary"
+                    component="div"
+                  >
+                    {postTranslations.by}&nbsp;
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    color="textPrimary"
+                    component="div"
+                  >
+                    {post.user.name}
+                  </Typography>
+                </AuthorContainer>
+              )}
+              {giphyImageUrl && showGiphyImage && (
+                <GiphyContainer>
+                  <CloseButtonContainer>
+                    <Button
+                      onClick={toggleShowGiphyImage}
+                      aria-label="Hide Giphy Image"
+                      tabIndex={-1}
+                    >
+                      <Close />
+                    </Button>
+                  </CloseButtonContainer>
+                  <img src={giphyImageUrl} alt="Giphy" height="200px" />
+                </GiphyContainer>
+              )}
+              {giphyImageUrl && !showGiphyImage && (
+                <HiddenImageMessageContainer>
+                  <Typography
+                    onClick={toggleShowGiphyImage}
+                    variant="caption"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    (hidden image, click to display)
+                  </Typography>
+                </HiddenImageMessageContainer>
+              )}
+            </CardContent>
+            {displayAction && canCreateAction && (
+              <CardContent className={classes.actionContainer}>
+                <Typography variant="caption">{translations.title}:</Typography>
+                <Typography variant="body1">
+                  <EditableLabel
+                    value={post.action || ''}
+                    onChange={onEditAction}
+                    label={translations.title}
+                    focused={actionsToggled && !post.action}
+                    multiline
+                  />
+                </Typography>
+              </CardContent>
+            )}
+            <CardActions style={{ backgroundColor: color }}>
+              <VoteButton
+                voters={upVoters}
+                canVote={canUpVote}
+                count={upVotes}
+                icon={<ThumbUpOutlined style={{ color: Palette.positive }} />}
+                onClick={onLike}
+                showTooltip={canShowAuthor}
+                ariaLabel="Like"
+              />
+              <VoteButton
+                voters={downVoters}
+                canVote={canDownVote}
+                count={downVotes}
+                icon={<ThumbDownOutlined style={{ color: Palette.negative }} />}
+                onClick={onDislike}
+                showTooltip={canShowAuthor}
+                ariaLabel="Dislike"
+              />
+              {canDelete && (
+                <Button onClick={onDelete} aria-label="Delete" tabIndex={-1}>
+                  <DeleteForeverOutlined style={{ color: Palette.negative }} />
+                </Button>
+              )}
+              {canCreateAction && (
                 <Button
-                  onClick={toggleShowGiphyImage}
-                  aria-label="Hide Giphy Image"
+                  onClick={toggleAction}
+                  aria-label={translations.label}
+                  title={translations.tooltip}
+                  disabled={!!post.action}
                   tabIndex={-1}
                 >
-                  <Close />
+                  {post.action ? (
+                    <Feedback className={classes.actionIcon} />
+                  ) : (
+                    <FeedbackOutlined className={classes.actionIcon} />
+                  )}
                 </Button>
-              </CloseButtonContainer>
-              <img src={giphyImageUrl} alt="Giphy" height="200px" />
-            </GiphyContainer>
-          )}
-          {giphyImageUrl && !showGiphyImage && (
-            <HiddenImageMessageContainer>
-              <Typography
-                onClick={toggleShowGiphyImage}
-                variant="caption"
-                style={{ cursor: 'pointer' }}
-              >
-                (hidden image, click to display)
-              </Typography>
-            </HiddenImageMessageContainer>
-          )}
-        </CardContent>
-        {displayAction && canCreateAction && (
-          <CardContent className={classes.actionContainer}>
-            <Typography variant="caption">{translations.title}:</Typography>
-            <Typography variant="body1">
-              <EditableLabel
-                value={post.action || ''}
-                onChange={onEditAction}
-                label={translations.title}
-                focused={actionsToggled && !post.action}
-                multiline
-              />
-            </Typography>
-          </CardContent>
-        )}
-        <CardActions style={{ backgroundColor: color }}>
-          <VoteButton
-            voters={upVoters}
-            canVote={canUpVote}
-            count={upVotes}
-            icon={<ThumbUpOutlined style={{ color: Palette.positive }} />}
-            onClick={onLike}
-            showTooltip={canShowAuthor}
-            ariaLabel="Like"
-          />
-          <VoteButton
-            voters={downVoters}
-            canVote={canDownVote}
-            count={downVotes}
-            icon={<ThumbDownOutlined style={{ color: Palette.negative }} />}
-            onClick={onDislike}
-            showTooltip={canShowAuthor}
-            ariaLabel="Dislike"
-          />
-          {canDelete && (
-            <Button onClick={onDelete} aria-label="Delete" tabIndex={-1}>
-              <DeleteForeverOutlined style={{ color: Palette.negative }} />
-            </Button>
-          )}
-          {canCreateAction && (
-            <Button
-              onClick={toggleAction}
-              aria-label={translations.label}
-              title={translations.tooltip}
-              disabled={!!post.action}
-              tabIndex={-1}
-            >
-              {post.action ? (
-                <Feedback className={classes.actionIcon} />
-              ) : (
-                <FeedbackOutlined className={classes.actionIcon} />
               )}
-            </Button>
-          )}
-          {canEdit && config.hasGiphy && (
-            <Button
-              onClick={handleShowGiphy}
-              aria-label="Ghipfy"
-              tabIndex={-1}
-              ref={postElement}
-            >
-              <EmojiEmotions className={classes.ghipyIcon} />
-            </Button>
-          )}
-        </CardActions>
-      </PostCard>
+              {canEdit && config.hasGiphy && (
+                <Button
+                  onClick={handleShowGiphy}
+                  aria-label="Ghipfy"
+                  tabIndex={-1}
+                  ref={postElement}
+                >
+                  <EmojiEmotions className={classes.ghipyIcon} />
+                </Button>
+              )}
+            </CardActions>
+          </PostCard>
+        )}
+      </Draggable>
       <Popover
         open={showGiphyEditor}
         anchorEl={postElement.current}
@@ -241,65 +256,24 @@ const PostItem = ({
   );
 };
 
-interface VoteButtonProps {
-  voters: VoteEnumeration[];
-  showTooltip: boolean;
-  canVote: boolean;
-  count: number;
-  icon: JSX.Element;
-  ariaLabel: string;
-  onClick: () => void;
-}
-
-const VoteButton = ({
-  voters,
-  showTooltip,
-  canVote,
-  count,
-  icon,
-  onClick,
-  ariaLabel,
-}: VoteButtonProps) => {
-  const show = showTooltip && voters.length;
-  return (
-    <Tooltip
-      placement="bottom"
-      disableHoverListener={!show}
-      disableFocusListener={!show}
-      disableTouchListener={!show}
-      title={
-        show ? (
-          <div>
-            {voters.map((voter, i) => (
-              <p key={i}>
-                {voter.name}
-                {voter.count > 1 ? ` (x${voter.count})` : ''}
-              </p>
-            ))}
-          </div>
-        ) : (
-          ''
-        )
-      }
-    >
-      <span>
-        <Button
-          onClick={onClick}
-          disabled={!canVote}
-          aria-label={ariaLabel}
-          tabIndex={-1}
-        >
-          {icon}
-          &nbsp;{count}
-        </Button>
-      </span>
-    </Tooltip>
-  );
-};
+const DragHandle = styled.div`
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  visibility: hidden;
+  color: grey;
+`;
 
 const PostCard = styled(Card)`
   margin: 10px 5px;
   margin-bottom: 20px;
+  position: relative;
+
+  :hover {
+    ${DragHandle} {
+      visibility: visible;
+    }
+  }
 `;
 
 const AuthorContainer = styled.div`

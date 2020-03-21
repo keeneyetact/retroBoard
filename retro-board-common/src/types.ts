@@ -2,6 +2,7 @@ export interface Session {
   id: string;
   name: string | null;
   posts: Post[];
+  groups: PostGroup[];
   columns: ColumnDefinition[];
   options: SessionOptions;
   createdBy: User;
@@ -45,14 +46,27 @@ export interface SessionOptions {
   allowAuthorVisible: boolean;
 }
 
-export interface Post {
+export interface Rankable {
+  rank: string;
+}
+
+export interface Post extends Rankable {
   id: string;
   column: number;
   content: string;
   action: string | null;
   giphy: string | null;
   user: User;
+  group: PostGroup | null;
   votes: Vote[];
+}
+
+export interface PostGroup extends Rankable {
+  id: string;
+  label: string;
+  column: number;
+  user: User;
+  posts: Post[];
 }
 
 export interface User {

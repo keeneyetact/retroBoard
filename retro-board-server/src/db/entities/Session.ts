@@ -13,6 +13,7 @@ import { ColumnDefinition } from './ColumnDefinition';
 import { SessionOptions as JsonSessionOptions } from 'retro-board-common';
 import User from './User';
 import SessionOptions from './SessionOptions';
+import PostGroup from './PostGroup';
 
 @Entity({ name: 'sessions' })
 export default class Session {
@@ -33,6 +34,16 @@ export default class Session {
     }
   )
   public posts: Post[] | undefined;
+  @OneToMany(
+    () => PostGroup,
+    group => group.session,
+    {
+      cascade: true,
+      nullable: false,
+      eager: false,
+    }
+  )
+  public groups: PostGroup[] | undefined;
   @OneToMany(
     () => ColumnDefinition,
     colDef => colDef.session,

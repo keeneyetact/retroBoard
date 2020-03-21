@@ -34,6 +34,9 @@ const post: Post = {
   id: '1',
   column: 0,
   action: '',
+  giphy: null,
+  group: null,
+  rank: '',
 };
 
 post.votes = [
@@ -46,6 +49,8 @@ describe('Post', () => {
     const { getByLabelText } = render(
       <PostItem
         post={post}
+        index={1}
+        onEditGiphy={noop}
         onDelete={noop}
         onDislike={noop}
         onEdit={noop}
@@ -65,6 +70,8 @@ describe('Post', () => {
     const { getByLabelText, queryByText } = render(
       <PostItem
         post={post}
+        index={1}
+        onEditGiphy={noop}
         onDelete={deleteHandler}
         onDislike={dislikeHandler}
         onEdit={noop}
@@ -103,6 +110,8 @@ describe('Post', () => {
     const { getByLabelText } = render(
       <PostItem
         post={customPost}
+        index={1}
+        onEditGiphy={noop}
         onDelete={deleteHandler}
         onDislike={dislikeHandler}
         onEdit={noop}
@@ -136,6 +145,8 @@ describe('Post', () => {
     const { getByLabelText } = render(
       <PostItem
         post={customPost}
+        index={1}
+        onEditGiphy={noop}
         onDelete={noop}
         onDislike={noop}
         onEdit={editHandler}
@@ -164,6 +175,8 @@ describe('Post', () => {
     const { getByLabelText, queryByLabelText } = render(
       <PostItem
         post={customPost}
+        index={1}
+        onEditGiphy={noop}
         onDelete={noop}
         onDislike={noop}
         onEdit={editHandler}

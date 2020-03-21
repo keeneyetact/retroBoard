@@ -18,5 +18,6 @@ export const defaultSession: Omit<Session, 'createdBy'> = {
   ],
   name: null,
   posts: [],
+  groups: [],
   options: { ...defaultOptions },
 };

@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, Vote, VoteType } from 'retro-board-common';
+import { Actions, Post, PostGroup, Vote, VoteType } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
+import { LexoRank } from 'lexorank';
 import { trackAction, trackEvent } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';
 import useUser from '../../auth/useUser';
+import { getMiddle, getNext } from './lexorank';
 
 const debug = process.env.NODE_ENV === 'development';
 
@@ -27,10 +29,13 @@ const useGame = (sessionId: string) => {
   const {
     state,
     receivePost,
+    receivePostGroup,
     receiveBoard,
     setPlayers,
     deletePost,
     updatePost,
+    deletePostGroup,
+    updatePostGroup,
     receiveVote,
     renameSession,
     resetSession,
@@ -114,6 +119,13 @@ const useGame = (sessionId: string) => {
       receivePost(post);
     });
 
+    newSocket.on(Actions.RECEIVE_POST_GROUP, (group: PostGroup) => {
+      if (debug) {
+        console.log('Receive new post group: ', group);
+      }
+      receivePostGroup(group);
+    });
+
     newSocket.on(Actions.RECEIVE_BOARD, (posts: Post[]) => {
       if (debug) {
         console.log('Receive entire board: ', posts);
@@ -135,6 +147,13 @@ const useGame = (sessionId: string) => {
       deletePost(post);
     });
 
+    newSocket.on(Actions.RECEIVE_DELETE_POST_GROUP, (group: PostGroup) => {
+      if (debug) {
+        console.log('Delete post group: ', group);
+      }
+      deletePostGroup(group);
+    });
+
     newSocket.on(
       Actions.RECEIVE_LIKE,
       ({ postId, vote }: { postId: string; vote: Vote }) => {
@@ -150,6 +169,13 @@ const useGame = (sessionId: string) => {
         console.log('Receive edit post: ', post.post);
       }
       updatePost(post.post);
+    });
+
+    newSocket.on(Actions.RECEIVE_EDIT_POST_GROUP, (group: PostGroup) => {
+      if (debug) {
+        console.log('Receive edit group: ', group);
+      }
+      updatePostGroup(group);
     });
 
     newSocket.on(Actions.RECEIVE_SESSION_NAME, (name: string) => {
@@ -176,13 +202,18 @@ const useGame = (sessionId: string) => {
     setPlayers,
     deletePost,
     updatePost,
+
+    receivePostGroup,
+    deletePostGroup,
+    updatePostGroup,
+
     renameSession,
     disconnected,
   ]);
 
   // Callbacks
   const onAddPost = useCallback(
-    (columnIndex: number, content: string) => {
+    (columnIndex: number, content: string, rank: string) => {
       if (send) {
         const post: Post = {
           content,
@@ -192,6 +223,8 @@ const useGame = (sessionId: string) => {
           id: v4(),
           column: columnIndex,
           user: user!,
+          group: null,
+          rank,
         };
 
         receivePost(post);
@@ -200,6 +233,26 @@ const useGame = (sessionId: string) => {
       }
     },
     [receivePost, send, user]
+  );
+
+  const onAddGroup = useCallback(
+    (columnIndex: number, rank: string) => {
+      if (send) {
+        const group: PostGroup = {
+          id: v4(),
+          label: 'My Group',
+          column: columnIndex,
+          user: user!,
+          posts: [],
+          rank,
+        };
+
+        receivePostGroup(group);
+        send(Actions.ADD_POST_GROUP_SUCCESS, group);
+        trackAction(Actions.ADD_POST_GROUP_SUCCESS);
+      }
+    },
+    [receivePostGroup, send, user]
   );
 
   const onEditPost = useCallback(
@@ -213,6 +266,86 @@ const useGame = (sessionId: string) => {
     [updatePost, send]
   );
 
+  const onEditPostGroup = useCallback(
+    (group: PostGroup) => {
+      if (send) {
+        updatePostGroup(group);
+        send(Actions.EDIT_POST_GROUP, group);
+        trackAction(Actions.EDIT_POST_GROUP);
+      }
+    },
+    [updatePostGroup, send]
+  );
+
+  const onMovePost = useCallback(
+    (
+      post: Post,
+      destinationGroup: PostGroup | null,
+      destinationColumn: number,
+      newRank: string
+    ) => {
+      if (send) {
+        const updatedPost: Post = {
+          ...post,
+          column: destinationColumn,
+          group: destinationGroup,
+          rank: newRank,
+        };
+        updatePost(updatedPost);
+        send(Actions.EDIT_POST, {
+          post: updatedPost,
+        });
+        trackAction(Actions.MOVE_POST);
+      }
+    },
+    [updatePost, send]
+  );
+
+  const onCombinePost = useCallback(
+    (post1: Post, post2: Post) => {
+      if (send) {
+        const destinationColumn = post2.column;
+        const group: PostGroup = {
+          id: v4(),
+          label: 'My Group',
+          column: post2.column,
+          user: user!,
+          posts: [],
+          rank: getMiddle(),
+        };
+
+        receivePostGroup(group);
+        send(Actions.ADD_POST_GROUP_SUCCESS, group);
+        trackAction(Actions.ADD_POST_GROUP_SUCCESS);
+
+        const updatedPost1: Post = {
+          ...post1,
+          column: destinationColumn,
+          group: group,
+          rank: getMiddle(),
+        };
+        updatePost(updatedPost1);
+        send(Actions.EDIT_POST, {
+          post: updatedPost1,
+        });
+
+        const updatedPost2: Post = {
+          ...post2,
+          column: destinationColumn,
+          group: group,
+          rank: getNext(getMiddle()),
+        };
+        updatePost(updatedPost2);
+        send(Actions.EDIT_POST, {
+          post: updatedPost2,
+        });
+
+        trackAction(Actions.MOVE_POST);
+      }
+    },
+    [updatePost, user, receivePostGroup, send]
+  );
+
   const onDeletePost = useCallback(
     (post: Post) => {
       if (send) {
@@ -222,6 +355,17 @@ const useGame = (sessionId: string) => {
       }
     },
     [deletePost, send]
+  );
+
+  const onDeletePostGroup = useCallback(
+    (group: PostGroup) => {
+      if (send) {
+        deletePostGroup(group);
+        send(Actions.DELETE_POST_GROUP, group);
+        trackAction(Actions.DELETE_POST_GROUP);
+      }
+    },
+    [deletePostGroup, send]
   );
 
   const onLike = useCallback(
@@ -270,8 +414,13 @@ const useGame = (sessionId: string) => {
     initialised,
     disconnected,
     onAddPost,
+    onAddGroup,
     onEditPost,
+    onEditPostGroup,
+    onMovePost,
+    onCombinePost,
     onDeletePost,
+    onDeletePostGroup,
     onLike,
     onRenameSession,
     reconnect,
