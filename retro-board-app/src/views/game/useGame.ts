@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Actions, Post, PostGroup, Vote, VoteType } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
-import { LexoRank } from 'lexorank';
 import { trackAction, trackEvent } from './../../track';
 import io from 'socket.io-client';
 import useGlobalState from '../../state';

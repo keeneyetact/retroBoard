@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import {
   Input,
   InputAdornment,
-  Button,
   makeStyles,
   IconButton,
   Tooltip,
 } from '@material-ui/core';
-import { Add as AddIcon, CreateNewFolder } from '@material-ui/icons';
+import { CreateNewFolder } from '@material-ui/icons';
 import PostItem from './Post';
 import { Post, PostGroup } from 'retro-board-common';
 import useUser from '../../auth/useUser';

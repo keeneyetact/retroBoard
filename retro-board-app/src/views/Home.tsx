@@ -1,22 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import {
-  Fab,
-  Card,
-  CardMedia,
-  Typography,
-  CardContent,
-  CardActions,
-  makeStyles,
-  colors,
-  Button,
-} from '@material-ui/core';
+import { Fab, makeStyles, colors, Button } from '@material-ui/core';
 import { ThumbUpAlt, Settings } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
 import CreateSessionModal from './home/CreateSession';
-import logo from './home/logo.png';
 import { SessionOptions, ColumnDefinition } from 'retro-board-common';
 import { trackEvent } from './../track';
 import { createGame, createCustomGame } from '../api';

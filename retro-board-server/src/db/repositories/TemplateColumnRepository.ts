@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { TemplateColumnDefinition } from '../entities';
 import { ColumnDefinition as JsonColumnDefinition } from 'retro-board-common';
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 
 @EntityRepository(TemplateColumnDefinition)
 export default class TemplateColumnDefinitionRepository extends Repository<
@@ -13,7 +13,7 @@ export default class TemplateColumnDefinitionRepository extends Repository<
   ): Promise<void> {
     await this.save({
       ...colDef,
-      id: colDef.id || uuid.v4(),
+      id: colDef.id || v4(),
       template: { id: templateId },
     });
   }

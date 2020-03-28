@@ -5,7 +5,7 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { Strategy as GithubStrategy } from 'passport-github';
 import { TWITTER_CONFIG, GOOGLE_CONFIG, GITHUB_CONFIG } from './config';
 import { Store } from '../types';
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 import { User, AccountType } from 'retro-board-common';
 
 export default (store: Store) => {
@@ -34,7 +34,7 @@ export default (store: Store) => {
   ) => {
     const user: User = {
       accountType: type,
-      id: uuid.v4(),
+      id: v4(),
       name: profile.displayName,
       photo: profile.photos?.length ? profile.photos[0].value : null,
       language: 'en',
@@ -60,7 +60,7 @@ export default (store: Store) => {
       ) => {
         const user: User = {
           accountType: 'anonymous',
-          id: uuid.v4(),
+          id: v4(),
           name: username,
           photo: null,
           username: username,

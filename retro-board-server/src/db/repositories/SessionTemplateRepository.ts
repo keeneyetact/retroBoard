@@ -5,7 +5,7 @@ import {
   ColumnDefinition as JsonColumnDefinition,
   SessionOptions as JsonSessionOptions,
 } from 'retro-board-common/src/types';
-import uuid = require('uuid');
+import { v4 } from 'uuid';
 import { TemplateColumnRepository } from '.';
 
 @EntityRepository(SessionTemplate)
@@ -19,7 +19,7 @@ export default class SessionTemplateRepository extends Repository<
     authorId: string
   ): Promise<JsonSessionTemplate> {
     const template = {
-      id: uuid.v4(),
+      id: v4(),
       name,
       columns,
       options,

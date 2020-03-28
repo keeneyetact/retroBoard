@@ -6,7 +6,7 @@ import {
   DroppableProvided,
   DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
-import { colors, Button, IconButton } from '@material-ui/core';
+import { colors, IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import EditableLabel from '../../components/EditableLabel';
 
