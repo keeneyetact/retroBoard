@@ -9,6 +9,7 @@ import {
 import { colors, IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import EditableLabel from '../../components/EditableLabel';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 interface GroupProps {
   group: PostGroup;
@@ -52,7 +53,12 @@ const Group: React.FC<GroupProps> = ({
           <Content>
             <div>{children}</div>
             {group.posts.length === 0 ? (
-              <NoPosts>Drag a Post here</NoPosts>
+              <NoPosts>
+                <Alert severity="info">
+                  <AlertTitle>This is an empty group</AlertTitle>
+                  Move a post here to fill this group
+                </Alert>
+              </NoPosts>
             ) : null}
           </Content>
         </GroupContainer>
@@ -95,8 +101,6 @@ const DeleteContainer = styled.div``;
 const NoPosts = styled.div`
   justify-self: center;
   color: grey;
-  text-align: center;
-  font-weight: 2em;
   margin: 30px;
 `;
 

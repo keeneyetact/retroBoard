@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import moment from 'moment';
 import socketIo from 'socket.io';
 import { find } from 'lodash';
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 import { Store } from './types';
 
 const {
@@ -313,7 +313,7 @@ export default (store: Store, io: SocketIO.Server) => {
 
       if (session.options.allowMultipleVotes || !existingVote) {
         const vote: Vote = {
-          id: uuid.v4(),
+          id: v4(),
           user: user,
           type: data.type,
         };

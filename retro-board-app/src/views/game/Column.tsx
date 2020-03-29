@@ -94,7 +94,7 @@ const Column: SFC<ColumnProps> = ({
         />
         <AddGroup>
           <Tooltip title="Create a group to group posts together">
-            <IconButton onClick={onAddGroup}>
+            <IconButton onClick={onAddGroup} tabIndex={-1}>
               <CreateNewFolder />
             </IconButton>
           </Tooltip>
@@ -215,20 +215,20 @@ const Groups = styled.div``;
 
 const Add = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 20px;
 
   > :first-child {
     flex: 1;
-    // width: 100%;
-  }
-  input {
-    width: 100%;
+    input {
+      width: 100%;
+    }
   }
 `;
 
 const AddGroup = styled.div`
   position: relative;
-  top: 5px;
+  top: 3px;
 `;
 
 export default Column;

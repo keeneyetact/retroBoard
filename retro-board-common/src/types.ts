@@ -1,5 +1,4 @@
-export interface Session {
-  id: string;
+export interface Session extends PostContainer, Entity {
   name: string | null;
   posts: Post[];
   groups: PostGroup[];
@@ -8,8 +7,7 @@ export interface Session {
   createdBy: User;
 }
 
-export interface SessionMetadata {
-  id: string;
+export interface SessionMetadata extends Entity {
   name: string | null;
   participants: User[];
   numberOfPosts: number;
@@ -20,16 +18,14 @@ export interface SessionMetadata {
   createdBy: User;
 }
 
-export interface SessionTemplate {
-  id: string;
+export interface SessionTemplate extends Entity {
   name: string;
   columns: ColumnDefinition[];
   options: SessionOptions;
   createdBy: User;
 }
 
-export interface ColumnDefinition {
-  id: string;
+export interface ColumnDefinition extends Entity {
   type: ColumnDefinitionType;
   index: number;
   label: string;
@@ -46,12 +42,19 @@ export interface SessionOptions {
   allowAuthorVisible: boolean;
 }
 
+export interface Entity {
+  id: string;
+}
+
 export interface Rankable {
   rank: string;
 }
 
-export interface Post extends Rankable {
-  id: string;
+export interface PostContainer extends Entity {
+  posts: Post[];
+}
+
+export interface Post extends Rankable, Entity {
   column: number;
   content: string;
   action: string | null;
@@ -61,16 +64,13 @@ export interface Post extends Rankable {
   votes: Vote[];
 }
 
-export interface PostGroup extends Rankable {
-  id: string;
+export interface PostGroup extends PostContainer, Rankable, Entity {
   label: string;
   column: number;
   user: User;
-  posts: Post[];
 }
 
-export interface User {
-  id: string;
+export interface User extends Entity {
   name: string;
   accountType: AccountType;
   username: string | null;
@@ -80,8 +80,7 @@ export interface User {
 
 export type AccountType = 'anonymous' | 'google' | 'twitter' | 'github';
 
-export interface Vote {
-  id: string;
+export interface Vote extends Entity {
   user: User;
   type: VoteType;
 }
