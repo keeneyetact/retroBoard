@@ -13,10 +13,29 @@ export default {
     hint:
       "Vous pouvez inviter d'autres participants en leur envoyant l'URL de cette page",
   },
+  Home: {
+    welcome: (userName: string) => `Bienvenue, ${userName}`,
+  },
+  PreviousGame: {
+    createdBy: 'Créé par',
+    posts: 'posts',
+    participants: 'participants',
+    votes: 'votes',
+    actions: 'actions',
+  },
+  Column: {
+    createGroupTooltip: 'Créer un groupe',
+  },
+  Group: {
+    emptyGroupTitle: 'Ce groupe est vide',
+    emptyGroupContent: 'Déplacez un post ici pour le remplir',
+  },
   Post: {
     vote: 'vote',
     votes: 'votes',
     deleteButton: 'Supprimer',
+    setActionButton: 'Définir une action',
+    setGiphyButton: 'Choisir une image Giphy',
     noContent: '(Aucun contenu)',
     by: 'par',
     upVote: 'positif',
@@ -52,10 +71,20 @@ export default {
       'Autoriser un utilisateur à entrer une action sur un post',
     allowAuthorVisible: "Afficher l'auteur",
     allowAuthorVisibleHelp: `Afficher l'auteur du post sur le post lui-même.`,
+    allowGiphy: 'Activer Giphy',
+    allowGiphyHelp:
+      "Autoriser les utilisateurs à ajouter une image Giphy sur n'importe quel post",
+    allowGrouping: 'Groupes',
+    allowGroupingHelp:
+      'Permettre aux utilisateurs de grouper les posts par groupes',
+    allowReordering: 'Re-organiser',
+    allowReorderingHelp:
+      "Permettre aux utilisateurs de réorganiser l'ordre des posts",
     template: 'Règles prédéfinies',
     templateHelp: 'Sélectionnez un jeu de colonnes prédéfini',
     numberOfColumns: 'Nombre de colonnes',
     numberOfColumnsHelp: 'Réglez le nombre de colonnes',
+    makeDefaultTemplate: 'En faire mes réglages par défaut',
   },
   PostBoard: {
     customQuestion: 'Question Additionelle',
@@ -76,6 +105,8 @@ export default {
     rockQuestion: 'Rocher',
     disconnected: 'Vous avez été déconnecté de la session.',
     reconnect: 'Se reconnecter',
+    notLoggedIn:
+      "Vous n'êtes pas connecté. Vous pouvez regarder cette session en tant que spéctateur, mais vous devez vous connecter pour participer.",
   },
   GameMenu: {
     board: 'Board', // Si qqn à une suggestion de traduction...

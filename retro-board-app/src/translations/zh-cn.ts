@@ -12,10 +12,29 @@ export default {
   Main: {
     hint: '复制并分享网址，即可让别人加入此议程',
   },
+  Home: {
+    welcome: undefined,
+  },
+  PreviousGame: {
+    createdBy: undefined,
+    posts: undefined,
+    participants: undefined,
+    votes: undefined,
+    actions: undefined,
+  },
+  Column: {
+    createGroupTooltip: undefined,
+  },
+  Group: {
+    emptyGroupTitle: '',
+    emptyGroupContent: '',
+  },
   Post: {
     vote: '投票',
     votes: '表决',
     deleteButton: '删除',
+    setActionButton: undefined,
+    setGiphyButton: undefined,
     noContent: '(目前无任何内容)',
     by: undefined,
     upVote: undefined,
@@ -45,10 +64,17 @@ export default {
     allowActionsHelp: undefined,
     allowAuthorVisible: undefined,
     allowAuthorVisibleHelp: undefined,
+    allowGiphy: undefined,
+    allowGiphyHelp: undefined,
+    allowGrouping: undefined,
+    allowGroupingHelp: undefined,
+    allowReordering: undefined,
+    allowReorderingHelp: undefined,
     template: undefined,
     templateHelp: undefined,
     numberOfColumns: undefined,
     numberOfColumnsHelp: undefined,
+    makeDefaultTemplate: undefined,
   },
   PostBoard: {
     customQuestion: undefined,
@@ -69,6 +95,7 @@ export default {
     rockQuestion: undefined,
     disconnected: undefined,
     reconnect: undefined,
+    notLoggedIn: undefined,
   },
   GameMenu: {
     board: undefined,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Tooltip, Button } from '@material-ui/core';
-import { VoteEnumeration } from './utils';
+import { VoteEnumeration } from '../utils';
+import ActionButton from './ActionButton';
 
 interface VoteButtonProps {
   voters: VoteEnumeration[];
@@ -23,12 +23,12 @@ const VoteButton = ({
 }: VoteButtonProps) => {
   const show = showTooltip && voters.length;
   return (
-    <Tooltip
-      placement="bottom"
-      disableHoverListener={!show}
-      disableFocusListener={!show}
-      disableTouchListener={!show}
-      title={
+    <ActionButton
+      onClick={onClick}
+      ariaLabel={ariaLabel}
+      icon={icon}
+      disabled={!canVote}
+      tooltip={
         show ? (
           <div>
             {voters.map((voter, i) => (
@@ -43,18 +43,8 @@ const VoteButton = ({
         )
       }
     >
-      <span>
-        <Button
-          onClick={onClick}
-          disabled={!canVote}
-          aria-label={ariaLabel}
-          tabIndex={-1}
-        >
-          {icon}
-          &nbsp;{count}
-        </Button>
-      </span>
-    </Tooltip>
+      {count}
+    </ActionButton>
   );
 };
 

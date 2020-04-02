@@ -40,6 +40,9 @@ export interface SessionOptions {
   allowSelfVoting: boolean;
   allowMultipleVotes: boolean;
   allowAuthorVisible: boolean;
+  allowGiphy: boolean;
+  allowGrouping: boolean;
+  allowReordering: boolean;
 }
 
 export interface Entity {

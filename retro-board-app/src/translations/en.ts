@@ -12,10 +12,29 @@ export default {
   Main: {
     hint: 'You can invite others to this session by copy-pasting the URL',
   },
+  Home: {
+    welcome: (userName: string) => `Welcome, ${userName}`,
+  },
+  PreviousGame: {
+    createdBy: 'Created by',
+    posts: 'posts',
+    participants: 'participants',
+    votes: 'votes',
+    actions: 'actions',
+  },
+  Column: {
+    createGroupTooltip: 'Create a group to group posts together',
+  },
+  Group: {
+    emptyGroupTitle: 'This is an empty group',
+    emptyGroupContent: 'Move a post here to fill this group',
+  },
   Post: {
     vote: 'vote',
     votes: 'votes',
     deleteButton: 'Delete',
+    setActionButton: 'Set Action',
+    setGiphyButton: 'Choose a Giphy image',
     noContent: '(This post has no content)',
     by: 'by',
     upVote: 'up-vote',
@@ -52,10 +71,17 @@ export default {
     allowAuthorVisible: 'Show Author',
     allowAuthorVisibleHelp:
       'Display the author of the post, on the post itself.',
+    allowGiphy: 'Allow Giphy',
+    allowGiphyHelp: 'Allow users to set a Giphy image against a post',
+    allowGrouping: 'Allow Grouping',
+    allowGroupingHelp: 'Allow the creation of groups to group posts together',
+    allowReordering: 'Allow Re-ordering',
+    allowReorderingHelp: 'Allow re-ordering posts by drag-and-drop',
     template: 'Template',
     templateHelp: 'Use a pre-defined set of columns',
     numberOfColumns: 'Number of columns',
     numberOfColumnsHelp: 'Set the number of columns',
+    makeDefaultTemplate: 'Make this my default template',
   },
   PostBoard: {
     customQuestion: 'Custom Column',
@@ -76,6 +102,8 @@ export default {
     rockQuestion: 'Rock',
     disconnected: 'You have been disconnected from the current session.',
     reconnect: 'Reconnect',
+    notLoggedIn:
+      'You are not logged in. You can view this session as a spectator, but must login to participate.',
   },
   GameMenu: {
     board: 'Board',

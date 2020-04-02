@@ -8,9 +8,10 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { CreateNewFolder } from '@material-ui/icons';
-import PostItem from './Post';
-import { Post, PostGroup } from 'retro-board-common';
+import PostItem from './post/Post';
+import { Post, PostGroup, SessionOptions } from 'retro-board-common';
 import useUser from '../../auth/useUser';
+import useTranslations from '../../translations';
 import Group from './Group';
 import {
   Droppable,
@@ -26,6 +27,7 @@ interface ColumnProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | null;
   question: string;
   color: string;
+  options: SessionOptions;
   onAdd: (content: string) => void;
   onAddGroup: () => void;
   onEditGroup: (group: PostGroup) => void;
@@ -44,6 +46,7 @@ const useStyles = makeStyles({
 
 const Column: SFC<ColumnProps> = ({
   column,
+  options,
   posts,
   groups,
   icon: Icon,
@@ -60,6 +63,7 @@ const Column: SFC<ColumnProps> = ({
 }) => {
   const user = useUser();
   const isLoggedIn = !!user;
+  const { Column: columnTranslations } = useTranslations();
   const [content, setContent] = useState('');
   const onContentChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value),
@@ -92,21 +96,23 @@ const Column: SFC<ColumnProps> = ({
             ) : null
           }
         />
-        <AddGroup>
-          <Tooltip title="Create a group to group posts together">
-            <IconButton onClick={onAddGroup} tabIndex={-1}>
-              <CreateNewFolder />
-            </IconButton>
-          </Tooltip>
-        </AddGroup>
+        {options.allowGrouping ? (
+          <AddGroup>
+            <Tooltip title={columnTranslations.createGroupTooltip}>
+              <IconButton onClick={onAddGroup} tabIndex={-1}>
+                <CreateNewFolder />
+              </IconButton>
+            </Tooltip>
+          </AddGroup>
+        ) : null}
       </Add>
       <Groups>
-        {groups.map(group => (
+        {groups.map((group) => (
           <Group
             key={group.id}
             group={group}
             readonly={false}
-            onEditLabel={label =>
+            onEditLabel={(label) =>
               onEditGroup({
                 ...group,
                 label,
@@ -123,19 +129,19 @@ const Column: SFC<ColumnProps> = ({
                 onLike={() => onLike(post)}
                 onDislike={() => onDislike(post)}
                 onDelete={() => onDelete(post)}
-                onEdit={content =>
+                onEdit={(content) =>
                   onEdit({
                     ...post,
                     content,
                   })
                 }
-                onEditAction={action =>
+                onEditAction={(action) =>
                   onEdit({
                     ...post,
                     action,
                   })
                 }
-                onEditGiphy={giphy =>
+                onEditGiphy={(giphy) =>
                   onEdit({
                     ...post,
                     giphy,
@@ -166,19 +172,19 @@ const Column: SFC<ColumnProps> = ({
                 onLike={() => onLike(post)}
                 onDislike={() => onDislike(post)}
                 onDelete={() => onDelete(post)}
-                onEdit={content =>
+                onEdit={(content) =>
                   onEdit({
                     ...post,
                     content,
                   })
                 }
-                onEditAction={action =>
+                onEditAction={(action) =>
                   onEdit({
                     ...post,
                     action,
                   })
                 }
-                onEditGiphy={giphy =>
+                onEditGiphy={(giphy) =>
                   onEdit({
                     ...post,
                     giphy,
@@ -205,7 +211,7 @@ const PostsWrapper = styled.div<{
   draggingOver: boolean;
   draggingColor: string;
 }>`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.draggingOver ? props.draggingColor : 'unset'};
   flex: 1;
   min-height: 500px;

@@ -92,6 +92,7 @@ function GamePage() {
         render={() => (
           <GameMode
             columns={columns}
+            options={session!.options}
             onEdit={onEditPost}
             onAddPost={onAddPost}
             onMovePost={onMovePost}

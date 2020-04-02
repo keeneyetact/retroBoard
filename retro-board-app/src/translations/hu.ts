@@ -12,10 +12,29 @@ export default {
   Main: {
     hint: 'Ha meg akarsz hívni másokat, másold ki és oszd meg velük az URL-t',
   },
+  Home: {
+    welcome: undefined,
+  },
+  PreviousGame: {
+    createdBy: undefined,
+    posts: undefined,
+    participants: undefined,
+    votes: undefined,
+    actions: undefined,
+  },
+  Column: {
+    createGroupTooltip: undefined,
+  },
+  Group: {
+    emptyGroupTitle: '',
+    emptyGroupContent: '',
+  },
   Post: {
     vote: 'szavazat',
     votes: 'szavazat',
     deleteButton: 'törlés',
+    setActionButton: undefined,
+    setGiphyButton: undefined,
     noContent: '(This post has no content)',
     by: undefined,
     upVote: undefined,
@@ -45,10 +64,17 @@ export default {
     allowActionsHelp: undefined,
     allowAuthorVisible: undefined,
     allowAuthorVisibleHelp: undefined,
+    allowGiphy: undefined,
+    allowGiphyHelp: undefined,
+    allowGrouping: undefined,
+    allowGroupingHelp: undefined,
+    allowReordering: undefined,
+    allowReorderingHelp: undefined,
     template: undefined,
     templateHelp: undefined,
     numberOfColumns: undefined,
     numberOfColumnsHelp: undefined,
+    makeDefaultTemplate: undefined,
   },
   PostBoard: {
     customQuestion: undefined,
@@ -69,6 +95,7 @@ export default {
     rockQuestion: undefined,
     disconnected: undefined,
     reconnect: undefined,
+    notLoggedIn: undefined,
   },
   GameMenu: {
     board: undefined,

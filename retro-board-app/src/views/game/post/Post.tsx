@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import {
-  Button,
   Typography,
   makeStyles,
   Popover,
@@ -19,19 +18,24 @@ import {
   Close,
   EmojiEmotions,
   DragIndicator,
+  MoreHoriz,
+  InsertPhotoTwoTone,
 } from '@material-ui/icons';
+import { SpeedDial, SpeedDialAction } from '@material-ui/lab';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
-import useTranslations from '../../translations';
-import EditableLabel from '../../components/EditableLabel';
-import { Palette } from '../../Theme';
+import useTranslations from '../../../translations';
+import EditableLabel from '../../../components/EditableLabel';
+import { Palette } from '../../../Theme';
 import { Post } from 'retro-board-common';
-import { useUserPermissions } from './useUserPermissions';
-import { countVotes, enumerateVotes } from './utils';
+import { useUserPermissions } from '../useUserPermissions';
+import { countVotes, enumerateVotes } from '../utils';
 import GiphySearchBox from 'react-giphy-searchbox';
-import useGiphy from '../../hooks/useGiphy';
-import config from '../../utils/getConfig';
-import useToggle from '../../hooks/useToggle';
+import useGiphy from '../../../hooks/useGiphy';
+import config from '../../../utils/getConfig';
+import useToggle from '../../../hooks/useToggle';
 import VoteButton from './VoteButton';
+import ActionButton from './ActionButton';
+import useOpenClose from '../../../hooks/useOpenClose';
 
 interface PostItemProps {
   index: number;
@@ -45,7 +49,7 @@ interface PostItemProps {
   onDelete: () => void;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   actionContainer: {
     backgroundColor: theme.palette.grey[100],
   },
@@ -75,14 +79,18 @@ const PostItem = ({
     canUpVote,
     canDownVote,
     canShowAuthor,
+    canReorder,
+    canUseGiphy,
   } = useUserPermissions(post);
   const classes = useStyles();
   const { Actions: translations, Post: postTranslations } = useTranslations();
-  const giphyImageUrl = useGiphy(post.giphy);
+  const [giphyImageUrl, showGiphyImage, toggleShowGiphyImage] = useGiphy(
+    post.giphy
+  );
   const postElement = useRef(null);
   const [actionsToggled, toggleAction] = useToggle(false);
+  const [giphyMenuOpen, openGiphyMenu, closeGiphyMenu] = useOpenClose(false);
   const [showGiphyEditor, setShowGiphyEditor] = useState(false);
-  const [showGiphyImage, toggleShowGiphyImage] = useToggle(true);
   const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
   const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
   const upVoters = useMemo(() => enumerateVotes(post, 'like'), [post]);
@@ -102,12 +110,18 @@ const PostItem = ({
   );
   return (
     <>
-      <Draggable draggableId={post.id} index={index}>
+      <Draggable
+        draggableId={post.id}
+        index={index}
+        isDragDisabled={!canReorder}
+      >
         {(provided: DraggableProvided) => (
           <PostCard ref={provided.innerRef} {...provided.draggableProps}>
-            <DragHandle {...provided.dragHandleProps}>
-              <DragIndicator />
-            </DragHandle>
+            {canReorder ? (
+              <DragHandle {...provided.dragHandleProps}>
+                <DragIndicator />
+              </DragHandle>
+            ) : null}
             <CardContent>
               <Typography variant="body1">
                 <EditableLabel
@@ -139,27 +153,10 @@ const PostItem = ({
               {giphyImageUrl && showGiphyImage && (
                 <GiphyContainer>
                   <CloseButtonContainer>
-                    <Button
-                      onClick={toggleShowGiphyImage}
-                      aria-label="Hide Giphy Image"
-                      tabIndex={-1}
-                    >
-                      <Close />
-                    </Button>
+                    <Close onClick={toggleShowGiphyImage} fontSize="small" />
                   </CloseButtonContainer>
                   <img src={giphyImageUrl} alt="Giphy" height="200px" />
                 </GiphyContainer>
-              )}
-              {giphyImageUrl && !showGiphyImage && (
-                <HiddenImageMessageContainer>
-                  <Typography
-                    onClick={toggleShowGiphyImage}
-                    variant="caption"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    (hidden image, click to display)
-                  </Typography>
-                </HiddenImageMessageContainer>
               )}
             </CardContent>
             {displayAction && canCreateAction && (
@@ -176,7 +173,7 @@ const PostItem = ({
                 </Typography>
               </CardContent>
             )}
-            <CardActions style={{ backgroundColor: color }}>
+            <Actions style={{ backgroundColor: color }}>
               <VoteButton
                 voters={upVoters}
                 canVote={canUpVote}
@@ -195,37 +192,81 @@ const PostItem = ({
                 showTooltip={canShowAuthor}
                 ariaLabel="Dislike"
               />
-              {canDelete && (
-                <Button onClick={onDelete} aria-label="Delete" tabIndex={-1}>
-                  <DeleteForeverOutlined style={{ color: Palette.negative }} />
-                </Button>
+              {giphyImageUrl && (
+                <ActionButton
+                  ariaLabel="Toggle Giphy Image"
+                  icon={
+                    <InsertPhotoTwoTone
+                      style={{
+                        color: !showGiphyImage
+                          ? colors.green[200]
+                          : colors.red[200],
+                      }}
+                    />
+                  }
+                  onClick={toggleShowGiphyImage}
+                />
               )}
-              {canCreateAction && (
-                <Button
-                  onClick={toggleAction}
-                  aria-label={translations.label}
-                  title={translations.tooltip}
-                  disabled={!!post.action}
-                  tabIndex={-1}
+              <ExtraActionsContainer>
+                <SpeedDial
+                  direction="left"
+                  open={giphyMenuOpen}
+                  onOpen={openGiphyMenu}
+                  onClose={closeGiphyMenu}
+                  onPointerLeaveCapture={closeGiphyMenu}
+                  FabProps={{
+                    size: 'small',
+                    color: 'secondary',
+                    disableFocusRipple: true,
+                    disableTouchRipple: true,
+                    disableRipple: true,
+                    style: {
+                      boxShadow: 'none',
+                      backgroundColor: 'inherit',
+                      color: colors.grey[700],
+                    },
+                  }}
+                  ariaLabel="Giphy"
+                  icon={<MoreHoriz />}
                 >
-                  {post.action ? (
-                    <Feedback className={classes.actionIcon} />
-                  ) : (
-                    <FeedbackOutlined className={classes.actionIcon} />
+                  {canDelete && (
+                    <SpeedDialAction
+                      icon={
+                        <DeleteForeverOutlined
+                          style={{ color: Palette.negative }}
+                        />
+                      }
+                      tooltipTitle={postTranslations.deleteButton}
+                      aria-label={postTranslations.deleteButton}
+                      onClick={onDelete}
+                    />
                   )}
-                </Button>
-              )}
-              {canEdit && config.hasGiphy && (
-                <Button
-                  onClick={handleShowGiphy}
-                  aria-label="Ghipfy"
-                  tabIndex={-1}
-                  ref={postElement}
-                >
-                  <EmojiEmotions className={classes.ghipyIcon} />
-                </Button>
-              )}
-            </CardActions>
+                  {canCreateAction && (
+                    <SpeedDialAction
+                      icon={
+                        post.action ? (
+                          <Feedback className={classes.actionIcon} />
+                        ) : (
+                          <FeedbackOutlined className={classes.actionIcon} />
+                        )
+                      }
+                      tooltipTitle={postTranslations.setActionButton}
+                      aria-label={postTranslations.setActionButton}
+                      onClick={toggleAction}
+                    />
+                  )}
+                  {canEdit && config.hasGiphy && canUseGiphy && (
+                    <SpeedDialAction
+                      icon={<EmojiEmotions className={classes.ghipyIcon} />}
+                      aria-label={postTranslations.setGiphyButton}
+                      tooltipTitle={postTranslations.setGiphyButton}
+                      ref={postElement}
+                      onClick={handleShowGiphy}
+                    />
+                  )}
+                </SpeedDial>
+              </ExtraActionsContainer>
+            </Actions>
           </PostCard>
         )}
       </Draggable>
@@ -256,12 +297,23 @@ const PostItem = ({
   );
 };
 
+const Actions = styled(CardActions)`
+  position: relative;
+`;
+
+const ExtraActionsContainer = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: -2px;
+`;
+
 const DragHandle = styled.div`
+  cursor: move;
   position: absolute;
   top: 3px;
   right: 3px;
   visibility: hidden;
-  color: grey;
+  color: ${colors.grey[500]};
 `;
 
 const PostCard = styled(Card)`
@@ -299,18 +351,18 @@ const GiphyContainer = styled.div`
 
 const CloseButtonContainer = styled.div`
   position: absolute;
-  right: 0;
-  top: 0;
-`;
-
-const HiddenImageMessageContainer = styled.div`
-  margin: -20px;
-  margin-top: 30px;
-  padding: 10px;
-  background: #eeeeee;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  right: 8px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 15px;
+  color: white;
+  font-size: 0.5em;
+  background-color: ${colors.red[400]};
+  cursor: pointer;
 `;
 
 export default PostItem;

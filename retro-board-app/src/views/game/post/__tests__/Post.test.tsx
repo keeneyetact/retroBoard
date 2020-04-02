@@ -1,6 +1,6 @@
 import React from 'react';
 import { noop, groupBy, values } from 'lodash';
-import { render, fireEvent } from '../../../testing';
+import { render, fireEvent } from '../../../../testing';
 import PostItem from '../Post';
 import { Post, User, Vote, VoteType } from 'retro-board-common';
 
@@ -14,9 +14,9 @@ const u = (name: string): User => ({
 });
 
 function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
-  const grouped = groupBy(users, u => u.id);
+  const grouped = groupBy(users, (u) => u.id);
   return values(grouped).map(
-    group =>
+    (group) =>
       ({
         id: 'whatever',
         count: group.length,

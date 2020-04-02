@@ -1,8 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getGiphyUrl } from '../api';
+import useHasChanged from './useHasChanged';
 
-export default function useGiphy(giphyId: string | null) {
+/**
+ * Implements logic to show or hide the Gipy Image.
+ * Returns an array of:
+ *  - Giphy image URL
+ *  - Whether to show the Giphy image or not
+ *  - A toggle to force showing the image (or force hidding it)
+ * @param giphyId Giphy ID
+ */
+export default function useGiphy(
+  giphyId: string | null
+): [string | null, boolean, () => void] {
   const [url, setUrl] = useState<string | null>(null);
+  const hasGiphyChanged = useHasChanged(giphyId);
+  const isNewGiphy = hasGiphyChanged && !!giphyId;
+  const [showImage, setShowImage] = useState(isNewGiphy);
+
+  const toggleShowImage = useCallback(() => {
+    setShowImage(prev => !prev);
+  }, []);
+
+  useEffect(() => {
+    if (isNewGiphy) {
+      setShowImage(true);
+    }
+  }, [isNewGiphy]);
 
   useEffect(() => {
     async function load() {
@@ -14,5 +38,5 @@ export default function useGiphy(giphyId: string | null) {
     load();
   }, [giphyId]);
 
-  return url;
+  return [url, showImage, toggleShowImage];
 }

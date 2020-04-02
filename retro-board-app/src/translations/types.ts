@@ -11,10 +11,29 @@ export interface Translation {
   Main: {
     hint?: string;
   };
+  Home: {
+    welcome?: (userName: string) => string;
+  };
+  PreviousGame: {
+    createdBy?: string;
+    posts?: string;
+    participants?: string;
+    votes?: string;
+    actions?: string;
+  };
+  Column: {
+    createGroupTooltip?: string;
+  };
+  Group: {
+    emptyGroupTitle?: string;
+    emptyGroupContent?: string;
+  };
   Post: {
     vote?: string;
     votes?: string;
     deleteButton?: string;
+    setActionButton?: string;
+    setGiphyButton?: string;
     noContent?: string;
     by?: string;
     upVote?: string;
@@ -44,10 +63,17 @@ export interface Translation {
     allowActionsHelp?: string;
     allowAuthorVisible?: string;
     allowAuthorVisibleHelp?: string;
+    allowGiphy?: string;
+    allowGiphyHelp?: string;
+    allowGrouping?: string;
+    allowGroupingHelp?: string;
+    allowReordering?: string;
+    allowReorderingHelp?: string;
     template?: string;
     templateHelp?: string;
     numberOfColumns?: string;
     numberOfColumnsHelp?: string;
+    makeDefaultTemplate?: string;
   };
   PostBoard: {
     customQuestion?: string;
@@ -68,6 +94,7 @@ export interface Translation {
     rockQuestion?: string;
     disconnected?: string;
     reconnect?: string;
+    notLoggedIn?: string;
   };
   GameMenu: {
     board?: string;

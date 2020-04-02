@@ -7,6 +7,9 @@ export const defaultOptions: SessionOptions = {
   allowAuthorVisible: false,
   maxDownVotes: null,
   maxUpVotes: null,
+  allowGiphy: true,
+  allowGrouping: true,
+  allowReordering: true,
 };
 
 export const defaultSession: Omit<Session, 'createdBy'> = {

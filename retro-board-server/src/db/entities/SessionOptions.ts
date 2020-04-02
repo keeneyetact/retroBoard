@@ -17,6 +17,12 @@ export default class SessionOptions {
   public allowMultipleVotes: boolean;
   @Column({ default: false })
   public allowAuthorVisible: boolean;
+  @Column({ default: true })
+  public allowGiphy: boolean;
+  @Column({ default: true })
+  public allowGrouping: boolean;
+  @Column({ default: true })
+  public allowReordering: boolean;
 
   constructor(options: Partial<JsonSessionOptions>) {
     const optionsWithDefault = getDefaultOptions(options);
@@ -26,6 +32,9 @@ export default class SessionOptions {
     this.allowActions = optionsWithDefault.allowActions;
     this.allowSelfVoting = optionsWithDefault.allowSelfVoting;
     this.allowMultipleVotes = optionsWithDefault.allowMultipleVotes;
+    this.allowGiphy = optionsWithDefault.allowGiphy;
+    this.allowGrouping = optionsWithDefault.allowGrouping;
+    this.allowReordering = optionsWithDefault.allowMultipleVotes;
   }
 }
 

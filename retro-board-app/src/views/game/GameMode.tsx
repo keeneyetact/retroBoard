@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { Post, PostGroup } from 'retro-board-common';
+import { Post, PostGroup, SessionOptions } from 'retro-board-common';
 import { Typography, makeStyles, Box } from '@material-ui/core';
 import {
   DragDropContext,
@@ -27,6 +27,7 @@ import { getNext, getMiddle } from './lexorank';
 
 interface GameModeProps {
   columns: ColumnContent[];
+  options: SessionOptions;
   onRenameSession: (name: string) => void;
   onAddPost: (columnIndex: number, content: string, rank: string) => void;
   onAddGroup: (columnIndex: number, rank: string) => void;
@@ -79,6 +80,7 @@ function GameMode({
   onEditGroup,
   onDeleteGroup,
   columns,
+  options,
 }: GameModeProps) {
   const translations = useTranslations();
   const { state } = useGlobalState();
@@ -89,14 +91,6 @@ function GameMode({
 
   const handleOnDragEnd = useCallback(
     (result: DropResult, provided: ResponderProvided) => {
-      console.log('Drag end', result, provided);
-      console.log(
-        'From',
-        result.source.index,
-        'to',
-        result?.destination?.index
-      );
-
       if (!!result.destination) {
         const entities = getMovingEntities(
           result.draggableId,
@@ -105,7 +99,6 @@ function GameMode({
           columns
         );
         if (entities) {
-          console.log('Corretly found entities: ', entities);
           const newRank = calculateRank(entities.previous, entities.next);
           onMovePost(
             entities.post,
@@ -121,7 +114,6 @@ function GameMode({
           result.combine.draggableId,
           columns
         );
-        console.log('Comlbining: ', entities);
         if (entities) {
           onCombinePost(entities.post1, entities.post2);
         }
@@ -137,10 +129,7 @@ function GameMode({
   return (
     <Page>
       {!isLoggedIn ? (
-        <Alert severity="warning">
-          You are not logged in. You can view this session as a spectator, but
-          must login to participate.
-        </Alert>
+        <Alert severity="warning">{translations.PostBoard.notLoggedIn}</Alert>
       ) : null}
       <Box className={classes.container}>
         <HeaderWrapper>
@@ -165,16 +154,17 @@ function GameMode({
 
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Columns numberOfColumns={columns.length}>
-            {columns.map(column => (
+            {columns.map((column) => (
               <Column
                 column={column}
+                options={options}
                 key={column.index}
                 posts={column.posts}
                 groups={column.groups}
                 question={column.label}
                 icon={getIcon(column.icon)}
                 color={column.color}
-                onAdd={content =>
+                onAdd={(content) =>
                   onAddPost(
                     column.index,
                     content,
@@ -185,8 +175,8 @@ function GameMode({
                   onAddGroup(column.index, calculateRankForNewGroup(column))
                 }
                 onDelete={onDeletePost}
-                onLike={post => onLike(post, true)}
-                onDislike={post => onLike(post, false)}
+                onLike={(post) => onLike(post, true)}
+                onDislike={(post) => onLike(post, false)}
                 onEdit={onEdit}
                 onEditGroup={onEditGroup}
                 onDeleteGroup={onDeleteGroup}
@@ -203,7 +193,7 @@ const Columns = styled.div<{ numberOfColumns: number }>`
   display: flex;
   margin-top: 30px;
 
-  @media screen and (max-width: ${props =>
+  @media screen and (max-width: ${(props) =>
       props.numberOfColumns * 320 + 100}px) {
     margin-top: 10px;
     flex-direction: column;

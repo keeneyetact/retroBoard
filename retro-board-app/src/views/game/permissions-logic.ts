@@ -8,6 +8,9 @@ export interface UserPermissions {
   canEdit: boolean;
   canDelete: boolean;
   canShowAuthor: boolean;
+  canUseGiphy: boolean;
+  canReorder: boolean;
+  canCreateGroup: boolean;
 }
 
 export function permissionLogic(
@@ -23,6 +26,9 @@ export function permissionLogic(
       canEdit: false,
       canShowAuthor: false,
       canUpVote: false,
+      canUseGiphy: false,
+      canReorder: false,
+      canCreateGroup: false,
     };
   }
   const {
@@ -32,6 +38,9 @@ export function permissionLogic(
     allowSelfVoting,
     allowMultipleVotes,
     allowAuthorVisible,
+    allowGiphy,
+    allowGrouping,
+    allowReordering,
   } = session.options;
 
   const isLoggedIn = !!user;
@@ -55,6 +64,9 @@ export function permissionLogic(
   const canEdit = isLoggedIn && isAuthor;
   const canDelete = isLoggedIn && isAuthor;
   const canShowAuthor = allowAuthorVisible;
+  const canUseGiphy = allowGiphy;
+  const canReorder = allowReordering;
+  const canCreateGroup = allowGrouping;
 
   return {
     canCreateAction,
@@ -63,6 +75,9 @@ export function permissionLogic(
     canEdit,
     canDelete,
     canShowAuthor,
+    canUseGiphy,
+    canCreateGroup,
+    canReorder,
   };
 }
 

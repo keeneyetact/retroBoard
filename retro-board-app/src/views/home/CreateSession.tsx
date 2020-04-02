@@ -46,13 +46,16 @@ const CreateSessionModal = ({
   const [allowSelfVoting, setAllowSelfVoting] = useState<boolean>(false);
   const [allowMultipleVotes, setAllowMultipleVotes] = useState<boolean>(false);
   const [allowAuthorVisible, setAllowAuthorVisible] = useState<boolean>(false);
+  const [allowGiphy, setAllowGiphy] = useState<boolean>(true);
+  const [allowGrouping, setAllowGrouping] = useState<boolean>(true);
+  const [allowReordering, setAllowReordering] = useState<boolean>(true);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(3);
   const [defaultDefinitions, setDefaultDefinitions] = useState(
     buildDefaults('default', translations)
   );
   const [definitions, setDefinitions] = useState<ColumnSettings[]>(
     buildDefaults('default', translations).map(
-      d =>
+      (d) =>
         ({ type: d.type, color: '', icon: null, label: '' } as ColumnSettings)
     )
   );
@@ -61,7 +64,7 @@ const CreateSessionModal = ({
   }, [translations]);
   const handleColumnChange = useCallback(
     (value: ColumnSettings, index: number) => {
-      setDefinitions(cols => Object.assign([], cols, { [index]: value }));
+      setDefinitions((cols) => Object.assign([], cols, { [index]: value }));
       trackEvent('custom-modal/column/change');
     },
     []
@@ -83,6 +86,9 @@ const CreateSessionModal = ({
         allowMultipleVotes,
         allowSelfVoting,
         allowAuthorVisible,
+        allowGiphy,
+        allowGrouping,
+        allowReordering,
         maxDownVotes,
         maxUpVotes,
       },
@@ -95,6 +101,9 @@ const CreateSessionModal = ({
     allowMultipleVotes,
     allowSelfVoting,
     allowAuthorVisible,
+    allowGiphy,
+    allowGrouping,
+    allowReordering,
     maxDownVotes,
     maxUpVotes,
     definitions,
@@ -140,7 +149,7 @@ const CreateSessionModal = ({
                 key={index}
                 value={def}
                 defaults={defaultDefinitions[index]}
-                onChange={value => handleColumnChange(value, index)}
+                onChange={(value) => handleColumnChange(value, index)}
               />
             ))}
           </>
@@ -199,6 +208,27 @@ const CreateSessionModal = ({
               onChange={setAllowAuthorVisible}
             />
           </OptionItem>
+          <OptionItem
+            label={Customize.allowReordering!}
+            help={Customize.allowReorderingHelp!}
+          >
+            <BooleanOption
+              value={allowReordering}
+              onChange={setAllowReordering}
+            />
+          </OptionItem>
+          <OptionItem
+            label={Customize.allowGrouping!}
+            help={Customize.allowGroupingHelp!}
+          >
+            <BooleanOption value={allowGrouping} onChange={setAllowGrouping} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.allowGiphy!}
+            help={Customize.allowGiphyHelp!}
+          >
+            <BooleanOption value={allowGiphy} onChange={setAllowGiphy} />
+          </OptionItem>
         </SettingCategory>
       </DialogContent>
       <DialogActions>
@@ -209,7 +239,7 @@ const CreateSessionModal = ({
               onChange={toggleIsDefaultTemplate}
             />
           }
-          label="Make this my default template"
+          label={Customize.makeDefaultTemplate}
         />
         <Button onClick={onClose} color="default" variant="text">
           {Generic.cancel}

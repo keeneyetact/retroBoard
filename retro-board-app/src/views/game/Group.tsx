@@ -10,6 +10,7 @@ import { colors, IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import EditableLabel from '../../components/EditableLabel';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import useTranslations from '../../translations';
 
 interface GroupProps {
   group: PostGroup;
@@ -25,6 +26,7 @@ const Group: React.FC<GroupProps> = ({
   readonly,
   children,
 }) => {
+  const { Group: groupTranslations } = useTranslations();
   return (
     <Droppable droppableId={'group#' + group.id} key={group.id} mode="standard">
       {(
@@ -55,8 +57,8 @@ const Group: React.FC<GroupProps> = ({
             {group.posts.length === 0 ? (
               <NoPosts>
                 <Alert severity="info">
-                  <AlertTitle>This is an empty group</AlertTitle>
-                  Move a post here to fill this group
+                  <AlertTitle>{groupTranslations.emptyGroupTitle}</AlertTitle>
+                  {groupTranslations.emptyGroupContent}
                 </Alert>
               </NoPosts>
             ) : null}
@@ -74,7 +76,7 @@ const GroupContainer = styled.div<{ draggingOver: boolean }>`
   border: 1px dashed lightgray;
   border-radius: 10px;
   margin: 10px 0;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.draggingOver ? colors.grey[200] : 'unset'};
 `;
 

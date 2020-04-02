@@ -68,7 +68,7 @@ function Home() {
 
   return (
     <Page>
-      <MainHeader>Welcome, {user?.name}</MainHeader>
+      <MainHeader>{translations.Home.welcome!(user?.name || '')}</MainHeader>
 
       <LaunchButtons>
         <Fab

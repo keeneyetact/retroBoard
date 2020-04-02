@@ -6,6 +6,7 @@ import {
   SessionOptions,
   Vote,
   VoteType,
+  defaultOptions,
 } from 'retro-board-common';
 import { v4 } from 'uuid';
 
@@ -53,6 +54,8 @@ const post = (user: User, likes?: User[], dislikes?: User[]): Post => {
     action: '',
     giphy: null,
     votes: [],
+    group: null,
+    rank: 'blah',
   };
   p.votes = [
     ...buildVotes('like', likes || [], p),
@@ -70,16 +73,8 @@ const session = (options: SessionOptions, ...posts: Post[]): Session => ({
   options: {
     ...options,
   },
+  groups: [],
 });
-
-const defaultOptions: SessionOptions = {
-  allowActions: true,
-  allowMultipleVotes: false,
-  allowSelfVoting: false,
-  allowAuthorVisible: false,
-  maxDownVotes: null,
-  maxUpVotes: null,
-};
 
 describe('Permission Logic', () => {
   it('When using default rules, a user on its own post', () => {
@@ -268,5 +263,83 @@ describe('Permission Logic', () => {
     expect(result.canDelete).toBe(false);
     expect(result.canDownVote).toBe(true);
     expect(result.canUpVote).toBe(false);
+  });
+
+  it('When allowing Giphy', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowGiphy: true,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canUseGiphy).toBe(true);
+  });
+
+  it('When disallowing Giphy', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowGiphy: false,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canUseGiphy).toBe(false);
+  });
+
+  it('When allowing reordering', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowReordering: true,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canReorder).toBe(true);
+  });
+
+  it('When disallowing reordering', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowReordering: false,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canReorder).toBe(false);
+  });
+
+  it('When allowing grouping', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowGrouping: true,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canCreateGroup).toBe(true);
+  });
+
+  it('When disallowing grouping', () => {
+    const p = post(anotherUser, [currentUser, currentUser, currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        allowGrouping: false,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.canCreateGroup).toBe(false);
   });
 });

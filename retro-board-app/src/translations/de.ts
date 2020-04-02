@@ -13,10 +13,29 @@ export default {
     hint:
       'Du kannst Andere zu dieser Session einladen indem Du ihnen die URL schickst',
   },
+  Home: {
+    welcome: undefined,
+  },
+  PreviousGame: {
+    createdBy: undefined,
+    posts: undefined,
+    participants: undefined,
+    votes: undefined,
+    actions: undefined,
+  },
+  Column: {
+    createGroupTooltip: undefined,
+  },
+  Group: {
+    emptyGroupTitle: '',
+    emptyGroupContent: '',
+  },
   Post: {
     vote: 'Stimme',
     votes: 'Stimmen',
     deleteButton: 'Löschen',
+    setActionButton: undefined,
+    setGiphyButton: undefined,
     noContent: '(Dieser Post hat keinen Inhalt)',
     by: 'von',
     upVote: 'up-vote',
@@ -51,10 +70,17 @@ export default {
     allowActionsHelp: `Bestimmt ob Maßnahmen hinzugefügt werden können`,
     allowAuthorVisible: 'Zeige Author',
     allowAuthorVisibleHelp: 'Zeigt den Author eines Posts an.',
+    allowGiphy: undefined,
+    allowGiphyHelp: undefined,
+    allowGrouping: undefined,
+    allowGroupingHelp: undefined,
+    allowReordering: undefined,
+    allowReorderingHelp: undefined,
     template: 'Vorlage',
     templateHelp: 'Nutze ein vordefiniertes Spaltenset',
     numberOfColumns: 'Anzahl an Spalten',
     numberOfColumnsHelp: 'Setze die Anzahl an Spalten',
+    makeDefaultTemplate: undefined,
   },
   PostBoard: {
     customQuestion: 'Eigene Spalte',
@@ -75,6 +101,7 @@ export default {
     rockQuestion: 'Fels',
     disconnected: undefined,
     reconnect: undefined,
+    notLoggedIn: undefined,
   },
   GameMenu: {
     board: undefined,

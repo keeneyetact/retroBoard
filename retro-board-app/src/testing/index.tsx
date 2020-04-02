@@ -34,6 +34,9 @@ const testingInitialState: State = {
       allowAuthorVisible: false,
       allowMultipleVotes: false,
       allowSelfVoting: false,
+      allowGiphy: true,
+      allowGrouping: true,
+      allowReordering: true,
     },
   },
 };

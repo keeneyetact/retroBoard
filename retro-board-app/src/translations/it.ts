@@ -13,10 +13,29 @@ export default {
     hint:
       'Puoi invitare altre persone a questa sessione copiando ed incollando la URL',
   },
+  Home: {
+    welcome: undefined,
+  },
+  PreviousGame: {
+    createdBy: undefined,
+    posts: undefined,
+    participants: undefined,
+    votes: undefined,
+    actions: undefined,
+  },
+  Column: {
+    createGroupTooltip: undefined,
+  },
+  Group: {
+    emptyGroupTitle: '',
+    emptyGroupContent: '',
+  },
   Post: {
     vote: 'voto',
     votes: 'voti',
     deleteButton: 'Cancella',
+    setActionButton: undefined,
+    setGiphyButton: undefined,
     noContent: '(Questo post non ha contenuto)',
     by: 'da',
     upVote: 'mi piace',
@@ -53,10 +72,17 @@ export default {
     allowActionsHelp: `Se consentire il campo "Azione" (follow-up) su ciascun post`,
     allowAuthorVisible: 'Mostra Autore',
     allowAuthorVisibleHelp: "Mostra l'autore del post nel post stesso.",
+    allowGiphy: undefined,
+    allowGiphyHelp: undefined,
+    allowGrouping: undefined,
+    allowGroupingHelp: undefined,
+    allowReordering: undefined,
+    allowReorderingHelp: undefined,
     template: 'Template',
     templateHelp: 'Usa un set di colonne predefinito',
     numberOfColumns: 'Numbero di colonne',
     numberOfColumnsHelp: 'Imposta il numero di colonne',
+    makeDefaultTemplate: undefined,
   },
   PostBoard: {
     customQuestion: 'Colonna personalizzata',
@@ -77,6 +103,7 @@ export default {
     rockQuestion: 'Roccia',
     disconnected: 'Ti sei disconnesso/a dalla sessione corrente.',
     reconnect: 'Riconnesso',
+    notLoggedIn: undefined,
   },
   GameMenu: {
     board: 'Board',
