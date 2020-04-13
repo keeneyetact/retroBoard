@@ -21,7 +21,7 @@ This is a Retrospective Idea board, powering [retrospected.com](http://www.retro
 
 &nbsp;
 
-![Retrospected.com](/content/screenshot-v2.png?raw=true 'Retrospected.com')
+![Retrospected.com](/content/screenshot-v3.png?raw=true 'Retrospected.com')
 
 This project is both an actual product, and also a technology demo using the latest and greatest JavaScript/TypeScript libraries of the month.
 
@@ -39,6 +39,9 @@ It features the following technologies:
 - [Styled Components](https://www.styled-components.com/)
 - [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 - [Postgres](https://www.postgresql.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
+- [Passport](http://www.passportjs.org/) for authentication
+- [Giphy](https://giphy.com/) because adding a bit of fun to your retro can't hurt!
+- [React Beautiful DND](https://github.com/atlassian/react-beautiful-dnd) to allow re-ordering and grouping by drag-and-drop
 - [Jest](https://facebook.github.io/jest) for Unit Testing
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), for Integration Tests
 - [Yarn](https://yarnpkg.com/en/), replacing NPM
@@ -134,10 +137,18 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 
 ## Roadmap and ideas 🚗 💡
 
-- Adding a real (but optional) login mechanism (Google/GitHub etc.)
 - Highlight posts where the user voted
+- Bluring posts to start with
 
 ## Versions History
+
+### Version 3.0.0
+
+- Brand new landing page, and much improved look and feel
+- Authentication using your favourite social media account (GitHub, Google or Twitter)
+- Ability to re-order posts by drag-and-drop
+- Ability to group posts together
+- Save your session settings as a default template
 
 ### Version 2.2.4
 

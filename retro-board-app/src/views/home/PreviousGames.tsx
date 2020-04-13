@@ -18,8 +18,12 @@ const PreviousGames = ({ games }: PreviousGamesProps) => {
   );
   return (
     <Container>
-      {games.map(session => (
-        <PreviousGameItem session={session} onClick={redirectToGame} />
+      {games.map((session) => (
+        <PreviousGameItem
+          key={session.id}
+          session={session}
+          onClick={redirectToGame}
+        />
       ))}
     </Container>
   );

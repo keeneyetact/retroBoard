@@ -213,7 +213,6 @@ const PostItem = ({
                   open={giphyMenuOpen}
                   onOpen={openGiphyMenu}
                   onClose={closeGiphyMenu}
-                  onPointerLeaveCapture={closeGiphyMenu}
                   FabProps={{
                     size: 'small',
                     color: 'secondary',

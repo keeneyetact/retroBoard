@@ -26,3 +26,5 @@ spec:
               value: ''
             - name: SENTRY_URL
               value: ''
+            - name: GIPHY_API_KEY
+              value: ''

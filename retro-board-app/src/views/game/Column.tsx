@@ -214,7 +214,7 @@ const PostsWrapper = styled.div<{
   background-color: ${(props) =>
     props.draggingOver ? props.draggingColor : 'unset'};
   flex: 1;
-  min-height: 500px;
+  min-height: 100px;
 `;
 
 const Groups = styled.div``;
