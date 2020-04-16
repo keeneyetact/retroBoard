@@ -139,6 +139,12 @@ export default {
     namePlaceholder: 'Wer genau bist Du? Gib hier Deinen Namen ein',
     buttonLabel: 'Auf gehts!',
     header: 'Anmelden',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'Es gibt keine Beiträge',

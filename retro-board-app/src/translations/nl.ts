@@ -134,6 +134,12 @@ export default {
     namePlaceholder: 'Wie ben jij precies? Typ je naam hier',
     buttonLabel: 'Laten we beginnen',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'Er zijn geen punten om te tonen',

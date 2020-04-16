@@ -133,6 +133,12 @@ export default {
     namePlaceholder: 'Hogy is hívnak? Kérlek írd ide a nevedet',
     buttonLabel: 'Kezdjük',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'There are no posts to display',

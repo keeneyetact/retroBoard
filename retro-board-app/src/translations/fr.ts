@@ -144,6 +144,14 @@ export default {
     namePlaceholder: 'Présentez-vous ! Entrez votre nom ici',
     buttonLabel: "C'est parti !",
     header: 'Se connecter',
+    socialMediaAuthHeader: 'Identification Tierce',
+    socialMediaAuthDescription:
+      'Vous allez utiliser un de vos compte existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
+    anonymousAuthHeader: 'Identification Anonyme',
+    anonymousAuthDescription:
+      'Ceci va créer un compte anonyme, vous ne pourrez pas visualiser vos sessions précédentes.',
+    authenticatingWith: 'Identification avec',
+    or: 'ou',
   },
   SummaryBoard: {
     noPosts: 'Aucun post à afficher',

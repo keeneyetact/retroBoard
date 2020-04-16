@@ -133,6 +133,12 @@ export default {
     namePlaceholder: '您是谁? 在此输入您的名称',
     buttonLabel: '开始!',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: '目前无任何内容',

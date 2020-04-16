@@ -89,7 +89,7 @@ const PostItem = ({
   );
   const postElement = useRef(null);
   const [actionsToggled, toggleAction] = useToggle(false);
-  const [giphyMenuOpen, openGiphyMenu, closeGiphyMenu] = useOpenClose(false);
+  const [extraMenuOpen, openExtraMenu, closeExtraMenu] = useOpenClose(false);
   const [showGiphyEditor, setShowGiphyEditor] = useState(false);
   const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
   const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
@@ -210,9 +210,9 @@ const PostItem = ({
               <ExtraActionsContainer>
                 <SpeedDial
                   direction="left"
-                  open={giphyMenuOpen}
-                  onOpen={openGiphyMenu}
-                  onClose={closeGiphyMenu}
+                  open={extraMenuOpen}
+                  onOpen={openExtraMenu}
+                  onClose={closeExtraMenu}
                   FabProps={{
                     size: 'small',
                     color: 'secondary',

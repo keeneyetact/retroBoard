@@ -132,6 +132,12 @@ export interface Translation {
     namePlaceholder?: string;
     buttonLabel?: string;
     header?: string;
+    socialMediaAuthHeader?: string;
+    socialMediaAuthDescription?: string;
+    anonymousAuthHeader?: string;
+    anonymousAuthDescription?: string;
+    authenticatingWith?: string;
+    or?: string;
   };
   SummaryBoard: {
     noPosts?: string;

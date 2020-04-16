@@ -28,6 +28,7 @@ import useTranslations from '../translations';
 import UserContext from './Context';
 import { anonymousLogin } from '../api';
 import styled from 'styled-components';
+import config from '../utils/getConfig';
 
 const API_URL = '/api/auth';
 
@@ -36,10 +37,14 @@ interface LoginModalProps {
 }
 
 const Login = ({ onClose }: LoginModalProps) => {
-  const translations = useTranslations();
+  const { Login: loginTranslations } = useTranslations();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const windowRef = useRef<Window | null>(null);
   const { setUser } = useContext(UserContext);
+  const hasNoSocialMediaAuth =
+    !config.GoogleAuthEnabled &&
+    !config.TwitterAuthEnabled &&
+    !config.GitHubAuthEnabled;
 
   useEffect(() => {
     const s = io();
@@ -117,35 +122,55 @@ const Login = ({ onClose }: LoginModalProps) => {
       aria-labelledby="responsive-dialog-title"
     >
       <DialogContent>
+        {!hasNoSocialMediaAuth ? (
+          <>
+            <Card>
+              <CardHeader title={loginTranslations.socialMediaAuthHeader} />
+              <CardContent>
+                <Alert severity="info">
+                  {loginTranslations.socialMediaAuthDescription}
+                </Alert>
+                <AccountsButtons>
+                  {config.GitHubAuthEnabled && (
+                    <GithubLoginButton
+                      onClick={handleGitHub}
+                      text={loginTranslations.authenticatingWith + ' GitHub'}
+                    />
+                  )}
+                  {config.GoogleAuthEnabled && (
+                    <GoogleLoginButton
+                      onClick={handleGoogle}
+                      text={loginTranslations.authenticatingWith + ' Google'}
+                    />
+                  )}
+                  {config.TwitterAuthEnabled && (
+                    <TwitterLoginButton
+                      onClick={handleTwitter}
+                      text={loginTranslations.authenticatingWith + ' Twitter'}
+                    />
+                  )}
+                </AccountsButtons>
+              </CardContent>
+            </Card>
+            <Typography
+              variant="h4"
+              style={{ textAlign: 'center', margin: 20 }}
+            >
+              {loginTranslations.or}
+            </Typography>
+          </>
+        ) : null}
         <Card>
-          <CardHeader title="Account Login" />
+          <CardHeader title={loginTranslations.anonymousAuthHeader} />
           <CardContent>
             <Alert severity="info">
-              This will use your account to authenticate you, and will allow you
-              to retrieve all your sessions. No password is stored.
-            </Alert>
-            <AccountsButtons>
-              <GithubLoginButton onClick={handleGitHub} />
-              <GoogleLoginButton onClick={handleGoogle} />
-              <TwitterLoginButton onClick={handleTwitter} />
-            </AccountsButtons>
-          </CardContent>
-        </Card>
-        <Typography variant="h4" style={{ textAlign: 'center', margin: 20 }}>
-          or
-        </Typography>
-        <Card>
-          <CardHeader title="Anonymous Login" />
-          <CardContent>
-            <Alert severity="info">
-              This will create an anonymous account, but won't allow you to
-              retrieve past sessions.
+              {loginTranslations.anonymousAuthDescription}
             </Alert>
             <Input
               value={username}
               onChange={handleUsernameChange}
-              title={translations.Login.buttonLabel}
-              placeholder={translations.Login.namePlaceholder}
+              title={loginTranslations.buttonLabel}
+              placeholder={loginTranslations.namePlaceholder}
               fullWidth
               style={{ marginTop: 20 }}
             />
@@ -156,7 +181,7 @@ const Login = ({ onClose }: LoginModalProps) => {
                 autoFocus
                 disabled={!username.trim().length}
               >
-                {translations.Login.buttonLabel}
+                {loginTranslations.buttonLabel}
               </Button>
             </CardActions>
           </CardContent>

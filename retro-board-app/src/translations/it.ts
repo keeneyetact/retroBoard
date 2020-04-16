@@ -142,6 +142,12 @@ export default {
       'Benvenuto! Per favore inserisci il tuo nome per continuare',
     buttonLabel: 'Iniziamo',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'Non ci sono post da mostrare',

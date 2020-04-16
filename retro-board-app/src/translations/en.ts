@@ -138,9 +138,17 @@ export default {
     },
   },
   Login: {
-    namePlaceholder: 'Welcome! Please enter your name here to continue',
+    namePlaceholder: 'Please enter a name or nickname here to continue',
     buttonLabel: "Let's start",
     header: 'Login',
+    socialMediaAuthHeader: 'Social Media Authentication',
+    socialMediaAuthDescription:
+      'This will use your account to authenticate you, and will allow you to retrieve all your sessions. No password is stored.',
+    anonymousAuthHeader: 'Anonymous Login',
+    anonymousAuthDescription:
+      "This will create an anonymous account, but won't allow you to retrieve past sessions.",
+    authenticatingWith: 'Authenticating with',
+    or: 'or',
   },
   SummaryBoard: {
     noPosts: 'There are no posts to display',

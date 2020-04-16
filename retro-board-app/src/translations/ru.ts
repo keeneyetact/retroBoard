@@ -133,6 +133,12 @@ export default {
     namePlaceholder: 'Как вас зовут? Введите имя',
     buttonLabel: 'Начать',
     header: 'Логин',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'Здесь пока пусто',

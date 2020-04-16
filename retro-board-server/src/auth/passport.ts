@@ -7,6 +7,7 @@ import { TWITTER_CONFIG, GOOGLE_CONFIG, GITHUB_CONFIG } from './config';
 import { Store } from '../types';
 import { v4 } from 'uuid';
 import { User, AccountType } from 'retro-board-common';
+import chalk from 'chalk';
 
 export default (store: Store) => {
   // Allowing passport to serialize and deserialize users into sessions
@@ -15,12 +16,6 @@ export default (store: Store) => {
   });
   passport.deserializeUser(async (userId: string, cb) => {
     cb(null, userId);
-    // if (userId && userId.length) {
-    //   const user = await store.getUser(userId);
-    //   cb(null, user);
-    // } else {
-    //   cb('User not found', null);
-    // }
   });
 
   // The callback that is invoked when an OAuth provider sends back user
@@ -47,9 +42,21 @@ export default (store: Store) => {
   };
 
   // Adding each OAuth provider's strategy to passport
-  passport.use(new TwitterStrategy(TWITTER_CONFIG, callback('twitter')));
-  passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback('google')));
-  passport.use(new GithubStrategy(GITHUB_CONFIG, callback('github')));
+  if (TWITTER_CONFIG) {
+    passport.use(new TwitterStrategy(TWITTER_CONFIG, callback('twitter')));
+    console.log(chalk`{blue 🔑  {red Twitter} authentication activated}`);
+  }
+
+  if (GOOGLE_CONFIG) {
+    passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback('google')));
+    console.log(chalk`{blue 🔑  {red Google} authentication activated}`);
+  }
+
+  if (GITHUB_CONFIG) {
+    passport.use(new GithubStrategy(GITHUB_CONFIG, callback('github')));
+    console.log(chalk`{blue 🔑  {red GitHub} authentication activated}`);
+  }
+
   passport.use(
     new LocalStrategy(
       { passwordField: 'password', usernameField: 'username' },

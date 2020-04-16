@@ -22,6 +22,7 @@ import { Page } from '../../../components/Page';
 import SpeedDial from './SpeedDial';
 import { calculateSummary } from './calculate-summary';
 import { ColumnStats, ColumnStatsItem, ActionItem } from './types';
+import useTranslation from '../../../translations';
 
 interface SummaryModeProps {
   columns: ColumnContent[];
@@ -31,29 +32,32 @@ interface SectionProps {
   stats: ColumnStats;
 }
 
-const Section = ({ stats }: SectionProps) => (
-  <Grid container spacing={4} component="section" role="list">
-    <Grid item xs={12}>
-      <Card>
-        <CardHeader
-          title={
-            <Typography variant="h6" style={{ fontWeight: 300 }}>
-              {stats.column.label}
-            </Typography>
-          }
-          style={{ backgroundColor: stats.column.color }}
-        />
-        <CardContent>
-          {stats.items.length ? (
-            <PostsList items={stats.items} />
-          ) : (
-            <Typography variant="body1">No posts in this category.</Typography>
-          )}
-        </CardContent>
-      </Card>
+const Section = ({ stats }: SectionProps) => {
+  const { SummaryBoard: translations } = useTranslation();
+  return (
+    <Grid container spacing={4} component="section" role="list">
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader
+            title={
+              <Typography variant="h6" style={{ fontWeight: 300 }}>
+                {stats.column.label}
+              </Typography>
+            }
+            style={{ backgroundColor: stats.column.color }}
+          />
+          <CardContent>
+            {stats.items.length ? (
+              <PostsList items={stats.items} />
+            ) : (
+              <Typography variant="body1">{translations.noPosts}</Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
 
 interface GroupSummaryProps {
   group: ColumnStatsItem;
@@ -95,7 +99,7 @@ interface PostsListProps {
 const PostsList = ({ items }: PostsListProps) => {
   return (
     <div>
-      {items.map(item =>
+      {items.map((item) =>
         item.type === 'post' ? (
           <PostLine item={item} key={item.id} />
         ) : (
@@ -177,7 +181,7 @@ const ActionsList = ({ actions }: ActionsListProps) => {
           />
           <CardContent>
             <List>
-              {actions.map(action => (
+              {actions.map((action) => (
                 <ListItem key={action.postId}>
                   <ListItemIcon>
                     <Avatar>
@@ -205,7 +209,7 @@ const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => {
   return (
     <Page>
       <div>
-        {stats.columns.map(stat => (
+        {stats.columns.map((stat) => (
           <Section key={stat.column.index} stats={stat} />
         ))}
         {stats.actions.length ? <ActionsList actions={stats.actions} /> : null}

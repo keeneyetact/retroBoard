@@ -133,6 +133,12 @@ export default {
     namePlaceholder: 'من أنت بالضبط؟ أدخل اسمك هنا',
     buttonLabel: 'لنبدأ',
     header: 'تسجيل الدخول',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'لا توجد مشاركات للعرض',

@@ -133,6 +133,12 @@ export default {
     namePlaceholder: 'Kim dokładnie jesteś? Wprowadź tu swoje imię',
     buttonLabel: 'Zacznijmy',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: 'Nie ma wpisów do wyświetlenia',

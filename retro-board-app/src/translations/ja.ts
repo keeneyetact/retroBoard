@@ -133,6 +133,12 @@ export default {
     namePlaceholder: '名前を入力',
     buttonLabel: 'スタート',
     header: 'Login',
+    socialMediaAuthHeader: undefined,
+    socialMediaAuthDescription: undefined,
+    anonymousAuthHeader: undefined,
+    anonymousAuthDescription: undefined,
+    authenticatingWith: undefined,
+    or: undefined,
   },
   SummaryBoard: {
     noPosts: '表示する項目がありません',

@@ -88,6 +88,9 @@ services:
       GA_ID: '' # Optional, Google Analytics ID (UA-1234456-7)
       SENTRY_URL: '' # Optional, Sentry URL (https://1234567890abcdef12345@sentry.io/1234567)
       GIPHY_API_KEY: '' # Optional, can be obtained here: https://developers.giphy.com/
+      AUTH_GOOGLE_ENABLED: 'false' # Set to true if you set GOOGLE_KEY and GOOGLE_SECRET above
+      AUTH_TWITTER_ENABLED: 'false'
+      AUTH_GITHUB_ENABLED: 'false'
     restart: unless-stopped
     logging:
       driver: 'json-file'

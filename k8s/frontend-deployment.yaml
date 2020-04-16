@@ -28,3 +28,9 @@ spec:
               value: ''
             - name: GIPHY_API_KEY
               value: ''
+            - name: AUTH_GOOGLE_ENABLED
+              value: 'false'
+            - name: AUTH_TWITTER_ENABLED
+              value: 'false'
+            - name: AUTH_GITHUB_ENABLED
+              value: 'false'

@@ -15,10 +15,9 @@ export const endOAuthHandler = (req: Request, res: Response) => {
   const io = req.app.get('io');
   io.in(req.session!.socketId).emit('auth', req.user);
   console.log('endOAuthHandler', req.user);
-  req.logIn(req.user!, err => {
+  req.logIn(req.user!, (err) => {
     res.end();
   });
-  // res.end();
 };
 
 export const endAnonHandler = (req: Request, res: Response) => {
