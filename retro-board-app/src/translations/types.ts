@@ -29,6 +29,8 @@ export interface Translation {
     emptyGroupContent?: string;
   };
   Post: {
+    openExtra?: string;
+    closeExtra?: string;
     vote?: string;
     votes?: string;
     deleteButton?: string;
@@ -41,6 +43,7 @@ export interface Translation {
     voteRemainingMultiple?: (count: number, type: string) => string;
     voteRemainingOne?: (type: string) => string;
     voteRemainingNone?: (type: string) => string;
+    toggleGiphyButton?: string;
   };
   Customize: {
     title?: string;

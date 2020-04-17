@@ -11,7 +11,7 @@ import { getMiddle, getNext } from './lexorank';
 const debug = process.env.NODE_ENV === 'development';
 
 function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
-  return function(action: string, payload?: any) {
+  return function (action: string, payload?: any) {
     if (socket) {
       socket.emit(action, {
         sessionId: sessionId,
@@ -373,7 +373,7 @@ const useGame = (sessionId: string) => {
         const type: VoteType = like ? 'like' : 'dislike';
         const existingVote = find(
           post.votes,
-          v => v.type === type && v.user.id === user!.id
+          (v) => v.type === type && v.user.id === user!.id
         );
         if (existingVote && !allowMultipleVotes) {
           return;

@@ -6,6 +6,7 @@ interface ActionButtonProps {
   ariaLabel: string;
   icon: JSX.Element;
   disabled?: boolean;
+  innerRef?: React.RefObject<HTMLButtonElement>;
   onClick: () => void;
 }
 
@@ -15,6 +16,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   onClick,
   ariaLabel,
   disabled,
+  innerRef,
   children,
 }) => {
   const showTooltip = !!tooltip;
@@ -32,6 +34,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
           disabled={!!disabled}
           aria-label={ariaLabel}
           tabIndex={-1}
+          innerRef={innerRef}
+          style={{ position: 'relative' }}
         >
           {icon}
           {children !== undefined ? <>&nbsp;{children}</> : null}

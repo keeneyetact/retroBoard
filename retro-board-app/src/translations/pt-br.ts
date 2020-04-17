@@ -31,6 +31,8 @@ export default {
     emptyGroupContent: '',
   },
   Post: {
+    openExtra: undefined,
+    closeExtra: undefined,
     vote: 'vote',
     votes: 'votos',
     deleteButton: 'Remover',
@@ -43,6 +45,7 @@ export default {
     voteRemainingMultiple: undefined,
     voteRemainingOne: undefined,
     voteRemainingNone: undefined,
+    toggleGiphyButton: undefined,
   },
   Customize: {
     title: undefined,

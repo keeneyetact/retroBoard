@@ -31,6 +31,8 @@ export default {
     emptyGroupContent: '',
   },
   Post: {
+    openExtra: undefined,
+    closeExtra: undefined,
     vote: 'Stimme',
     votes: 'Stimmen',
     deleteButton: 'Löschen',
@@ -45,6 +47,7 @@ export default {
     voteRemainingOne: (type: string) =>
       `Du hast nur noch einen ${type} verbleibend, verteile ihn gut!`,
     voteRemainingNone: (type: string) => `Du hast keine ${type}s verbleibend.`,
+    toggleGiphyButton: undefined,
   },
   Customize: {
     title: 'Personalisiere Dein Spiel',

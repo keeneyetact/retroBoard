@@ -30,6 +30,8 @@ export default {
     emptyGroupContent: 'Move a post here to fill this group',
   },
   Post: {
+    openExtra: 'Additional features',
+    closeExtra: 'Close',
     vote: 'vote',
     votes: 'votes',
     deleteButton: 'Delete',
@@ -45,6 +47,7 @@ export default {
       `You only have one ${type} remaining, make it count!`,
     voteRemainingNone: (type: string) =>
       `You don't have any ${type} remaining.`,
+    toggleGiphyButton: 'Toggle Giphy image',
   },
   Customize: {
     title: 'Customise your Session',

@@ -31,6 +31,8 @@ export default {
     emptyGroupContent: 'Déplacez un post ici pour le remplir',
   },
   Post: {
+    openExtra: 'Fonctions supplémentaires',
+    closeExtra: 'Fermer',
     vote: 'vote',
     votes: 'votes',
     deleteButton: 'Supprimer',
@@ -46,6 +48,7 @@ export default {
       `Il ne vous reste plus qu'un vote ${type}, ne le gâchez pas !`,
     voteRemainingNone: (type: string) =>
       `Il ne vous reste plus aucun vote ${type}.`,
+    toggleGiphyButton: "Montrer/Cacher l'image Giphy",
   },
   Customize: {
     title: 'Nouvelle session personalisée',

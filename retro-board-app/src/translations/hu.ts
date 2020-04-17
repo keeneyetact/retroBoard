@@ -30,6 +30,8 @@ export default {
     emptyGroupContent: '',
   },
   Post: {
+    openExtra: undefined,
+    closeExtra: undefined,
     vote: 'szavazat',
     votes: 'szavazat',
     deleteButton: 'törlés',
@@ -42,6 +44,7 @@ export default {
     voteRemainingMultiple: undefined,
     voteRemainingOne: undefined,
     voteRemainingNone: undefined,
+    toggleGiphyButton: undefined,
   },
   Customize: {
     title: undefined,

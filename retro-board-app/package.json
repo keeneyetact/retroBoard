@@ -41,6 +41,7 @@
     "react-app-rewired": "^2.1.5",
     "react-autosize-textarea": "^7.0.0",
     "react-beautiful-dnd": "^13.0.0",
+    "react-card-flip": "^1.0.10",
     "react-color": "^2.18.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "npm:@hot-loader/react-dom",

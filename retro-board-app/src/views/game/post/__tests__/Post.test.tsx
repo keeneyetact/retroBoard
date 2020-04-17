@@ -56,7 +56,7 @@ describe('Post', () => {
         onEdit={noop}
         onLike={noop}
         onEditAction={noop}
-        color="red"
+        color="#123456"
       />
     );
     const display = getByLabelText(/post content/i);
@@ -77,7 +77,7 @@ describe('Post', () => {
         onEdit={noop}
         onLike={likeHandler}
         onEditAction={noop}
-        color="red"
+        color="#123456"
       />
     );
     const deleteButton = queryByText(/delete/i);
@@ -117,7 +117,7 @@ describe('Post', () => {
         onEdit={noop}
         onLike={likeHandler}
         onEditAction={noop}
-        color="red"
+        color="#123456"
       />
     );
     const deleteButton = getByLabelText(/delete/i);
@@ -152,7 +152,7 @@ describe('Post', () => {
         onEdit={editHandler}
         onEditAction={noop}
         onLike={noop}
-        color="red"
+        color="#123456"
       />
     );
     const editableLabel = getByLabelText(/post content/i);
@@ -182,7 +182,7 @@ describe('Post', () => {
         onEdit={editHandler}
         onEditAction={noop}
         onLike={noop}
-        color="red"
+        color="#123456"
       />
     );
     const editableLabel = getByLabelText(/post content/i);

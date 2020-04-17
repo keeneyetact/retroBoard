@@ -5,7 +5,6 @@ import {
   makeStyles,
   Popover,
   Card,
-  CardActions,
   CardContent,
   colors,
 } from '@material-ui/core';
@@ -18,10 +17,8 @@ import {
   Close,
   EmojiEmotions,
   DragIndicator,
-  MoreHoriz,
   InsertPhotoTwoTone,
 } from '@material-ui/icons';
-import { SpeedDial, SpeedDialAction } from '@material-ui/lab';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import useTranslations from '../../../translations';
 import EditableLabel from '../../../components/EditableLabel';
@@ -35,7 +32,7 @@ import config from '../../../utils/getConfig';
 import useToggle from '../../../hooks/useToggle';
 import VoteButton from './VoteButton';
 import ActionButton from './ActionButton';
-import useOpenClose from '../../../hooks/useOpenClose';
+import ActionsBar from './ActionsBar';
 
 interface PostItemProps {
   index: number;
@@ -89,7 +86,6 @@ const PostItem = ({
   );
   const postElement = useRef(null);
   const [actionsToggled, toggleAction] = useToggle(false);
-  const [extraMenuOpen, openExtraMenu, closeExtraMenu] = useOpenClose(false);
   const [showGiphyEditor, setShowGiphyEditor] = useState(false);
   const upVotes = useMemo(() => countVotes(post, 'like'), [post]);
   const downVotes = useMemo(() => countVotes(post, 'dislike'), [post]);
@@ -173,7 +169,48 @@ const PostItem = ({
                 </Typography>
               </CardContent>
             )}
-            <Actions style={{ backgroundColor: color }}>
+            <ActionsBar
+              color={color}
+              extraActions={
+                <>
+                  {canDelete && (
+                    <ActionButton
+                      ariaLabel={postTranslations.deleteButton!}
+                      tooltip={postTranslations.deleteButton!}
+                      icon={
+                        <DeleteForeverOutlined
+                          style={{ color: Palette.negative }}
+                        />
+                      }
+                      onClick={onDelete}
+                    />
+                  )}
+                  {canCreateAction && (
+                    <ActionButton
+                      ariaLabel={postTranslations.setActionButton!}
+                      tooltip={postTranslations.setActionButton!}
+                      icon={
+                        post.action ? (
+                          <Feedback className={classes.actionIcon} />
+                        ) : (
+                          <FeedbackOutlined className={classes.actionIcon} />
+                        )
+                      }
+                      onClick={toggleAction}
+                    />
+                  )}
+                  {canEdit && config.hasGiphy && canUseGiphy && (
+                    <ActionButton
+                      ariaLabel={postTranslations.setGiphyButton!}
+                      tooltip={postTranslations.setGiphyButton!}
+                      icon={<EmojiEmotions className={classes.ghipyIcon} />}
+                      innerRef={postElement}
+                      onClick={handleShowGiphy}
+                    />
+                  )}
+                </>
+              }
+            >
               <VoteButton
                 voters={upVoters}
                 canVote={canUpVote}
@@ -194,7 +231,8 @@ const PostItem = ({
               />
               {giphyImageUrl && (
                 <ActionButton
-                  ariaLabel="Toggle Giphy Image"
+                  ariaLabel={postTranslations.toggleGiphyButton!}
+                  tooltip={postTranslations.toggleGiphyButton}
                   icon={
                     <InsertPhotoTwoTone
                       style={{
@@ -207,65 +245,7 @@ const PostItem = ({
                   onClick={toggleShowGiphyImage}
                 />
               )}
-              <ExtraActionsContainer>
-                <SpeedDial
-                  direction="left"
-                  open={extraMenuOpen}
-                  onOpen={openExtraMenu}
-                  onClose={closeExtraMenu}
-                  FabProps={{
-                    size: 'small',
-                    color: 'secondary',
-                    disableFocusRipple: true,
-                    disableTouchRipple: true,
-                    disableRipple: true,
-                    style: {
-                      boxShadow: 'none',
-                      backgroundColor: 'inherit',
-                      color: colors.grey[700],
-                    },
-                  }}
-                  ariaLabel="Giphy"
-                  icon={<MoreHoriz />}
-                >
-                  {canDelete && (
-                    <SpeedDialAction
-                      icon={
-                        <DeleteForeverOutlined
-                          style={{ color: Palette.negative }}
-                        />
-                      }
-                      tooltipTitle={postTranslations.deleteButton}
-                      aria-label={postTranslations.deleteButton}
-                      onClick={onDelete}
-                    />
-                  )}
-                  {canCreateAction && (
-                    <SpeedDialAction
-                      icon={
-                        post.action ? (
-                          <Feedback className={classes.actionIcon} />
-                        ) : (
-                          <FeedbackOutlined className={classes.actionIcon} />
-                        )
-                      }
-                      tooltipTitle={postTranslations.setActionButton}
-                      aria-label={postTranslations.setActionButton}
-                      onClick={toggleAction}
-                    />
-                  )}
-                  {canEdit && config.hasGiphy && canUseGiphy && (
-                    <SpeedDialAction
-                      icon={<EmojiEmotions className={classes.ghipyIcon} />}
-                      aria-label={postTranslations.setGiphyButton}
-                      tooltipTitle={postTranslations.setGiphyButton}
-                      ref={postElement}
-                      onClick={handleShowGiphy}
-                    />
-                  )}
-                </SpeedDial>
-              </ExtraActionsContainer>
-            </Actions>
+            </ActionsBar>
           </PostCard>
         )}
       </Draggable>
@@ -295,16 +275,6 @@ const PostItem = ({
     </>
   );
 };
-
-const Actions = styled(CardActions)`
-  position: relative;
-`;
-
-const ExtraActionsContainer = styled.div`
-  position: absolute;
-  right: 5px;
-  bottom: -2px;
-`;
 
 const DragHandle = styled.div`
   cursor: move;
