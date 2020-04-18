@@ -94,23 +94,25 @@ You must have `docker` and `docker-compose` installed on your system.
 ### Run 🚀
 
 - Copy `docker-compose.example.yml` to `docker-compose.yml`
+- _Optional_: edit `docker-compose.yml` to change credentials and secrets
 - Run `docker-compose up -d`
 - Voilà!
 
-This will run a production-ready version of Retrospected automatically, using Postgres. You don't need to have anything installed other than Docker. This will install and run:
+This will run a production-ready version of Retrospected automatically, using Postgres and Redis. You don't need to have anything installed other than Docker. This will install and run:
 
 - Postgres
 - pgAdmin4 (Web UI for postgres)
-- The Retrospected Nodejs backend
+- Redis
+- The Retrospected NodeJS backend
 - The frontend, served by `nginx`.
 
 ### Backups 💾
 
 When using the Docker deployment, your database runs from a container. But if you still need to make some backup of your data, you can do the following:
 
-- Get the docker database image ID by doing: `docker ps`
-- Run `` docker exec -t <docker_image_id> pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M\_%S`.sql ``
-- To restore your databases: `cat dump_1234.sql | docker exec -i <docker_image_id> psql -U postgres`
+- Get the docker database container ID by doing: `docker ps`
+- Run `` docker exec -t <docker_container_id> pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M\_%S`.sql ``
+- To restore your databases: `cat dump_1234.sql | docker exec -i <docker_container_id> psql -U postgres`
 
 ## How to run the tests ✅
 
@@ -118,12 +120,6 @@ When using the Docker deployment, your database runs from a container. But if yo
 - `yarn` to install the dependencies (_not_ `npm i`!)
 - `npm test` to run the tests
 - **or** `yarn test-watch` to run the tests every time you change a file
-
-## How to use Postgres (w/o Docker) 🗄
-
-By default, the database engine is NeDB, an in-process database with no external dependencies (i.e. no database to install on your system).
-
-If you want to use a more "production-ready" database such as Postgres (without Docker), copy `.env.example` to `.env`, change `DB_TYPE` to `postgres` and fill the rest.
 
 ## Kubernetes ☸
 
@@ -141,19 +137,19 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 ## Roadmap and ideas 🚗 💡
 
 - Highlight posts where the user voted
-- Bluring posts to start with
+- Bluring posts for a set amount of time so people can't see other people's messages
 
 ## Versions History
 
 ### Version 3.0.0
 
-- Brand new landing page, and much improved look and feel
+- Brand new landing page, and much improved look and feel 🎉
 - Authentication using your favourite social media account (GitHub, Google or Twitter, more coming)
-- Ability to re-order posts by drag-and-drop
+- Ability to re-order posts by drag-and-drop 🚀
 - Ability to group posts together
 - Save your session settings as a default template
-- Giphy support
-- Improved (logged in) home page, and list of past sessions
+- Giphy support 😃
+- Improved (logged in) dashboard, and list of past sessions
 
 ### Version 2.2.4
 

@@ -2,8 +2,6 @@ version: '3'
 services:
   redis:
     image: redis:latest
-    ports:
-      - '6379:6379'
     depends_on:
       - postgres
     restart: unless-stopped
@@ -28,7 +26,7 @@ services:
         max-size: '50m'
 
   pgadmin:
-    image: dpage/pgadmin4:4.15
+    image: dpage/pgadmin4:latest
     depends_on:
       - postgres
     ports:
@@ -69,7 +67,7 @@ services:
       GOOGLE_SECRET:
       GITHUB_KEY:
       GITHUB_SECRET:
-      BASE_URL: http://localhost:3000 # This must be the URL of the frontend app once deployed
+      BASE_URL: http://localhost:80 # This must be the URL of the frontend app once deployed
     restart: unless-stopped
     logging:
       driver: 'json-file'
