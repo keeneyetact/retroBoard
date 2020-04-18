@@ -232,7 +232,7 @@ const PostItem = ({
               {giphyImageUrl && (
                 <ActionButton
                   ariaLabel={postTranslations.toggleGiphyButton!}
-                  tooltip={postTranslations.toggleGiphyButton}
+                  tooltip={postTranslations.toggleGiphyButton!}
                   icon={
                     <InsertPhotoTwoTone
                       style={{

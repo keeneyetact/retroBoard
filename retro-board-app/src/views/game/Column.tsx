@@ -98,7 +98,7 @@ const Column: SFC<ColumnProps> = ({
         />
         {options.allowGrouping && isLoggedIn ? (
           <AddGroup>
-            <Tooltip title={columnTranslations.createGroupTooltip}>
+            <Tooltip title={columnTranslations.createGroupTooltip!}>
               <IconButton onClick={onAddGroup} tabIndex={-1}>
                 <CreateNewFolder />
               </IconButton>

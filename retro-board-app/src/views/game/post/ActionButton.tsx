@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Button } from '@material-ui/core';
 
 interface ActionButtonProps {
-  tooltip?: React.ReactNode | null;
+  tooltip: React.ReactElement | string | number;
   ariaLabel: string;
   icon: JSX.Element;
   disabled?: boolean;

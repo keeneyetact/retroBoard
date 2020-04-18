@@ -32,7 +32,7 @@ const ActionsBar: React.FC<ActionsBar> = ({
             <ActionButton
               icon={<MoreHoriz />}
               onClick={openExtraMenu}
-              tooltip={translations.openExtra}
+              tooltip={translations.openExtra!}
               ariaLabel={translations.openExtra!}
             />
           </MoreButtonContainer>
@@ -43,7 +43,7 @@ const ActionsBar: React.FC<ActionsBar> = ({
             <ActionButton
               icon={<Close />}
               onClick={closeExtraMenu}
-              tooltip={translations.closeExtra}
+              tooltip={translations.closeExtra!}
               ariaLabel={translations.closeExtra!}
             />
           </MoreButtonContainer>
