@@ -109,7 +109,7 @@ export default {
     disconnected: 'Vous avez été déconnecté de la session.',
     reconnect: 'Se reconnecter',
     notLoggedIn:
-      "Vous n'êtes pas connecté. Vous pouvez regarder cette session en tant que spéctateur, mais vous devez vous connecter pour participer.",
+      "Vous n'êtes pas connecté. Vous pouvez regarder cette session en tant que spectateur, mais vous devez vous connecter pour participer.",
   },
   GameMenu: {
     board: 'Board', // Si qqn à une suggestion de traduction...

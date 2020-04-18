@@ -39,7 +39,10 @@ It features the following technologies:
 - [Styled Components](https://www.styled-components.com/)
 - [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 - [Postgres](https://www.postgresql.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
-- [Passport](http://www.passportjs.org/) for authentication
+- [Passport](http://www.passportjs.org/) for authentication, seamless authentication with:
+  - Google
+  - Twitter
+  - GitHub
 - [Giphy](https://giphy.com/) because adding a bit of fun to your retro can't hurt!
 - [React Beautiful DND](https://github.com/atlassian/react-beautiful-dnd) to allow re-ordering and grouping by drag-and-drop
 - [Jest](https://facebook.github.io/jest) for Unit Testing

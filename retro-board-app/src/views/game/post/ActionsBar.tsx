@@ -10,6 +10,7 @@ import { trackEvent } from '../../../track';
 
 interface ActionsBar {
   extraActions: React.ReactNode;
+  displayExtra: boolean;
   color: string;
 }
 
@@ -20,6 +21,7 @@ function trackOpenExtra() {
 const ActionsBar: React.FC<ActionsBar> = ({
   children,
   extraActions,
+  displayExtra,
   color,
 }) => {
   const [extraMenuOpen, openExtraMenu, closeExtraMenu] = useOpenClose(
@@ -36,14 +38,16 @@ const ActionsBar: React.FC<ActionsBar> = ({
         <ButtonsContainer style={{ backgroundColor: color }}>
           <MainButtons>{children}</MainButtons>
 
-          <MoreButtonContainer>
-            <ActionButton
-              icon={<MoreHoriz />}
-              onClick={openExtraMenu}
-              tooltip={translations.openExtra!}
-              ariaLabel={translations.openExtra!}
-            />
-          </MoreButtonContainer>
+          {displayExtra && (
+            <MoreButtonContainer>
+              <ActionButton
+                icon={<MoreHoriz />}
+                onClick={openExtraMenu}
+                tooltip={translations.openExtra!}
+                ariaLabel={translations.openExtra!}
+              />
+            </MoreButtonContainer>
+          )}
         </ButtonsContainer>
         <ExtraButtonsContainer style={{ backgroundColor: darkColor }}>
           <MainButtons>{extraActions}</MainButtons>

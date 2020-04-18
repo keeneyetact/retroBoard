@@ -174,6 +174,11 @@ const PostItem = ({
             )}
             <ActionsBar
               color={color}
+              displayExtra={
+                canDelete ||
+                canCreateAction ||
+                (canEdit && config.hasGiphy && canUseGiphy)
+              }
               extraActions={
                 <>
                   {canDelete && (
