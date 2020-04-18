@@ -145,10 +145,12 @@ To know more about Kubernetes, see the [readme](/k8s/readme.md) file in the `k8s
 ### Version 3.0.0
 
 - Brand new landing page, and much improved look and feel
-- Authentication using your favourite social media account (GitHub, Google or Twitter)
+- Authentication using your favourite social media account (GitHub, Google or Twitter, more coming)
 - Ability to re-order posts by drag-and-drop
 - Ability to group posts together
 - Save your session settings as a default template
+- Giphy support
+- Improved (logged in) home page, and list of past sessions
 
 ### Version 2.2.4
 
