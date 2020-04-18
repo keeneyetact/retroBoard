@@ -275,7 +275,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    session.posts = session.posts.filter(p => p.id !== data.id);
+    session.posts = session.posts.filter((p) => p.id !== data.id);
     deletePost(userId, session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
   };
@@ -289,7 +289,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    session.groups = session.groups.filter(g => g.id !== data.id);
+    session.groups = session.groups.filter((g) => g.id !== data.id);
     deletePostGroup(userId, session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST_GROUP, data);
   };
@@ -304,11 +304,11 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     const user = await store.getUser(userId);
-    const post = find(session.posts, p => p.id === data.post.id);
+    const post = find(session.posts, (p) => p.id === data.post.id);
     if (post && user) {
       const existingVote: Vote | undefined = find(
         post.votes,
-        v => v.user.id === user.id && v.type === data.type
+        (v) => v.user.id === user.id && v.type === data.type
       );
 
       if (session.options.allowMultipleVotes || !existingVote) {
@@ -332,7 +332,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    const post = find(session.posts, p => p.id === data.post.id);
+    const post = find(session.posts, (p) => p.id === data.post.id);
     if (post) {
       post.content = data.post.content;
       post.action = data.post.action;
@@ -354,7 +354,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    const group = find(session.groups, g => g.id === data.id);
+    const group = find(session.groups, (g) => g.id === data.id);
     if (group) {
       group.column = data.column;
       group.label = data.label;
@@ -402,8 +402,8 @@ export default (store: Store, io: SocketIO.Server) => {
       { type: LEAVE_SESSION, handler: onLeaveSession },
     ];
 
-    actions.forEach(action => {
-      socket.on(action.type, async data => {
+    actions.forEach((action) => {
+      socket.on(action.type, async (data) => {
         console.log(
           chalk`${d()}{red  <-- } ${s(action.type)} {grey ${JSON.stringify(
             data

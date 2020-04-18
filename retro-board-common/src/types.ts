@@ -97,9 +97,15 @@ export type TrackingEvent =
   | 'custom-modal/fail'
   | 'custom-modal/template/select'
   | 'custom-modal/column/change'
+  | 'custom-modal/template/set-defaut'
   | 'home/create/default'
+  | 'home/load-previous'
   | 'game/session/reset'
   | 'game/session/disconnect'
+  | 'game/post/giphy/open'
+  | 'game/post/giphy/choose'
+  | 'game/post/giphy/toggle'
+  | 'game/post/extra-menu/open'
   | 'language/change/';
 
 export type ColumnDefinitionType =

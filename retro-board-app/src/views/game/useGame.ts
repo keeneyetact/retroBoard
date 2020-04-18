@@ -13,10 +13,14 @@ const debug = process.env.NODE_ENV === 'development';
 function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
   return function (action: string, payload?: any) {
     if (socket) {
-      socket.emit(action, {
+      const messagePayload = {
         sessionId: sessionId,
         payload,
-      });
+      };
+      if (debug) {
+        console.info('Sending message to socket', action, messagePayload);
+      }
+      socket.emit(action, messagePayload);
     }
   };
 }

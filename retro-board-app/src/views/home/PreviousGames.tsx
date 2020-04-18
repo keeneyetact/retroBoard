@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import PreviousGameItem from './PreviousGameItem';
 import { SessionMetadata } from 'retro-board-common';
+import { trackEvent } from '../../track';
 
 interface PreviousGamesProps {
   games: SessionMetadata[];
@@ -12,6 +13,7 @@ const PreviousGames = ({ games }: PreviousGamesProps) => {
   const history = useHistory();
   const redirectToGame = useCallback(
     (session: SessionMetadata) => {
+      trackEvent('home/load-previous');
       history.push(`/game/${session.id}`);
     },
     [history]

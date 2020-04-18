@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getGiphyUrl } from '../api';
 import useHasChanged from './useHasChanged';
+import { trackEvent } from '../track';
 
 /**
  * Implements logic to show or hide the Gipy Image.
@@ -19,7 +20,8 @@ export default function useGiphy(
   const [showImage, setShowImage] = useState(isNewGiphy);
 
   const toggleShowImage = useCallback(() => {
-    setShowImage(prev => !prev);
+    setShowImage((prev) => !prev);
+    trackEvent('game/post/giphy/toggle');
   }, []);
 
   useEffect(() => {

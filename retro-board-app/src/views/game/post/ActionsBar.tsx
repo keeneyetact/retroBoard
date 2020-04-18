@@ -6,10 +6,15 @@ import useOpenClose from '../../../hooks/useOpenClose';
 import ActionButton from './ActionButton';
 import ReactCardFlip from 'react-card-flip';
 import useTranslations from '../../../translations';
+import { trackEvent } from '../../../track';
 
 interface ActionsBar {
   extraActions: React.ReactNode;
   color: string;
+}
+
+function trackOpenExtra() {
+  trackEvent('game/post/extra-menu/open');
 }
 
 const ActionsBar: React.FC<ActionsBar> = ({
@@ -17,7 +22,10 @@ const ActionsBar: React.FC<ActionsBar> = ({
   extraActions,
   color,
 }) => {
-  const [extraMenuOpen, openExtraMenu, closeExtraMenu] = useOpenClose(false);
+  const [extraMenuOpen, openExtraMenu, closeExtraMenu] = useOpenClose(
+    false,
+    trackOpenExtra
+  );
   const { Post: translations } = useTranslations();
 
   const darkColor = darken(color, 0.05);

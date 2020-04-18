@@ -82,7 +82,7 @@ app.use('/api/auth', authRouter);
 
 const io = socketIo(httpServer);
 
-io.use(function(socket, next) {
+io.use(function (socket, next) {
   sessionMiddleware(socket.request, {} as any, next);
 });
 
@@ -96,7 +96,7 @@ if (config.REDIS_ENABLED) {
   console.log(chalk`{red Redis} was properly activated`);
 }
 
-db().then(store => {
+db().then((store) => {
   passportInit(store);
   game(store, io);
 
@@ -132,7 +132,7 @@ db().then(store => {
 
   app.post('/api/logout', async (req, res, next) => {
     req.logout();
-    req.session?.destroy(err => {
+    req.session?.destroy((err) => {
       if (err) {
         return next(err);
       }
@@ -155,7 +155,7 @@ db().then(store => {
       const sessions = await store.previousSessions(user.id);
       res.status(200).send(sessions);
     } else {
-      res.status(401).send();
+      res.status(200).send([]);
     }
   });
 

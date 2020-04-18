@@ -11,7 +11,7 @@ export default class VoteRepository extends Repository<Vote> {
   ): Promise<void> {
     await this.save({
       ...vote,
-      Post: {
+      post: {
         id: postId,
       },
       user: { id: userId },

@@ -33,6 +33,7 @@ import useToggle from '../../../hooks/useToggle';
 import VoteButton from './VoteButton';
 import ActionButton from './ActionButton';
 import ActionsBar from './ActionsBar';
+import { trackEvent } from '../../../track';
 
 interface PostItemProps {
   index: number;
@@ -94,6 +95,7 @@ const PostItem = ({
   const displayAction = actionsToggled || !!post.action;
   const handleShowGiphy = useCallback(() => {
     setShowGiphyEditor(true);
+    trackEvent('game/post/giphy/open');
   }, []);
   const handleHideGiphyEditor = useCallback(() => {
     setShowGiphyEditor(false);
@@ -101,6 +103,7 @@ const PostItem = ({
   const handleChooseGiphyEditor = useCallback(
     (giphyItem: any) => {
       onEditGiphy(giphyItem.id);
+      trackEvent('game/post/giphy/choose');
     },
     [onEditGiphy]
   );

@@ -80,6 +80,9 @@ const CreateSessionModal = ({
   );
   const handleLaunch = useCallback(() => {
     trackEvent('custom-modal/create');
+    if (isDefaultTemplate) {
+      trackEvent('custom-modal/template/set-defaut');
+    }
     onLaunch(
       {
         allowActions,

@@ -15,6 +15,9 @@ export default (): SessionMetadata[] => {
         const previousSessions = await fetchPreviousSessions();
         setSessions(previousSessions);
         CACHE = previousSessions;
+      } else {
+        setSessions([]);
+        CACHE = [];
       }
     }
     load();
