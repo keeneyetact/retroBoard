@@ -1,3 +1,6 @@
+# This must be run with the Docker context set to the root folder of the repository
+# (the one with the yarn.lock file)
+
 FROM node:12-alpine as Node
 
 ENV NODE_ENV=production
@@ -28,8 +31,8 @@ ENV BACKEND_PORT=3201
 
 COPY --from=Node /home/node/app/retro-board-app/build /usr/share/nginx/html
 COPY ./retro-board-html /usr/share/nginx/html/homepage
-COPY ./docker/nginx.conf.template /etc/nginx/conf.d/default.conf.template
-COPY ./docker/frontend-entrypoint.sh /
+COPY ./retro-board-app/docker/nginx.conf.template /etc/nginx/conf.d/default.conf.template
+COPY ./retro-board-app/docker/frontend-entrypoint.sh /
 
 RUN ["chmod", "+x", "/frontend-entrypoint.sh"]
 ENTRYPOINT ["/frontend-entrypoint.sh"]
