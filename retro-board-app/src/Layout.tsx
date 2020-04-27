@@ -8,14 +8,12 @@ import Home from './views/Home';
 import Game from './views/Game';
 import Panel from './views/Panel';
 import Invite from './views/layout/Invite';
-import LandingPage from './views/landing/LandingPage';
 import LoginButton from './auth/LoginButton';
 import useGlobalState from './state';
 import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
 import OutdatedBrowser from './components/OutdatedBrowser';
 import useIsInitialised from './auth/useIsInitialised';
 import useUser from './auth/useUser';
-import Initialising from './Initialising';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -30,16 +28,13 @@ function App() {
   const user = useUser();
   const goToHome = useCallback(() => history.push('/'), [history]);
   useEffect(() => {
-    const unregister = history.listen(location => {
+    const unregister = history.listen((location) => {
       trackPageView(location.pathname);
     });
     return () => {
       unregister();
     };
   }, [history]);
-  if (!isInitialised) {
-    return <Initialising />;
-  }
   return (
     <div>
       <AppBar position="sticky">
@@ -51,10 +46,16 @@ function App() {
             Retrospected
           </MainTitle>
           <Route path="/game/:gameId" component={Invite} />
-          <LoginButton />
+          {isInitialised ? (
+            <LoginButton />
+          ) : (
+            <Initialising>Authenticating...</Initialising>
+          )}
         </Toolbar>
       </AppBar>
-      <Route path="/" exact component={user ? Home : LandingPage} />
+      <Route path="/" exact>
+        {user ? <Home /> : null}
+      </Route>
       <Switch>
         <Redirect from="/session/:gameId" to="/game/:gameId" />
         <Route path="/game/:gameId" component={Game} />
@@ -68,5 +69,7 @@ function App() {
 const MainTitle = styled(Title)`
   cursor: pointer;
 `;
+
+const Initialising = styled.div``;
 
 export default App;
