@@ -142,6 +142,11 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 3.0.2
+
+- Adding privacy policy, terms and conditions, GDPR support
+- Fix various bugs reported by Sentry
+
 ### Version 3.0.1
 
 - Improvements on the landing page experience
