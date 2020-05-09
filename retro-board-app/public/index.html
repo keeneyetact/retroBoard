@@ -69,6 +69,33 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/marketing/css/owl.theme.default.min.css" class="marketing" />
   <link rel="stylesheet" href="%PUBLIC_URL%/marketing/css/style.css" class="marketing" />
   <link rel="stylesheet" href="%PUBLIC_URL%/marketing/css/responsive.css" class="marketing" />
+
+  <link rel="stylesheet" type="text/css" href="//wpcc.io/lib/1.0.2/cookieconsent.min.css" />
+  <script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script>
+  <script>
+    window.addEventListener("load", function () {
+      window.wpcc.init({
+        "border": "thin",
+        "corners": "small",
+        "colors": {
+          "popup": {
+            "background": "#1c1f4b",
+            "text": "#ffffff",
+            "border": "#afb3e4"
+          },
+          "button": {
+            "background": "#afb3e4",
+            "text": "#000000"
+          }
+        },
+        "position": "bottom",
+        "transparency": "15",
+        "content": {
+          "href": "https://www.retrospected.com/cookies"
+        }
+      })
+    });
+  </script>
 </head>
 
 <body ontouchstart="">
@@ -597,9 +624,9 @@
           <div class="col-lg-3 mb-3 mb-lg-0">
             <div class="footer-nav-wrap text-black">
               <p>
-                This is a free and open-source app. For support, file a GitHub
+                This is a free and open-source software. For support, file a GitHub
                 ticket
-                <a href="https://github.com/antoinejaussoin/retro-board" target="_blank" title="GitHub">here!</a>
+                <a href="https://github.com/antoinejaussoin/retro-board" target="_blank" title="GitHub">here.</a>
               </p>
 
               <div class="social-list-wrap">
@@ -610,6 +637,22 @@
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+          <div class="col-lg-3 ml-auto mb-4 mb-lg-0">
+            <div class="footer-nav-wrap text-black">
+              <h5 class="mb-3 text-black">Legal Stuff</h5>
+              <ul class="list-unstyled">
+                <li class="mb-2"><a href="https://www.websitepolicies.com/policies/view/RdPWodZ5">Privacy Policy</a>
+                </li>
+                <li class="mb-2"><a href="https://www.websitepolicies.com/policies/view/hdru1dWL">Terms & Conditions</a>
+                </li>
+                <li class="mb-2"><a href="https://www.websitepolicies.com/policies/view/vDJtzgEo">Disclaimer</a></li>
+                <li class="mb-2"><a href="https://www.websitepolicies.com/policies/view/RD8jnvGt">Cookies Policy</a>
+                </li>
+                <li class="mb-2"><a href="https://www.websitepolicies.com/policies/view/fbk00C8V">Acceptable Use
+                    Policy</a></li>
+              </ul>
             </div>
           </div>
         </div>

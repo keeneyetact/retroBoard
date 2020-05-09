@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Home from './views/Home';
 import Game from './views/Game';
 import Panel from './views/Panel';
+import PrivacyPolicyPage from './views/policies/Privacy';
 import Invite from './views/layout/Invite';
 import LoginButton from './auth/LoginButton';
 import useGlobalState from './state';
@@ -14,6 +15,10 @@ import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
 import OutdatedBrowser from './components/OutdatedBrowser';
 import useIsInitialised from './auth/useIsInitialised';
 import useUser from './auth/useUser';
+import TermsAndConditionsPage from './views/policies/Terms';
+import CookiesPolicyPage from './views/policies/Cookies';
+import AcceptableUsePolicyPage from './views/policies/AcceptableUse';
+import DisclaimerPage from './views/policies/Disclaimer';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -59,6 +64,11 @@ function App() {
       <Switch>
         <Redirect from="/session/:gameId" to="/game/:gameId" />
         <Route path="/game/:gameId" component={Game} />
+        <Route path="/privacy" component={PrivacyPolicyPage} />
+        <Route path="/terms" component={TermsAndConditionsPage} />
+        <Route path="/cookies" component={CookiesPolicyPage} />
+        <Route path="/acceptable-use" component={AcceptableUsePolicyPage} />
+        <Route path="/disclaimer" component={DisclaimerPage} />
       </Switch>
       <Panel />
       <OutdatedBrowser show={!isCompatible} />
