@@ -36,11 +36,13 @@ export function setupSentryErrorHandler(app: Express) {
 export function setScope(fn: ConfigureScopeFn) {
   if (useSentry) {
     Sentry.configureScope(fn);
+  } else {
+    fn(null);
   }
 }
 
 export function reportQueryError(scope: any, err: Error) {
-  if (err instanceof QueryFailedError) {
+  if (err instanceof QueryFailedError && scope) {
     const queryError: any = err;
     scope.setExtra('Query', queryError.query);
     scope.setExtra('Parameters', queryError.parameters);

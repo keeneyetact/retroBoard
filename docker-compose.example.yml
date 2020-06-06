@@ -26,7 +26,7 @@ services:
         max-size: '50m'
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:4.15
     depends_on:
       - postgres
     ports:
