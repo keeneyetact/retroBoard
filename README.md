@@ -142,6 +142,11 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 3.0.3
+
+- Bug fix: [Issue 121](https://github.com/antoinejaussoin/retro-board/issues/121), [Issue 123](https://github.com/antoinejaussoin/retro-board/issues/123)
+- Dependencies update
+
 ### Version 3.0.2
 
 - Adding privacy policy, terms and conditions, GDPR support
