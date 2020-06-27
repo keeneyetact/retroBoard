@@ -8,12 +8,12 @@ WORKDIR /usr/src/backend
 
 RUN apk add yarn
 
-COPY ./package.json ./
 COPY ./yarn.lock ./
+COPY ./package.json ./
 COPY ./retro-board-server/package.json ./retro-board-server/
 COPY ./retro-board-common/package.json ./retro-board-common/
 
-RUN yarn install
+RUN yarn --network-timeout 1000000 install
 
 COPY ./retro-board-server ./retro-board-server
 COPY ./retro-board-common ./retro-board-common
