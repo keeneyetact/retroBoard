@@ -43,7 +43,7 @@ if (config.REDIS_ENABLED) {
     secret: process.env.SESSION_SECRET!,
     resave: true,
     saveUninitialized: true,
-    store: new RedisStore({ client: redisClient }),
+    store: new RedisStore({ client: redisClient as any }),
     cookie: {
       secure: false,
     },
