@@ -1,5 +1,9 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
+import { readSync } from 'fs';
+import { request } from 'http';
+
+interface Request2 extends Request {}
 
 const router = express.Router();
 // Setting up the passport middleware for each of the OAuth providers
@@ -11,7 +15,7 @@ const facebookAuth = passport.authenticate('facebook');
 const githubAuth = passport.authenticate('github');
 const anonAuth = passport.authenticate('local');
 
-export const endOAuthHandler = (req: Request, res: Response) => {
+export const endOAuthHandler = (req: Request2, res: Response) => {
   const io = req.app.get('io');
   io.in(req.session!.socketId).emit('auth', req.user);
   console.log('endOAuthHandler', req.user);
