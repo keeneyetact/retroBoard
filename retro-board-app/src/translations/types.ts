@@ -169,4 +169,11 @@ export interface Translation {
     title?: string;
     summaryTitle?: string;
   };
+  DeleteSession: {
+    header?: (sessionName: string) => string;
+    firstLine?: string;
+    secondLine?: string;
+    yesImSure?: string;
+    cancel?: string;
+  };
 }

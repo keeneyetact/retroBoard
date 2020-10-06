@@ -171,6 +171,21 @@ db().then((store) => {
     }
   });
 
+  app.delete('/api/session/:sessionId', async (req, res) => {
+    const sessionId = req.params.sessionId;
+    const user = await getUser(store, req);
+    if (user && user.accountType !== 'anonymous') {
+      const success = await store.deleteSession(user.id, sessionId);
+      if (success) {
+        res.status(200).send();
+      } else {
+        res.status(403).send();
+      }
+    } else {
+      res.status(403).send();
+    }
+  });
+
   app.post('/api/me/language', async (req, res) => {
     if (req.user) {
       const updatedUser = await store.updateUser(req.user, {

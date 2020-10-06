@@ -182,4 +182,13 @@ export default {
     summaryTitle: 'Your Actions',
     title: 'Action',
   },
+  DeleteSession: {
+    header: (name) => `Deleting "${name}" ?`,
+    firstLine:
+      'Deleting a session is irreversible. It will delete all posts, votes, groups, and the session itself. The data cannot be restored.',
+    secondLine:
+      'Are you sure you want to delete this session and all its content?',
+    yesImSure: `Yes, I'm sure`,
+    cancel: `No, I'm sorry, I made a mistake`,
+  },
 } as Translation;

@@ -6,9 +6,13 @@ import { ThumbUpAlt, Settings } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
 import CreateSessionModal from './home/CreateSession';
-import { SessionOptions, ColumnDefinition } from 'retro-board-common';
+import {
+  SessionOptions,
+  ColumnDefinition,
+  SessionMetadata,
+} from 'retro-board-common';
 import { trackEvent } from './../track';
-import { createGame, createCustomGame } from '../api';
+import { createGame, createCustomGame, deleteSession } from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
 import useUser from '../auth/useUser';
@@ -32,7 +36,7 @@ function Home() {
   const user = useUser();
   const isLoggedIn = !!user;
   const translations = useTranslations();
-  const previousSessions = usePreviousSessions();
+  const [previousSessions, refreshPreviousSessions] = usePreviousSessions();
   const hasPreviousSessions = previousSessions.length > 0;
   const createSession = useCallback(
     async (
@@ -65,6 +69,13 @@ function Home() {
     trackEvent('home/create/default');
     history.push('/game/' + session.id);
   }, [history]);
+  const handleDeleteSession = useCallback(
+    async (session: SessionMetadata) => {
+      await deleteSession(session.id);
+      await refreshPreviousSessions();
+    },
+    [refreshPreviousSessions]
+  );
 
   return (
     <Page>
@@ -96,7 +107,10 @@ function Home() {
       {hasPreviousSessions ? (
         <>
           <SubHeader>{translations.Join.previousTab.header}</SubHeader>
-          <PreviousGames games={previousSessions} />
+          <PreviousGames
+            games={previousSessions}
+            onDelete={handleDeleteSession}
+          />
         </>
       ) : null}
     </Page>

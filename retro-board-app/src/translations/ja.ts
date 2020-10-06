@@ -170,4 +170,11 @@ export default {
     summaryTitle: 'あなたの行動',
     title: 'アクション',
   },
+  DeleteSession: {
+    header: undefined,
+    firstLine: undefined,
+    secondLine: undefined,
+    yesImSure: undefined,
+    cancel: undefined,
+  },
 } as Translation;

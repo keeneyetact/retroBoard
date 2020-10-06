@@ -50,6 +50,7 @@ export interface Store {
     groupId: string
   ) => Promise<void>;
   previousSessions: (userId: string) => Promise<SessionMetadata[]>;
+  deleteSession: (userId: string, sessionId: string) => Promise<boolean>;
 }
 
 export interface Configuration {

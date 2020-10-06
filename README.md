@@ -144,6 +144,11 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 3.2.0 (PENDING)
+
+- 🇮🇹 Improved Italian translation (👏 Thanks [@mventuri](https://github.com/mventuri))
+- Ability to delete sessions, if you are authenticated and the author of the session
+
 ### Version 3.1.1
 
 - 🇳🇱 Improved Dutch translation (👏 Thanks [@jghaanstra](https://github.com/jghaanstra))

@@ -252,6 +252,40 @@ const getOrSaveUser = (userRepository: UserRepository) => async (
   return await userRepository.saveFromJson(user);
 };
 
+const deleteSessions = (sessionRepository: SessionRepository) => async (
+  userId: string,
+  sessionId: string
+): Promise<boolean> => {
+  const session = await sessionRepository.findOne(sessionId);
+  if (!session) {
+    console.info('Session not found', sessionId);
+    return false;
+  }
+  if (
+    session.createdBy.id !== userId ||
+    session.createdBy.accountType === 'anonymous'
+  ) {
+    console.error(
+      'The user is not the one who created the session, or is anonymous'
+    );
+    return false;
+  }
+  await sessionRepository.query(`delete from posts where "sessionId" = $1;`, [
+    sessionId,
+  ]);
+  await sessionRepository.query(`delete from columns where "sessionId" = $1;`, [
+    sessionId,
+  ]);
+  await sessionRepository.query(`delete from groups where "sessionId" = $1;`, [
+    sessionId,
+  ]);
+  await sessionRepository.query(`delete from sessions where id = $1;`, [
+    sessionId,
+  ]);
+
+  return true;
+};
+
 const previousSessions = (sessionRepository: SessionRepository) => async (
   userId: string
 ): Promise<JsonSessionMetadata[]> => {
@@ -294,6 +328,9 @@ const previousSessions = (sessionRepository: SessionRepository) => async (
         numberOfPosts: session.posts?.length,
         numberOfActions: numberOfActions(session),
         participants: getParticipans(session),
+        canBeDeleted:
+          userId === session.createdBy.id &&
+          session.createdBy.accountType !== 'anonymous',
       } as JsonSessionMetadata)
   );
 };
@@ -356,5 +393,6 @@ export default async function db(): Promise<Store> {
     ),
     previousSessions: previousSessions(sessionRepository),
     getDefaultTemplate: getDefaultTemplate(userRepository),
+    deleteSession: deleteSessions(sessionRepository),
   };
 }

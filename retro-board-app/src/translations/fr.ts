@@ -185,4 +185,13 @@ export default {
     summaryTitle: 'Vos Actions',
     title: 'Action',
   },
+  DeleteSession: {
+    header: (name) => `Supprimer "${name}" ?`,
+    firstLine:
+      'Effacer une session est irreversible. Tout les posts, groupes, votes et la session elle-même vont être effacés. Les données ne peuvent être récupérée.',
+    secondLine:
+      'Êtes-vous certain(e) de vouloir effaçer cette session et son contenu ?',
+    yesImSure: `Oui, j'en suis sûr`,
+    cancel: 'Non, je me suis trompé(e)',
+  },
 } as Translation;

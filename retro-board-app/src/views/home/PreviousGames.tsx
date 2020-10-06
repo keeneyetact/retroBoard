@@ -7,9 +7,10 @@ import { trackEvent } from '../../track';
 
 interface PreviousGamesProps {
   games: SessionMetadata[];
+  onDelete: (session: SessionMetadata) => void;
 }
 
-const PreviousGames = ({ games }: PreviousGamesProps) => {
+const PreviousGames = ({ games, onDelete }: PreviousGamesProps) => {
   const history = useHistory();
   const redirectToGame = useCallback(
     (session: SessionMetadata) => {
@@ -18,12 +19,14 @@ const PreviousGames = ({ games }: PreviousGamesProps) => {
     },
     [history]
   );
+
   return (
     <Container>
       {games.map((session) => (
         <PreviousGameItem
           key={session.id}
           session={session}
+          onDelete={onDelete}
           onClick={redirectToGame}
         />
       ))}

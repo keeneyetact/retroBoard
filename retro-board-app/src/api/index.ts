@@ -139,6 +139,24 @@ export async function updateLanguage(language: string): Promise<User | null> {
   return null;
 }
 
+export async function deleteSession(sessionId: string): Promise<boolean> {
+  const response = await fetch(`/api/session/${sessionId}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+  });
+  if (response.ok) {
+    return true;
+  }
+  return false;
+}
+
 export async function getGiphyUrl(giphyId: string): Promise<string | null> {
   const response = await fetch(
     `//api.giphy.com/v1/gifs/${giphyId}?api_key=${config.GiphyApiKey}`

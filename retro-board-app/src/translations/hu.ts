@@ -172,4 +172,11 @@ export default {
     summaryTitle: 'Az Ön tevékenységei',
     title: 'Akció',
   },
+  DeleteSession: {
+    header: undefined,
+    firstLine: undefined,
+    secondLine: undefined,
+    yesImSure: undefined,
+    cancel: undefined,
+  },
 } as Translation;
