@@ -6,9 +6,10 @@ import { updateLanguage } from '../api';
 import { getItem, setItem } from '../utils/localStorage';
 import { trackEvent } from '../track';
 import useUser from '../auth/useUser';
+import config from '../utils/getConfig';
 
 const LanguageProvider: React.FC = ({ children }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState(config.defaultLanguage);
   const user = useUser();
   const { setUser } = useContext(UserContext);
 

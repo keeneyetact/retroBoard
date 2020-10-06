@@ -10,5 +10,6 @@ sed -i "s#NO_GIPHY#$GIPHY_API_KEY#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_AUTH_GOOGLE_ENABLED#$AUTH_GOOGLE_ENABLED#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_AUTH_TWITTER_ENABLED#$AUTH_TWITTER_ENABLED#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_AUTH_GITHUB_ENABLED#$AUTH_GITHUB_ENABLED#g" /usr/share/nginx/html/index.html
+sed -i "s#NO_DEFAULT_LANGUAGE#$DEFAULT_LANGUAGE#g" /usr/share/nginx/html/index.html
 
 exec "$@"

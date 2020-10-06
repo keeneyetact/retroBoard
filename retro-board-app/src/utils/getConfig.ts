@@ -5,6 +5,7 @@ interface HtmlConfig {
   AUTH_GOOGLE_ENABLED: string;
   AUTH_TWITTER_ENABLED: string;
   AUTH_GITHUB_ENABLED: string;
+  DEFAULT_LANGUAGE: string;
   VERSION: string;
 }
 
@@ -18,6 +19,7 @@ interface Config {
   GoogleAuthEnabled: boolean;
   TwitterAuthEnabled: boolean;
   GitHubAuthEnabled: boolean;
+  defaultLanguage: string;
   version: string;
 }
 
@@ -34,10 +36,12 @@ function getKey(
     | 'GOOGLE_ANALYTICS_ID'
     | 'SENTRY_URL'
     | 'GIPHY_API_KEY'
+    | 'DEFAULT_LANGUAGE'
     | 'AUTH_GOOGLE_ENABLED'
     | 'AUTH_TWITTER_ENABLED'
     | 'AUTH_GITHUB_ENABLED',
-  noValue: string
+  noValue: string,
+  defaultValue?: string
 ): string {
   if (process.env[`REACT_APP_${key}`]) {
     return process.env[`REACT_APP_${key}`] || '';
@@ -45,13 +49,18 @@ function getKey(
   if (!!window.__env__[key] && window.__env__[key] !== noValue) {
     return window.__env__[key];
   }
-  return '';
+  return defaultValue || '';
 }
 
 function getConfig(): Config {
   const googleAnalyticsId = getKey('GOOGLE_ANALYTICS_ID', 'NO_GA');
   const sentryUrl = getKey('SENTRY_URL', 'NO_SENTRY');
   const giphyApiKey = getKey('GIPHY_API_KEY', 'NO_GIPHY');
+  const defaultLanguage = getKey(
+    'DEFAULT_LANGUAGE',
+    'NO_DEFAULT_LANGUAGE',
+    'en'
+  );
   const isGoogleAuthEnabled =
     getKey('AUTH_GOOGLE_ENABLED', 'NO_AUTH_GOOGLE_ENABLED').toLowerCase() ===
     'true';
@@ -72,6 +81,7 @@ function getConfig(): Config {
     GoogleAuthEnabled: isGoogleAuthEnabled,
     GitHubAuthEnabled: isGitHubAuthEnabled,
     TwitterAuthEnabled: isTwitterAuthEnabled,
+    defaultLanguage: defaultLanguage,
     version: window.__env__['VERSION'],
   };
 }

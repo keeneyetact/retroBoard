@@ -24,9 +24,9 @@ import {
   GoogleLoginButton,
   TwitterLoginButton,
 } from 'react-social-login-buttons';
-import useTranslations from '../translations';
+import useTranslations, { useLanguage } from '../translations';
 import UserContext from './Context';
-import { anonymousLogin } from '../api';
+import { anonymousLogin, updateLanguage } from '../api';
 import styled from 'styled-components';
 import config from '../utils/getConfig';
 
@@ -38,6 +38,7 @@ interface LoginModalProps {
 
 const Login = ({ onClose }: LoginModalProps) => {
   const { Login: loginTranslations } = useTranslations();
+  const language = useLanguage();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const windowRef = useRef<Window | null>(null);
   const { setUser } = useContext(UserContext);
@@ -49,8 +50,9 @@ const Login = ({ onClose }: LoginModalProps) => {
   useEffect(() => {
     const s = io();
     setSocket(s);
-    s.on('auth', (user: User) => {
-      setUser(user);
+    s.on('auth', async (_user: User) => {
+      const updatedUser = await updateLanguage(language.value);
+      setUser(updatedUser);
       if (windowRef.current) {
         windowRef.current.close();
         windowRef.current = null;
@@ -64,22 +66,23 @@ const Login = ({ onClose }: LoginModalProps) => {
         s.disconnect();
       }
     };
-  }, [onClose, setUser]);
+  }, [onClose, setUser, language]);
 
   const [username, setUsername] = useState('');
   const handleAnonLogin = useCallback(() => {
     async function login() {
       const trimmedUsername = username.trim();
       if (trimmedUsername.length) {
-        const user = await anonymousLogin(trimmedUsername);
-        setUser(user);
+        await anonymousLogin(trimmedUsername);
+        const updatedUser = await updateLanguage(language.value);
+        setUser(updatedUser);
         if (onClose) {
           onClose();
         }
       }
     }
     login();
-  }, [username, setUser, onClose]);
+  }, [username, setUser, onClose, language]);
   const handleUsernameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value),
     [setUsername]

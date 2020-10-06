@@ -1,7 +1,8 @@
 import React from 'react';
+import config from '../utils/getConfig';
 
 const LanguageContext = React.createContext({
-  language: 'en',
+  language: config.defaultLanguage,
   setLanguage: (_: string) => {},
 });
 
