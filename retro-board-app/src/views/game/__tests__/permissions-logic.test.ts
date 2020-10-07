@@ -35,7 +35,7 @@ const anotherUser: User = {
 
 function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
   return users.map(
-    user =>
+    (user) =>
       ({
         id: v4(),
         post,
@@ -341,5 +341,44 @@ describe('Permission Logic', () => {
     );
     const result = permissionLogic(p, s, currentUser);
     expect(result.canCreateGroup).toBe(false);
+  });
+
+  it('When cards are not blurred, for another user card', () => {
+    const p = post(anotherUser, [currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        blurCards: false,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.isBlurred).toBe(false);
+  });
+
+  it('When cards are blurred, for another user card', () => {
+    const p = post(anotherUser, [currentUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        blurCards: true,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.isBlurred).toBe(true);
+  });
+
+  it('When cards are blurred, for the current user card', () => {
+    const p = post(currentUser, [anotherUser]);
+    const s = session(
+      {
+        ...defaultOptions,
+        blurCards: true,
+      },
+      p
+    );
+    const result = permissionLogic(p, s, currentUser);
+    expect(result.isBlurred).toBe(false);
   });
 });

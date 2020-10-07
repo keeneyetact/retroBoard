@@ -80,6 +80,9 @@ export default {
     allowGroupingHelp: 'Allow the creation of groups to group posts together',
     allowReordering: 'Allow Re-ordering',
     allowReorderingHelp: 'Allow re-ordering posts by drag-and-drop',
+    blurCards: 'Blur Cards',
+    blurCardsHelp:
+      'Cards content is blurred until the moderator reveals the content',
     template: 'Template',
     templateHelp: 'Use a pre-defined set of columns',
     numberOfColumns: 'Number of columns',
@@ -190,5 +193,13 @@ export default {
       'Are you sure you want to delete this session and all its content?',
     yesImSure: `Yes, I'm sure`,
     cancel: `No, I'm sorry, I made a mistake`,
+  },
+  RevealCards: {
+    buttonLabel: 'Reveal',
+    dialogTitle: 'Reveal all cards',
+    dialogContent:
+      'This will reveal all blurred cards for everyone. This cannot be undone.',
+    confirmButton: `Let's reveal!`,
+    cancelButton: 'No thanks',
   },
 } as Translation;

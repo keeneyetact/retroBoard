@@ -72,6 +72,8 @@ export interface Translation {
     allowGroupingHelp?: string;
     allowReordering?: string;
     allowReorderingHelp?: string;
+    blurCards?: string;
+    blurCardsHelp?: string;
     template?: string;
     templateHelp?: string;
     numberOfColumns?: string;
@@ -175,5 +177,12 @@ export interface Translation {
     secondLine?: string;
     yesImSure?: string;
     cancel?: string;
+  };
+  RevealCards: {
+    buttonLabel?: string;
+    dialogTitle?: string;
+    dialogContent?: string;
+    confirmButton?: string;
+    cancelButton?: string;
   };
 }

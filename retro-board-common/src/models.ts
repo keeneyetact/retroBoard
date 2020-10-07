@@ -10,6 +10,7 @@ export const defaultOptions: SessionOptions = {
   allowGiphy: true,
   allowGrouping: true,
   allowReordering: true,
+  blurCards: false,
 };
 
 export const defaultSession: Omit<Session, 'createdBy'> = {

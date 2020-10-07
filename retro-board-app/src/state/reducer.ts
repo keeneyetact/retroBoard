@@ -13,6 +13,7 @@ import {
   RENAME_SESSION,
   RESET_SESSION,
   RECEIVE_VOTE,
+  EDIT_OPTIONS,
 } from './actions';
 
 export default (state: State, action: Action): State => {
@@ -49,7 +50,7 @@ export default (state: State, action: Action): State => {
       }
       const postIndex = findIndex(
         state.session.posts,
-        p => p.id === action.payload.postId
+        (p) => p.id === action.payload.postId
       );
       const post = state.session.posts[postIndex];
 
@@ -79,7 +80,7 @@ export default (state: State, action: Action): State => {
         ...state,
         session: {
           ...state.session,
-          posts: state.session.posts.filter(p => p.id !== action.payload.id),
+          posts: state.session.posts.filter((p) => p.id !== action.payload.id),
         },
       };
     case DELETE_POST_GROUP:
@@ -90,8 +91,10 @@ export default (state: State, action: Action): State => {
         ...state,
         session: {
           ...state.session,
-          groups: state.session.groups.filter(g => g.id !== action.payload.id),
-          posts: state.session.posts.map(p =>
+          groups: state.session.groups.filter(
+            (g) => g.id !== action.payload.id
+          ),
+          posts: state.session.posts.map((p) =>
             p.group && p.group.id === action.payload.id
               ? {
                   ...p,
@@ -107,7 +110,7 @@ export default (state: State, action: Action): State => {
       }
       const index = findIndex(
         state.session.posts,
-        p => p.id === action.payload.id
+        (p) => p.id === action.payload.id
       );
       if (index === -1) {
         return state;
@@ -129,7 +132,7 @@ export default (state: State, action: Action): State => {
       }
       const groupIndex = findIndex(
         state.session.groups,
-        g => g.id === action.payload.id
+        (g) => g.id === action.payload.id
       );
       if (groupIndex === -1) {
         return state;
@@ -165,6 +168,17 @@ export default (state: State, action: Action): State => {
       return {
         ...state,
         session: null,
+      };
+    case EDIT_OPTIONS:
+      if (!state.session) {
+        return state;
+      }
+      return {
+        ...state,
+        session: {
+          ...state.session,
+          options: action.payload,
+        },
       };
     default:
       return state;

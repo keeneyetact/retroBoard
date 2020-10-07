@@ -10,6 +10,7 @@ import {
 import useTranslations from '../../translations';
 import useGlobalState from '../../state';
 import useRemainingVotes from './useRemainingVotes';
+import useCanReveal from './useCanReveal';
 import { getIcon } from '../../state/icons';
 import Column from './Column';
 import EditableLabel from '../../components/EditableLabel';
@@ -24,6 +25,7 @@ import {
   calculateRank,
 } from './moving-logic';
 import { getNext, getMiddle } from './lexorank';
+import RevealButton from './RevealButton';
 
 interface GameModeProps {
   columns: ColumnContent[];
@@ -43,6 +45,7 @@ interface GameModeProps {
   onEdit: (post: Post) => void;
   onEditGroup: (group: PostGroup) => void;
   onDeleteGroup: (group: PostGroup) => void;
+  onEditOptions: (options: SessionOptions) => void;
 }
 
 const useStyles = makeStyles({
@@ -79,6 +82,7 @@ function GameMode({
   onEdit,
   onEditGroup,
   onDeleteGroup,
+  onEditOptions,
   columns,
   options,
 }: GameModeProps) {
@@ -88,9 +92,20 @@ function GameMode({
   const remainingVotes = useRemainingVotes();
   const user = useUser();
   const isLoggedIn = !!user;
+  const canReveal = useCanReveal();
+
+  const handleReveal = useCallback(() => {
+    if (state && state.session) {
+      const modifiedOptions: SessionOptions = {
+        ...state.session.options,
+        blurCards: false,
+      };
+      onEditOptions(modifiedOptions);
+    }
+  }, [onEditOptions, state]);
 
   const handleOnDragEnd = useCallback(
-    (result: DropResult, provided: ResponderProvided) => {
+    (result: DropResult, _provided: ResponderProvided) => {
       if (!!result.destination) {
         const entities = getMovingEntities(
           result.draggableId,
@@ -133,7 +148,9 @@ function GameMode({
       ) : null}
       <Box className={classes.container}>
         <HeaderWrapper>
-          <div />
+          <ExtraOptions>
+            {canReveal ? <RevealButton onClick={handleReveal} /> : null}
+          </ExtraOptions>
           <Typography
             variant="h5"
             align="center"
@@ -210,16 +227,16 @@ const HeaderWrapper = styled.div`
   align-items: center;
 
   > *:first-child {
-    width: 90px;
+    flex: 1;
   }
 
   > *:nth-child(2) {
-    flex: 1;
+    flex: 3;
     margin: 0 20px;
   }
 
   > *:last-child {
-    width: 90px;
+    flex: 1;
   }
 
   @media (max-width: 500px) {
@@ -229,6 +246,15 @@ const HeaderWrapper = styled.div`
     > *:last-child {
       margin: 20px 0;
     }
+  }
+`;
+
+const ExtraOptions = styled.div`
+  display: flex;
+  justify-content: flex-start;
+
+  @media (max-width: 500px) {
+    margin-bottom: 20px;
   }
 `;
 

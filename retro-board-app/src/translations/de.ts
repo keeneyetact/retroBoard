@@ -79,6 +79,8 @@ export default {
     allowGroupingHelp: undefined,
     allowReordering: undefined,
     allowReorderingHelp: undefined,
+    blurCards: undefined,
+    blurCardsHelp: undefined,
     template: 'Vorlage',
     templateHelp: 'Nutze ein vordefiniertes Spaltenset',
     numberOfColumns: 'Anzahl an Spalten',
@@ -184,5 +186,12 @@ export default {
     secondLine: undefined,
     yesImSure: undefined,
     cancel: undefined,
+  },
+  RevealCards: {
+    buttonLabel: undefined,
+    dialogTitle: undefined,
+    dialogContent: undefined,
+    confirmButton: undefined,
+    cancelButton: undefined,
   },
 } as Translation;

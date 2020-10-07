@@ -47,6 +47,7 @@ function GamePage() {
     onEditPostGroup,
     onLike,
     onRenameSession,
+    onEditOptions,
     reconnect,
   } = useGame(gameId);
 
@@ -93,7 +94,9 @@ function GamePage() {
           aria-label="Game mode tabs"
         >
           <Tab label={GameMenu.board} icon={<Dashboard />} value={rootUrl} />
-          <Tab label={GameMenu.summary} icon={<List />} value={summaryUrl} />
+          {!session.options.blurCards ? (
+            <Tab label={GameMenu.summary} icon={<List />} value={summaryUrl} />
+          ) : null}
         </Tabs>
       </AppBar>
       <Route
@@ -113,13 +116,16 @@ function GamePage() {
             onDeleteGroup={onDeletePostGroup}
             onEditGroup={onEditPostGroup}
             onRenameSession={onRenameSession}
+            onEditOptions={onEditOptions}
           />
         )}
       />
-      <Route
-        path={`${match.url}/summary`}
-        render={() => <SummaryMode columns={columns} />}
-      />
+      {!session.options.blurCards ? (
+        <Route
+          path={`${match.url}/summary`}
+          render={() => <SummaryMode columns={columns} />}
+        />
+      ) : null}
     </div>
   );
 }

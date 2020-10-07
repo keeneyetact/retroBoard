@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, PostGroup, Vote, VoteType } from 'retro-board-common';
+import {
+  Actions,
+  Post,
+  PostGroup,
+  Vote,
+  VoteType,
+  SessionOptions,
+} from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
 import { trackAction, trackEvent } from './../../track';
@@ -42,6 +49,7 @@ const useGame = (sessionId: string) => {
     receiveVote,
     renameSession,
     resetSession,
+    editOptions,
   } = useGlobalState();
 
   const { session } = state;
@@ -136,6 +144,13 @@ const useGame = (sessionId: string) => {
       receiveBoard(posts);
     });
 
+    newSocket.on(Actions.RECEIVE_OPTIONS, (options: SessionOptions) => {
+      if (debug) {
+        console.log('Receive updated options: ', options);
+      }
+      editOptions(options);
+    });
+
     newSocket.on(Actions.RECEIVE_CLIENT_LIST, (clients: string[]) => {
       if (debug) {
         console.log('Receive players list: ', clients);
@@ -205,6 +220,7 @@ const useGame = (sessionId: string) => {
     setPlayers,
     deletePost,
     updatePost,
+    editOptions,
 
     receivePostGroup,
     deletePostGroup,
@@ -413,6 +429,17 @@ const useGame = (sessionId: string) => {
     [send, renameSession]
   );
 
+  const onEditOptions = useCallback(
+    (options: SessionOptions) => {
+      if (send) {
+        editOptions(options);
+        send(Actions.EDIT_OPTIONS, options);
+        trackAction(Actions.EDIT_OPTIONS);
+      }
+    },
+    [send, editOptions]
+  );
+
   return {
     initialised,
     disconnected,
@@ -426,6 +453,7 @@ const useGame = (sessionId: string) => {
     onDeletePostGroup,
     onLike,
     onRenameSession,
+    onEditOptions,
     reconnect,
   };
 };

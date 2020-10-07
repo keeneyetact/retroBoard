@@ -149,6 +149,7 @@ When using the Docker deployment, your database runs from a container. But if yo
 - 🇮🇹 Improved Italian translation (👏 Thanks [@mventuri](https://github.com/mventuri))
 - Ability to delete sessions, if you are authenticated and you are the author of the session ([#116](https://github.com/antoinejaussoin/retro-board/issues/116))
 - Allow changing the default language for new users via environement variables ([#135](https://github.com/antoinejaussoin/retro-board/issues/135))
+- Allow a moderator to blur all cards (except if you are the author), to keep everything hidden until the end of the retrospective ([#100](https://github.com/antoinejaussoin/retro-board/issues/100))
 
 ### Version 3.1.1
 

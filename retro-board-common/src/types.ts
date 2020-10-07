@@ -44,6 +44,7 @@ export interface SessionOptions {
   allowGiphy: boolean;
   allowGrouping: boolean;
   allowReordering: boolean;
+  blurCards: boolean;
 }
 
 export interface Entity {

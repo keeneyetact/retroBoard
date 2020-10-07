@@ -42,14 +42,15 @@ const CreateSessionModal = ({
   const [isDefaultTemplate, toggleIsDefaultTemplate] = useToggle(false);
   const [maxUpVotes, setMaxUpVotes] = useState<number | null>(null);
   const [maxDownVotes, setMaxDownVotes] = useState<number | null>(null);
-  const [allowActions, setAllowActions] = useState<boolean>(true);
-  const [allowSelfVoting, setAllowSelfVoting] = useState<boolean>(false);
-  const [allowMultipleVotes, setAllowMultipleVotes] = useState<boolean>(false);
-  const [allowAuthorVisible, setAllowAuthorVisible] = useState<boolean>(false);
-  const [allowGiphy, setAllowGiphy] = useState<boolean>(true);
-  const [allowGrouping, setAllowGrouping] = useState<boolean>(true);
-  const [allowReordering, setAllowReordering] = useState<boolean>(true);
-  const [numberOfColumns, setNumberOfColumns] = useState<number>(3);
+  const [allowActions, setAllowActions] = useState(true);
+  const [allowSelfVoting, setAllowSelfVoting] = useState(false);
+  const [allowMultipleVotes, setAllowMultipleVotes] = useState(false);
+  const [allowAuthorVisible, setAllowAuthorVisible] = useState(false);
+  const [allowGiphy, setAllowGiphy] = useState(true);
+  const [allowGrouping, setAllowGrouping] = useState(true);
+  const [allowReordering, setAllowReordering] = useState(true);
+  const [blurCards, setBlurCards] = useState(false);
+  const [numberOfColumns, setNumberOfColumns] = useState(3);
   const [defaultDefinitions, setDefaultDefinitions] = useState(
     buildDefaults('default', translations)
   );
@@ -94,6 +95,7 @@ const CreateSessionModal = ({
         allowReordering,
         maxDownVotes,
         maxUpVotes,
+        blurCards,
       },
       merge(definitions, defaultDefinitions, numberOfColumns),
       isDefaultTemplate
@@ -113,6 +115,7 @@ const CreateSessionModal = ({
     defaultDefinitions,
     numberOfColumns,
     isDefaultTemplate,
+    blurCards,
   ]);
 
   return (
@@ -231,6 +234,12 @@ const CreateSessionModal = ({
             help={Customize.allowGiphyHelp!}
           >
             <BooleanOption value={allowGiphy} onChange={setAllowGiphy} />
+          </OptionItem>
+          <OptionItem
+            label={Customize.blurCards!}
+            help={Customize.blurCardsHelp!}
+          >
+            <BooleanOption value={blurCards} onChange={setBlurCards} />
           </OptionItem>
         </SettingCategory>
       </DialogContent>

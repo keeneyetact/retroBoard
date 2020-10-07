@@ -1,13 +1,21 @@
 import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
 import { Session } from '../entities';
 import ColumnRepository from './ColumnRepository';
-import {
-  Session as JsonSession,
-  User as JsonUser,
-} from 'retro-board-common/src/types';
+import { Session as JsonSession } from 'retro-board-common/src/types';
+import SessionOptions from '../entities/SessionOptions';
 
 @EntityRepository(Session)
 export default class SessionRepository extends Repository<Session> {
+  async updateOptions(
+    session: JsonSession,
+    options: SessionOptions
+  ): Promise<SessionOptions> {
+    await this.save({
+      ...session,
+      options,
+    });
+    return options;
+  }
   async saveFromJson(
     session: Omit<JsonSession, 'createdBy'>,
     authorId: string

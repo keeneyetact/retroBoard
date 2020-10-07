@@ -1,5 +1,5 @@
 import { Dispatch } from './types';
-import { Post, Vote, PostGroup } from 'retro-board-common';
+import { Post, Vote, PostGroup, SessionOptions } from 'retro-board-common';
 
 export const TOGGLE_PANEL = 'retrospected/panel/toggle';
 export const SET_PLAYERS = 'retrospected/game/players/set';
@@ -13,6 +13,7 @@ export const UPDATE_POST = 'retrospected/game/post/update';
 export const DELETE_POST_GROUP = 'retrospected/game/group/delete';
 export const UPDATE_POST_GROUP = 'retrospected/game/group/update';
 export const RECEIVE_BOARD = 'retrospected/game/board/receive';
+export const EDIT_OPTIONS = 'retrospected/game/options/edit';
 
 const createAction = (type: string, payload?: any) => ({
   type,
@@ -68,4 +69,10 @@ export const deletePost = (dispatch: Dispatch) => (post: Post) => {
 
 export const deletePostGroup = (dispatch: Dispatch) => (group: PostGroup) => {
   dispatch(createAction(DELETE_POST_GROUP, group));
+};
+
+export const editOptions = (dispatch: Dispatch) => (
+  options: SessionOptions
+) => {
+  dispatch(createAction(EDIT_OPTIONS, options));
 };

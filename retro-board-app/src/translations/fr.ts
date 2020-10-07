@@ -83,6 +83,8 @@ export default {
     allowReordering: 'Re-organiser',
     allowReorderingHelp:
       "Permettre aux utilisateurs de réorganiser l'ordre des posts",
+    blurCards: 'Flouter',
+    blurCardsHelp: `Les posts sont floutés, jusqu'à ce qu'un modérateur révèle les posts`,
     template: 'Règles prédéfinies',
     templateHelp: 'Sélectionnez un jeu de colonnes prédéfini',
     numberOfColumns: 'Nombre de colonnes',
@@ -193,5 +195,12 @@ export default {
       'Êtes-vous certain(e) de vouloir effaçer cette session et son contenu ?',
     yesImSure: `Oui, j'en suis sûr`,
     cancel: 'Non, je me suis trompé(e)',
+  },
+  RevealCards: {
+    buttonLabel: 'Révéler',
+    dialogTitle: 'Révéler tous les posts',
+    dialogContent: `Cela va révéler (déflouter) tout les posts. L'opération n'est pas reversible.`,
+    confirmButton: `Révéler`,
+    cancelButton: 'Non merci',
   },
 } as Translation;

@@ -82,6 +82,8 @@ export default {
     allowReordering: 'Consenti il riordinamento',
     allowReorderingHelp:
       'Permetti il riordinamento dei post con il trascinamento',
+    blurCards: undefined,
+    blurCardsHelp: undefined,
     template: 'Template',
     templateHelp: 'Usa un set di colonne predefinito',
     numberOfColumns: 'Numbero di colonne',
@@ -191,5 +193,12 @@ export default {
     secondLine: undefined,
     yesImSure: undefined,
     cancel: undefined,
+  },
+  RevealCards: {
+    buttonLabel: undefined,
+    dialogTitle: undefined,
+    dialogContent: undefined,
+    confirmButton: undefined,
+    cancelButton: undefined,
   },
 } as Translation;

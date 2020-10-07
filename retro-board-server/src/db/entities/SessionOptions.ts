@@ -23,6 +23,8 @@ export default class SessionOptions {
   public allowGrouping: boolean;
   @Column({ default: true })
   public allowReordering: boolean;
+  @Column({ default: false })
+  public blurCards: boolean;
 
   constructor(options: Partial<JsonSessionOptions>) {
     const optionsWithDefault = getDefaultOptions(options);
@@ -35,6 +37,7 @@ export default class SessionOptions {
     this.allowGiphy = optionsWithDefault.allowGiphy;
     this.allowGrouping = optionsWithDefault.allowGrouping;
     this.allowReordering = optionsWithDefault.allowMultipleVotes;
+    this.blurCards = optionsWithDefault.blurCards;
   }
 }
 

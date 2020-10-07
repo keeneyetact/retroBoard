@@ -20,6 +20,7 @@ import {
   receiveBoard,
   renameSession,
   resetSession,
+  editOptions,
 } from './actions';
 
 export const initialState: State = {
@@ -37,7 +38,7 @@ interface ProviderProps {
   initialState?: State;
 }
 
-export const Provider: SFC<ProviderProps> = props => {
+export const Provider: SFC<ProviderProps> = (props) => {
   const [state, dispatch] = useReducer(
     reducer,
     props.initialState ? props.initialState : initialState
@@ -62,6 +63,7 @@ export function useGlobalState() {
       receiveBoard: receiveBoard(dispatch),
       renameSession: renameSession(dispatch),
       resetSession: resetSession(dispatch),
+      editOptions: editOptions(dispatch),
     };
   }, [dispatch]);
   const globalState = useMemo(() => {

@@ -51,6 +51,10 @@ export interface Store {
   ) => Promise<void>;
   previousSessions: (userId: string) => Promise<SessionMetadata[]>;
   deleteSession: (userId: string, sessionId: string) => Promise<boolean>;
+  updateOptions: (
+    session: Session,
+    options: SessionOptions
+  ) => Promise<SessionOptions>;
 }
 
 export interface Configuration {

@@ -37,6 +37,7 @@ const testingInitialState: State = {
       allowGiphy: true,
       allowGrouping: true,
       allowReordering: true,
+      blurCards: false,
     },
   },
 };

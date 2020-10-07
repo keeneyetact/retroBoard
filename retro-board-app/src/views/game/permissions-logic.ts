@@ -11,6 +11,7 @@ export interface UserPermissions {
   canUseGiphy: boolean;
   canReorder: boolean;
   canCreateGroup: boolean;
+  isBlurred: boolean;
 }
 
 export function permissionLogic(
@@ -29,6 +30,7 @@ export function permissionLogic(
       canUseGiphy: false,
       canReorder: false,
       canCreateGroup: false,
+      isBlurred: false,
     };
   }
   const {
@@ -41,6 +43,7 @@ export function permissionLogic(
     allowGiphy,
     allowGrouping,
     allowReordering,
+    blurCards,
   } = session.options;
 
   const isLoggedIn = !!user;
@@ -67,6 +70,7 @@ export function permissionLogic(
   const canUseGiphy = isLoggedIn && allowGiphy;
   const canReorder = isLoggedIn && allowReordering;
   const canCreateGroup = isLoggedIn && allowGrouping;
+  const isBlurred = blurCards && !isAuthor;
 
   return {
     canCreateAction,
@@ -78,6 +82,7 @@ export function permissionLogic(
     canUseGiphy,
     canCreateGroup,
     canReorder,
+    isBlurred,
   };
 }
 

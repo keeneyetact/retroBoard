@@ -199,6 +199,13 @@ const saveSession = (sessionRepository: SessionRepository) => async (
   await sessionRepository.saveFromJson(session, userId);
 };
 
+const updateOptions = (sessionRepository: SessionRepository) => async (
+  session: JsonSession,
+  options: SessionOptions
+): Promise<SessionOptions> => {
+  return await sessionRepository.updateOptions(session, options);
+};
+
 const savePost = (postRepository: PostRepository) => async (
   userId: string,
   sessionId: string,
@@ -378,6 +385,7 @@ export default async function db(): Promise<Store> {
     ),
     getUser: getUser(userRepository),
     saveSession: saveSession(sessionRepository),
+    updateOptions: updateOptions(sessionRepository),
     savePost: savePost(postRepository),
     savePostGroup: savePostGroup(postGroupRepository),
     saveVote: saveVote(voteRepository),
