@@ -2,19 +2,22 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import EditableLabel from '../../../components/EditableLabel';
-import { ColumnSettings } from '../../../state/types';
+import EditableLabel from '../../../../components/EditableLabel';
+import { ColumnSettings } from '../../../../state/types';
 import { IconName } from 'retro-board-common';
 import { TwitterPicker, ColorResult } from 'react-color';
 import IconPicker from './IconPicker';
+import { IconButton, colors, useMediaQuery } from '@material-ui/core';
+import { DeleteForeverOutlined } from '@material-ui/icons';
 
 interface ColumnEditorProps {
   value: ColumnSettings;
-  defaults: ColumnSettings;
   onChange: (value: ColumnSettings) => void;
+  onRemove: (value: ColumnSettings) => void;
 }
 
-const ColumnEditor = ({ value, defaults, onChange }: ColumnEditorProps) => {
+const ColumnEditor = ({ value, onChange, onRemove }: ColumnEditorProps) => {
+  const fullScreen = useMediaQuery('(max-width:600px)');
   const [pickerOpen, setPickerOpen] = useState(false);
   const openPicker = useCallback(() => setPickerOpen(true), []);
   const closePicker = useCallback(() => setPickerOpen(false), []);
@@ -47,12 +50,15 @@ const ColumnEditor = ({ value, defaults, onChange }: ColumnEditorProps) => {
     },
     [onChange, value]
   );
+  const handleRemove = useCallback(() => {
+    onRemove(value);
+  }, [value, onRemove]);
   return (
     <Container>
       <ColorAndIconContainer>
         <ColorContainer>
           <ColorPickerValue
-            color={value.color || defaults.color}
+            color={value.color}
             onClick={pickerOpen ? closePicker : openPicker}
           />
           {pickerOpen && (
@@ -72,7 +78,7 @@ const ColumnEditor = ({ value, defaults, onChange }: ColumnEditorProps) => {
                     '#CFD8DC',
                   ]}
                   triangle="hide"
-                  color={value.color || defaults.color}
+                  color={value.color}
                   onChange={handleColorChange}
                 ></TwitterPicker>
               </PickerContainer>
@@ -80,20 +86,32 @@ const ColumnEditor = ({ value, defaults, onChange }: ColumnEditorProps) => {
           )}
         </ColorContainer>
         <IconContainer>
-          <IconPicker
-            value={value.icon}
-            defaultValue={defaults.icon!}
-            onChange={handleIconChange}
-          />
+          <IconPicker value={value.icon} onChange={handleIconChange} />
         </IconContainer>
+        {fullScreen ? (
+          <DeleteContainer>
+            <IconButton onClick={handleRemove}>
+              <DeleteForeverOutlined />
+            </IconButton>
+          </DeleteContainer>
+        ) : null}
       </ColorAndIconContainer>
-      <Typography>
-        <EditableLabel
-          value={value.label}
-          onChange={handleLabelChange}
-          placeholder={defaults.label}
-        />
-      </Typography>
+      <LabelContainer>
+        <Typography>
+          <EditableLabel
+            value={value.label}
+            onChange={handleLabelChange}
+            placeholder={value.label || '(empty)'}
+          />
+        </Typography>
+      </LabelContainer>
+      {!fullScreen ? (
+        <DeleteContainer>
+          <IconButton onClick={handleRemove}>
+            <DeleteForeverOutlined />
+          </IconButton>
+        </DeleteContainer>
+      ) : null}
     </Container>
   );
 };
@@ -103,19 +121,27 @@ const Container = styled.div`
   align-items: center;
   padding: 10px 0;
   width: 100%;
-
   @media (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
   }
 `;
 
+const DeleteContainer = styled.div`
+  svg {
+    color: ${colors.red[500]};
+  }
+`;
+
+const LabelContainer = styled.div`
+  flex: 1;
+`;
+
 const ColorPickerValue = styled.div<{ color: string }>`
   width: 24px;
   height: 24px;
-  border-radius: 10px;
-  border: 1px solid grey;
-  background-color: ${props => props.color};
+  box-shadow: 2px 2px 5px 2px rgba(224, 224, 224, 1);
+  background-color: ${(props) => props.color};
   cursor: pointer;
 `;
 

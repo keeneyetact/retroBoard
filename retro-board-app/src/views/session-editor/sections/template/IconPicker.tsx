@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
-import { getIcon, getAllIcons } from '../../../state/icons';
+import { getIcon, getAllIcons } from '../../../../state/icons';
 import { IconName } from 'retro-board-common';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 interface IconPickerProps {
   value: IconName | null;
-  defaultValue: IconName;
   onChange: (value: IconName) => void;
 }
 
-const IconPicker = ({ value, defaultValue, onChange }: IconPickerProps) => {
+const IconPicker = ({ value, onChange }: IconPickerProps) => {
   const icons = getAllIcons();
   const handleChange = useCallback(
     (
@@ -23,14 +22,14 @@ const IconPicker = ({ value, defaultValue, onChange }: IconPickerProps) => {
     },
     [onChange]
   );
-  const actualValue: IconName = value || defaultValue;
+  const actualValue: IconName = value || 'help';
   return (
     <Select
       value={actualValue}
       renderValue={renderIcon}
       onChange={handleChange}
     >
-      {icons.map(icon => {
+      {icons.map((icon) => {
         const AnIcon = getIcon(icon)!;
         return (
           <MenuItem value={icon} key={icon}>

@@ -9,28 +9,19 @@ import { keyBy } from 'lodash';
 import { ColumnSettings, Template } from './types';
 import { getTemplate } from './templates';
 
-const MAX_NUMBER_OF_COLUMNS = 5;
 
 export function buildDefaults(
   template: Template,
   translations: Translation
 ): ColumnSettings[] {
   const base = getTemplate(template, translations);
-  const custom = getTemplateColumnByType(translations)('custom');
-  if (base.length < MAX_NUMBER_OF_COLUMNS) {
-    for (let i = 0; i <= MAX_NUMBER_OF_COLUMNS - base.length; i++) {
-      base.push({ ...custom });
-    }
-  }
   return base;
 }
 
-export function merge(
+export function toColumnDefinitions(
   colDef: ColumnSettings[],
-  defaultDef: ColumnSettings[],
-  numberOfColumns: number
 ): ColumnDefinition[] {
-  return colDef.slice(0, numberOfColumns).map(
+  return colDef.map(
     (def, index) =>
       ({
         color: def.color,
@@ -38,7 +29,7 @@ export function merge(
         label: def.label,
         id: v4(),
         index,
-        type: defaultDef[index].type,
+        type: def.type,
       } as ColumnDefinition)
   );
 }

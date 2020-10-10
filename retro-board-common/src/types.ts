@@ -99,6 +99,8 @@ export type TrackingEvent =
   | 'custom-modal/fail'
   | 'custom-modal/template/select'
   | 'custom-modal/column/change'
+  | 'custom-modal/column/add'
+  | 'custom-modal/column/remove'
   | 'custom-modal/template/set-defaut'
   | 'home/create/default'
   | 'home/load-previous'

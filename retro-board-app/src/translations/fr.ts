@@ -58,7 +58,7 @@ export default {
     postCategorySub: `Règles concernant ce qu'un utilisateur peut faire sur un post`,
     customTemplateCategory: 'Colonnes personalisées',
     customTemplateCategorySub:
-      'Personnalisez vos colonnes et leur caractèristiques',
+      'Personnalisez vos colonnes et leur caractéristiques',
     startButton: 'Lancez la session',
     maxUpVotes: 'Nb de votes max (positifs)',
     maxUpVotesHelp: `Réglez le nombre de votes positifs maximum qu'un joueur peut mettre dans une session`,

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Template } from '../../../state/types';
-import { getAllTemplates } from '../../../state/templates';
-import useTranslations from '../../../translations';
+import { Template } from '../../../../state/types';
+import { getAllTemplates } from '../../../../state/templates';
+import useTranslations from '../../../../translations';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -28,7 +28,7 @@ const TemplatePicker = ({ onSelect }: TemplatePickerProps) => {
   );
   return (
     <Select value={template} onChange={handleChange}>
-      {templates.map(template => {
+      {templates.map((template) => {
         return (
           <MenuItem value={template.type} key={template.type}>
             {template.name}
