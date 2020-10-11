@@ -3,7 +3,6 @@ import { formatDistanceToNow } from 'date-fns';
 import {
   Card as CardBase,
   CardContent,
-  Tooltip,
   Typography,
   colors,
   IconButton,
@@ -111,15 +110,9 @@ const PreviousGameItem = ({
               color={colors.amber[500]}
             />
           </Stats>
-          <AvatarGroup title={translations.participants!} spacing="small">
+          <AvatarGroup max={10} title={translations.participants!}>
             {session.participants.map((user) => {
-              return (
-                <Tooltip title={user.name} key={user.id}>
-                  <span>
-                    <CustomAvatar user={user} />
-                  </span>
-                </Tooltip>
-              );
+              return <CustomAvatar user={user} key={user.id} />;
             })}
           </AvatarGroup>
         </CardContent>

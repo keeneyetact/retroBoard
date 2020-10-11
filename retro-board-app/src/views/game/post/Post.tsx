@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components';
-import { LoremIpsum } from 'lorem-ipsum';
+import { getLorem } from './lorem';
 import {
   Typography,
   makeStyles,
@@ -389,20 +389,9 @@ const LabelContainer = styled.div`
   }
 `;
 
-const lorem = new LoremIpsum({
-  sentencesPerParagraph: {
-    max: 8,
-    min: 4,
-  },
-  wordsPerSentence: {
-    max: 16,
-    min: 4,
-  },
-});
-
 function generateLoremIpsum(originalText: string) {
-  const words = originalText.split(' ').length;
-  return lorem.generateWords(words);
+  const count = originalText.split(' ').length;
+  return getLorem(count);
 }
 
 export default PostItem;

@@ -70,6 +70,9 @@ const Container = styled.div`
   > * {
     margin-right: 20px;
   }
+  @media (max-width: 500px) {
+    padding-bottom: 10px;
+  }
 `;
 
 export default RemainingVotes;
