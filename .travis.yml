@@ -6,7 +6,7 @@ dist: bionic
 install: true
 
 env:
-  - NODE_ENV=production DOCKER_CLI_EXPERIMENTAL=enabled TARGET_ARCHS=linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6
+  - NODE_ENV=production DOCKER_CLI_EXPERIMENTAL=enabled TARGET_ARCHS=linux/amd64,linux/arm64,linux/arm/v7
 
 stages:
   - test
@@ -17,7 +17,7 @@ stages:
 
 before_install:
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-  
+
 jobs:
   include:
     - stage: test
@@ -39,4 +39,3 @@ jobs:
         - docker buildx build --cache-from=antoinejaussoin/retro-board-maintenance:${PACKAGE_VERSION} --pull --platform ${TARGET_ARCHS} -f ./retro-board-maintenance/Dockerfile -t antoinejaussoin/retro-board-maintenance:${PACKAGE_VERSION} --push ./retro-board-maintenance
         - docker buildx build --cache-from=antoinejaussoin/retro-board-frontend:${PACKAGE_VERSION} --pull --platform ${TARGET_ARCHS} -f ./retro-board-app/Dockerfile -t antoinejaussoin/retro-board-frontend:${PACKAGE_VERSION} --push .
         - docker buildx build --cache-from=antoinejaussoin/retro-board-backend:${PACKAGE_VERSION} --pull --platform ${TARGET_ARCHS} -f ./retro-board-server/Dockerfile -t antoinejaussoin/retro-board-backend:${PACKAGE_VERSION} --push .
-    
