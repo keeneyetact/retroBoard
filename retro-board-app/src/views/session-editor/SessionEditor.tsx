@@ -18,6 +18,7 @@ import { ColumnSettings } from '../../state/types';
 import TemplateSection from './sections/template/TemplateSection';
 import PostsSection from './sections/posts/PostsSection';
 import VotingSection from './sections/votes/VotingSection';
+import { extrapolate, hasChanged } from '../../state/columns';
 
 interface SessionEditorProps {
   open: boolean;
@@ -49,16 +50,29 @@ function SessionEditor({
   const [currentTab, setCurrentTab] = useState('template');
 
   useEffect(() => {
-    setDefinitions(columns);
-  }, [columns]);
+    const extrapolatedColumns = columns.map((c) =>
+      extrapolate(c, translations)
+    );
+    setDefinitions(extrapolatedColumns);
+  }, [columns, translations]);
 
   useEffect(() => {
     setOptions(incomingOptions);
   }, [incomingOptions]);
 
   const handleCreate = useCallback(() => {
-    onChange(options, definitions, isDefaultTemplate);
-  }, [onChange, options, definitions, isDefaultTemplate]);
+    const definitionsToPersist = hasChanged(columns, definitions, translations)
+      ? definitions
+      : columns;
+    onChange(options, definitionsToPersist, isDefaultTemplate);
+  }, [
+    onChange,
+    options,
+    definitions,
+    isDefaultTemplate,
+    columns,
+    translations,
+  ]);
 
   const handleTab = useCallback((_: React.ChangeEvent<{}>, value: string) => {
     setCurrentTab(value);

@@ -143,7 +143,7 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
-### Version Next (In Progress)
+### Version 3.2.0
 
 - 🇮🇹 Improved Italian translation (👏 Thanks [@mventuri](https://github.com/mventuri))
 - Ability to delete sessions, if you are authenticated and you are the author of the session ([#116](https://github.com/antoinejaussoin/retro-board/issues/116))
@@ -152,6 +152,7 @@ When using the Docker deployment, your database runs from a container. But if yo
 - Complete redesign of the Custom Session settings modal
 - Ability to modify session settings once the game has started. This is only available to the session moderator (author) ([#92](https://github.com/antoinejaussoin/retro-board/issues/92)).
 - Ability to display past sessions for Anonymous users. This is limited to viewing past sessions on the same browser, any login to a different browser will create a different anonymous account, for safety reasons ([#112](https://github.com/antoinejaussoin/retro-board/issues/112)).
+- Dependencies update
 
 ### Version 3.1.1
 

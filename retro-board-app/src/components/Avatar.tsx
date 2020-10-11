@@ -18,7 +18,12 @@ const getGravatar = (user: User | null) => {
 const CustomAvatar = ({ user }: AvatarProps) => {
   const displayName = user ? user.name : 'Not logged in';
   return (
-    <Avatar alt={displayName} src={getGravatar(user)} title={displayName} />
+    <Avatar
+      alt={displayName}
+      src={getGravatar(user)}
+      title={displayName}
+      variant="rounded"
+    />
   );
 };
 

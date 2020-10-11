@@ -64,7 +64,7 @@ const PreviousGameItem = ({
     <>
       <Card onClick={handleClick} raised={hover} ref={hoverRef}>
         <CardContent>
-          <Typography color="textSecondary" gutterBottom>
+          <Typography color="textSecondary" gutterBottom component="div">
             <Top>
               <LastUpdated>
                 {formatDistanceToNow(
@@ -115,7 +115,9 @@ const PreviousGameItem = ({
             {session.participants.map((user) => {
               return (
                 <Tooltip title={user.name} key={user.id}>
-                  <CustomAvatar user={user} />
+                  <span>
+                    <CustomAvatar user={user} />
+                  </span>
                 </Tooltip>
               );
             })}

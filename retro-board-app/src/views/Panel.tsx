@@ -37,7 +37,7 @@ function Panel() {
           </Content>
         </Top>
         <Bottom>
-          <Typography>
+          <Typography component="div">
             <Policies>
               <Typography variant="h6">Legal Stuff</Typography>
               {policies.map((policy) => (

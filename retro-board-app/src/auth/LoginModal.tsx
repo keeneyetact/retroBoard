@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardActions,
   Typography,
+  useMediaQuery,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import {
@@ -38,6 +39,7 @@ interface LoginModalProps {
 
 const Login = ({ onClose }: LoginModalProps) => {
   const { Login: loginTranslations } = useTranslations();
+  const fullScreen = useMediaQuery('(max-width:600px)');
   const language = useLanguage();
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const windowRef = useRef<Window | null>(null);
@@ -117,7 +119,7 @@ const Login = ({ onClose }: LoginModalProps) => {
   }, [onClose]);
   return (
     <Dialog
-      fullScreen={false}
+      fullScreen={fullScreen}
       maxWidth="xs"
       fullWidth
       open
@@ -135,21 +137,15 @@ const Login = ({ onClose }: LoginModalProps) => {
                 </Alert>
                 <AccountsButtons>
                   {config.GitHubAuthEnabled && (
-                    <GithubLoginButton
-                      onClick={handleGitHub}
-                      text={loginTranslations.authenticatingWith + ' GitHub'}
-                    />
+                    <GithubLoginButton onClick={handleGitHub} text={'GitHub'} />
                   )}
                   {config.GoogleAuthEnabled && (
-                    <GoogleLoginButton
-                      onClick={handleGoogle}
-                      text={loginTranslations.authenticatingWith + ' Google'}
-                    />
+                    <GoogleLoginButton onClick={handleGoogle} text={'Google'} />
                   )}
                   {config.TwitterAuthEnabled && (
                     <TwitterLoginButton
                       onClick={handleTwitter}
-                      text={loginTranslations.authenticatingWith + ' Twitter'}
+                      text={'Twitter'}
                     />
                   )}
                 </AccountsButtons>

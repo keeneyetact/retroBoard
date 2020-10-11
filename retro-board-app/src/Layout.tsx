@@ -19,6 +19,7 @@ import TermsAndConditionsPage from './views/policies/Terms';
 import CookiesPolicyPage from './views/policies/Cookies';
 import AcceptableUsePolicyPage from './views/policies/AcceptableUse';
 import DisclaimerPage from './views/policies/Disclaimer';
+import { HomeOutlined } from '@material-ui/icons';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -50,11 +51,16 @@ function App() {
           <MainTitle variant="h6" color="inherit" onClick={goToHome}>
             Retrospected
           </MainTitle>
+          <HomeButton>
+            <IconButton color="inherit" aria-label="Home" onClick={goToHome}>
+              <HomeOutlined />
+            </IconButton>
+          </HomeButton>
           <Route path="/game/:gameId" component={Invite} />
           {isInitialised ? (
             <LoginButton />
           ) : (
-            <Initialising>Authenticating...</Initialising>
+            <Initialising>Loading...</Initialising>
           )}
         </Toolbar>
       </AppBar>
@@ -78,6 +84,17 @@ function App() {
 
 const MainTitle = styled(Title)`
   cursor: pointer;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const HomeButton = styled.div`
+  flex: 1;
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
 `;
 
 const Initialising = styled.div``;
