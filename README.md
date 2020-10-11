@@ -140,7 +140,6 @@ When using the Docker deployment, your database runs from a container. But if yo
 ## Roadmap and ideas 🚗 💡
 
 - Highlight posts where the user voted
-- Bluring posts for a set amount of time so people can't see other people's messages
 
 ## Versions History
 
@@ -149,8 +148,9 @@ When using the Docker deployment, your database runs from a container. But if yo
 - 🇮🇹 Improved Italian translation (👏 Thanks [@mventuri](https://github.com/mventuri))
 - Ability to delete sessions, if you are authenticated and you are the author of the session ([#116](https://github.com/antoinejaussoin/retro-board/issues/116))
 - Allow changing the default language for new users via environement variables ([#135](https://github.com/antoinejaussoin/retro-board/issues/135))
-- Allow a moderator to blur all cards (except if you are the author), to keep everything hidden until the end of the retrospective ([#100](https://github.com/antoinejaussoin/retro-board/issues/100))
+- Allow a moderator to blur cards written by others, to keep everything hidden until the end of the retrospective ([#100](https://github.com/antoinejaussoin/retro-board/issues/100))
 - Complete redesign of the Custom Session settings modal
+- Ability to modify session settings once the game has started. This is only available to the session moderator (author) ([#92](https://github.com/antoinejaussoin/retro-board/issues/92)).
 
 ### Version 3.1.1
 
@@ -463,7 +463,7 @@ Many thanks to the following contributors who helped translating the app:
 
 - Hungarian: [@iaretiga](https://github.com/iaretiga)
 - Portuguese (Brazilian): [@renancouto](https://github.com/renancouto)
-- Dutch: [@Sonaryr](https://github.com/Sonaryr)
+- Dutch: [@Sonaryr](https://github.com/Sonaryr), [@jghaanstra](https://github.com/jghaanstra)
 - Russian: [@vectart](https://github.com/vectart), [@regmagik](https://github.com/regmagik)
 - Spanish: [@andresin87](https://github.com/andresin87)
 - Chinese: [@aqutw](https://github.com/aqutw)

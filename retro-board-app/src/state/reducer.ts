@@ -14,6 +14,7 @@ import {
   RESET_SESSION,
   RECEIVE_VOTE,
   EDIT_OPTIONS,
+  EDIT_COLUMNS,
 } from './actions';
 
 export default (state: State, action: Action): State => {
@@ -178,6 +179,17 @@ export default (state: State, action: Action): State => {
         session: {
           ...state.session,
           options: action.payload,
+        },
+      };
+    case EDIT_COLUMNS:
+      if (!state.session) {
+        return state;
+      }
+      return {
+        ...state,
+        session: {
+          ...state.session,
+          columns: action.payload,
         },
       };
     default:

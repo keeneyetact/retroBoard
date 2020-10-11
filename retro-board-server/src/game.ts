@@ -6,6 +6,7 @@ import {
   User,
   Vote,
   VoteType,
+  ColumnDefinition,
 } from 'retro-board-common';
 import chalk from 'chalk';
 import moment from 'moment';
@@ -39,6 +40,8 @@ const {
   LEAVE_SESSION,
   EDIT_OPTIONS,
   RECEIVE_OPTIONS,
+  EDIT_COLUMNS,
+  RECEIVE_COLUMNS,
 } = Actions;
 
 interface ExtendedSocket extends socketIo.Socket {
@@ -112,6 +115,20 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     await store.updateOptions(session, options);
+  };
+
+  const updateColumns = async (
+    userId: string | null,
+    session: Session,
+    columns: ColumnDefinition[]
+  ) => {
+    if (!userId || !session) {
+      return;
+    }
+    if (userId !== session.createdBy.id) {
+      return;
+    }
+    await store.updateColumns(session, columns);
   };
 
   const persistPost = async (
@@ -391,6 +408,25 @@ export default (store: Store, io: SocketIO.Server) => {
     sendToAll(socket, session.id, RECEIVE_OPTIONS, data);
   };
 
+  const onEditColumns = async (
+    userId: string | null,
+    session: Session,
+    data: ColumnDefinition[],
+    socket: ExtendedSocket
+  ) => {
+    if (!userId) {
+      return;
+    }
+    // Prevent non author from modifying columns
+    if (userId !== session.createdBy.id) {
+      return;
+    }
+
+    await updateColumns(userId, session, data);
+
+    sendToAll(socket, session.id, RECEIVE_COLUMNS, data);
+  };
+
   io.on('connection', async (socket: ExtendedSocket) => {
     const ip =
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
@@ -428,6 +464,7 @@ export default (store: Store, io: SocketIO.Server) => {
       { type: RENAME_SESSION, handler: onRenameSession },
       { type: LEAVE_SESSION, handler: onLeaveSession },
       { type: EDIT_OPTIONS, handler: onEditOptions },
+      { type: EDIT_COLUMNS, handler: onEditColumns },
     ];
 
     actions.forEach((action) => {

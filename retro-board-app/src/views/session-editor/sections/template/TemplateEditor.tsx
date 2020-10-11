@@ -41,6 +41,7 @@ function TemplateEditor({ columns, onChange }: TemplateEditorProps) {
         <ColumnEditor
           key={index}
           value={def}
+          canDelete={columns.length > 1}
           onChange={(value) => handleColumnChange(value, index)}
           onRemove={handleRemoveColumn}
         />

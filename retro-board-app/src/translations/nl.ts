@@ -96,6 +96,7 @@ export default {
     wellQuestion: 'Wat ging goed?',
     ideasQuestion: 'Een geweldig idee om te delen?',
     startQuestion: 'Start',
+    editButton: undefined,
     stopQuestion: 'Stop',
     continueQuestion: 'Blijven doen',
     likedQuestion: 'Liked (Leuk)',

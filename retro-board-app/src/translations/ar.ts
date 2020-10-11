@@ -55,6 +55,7 @@ export default {
     customTemplateCategory: undefined,
     customTemplateCategorySub: undefined,
     startButton: undefined,
+    editButton: undefined,
     maxUpVotes: undefined,
     maxUpVotesHelp: undefined,
     maxDownVotes: undefined,

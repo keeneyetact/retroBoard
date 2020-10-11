@@ -7,6 +7,11 @@ export default {
   ADD_POST_GROUP_SUCCESS: 'retrospected/group/add/success',
   DELETE_POST_GROUP: 'retrospected/group/delete',
   EDIT_POST_GROUP: 'retrospected/group/edit',
+  RENAME_SESSION: 'retrospected/session/rename',
+  JOIN_SESSION: 'retrospected/session/join',
+  LEAVE_SESSION: 'retrospected/session/leave',
+  EDIT_OPTIONS: 'retrospected/session/options/edit',
+  EDIT_COLUMNS: 'retrospected/session/columns/edit',
 
   RECEIVE_POST: 'retrospected/posts/receive/add',
   RECEIVE_DELETE_POST: 'retrospected/posts/receive/delete',
@@ -16,13 +21,10 @@ export default {
   RECEIVE_POST_GROUP: 'retrospected/group/receive/add',
   RECEIVE_DELETE_POST_GROUP: 'retrospected/group/receive/delete',
   RECEIVE_EDIT_POST_GROUP: 'retrospected/group/receive/edit',
-
   RECEIVE_BOARD: 'retrospected/posts/receive-all',
   RECEIVE_OPTIONS: 'retrospected/session/options/receive',
-  RENAME_SESSION: 'retrospected/session/rename',
-  RECEIVE_SESSION_NAME: 'retrospected/session/receive/rename',
-  JOIN_SESSION: 'retrospected/session/join',
-  LEAVE_SESSION: 'retrospected/session/leave',
+  RECEIVE_COLUMNS: 'retrospected/session/columns/receive',
   RECEIVE_CLIENT_LIST: 'retrospected/session/receive/client-list',
-  EDIT_OPTIONS: 'retrospected/session/options/edit',
+  RECEIVE_SESSION_NAME: 'retrospected/session/receive/rename',
+
 };

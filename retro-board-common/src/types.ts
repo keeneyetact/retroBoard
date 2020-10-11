@@ -104,6 +104,8 @@ export type TrackingEvent =
   | 'custom-modal/template/set-defaut'
   | 'home/create/default'
   | 'home/load-previous'
+  | 'game/session/edit-options'
+  | 'game/session/edit-columns'
   | 'game/session/reset'
   | 'game/session/disconnect'
   | 'game/post/giphy/open'

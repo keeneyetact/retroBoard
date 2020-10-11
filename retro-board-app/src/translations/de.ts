@@ -59,6 +59,7 @@ export default {
     customTemplateCategorySub:
       'Setze die Anzahl an Spalten und deren Eigenschaften',
     startButton: 'Spiel starten!',
+    editButton: undefined,
     maxUpVotes: 'Max Up-Votes',
     maxUpVotesHelp: `Maximale Anzahl an 'up-votes', die ein Nutzer geben kann`,
     maxDownVotes: 'Max Down-Votes',

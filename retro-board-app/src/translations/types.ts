@@ -54,6 +54,7 @@ export interface Translation {
     customTemplateCategory?: string;
     customTemplateCategorySub?: string;
     startButton?: string;
+    editButton?: string;
     maxUpVotes?: string;
     maxUpVotesHelp?: string;
     maxDownVotes?: string;

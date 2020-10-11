@@ -26,7 +26,7 @@ import { Store } from '../types';
 import getOrmConfig from './orm-config';
 import shortId from 'shortid';
 import { v4 } from 'uuid';
-import { SessionTemplate, Session } from './entities';
+import { SessionTemplate, Session, ColumnDefinition } from './entities';
 
 export async function getDb() {
   const connection = await createConnection(getOrmConfig());
@@ -204,6 +204,13 @@ const updateOptions = (sessionRepository: SessionRepository) => async (
   options: SessionOptions
 ): Promise<SessionOptions> => {
   return await sessionRepository.updateOptions(session, options);
+};
+
+const updateColumns = (columnRepository: ColumnRepository) => async (
+  session: JsonSession,
+  columns: JsonColumnDefintion[]
+): Promise<JsonColumnDefintion[]> => {
+  return await columnRepository.updateColumns(session, columns);
 };
 
 const savePost = (postRepository: PostRepository) => async (
@@ -386,6 +393,7 @@ export default async function db(): Promise<Store> {
     getUser: getUser(userRepository),
     saveSession: saveSession(sessionRepository),
     updateOptions: updateOptions(sessionRepository),
+    updateColumns: updateColumns(columnRepository),
     savePost: savePost(postRepository),
     savePostGroup: savePostGroup(postGroupRepository),
     saveVote: saveVote(voteRepository),

@@ -12,11 +12,17 @@ import { DeleteForeverOutlined } from '@material-ui/icons';
 
 interface ColumnEditorProps {
   value: ColumnSettings;
+  canDelete: boolean;
   onChange: (value: ColumnSettings) => void;
   onRemove: (value: ColumnSettings) => void;
 }
 
-const ColumnEditor = ({ value, onChange, onRemove }: ColumnEditorProps) => {
+const ColumnEditor = ({
+  value,
+  canDelete,
+  onChange,
+  onRemove,
+}: ColumnEditorProps) => {
   const fullScreen = useMediaQuery('(max-width:600px)');
   const [pickerOpen, setPickerOpen] = useState(false);
   const openPicker = useCallback(() => setPickerOpen(true), []);
@@ -88,7 +94,7 @@ const ColumnEditor = ({ value, onChange, onRemove }: ColumnEditorProps) => {
         <IconContainer>
           <IconPicker value={value.icon} onChange={handleIconChange} />
         </IconContainer>
-        {fullScreen ? (
+        {fullScreen && canDelete ? (
           <DeleteContainer>
             <IconButton onClick={handleRemove}>
               <DeleteForeverOutlined />
@@ -105,7 +111,7 @@ const ColumnEditor = ({ value, onChange, onRemove }: ColumnEditorProps) => {
           />
         </Typography>
       </LabelContainer>
-      {!fullScreen ? (
+      {!fullScreen && canDelete ? (
         <DeleteContainer>
           <IconButton onClick={handleRemove}>
             <DeleteForeverOutlined />

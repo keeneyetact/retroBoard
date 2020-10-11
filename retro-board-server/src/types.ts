@@ -55,6 +55,10 @@ export interface Store {
     session: Session,
     options: SessionOptions
   ) => Promise<SessionOptions>;
+  updateColumns: (
+    session: Session,
+    columns: ColumnDefinition[]
+  ) => Promise<ColumnDefinition[]>;
 }
 
 export interface Configuration {

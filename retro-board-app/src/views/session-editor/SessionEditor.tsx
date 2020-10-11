@@ -23,6 +23,7 @@ interface SessionEditorProps {
   open: boolean;
   options: SessionOptions;
   columns: ColumnSettings[];
+  edit?: boolean;
   onChange: (
     options: SessionOptions,
     columns: ColumnSettings[],
@@ -35,6 +36,7 @@ function SessionEditor({
   open,
   options: incomingOptions,
   columns,
+  edit = false,
   onChange,
   onClose,
 }: SessionEditorProps) {
@@ -97,20 +99,22 @@ function SessionEditor({
         ) : null}
       </DialogContent>
       <DialogActions>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={isDefaultTemplate}
-              onChange={toggleIsDefaultTemplate}
-            />
-          }
-          label={Customize.makeDefaultTemplate}
-        />
+        {!edit ? (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isDefaultTemplate}
+                onChange={toggleIsDefaultTemplate}
+              />
+            }
+            label={Customize.makeDefaultTemplate}
+          />
+        ) : null}
         <Button onClick={onClose} color="default" variant="text">
           {Generic.cancel}
         </Button>
         <Button onClick={handleCreate} color="primary" variant="contained">
-          {Customize.startButton}
+          {edit ? Customize.editButton : Customize.startButton}
         </Button>
       </DialogActions>
     </Dialog>

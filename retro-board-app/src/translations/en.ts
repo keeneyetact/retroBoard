@@ -60,6 +60,7 @@ export default {
     customTemplateCategorySub:
       'Set the number of columns and their characteristics',
     startButton: 'Start the session',
+    editButton: 'Update',
     maxUpVotes: 'Max Up-Votes',
     maxUpVotesHelp: `Maximum number of 'likes' votes a user is allowed to cast`,
     maxDownVotes: 'Max Down-Votes',

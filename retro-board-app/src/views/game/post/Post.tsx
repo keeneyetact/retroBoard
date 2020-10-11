@@ -133,15 +133,17 @@ const PostItem = ({
               </DragHandle>
             ) : null}
             <CardContent>
-              <Typography variant="body1">
-                <EditableLabel
-                  readOnly={!canEdit || isBlurred}
-                  value={actualContent}
-                  onChange={onEdit}
-                  label="Post content"
-                  multiline
-                />
-              </Typography>
+              <LabelContainer>
+                <Typography variant="body1">
+                  <EditableLabel
+                    readOnly={!canEdit || isBlurred}
+                    value={actualContent}
+                    onChange={onEdit}
+                    label="Post content"
+                    multiline
+                  />
+                </Typography>
+              </LabelContainer>
               {canShowAuthor && (
                 <AuthorContainer>
                   <Typography
@@ -359,9 +361,32 @@ const BlurOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.9);
+  @supports (backdrop-filter: blur(3px)) {
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(3px);
+  }
   z-index: 100;
+`;
+
+const LabelContainer = styled.div`
+  > * {
+    display: none;
+  }
+
+  &::before {
+    content: '(hidden for now)';
+  }
+
+  @supports (backdrop-filter: blur(3px)) {
+    > * {
+      display: block;
+    }
+
+    &::before {
+      content: unset;
+    }
+  }
 `;
 
 const lorem = new LoremIpsum({

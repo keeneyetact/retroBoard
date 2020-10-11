@@ -21,6 +21,7 @@ import {
   renameSession,
   resetSession,
   editOptions,
+  editColumns,
 } from './actions';
 
 export const initialState: State = {
@@ -64,6 +65,7 @@ export function useGlobalState() {
       renameSession: renameSession(dispatch),
       resetSession: resetSession(dispatch),
       editOptions: editOptions(dispatch),
+      editColumns: editColumns(dispatch),
     };
   }, [dispatch]);
   const globalState = useMemo(() => {

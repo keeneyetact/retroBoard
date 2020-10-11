@@ -6,6 +6,7 @@ import {
   Vote,
   VoteType,
   SessionOptions,
+  ColumnDefinition,
 } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
@@ -50,6 +51,7 @@ const useGame = (sessionId: string) => {
     renameSession,
     resetSession,
     editOptions,
+    editColumns,
   } = useGlobalState();
 
   const { session } = state;
@@ -151,6 +153,13 @@ const useGame = (sessionId: string) => {
       editOptions(options);
     });
 
+    newSocket.on(Actions.RECEIVE_COLUMNS, (columns: ColumnDefinition[]) => {
+      if (debug) {
+        console.log('Receive updated columns: ', columns);
+      }
+      editColumns(columns);
+    });
+
     newSocket.on(Actions.RECEIVE_CLIENT_LIST, (clients: string[]) => {
       if (debug) {
         console.log('Receive players list: ', clients);
@@ -221,11 +230,10 @@ const useGame = (sessionId: string) => {
     deletePost,
     updatePost,
     editOptions,
-
+    editColumns,
     receivePostGroup,
     deletePostGroup,
     updatePostGroup,
-
     renameSession,
     disconnected,
   ]);
@@ -440,6 +448,17 @@ const useGame = (sessionId: string) => {
     [send, editOptions]
   );
 
+  const onEditColumns = useCallback(
+    (columns: ColumnDefinition[]) => {
+      if (send) {
+        editColumns(columns);
+        send(Actions.EDIT_COLUMNS, columns);
+        trackAction(Actions.EDIT_COLUMNS);
+      }
+    },
+    [send, editColumns]
+  );
+
   return {
     initialised,
     disconnected,
@@ -454,6 +473,7 @@ const useGame = (sessionId: string) => {
     onLike,
     onRenameSession,
     onEditOptions,
+    onEditColumns,
     reconnect,
   };
 };

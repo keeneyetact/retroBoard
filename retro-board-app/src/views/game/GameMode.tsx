@@ -1,6 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { Post, PostGroup, SessionOptions } from 'retro-board-common';
+import {
+  Post,
+  PostGroup,
+  SessionOptions,
+  ColumnDefinition,
+} from 'retro-board-common';
 import { Typography, makeStyles, Box } from '@material-ui/core';
 import {
   DragDropContext,
@@ -26,6 +31,8 @@ import {
 } from './moving-logic';
 import { getNext, getMiddle } from './lexorank';
 import RevealButton from './RevealButton';
+import ModifyOptions from './ModifyOptions';
+import useCanModifyOptions from './useCanModifyOptions';
 
 interface GameModeProps {
   columns: ColumnContent[];
@@ -46,6 +53,7 @@ interface GameModeProps {
   onEditGroup: (group: PostGroup) => void;
   onDeleteGroup: (group: PostGroup) => void;
   onEditOptions: (options: SessionOptions) => void;
+  onEditColumns: (columns: ColumnDefinition[]) => void;
 }
 
 const useStyles = makeStyles({
@@ -83,6 +91,7 @@ function GameMode({
   onEditGroup,
   onDeleteGroup,
   onEditOptions,
+  onEditColumns,
   columns,
   options,
 }: GameModeProps) {
@@ -93,6 +102,7 @@ function GameMode({
   const user = useUser();
   const isLoggedIn = !!user;
   const canReveal = useCanReveal();
+  const canModifyOptions = useCanModifyOptions();
 
   const handleReveal = useCallback(() => {
     if (state && state.session) {
@@ -150,6 +160,12 @@ function GameMode({
         <HeaderWrapper>
           <ExtraOptions>
             {canReveal ? <RevealButton onClick={handleReveal} /> : null}
+            {canModifyOptions ? (
+              <ModifyOptions
+                onEditOptions={onEditOptions}
+                onEditColumns={onEditColumns}
+              />
+            ) : null}
           </ExtraOptions>
           <Typography
             variant="h5"
@@ -225,6 +241,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 
   > *:first-child {
     flex: 1;
@@ -242,6 +259,7 @@ const HeaderWrapper = styled.div`
   @media (max-width: 500px) {
     margin-top: 40px;
     flex-direction: column;
+    margin-bottom: 0px;
 
     > *:last-child {
       margin: 20px 0;
@@ -253,8 +271,16 @@ const ExtraOptions = styled.div`
   display: flex;
   justify-content: flex-start;
 
+  > * {
+    margin-right: 10px;
+  }
+
   @media (max-width: 500px) {
     margin-bottom: 20px;
+
+    > * {
+      margin-top: 10px;
+    }
   }
 `;
 

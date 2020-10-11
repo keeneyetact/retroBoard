@@ -30,7 +30,7 @@ const OptionItem = ({
       <Alert
         severity="info"
         style={{
-          margin: '0 -15px 0px -15px',
+          margin: '0px -15px 0px -15px',
           borderRadius: '0px 0px 10px 10px',
         }}
       >
@@ -53,9 +53,15 @@ const ComponentContainer = styled.div<{ wide: boolean }>`
 `;
 
 const Label = styled.div<{ wide: boolean }>`
-  width: 220px;
   font-weight: lighter;
   flex: ${(props) => (props.wide ? 'unset' : '1')};
+  margin-right: 20px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 600px) {
+    margin-top: ${(props) => (props.wide ? '10px' : '0')};
+  }
 `;
 
 const HeaderContainer = styled.div<{ wide: boolean }>`
@@ -70,11 +76,8 @@ const HeaderContainer = styled.div<{ wide: boolean }>`
     align-items: flex-start;
     `
         : ''}
-    margin-bottom: 10px;
     ${ComponentContainer} {
-      width: 100%;
-    }
-    ${Label} {
+      ${(props) => (props.wide ? 'width: 100%;' : '')}
     }
   }
 `;

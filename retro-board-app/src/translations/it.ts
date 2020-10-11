@@ -96,6 +96,7 @@ export default {
     wellQuestion: 'Cosa è andato bene?',
     ideasQuestion: 'Qualche idea brillante da condividere?',
     startQuestion: 'Inizia',
+    editButton: undefined,
     stopQuestion: 'Stop',
     continueQuestion: 'Continua',
     likedQuestion: 'Piaciuto',
