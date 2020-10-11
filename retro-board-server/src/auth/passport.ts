@@ -65,10 +65,16 @@ export default (store: Store) => {
         _password: string,
         done: (error: any, user?: any, options?: IVerifyOptions) => void
       ) => {
+        const actualUsername = username.split('^')[0];
+        const existingUser = await store.getUserByUsername(username);
+        if (existingUser) {
+          done(null, existingUser);
+          return;
+        }
         const user: User = {
           accountType: 'anonymous',
           id: v4(),
-          name: username,
+          name: actualUsername,
           photo: null,
           username: username,
           language: 'en',

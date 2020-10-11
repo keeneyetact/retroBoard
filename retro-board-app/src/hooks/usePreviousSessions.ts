@@ -10,7 +10,7 @@ export default (): [SessionMetadata[], Function] => {
   const user = useUser();
 
   const refresh = useCallback(async () => {
-    if (user && user.accountType !== 'anonymous') {
+    if (user) {
       const previousSessions = await fetchPreviousSessions();
       setSessions(previousSessions);
       CACHE = previousSessions;

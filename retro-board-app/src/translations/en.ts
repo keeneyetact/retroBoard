@@ -153,7 +153,7 @@ export default {
       'This will use your account to authenticate you, and will allow you to retrieve all your sessions. No password is stored.',
     anonymousAuthHeader: 'Anonymous Login',
     anonymousAuthDescription:
-      "This will create an anonymous account, but won't allow you to retrieve past sessions.",
+      "This will create an anonymous account. Some features won't be available.",
     authenticatingWith: 'Authenticating with',
     or: 'or',
   },

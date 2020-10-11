@@ -155,7 +155,7 @@ export default {
       'Vous allez utiliser un de vos compte existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
     anonymousAuthHeader: 'Identification Anonyme',
     anonymousAuthDescription:
-      'Ceci va créer un compte anonyme, vous ne pourrez pas visualiser vos sessions précédentes.',
+      'Ceci va créer un compte anonyme, certaines fonctionalitées ne seront pas disponibles.',
     authenticatingWith: 'Identification avec',
     or: 'ou',
   },

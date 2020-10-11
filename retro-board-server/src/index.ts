@@ -40,7 +40,7 @@ if (config.REDIS_ENABLED) {
     port: config.REDIS_PORT,
   });
   sessionMiddleware = session({
-    secret: process.env.SESSION_SECRET!,
+    secret: `${process.env.SESSION_SECRET!}-1`, // Increment to force re-auth
     resave: true,
     saveUninitialized: true,
     store: new RedisStore({ client: redisClient as any }),
@@ -50,7 +50,7 @@ if (config.REDIS_ENABLED) {
   });
 } else {
   sessionMiddleware = session({
-    secret: process.env.SESSION_SECRET!,
+    secret: `${process.env.SESSION_SECRET!}-1`, // Increment to force re-auth
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -163,7 +163,7 @@ db().then((store) => {
 
   app.get('/api/previous', async (req, res) => {
     const user = await getUser(store, req);
-    if (user && user.accountType !== 'anonymous') {
+    if (user) {
       const sessions = await store.previousSessions(user.id);
       res.status(200).send(sessions);
     } else {

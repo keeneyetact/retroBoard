@@ -7,6 +7,7 @@ import {
   SessionMetadata,
 } from 'retro-board-common';
 import config from '../utils/getConfig';
+import { v4 } from 'uuid';
 
 export async function createGame(): Promise<Session> {
   const response = await fetch(`/api/create`, {
@@ -102,6 +103,7 @@ export async function logout() {
 }
 
 export async function anonymousLogin(username: string): Promise<User | null> {
+  const anonymousUsername = getAnonymousUsername(username);
   const response = await fetch(`/api/auth/anonymous/login`, {
     method: 'POST',
     mode: 'cors',
@@ -112,12 +114,23 @@ export async function anonymousLogin(username: string): Promise<User | null> {
     },
     redirect: 'follow',
     referrer: 'no-referrer',
-    body: JSON.stringify({ username: username, password: 'foo' }),
+    body: JSON.stringify({ username: anonymousUsername, password: 'none' }),
   });
   if (response.ok) {
     return await response.json();
   }
   return null;
+}
+
+function getAnonymousUsername(username: string): string {
+  const key = `anonymous-username-${username}`;
+  const storedUsername = localStorage.getItem(key);
+  if (storedUsername === null) {
+    const generatedUsername = `${username.replace('^', '')}^${v4()}`;
+    localStorage.setItem(key, generatedUsername);
+    return generatedUsername;
+  }
+  return storedUsername;
 }
 
 export async function updateLanguage(language: string): Promise<User | null> {

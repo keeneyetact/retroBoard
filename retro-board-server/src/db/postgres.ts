@@ -169,6 +169,13 @@ const getUser = (userRepository: UserRepository) => async (
   return user || null;
 };
 
+const getUserByUsername = (userRepository: UserRepository) => async (
+  username: string
+): Promise<JsonUser | null> => {
+  const user = await userRepository.findOne({ username });
+  return user || null;
+};
+
 const getDefaultTemplate = (userRepository: UserRepository) => async (
   id: string
 ): Promise<SessionTemplate | null> => {
@@ -391,6 +398,7 @@ export default async function db(): Promise<Store> {
       columnRepository
     ),
     getUser: getUser(userRepository),
+    getUserByUsername: getUserByUsername(userRepository),
     saveSession: saveSession(sessionRepository),
     updateOptions: updateOptions(sessionRepository),
     updateColumns: updateColumns(columnRepository),

@@ -13,6 +13,7 @@ import { SessionTemplate } from './db/entities';
 export interface Store {
   getSession: (userId: string | null, key: string) => Promise<Session | null>;
   getUser: (id: string) => Promise<User | null>;
+  getUserByUsername: (username: string) => Promise<User | null>;
   getDefaultTemplate: (userId: string) => Promise<SessionTemplate | null>;
   create: (author: User) => Promise<Session>;
   createCustom: (
