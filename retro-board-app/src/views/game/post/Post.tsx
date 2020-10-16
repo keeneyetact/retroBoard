@@ -133,7 +133,7 @@ const PostItem = ({
               </DragHandle>
             ) : null}
             <CardContent>
-              <LabelContainer>
+              <LabelContainer blurred={isBlurred}>
                 <Typography variant="body1">
                   <EditableLabel
                     readOnly={!canEdit || isBlurred}
@@ -369,7 +369,10 @@ const BlurOverlay = styled.div`
   z-index: 100;
 `;
 
-const LabelContainer = styled.div`
+const LabelContainer = styled.div<{ blurred: boolean }>`
+  ${(props) =>
+    props.blurred
+      ? `
   > * {
     display: none;
   }
@@ -386,7 +389,8 @@ const LabelContainer = styled.div`
     &::before {
       content: unset;
     }
-  }
+  }`
+      : null}
 `;
 
 function generateLoremIpsum(originalText: string) {
