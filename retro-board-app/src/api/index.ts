@@ -5,6 +5,10 @@ import {
   Session,
   SessionTemplate,
   SessionMetadata,
+  RegisterPayload,
+  ValidateEmailPayload,
+  ResetPasswordPayload,
+  ResetChangePasswordPayload,
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 import { v4 } from 'uuid';
@@ -118,6 +122,124 @@ export async function anonymousLogin(username: string): Promise<User | null> {
   });
   if (response.ok) {
     return await response.json();
+  }
+  return null;
+}
+
+export async function accountLogin(email: string, password: string): Promise<User | null> {
+  const response = await fetch(`/api/auth/login`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify({ username: email, password }),
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  return null;
+}
+
+interface RegisterResponse {
+  user: User | null;
+  error: 'already-exists' | 'other' | null;
+}
+
+export async function register(name: string, email: string, password: string): Promise<RegisterResponse> {
+  const payload: RegisterPayload = { username: email, password, name };
+  const response = await fetch(`/api/register`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    const user = await response.json();
+    return {
+      user,
+      error: null,
+    }
+  } else if (response.status === 403) {
+    return {
+      user: null,
+      error: 'already-exists',
+    }
+  }
+  return {
+    user: null,
+    error: 'other',
+  };
+}
+
+export async function verifyEmail(email: string, code: string): Promise<User | null> {
+  const payload: ValidateEmailPayload = { email, code };
+  const response = await fetch(`/api/validate`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    const user = await response.json();
+    return user;
+  }
+  return null;
+}
+
+export async function resetPassword(email: string): Promise<boolean> {
+  const payload: ResetPasswordPayload = { email };
+  const response = await fetch(`/api/reset`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    return true;
+  }
+  return false;
+}
+
+export async function resetChangePassword(email: string, password: string, code: string): Promise<User | null> {
+  const payload: ResetChangePasswordPayload = { email, password, code};
+  const response = await fetch(`/api/reset-password`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrer: 'no-referrer',
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    const user: User = await response.json();
+    return user;
   }
   return null;
 }

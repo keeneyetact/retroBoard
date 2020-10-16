@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import useUser from './useUser';
-import LoginModal from './LoginModal';
+import LoginModal from './modal/LoginModal';
 import useTranslation from '../translations/useTranslations';
 import { logout } from '../api';
 import UserContext from './Context';
@@ -62,7 +62,7 @@ const LoginButton = () => {
         color="secondary"
         startIcon={<AccountIcon />}
       >
-        {translations.Login.header}
+        {translations.AnonymousLogin.header}
       </Button>
       {modalOpened && <LoginModal onClose={handleModalClose} />}
     </>
