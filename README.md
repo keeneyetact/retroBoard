@@ -143,6 +143,10 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 3.2.1
+
+- Fixed a serious bug under Firefox, where users could not see the content of the post. Thanks to ([#154](https://github.com/antoinejaussoin/retro-board/issues/154), [#148](https://github.com/antoinejaussoin/retro-board/issues/148)). 👏 Thanks to all people who reported this ([@Xyaren](https://github.com/Xyaren), [@dallasgutauckis](https://github.com/dallasgutauckis), [@courtney-thwaites](https://github.com/courtney-thwaites)).
+
 ### Version 3.2.0
 
 - 🇮🇹 Improved Italian translation (👏 Thanks [@mventuri](https://github.com/mventuri))
