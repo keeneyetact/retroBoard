@@ -6,30 +6,39 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { VoteType } from 'retro-board-common';
-import User from './User';
-import Post from './Post';
+import { VoteType, Vote } from 'retro-board-common';
+import UserEntity from './User';
+import PostEntity from './Post';
 
 @Entity({ name: 'votes' })
-export default class Vote {
+export default class VoteEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @ManyToOne(() => User, { eager: true, nullable: false })
-  public user: User;
-  @ManyToOne(() => Post, {
+  @ManyToOne(() => UserEntity, { eager: true, nullable: false })
+  public user: UserEntity;
+  @ManyToOne(() => PostEntity, {
     eager: false,
     nullable: false,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  public post: Post;
+  public post: PostEntity;
   @Column({ type: 'character varying' })
   public type: VoteType;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
-  constructor(id: string, post: Post, user: User, type: VoteType) {
+
+  toJson(): Vote {
+    return {
+      id: this.id,
+      type: this.type,
+      user: this.user.toJson(),
+    };
+  }
+
+  constructor(id: string, post: PostEntity, user: UserEntity, type: VoteType) {
     this.id = id;
     this.post = post;
     this.type = type;

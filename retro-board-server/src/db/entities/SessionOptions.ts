@@ -2,9 +2,10 @@ import { Column } from 'typeorm';
 import {
   SessionOptions as JsonSessionOptions,
   defaultOptions,
+  SessionOptions,
 } from 'retro-board-common';
 
-export default class SessionOptions {
+export default class SessionOptionsEntity {
   @Column({ nullable: true, type: 'numeric' })
   public maxUpVotes: number | null;
   @Column({ nullable: true, type: 'numeric' })
@@ -25,6 +26,12 @@ export default class SessionOptions {
   public allowReordering: boolean;
   @Column({ default: false })
   public blurCards: boolean;
+
+  toJson(): SessionOptions {
+    return {
+      ...this,
+    };
+  }
 
   constructor(options: Partial<JsonSessionOptions>) {
     const optionsWithDefault = getDefaultOptions(options);

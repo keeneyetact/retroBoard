@@ -1,19 +1,19 @@
 import config from './config';
 import { ConnectionOptions } from 'typeorm';
 import {
-  Post,
-  PostGroup,
-  Session,
-  User,
-  ColumnDefinition,
-  Vote,
-  SessionTemplate,
-  TemplateColumnDefinition,
+  PostEntity,
+  PostGroupEntity,
+  SessionEntity,
+  UserEntity,
+  ColumnDefinitionEntity,
+  VoteEntity,
+  SessionTemplateEntity,
+  TemplateColumnDefinitionEntity,
 } from './entities';
 
 const migrationsDirectory = 'src/db/migrations';
 
-export default function(): ConnectionOptions {
+export default function (): ConnectionOptions {
   return {
     type: 'postgres',
     host: config.DB_HOST,
@@ -22,14 +22,14 @@ export default function(): ConnectionOptions {
     password: config.DB_PASSWORD,
     database: config.DB_NAME,
     entities: [
-      Post,
-      PostGroup,
-      Session,
-      User,
-      ColumnDefinition,
-      Vote,
-      SessionTemplate,
-      TemplateColumnDefinition,
+      PostEntity,
+      PostGroupEntity,
+      SessionEntity,
+      UserEntity,
+      ColumnDefinitionEntity,
+      VoteEntity,
+      SessionTemplateEntity,
+      TemplateColumnDefinitionEntity,
     ],
     synchronize: false,
     logging: config.SQL_LOG ? 'all' : undefined,

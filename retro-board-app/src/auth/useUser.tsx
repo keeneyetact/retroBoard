@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import UserContext from './Context';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 
-function useUser(): User | null {
-    const { user } = useContext(UserContext);
+function useUser(): FullUser | null {
+  const { user } = useContext(UserContext);
 
-    return user;
+  return user;
 }
 
 export default useUser;

@@ -1,16 +1,16 @@
 import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
-import { Session, Post } from '../entities';
+import { SessionEntity, PostEntity } from '../entities';
 import SessionRepository from './SessionRepository';
 import { Post as JsonPost, defaultSession } from 'retro-board-common';
 
-@EntityRepository(Post)
-export default class PostRepository extends Repository<Post> {
+@EntityRepository(PostEntity)
+export default class PostRepository extends Repository<PostEntity> {
   async saveFromJson(
     sessionId: string,
     userId: string,
     post: JsonPost
   ): Promise<void> {
-    const session = await this.manager.findOne(Session, sessionId);
+    const session = await this.manager.findOne(SessionEntity, sessionId);
     if (session) {
       await this.save({
         ...post,
@@ -37,12 +37,3 @@ export default class PostRepository extends Repository<Post> {
     }
   }
 }
-
-// function toPost(json: JsonPost, userId: string, session: Session): Post {
-//   const post = new Post(json.id, session, json.column, json.content, {
-//     id: userId,
-//   });
-//   post.votes = undefined;
-//   post.action = json.action;
-//   return post;
-// }

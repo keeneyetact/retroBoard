@@ -6,11 +6,15 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IconName } from 'retro-board-common';
-import Session from './Session';
-import SessionTemplate from './SessionTemplate';
+import {
+  IconName,
+  ColumnDefinition,
+  ColumnDefinitionType,
+} from 'retro-board-common';
+import SessionEntity from './Session';
+import SessionTemplateEntity from './SessionTemplate';
 
-class ColumnDefinitionBase {
+class ColumnDefinitionEntityBase {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
   @Column()
@@ -27,6 +31,17 @@ class ColumnDefinitionBase {
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
+
+  toJson(): ColumnDefinition {
+    return {
+      color: this.color,
+      icon: this.icon,
+      id: this.id,
+      index: this.index,
+      label: this.label,
+      type: this.type as ColumnDefinitionType,
+    };
+  }
 
   constructor(
     id: string,
@@ -46,12 +61,12 @@ class ColumnDefinitionBase {
 }
 
 @Entity({ name: 'columns' })
-export class ColumnDefinition extends ColumnDefinitionBase {
-  @ManyToOne(() => Session, { nullable: false })
-  public session: Session;
+export class ColumnDefinitionEntity extends ColumnDefinitionEntityBase {
+  @ManyToOne(() => SessionEntity, { nullable: false })
+  public session: SessionEntity;
   constructor(
     id: string,
-    session: Session,
+    session: SessionEntity,
     type: string,
     index: number,
     label: string,
@@ -64,12 +79,12 @@ export class ColumnDefinition extends ColumnDefinitionBase {
 }
 
 @Entity({ name: 'templates-columns' })
-export class TemplateColumnDefinition extends ColumnDefinitionBase {
-  @ManyToOne(() => SessionTemplate, { nullable: false })
-  public template: SessionTemplate;
+export class TemplateColumnDefinitionEntity extends ColumnDefinitionEntityBase {
+  @ManyToOne(() => SessionTemplateEntity, { nullable: false })
+  public template: SessionTemplateEntity;
   constructor(
     id: string,
-    template: SessionTemplate,
+    template: SessionTemplateEntity,
     type: string,
     index: number,
     label: string,

@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import useTranslations, { useLanguage } from '../../../translations';
-import { User } from 'retro-board-common';
+import useTranslations from '../../../translations';
+import { FullUser } from 'retro-board-common';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import Link from '../../../components/Link';
 import { Email, VpnKey } from '@material-ui/icons';
-import { accountLogin, updateLanguage } from '../../../api';
+import { accountLogin } from '../../../api';
 import styled from 'styled-components';
 
 interface LoginProps {
   onClose: () => void;
-  onUser: (user: User | null) => void;
+  onUser: (user: FullUser | null) => void;
   onAskRegistration: () => void;
   onAskPasswordReset: () => void;
 }
@@ -27,17 +27,18 @@ const Login = ({
     AccountLogin: translations,
     AuthCommon: authTranslations,
   } = useTranslations();
-  const language = useLanguage();
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const handleAccountogin = useCallback(() => {
     async function login() {
       if (loginEmail.length && loginPassword.length) {
-        await accountLogin(loginEmail, loginPassword);
-        const updatedUser = await updateLanguage(language.value);
-        onUser(updatedUser);
-        if (updatedUser) {
+        setLoading(true);
+        const user = await accountLogin(loginEmail, loginPassword);
+        setLoading(false);
+        onUser(user);
+        if (user) {
           if (onClose) {
             onClose();
           }
@@ -47,14 +48,7 @@ const Login = ({
       }
     }
     login();
-  }, [
-    loginEmail,
-    loginPassword,
-    language.value,
-    translations,
-    onClose,
-    onUser,
-  ]);
+  }, [loginEmail, loginPassword, translations, onClose, onUser]);
 
   return (
     <Wrapper
@@ -64,7 +58,8 @@ const Login = ({
           onClick={handleAccountogin}
           color="primary"
           autoFocus
-          disabled={!loginEmail || !loginPassword}
+          startIcon={loading ? <CircularProgress size="1em" /> : null}
+          disabled={!loginEmail || !loginPassword || loading}
         >
           {translations.loginButton}
         </Button>

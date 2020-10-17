@@ -1,11 +1,14 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { ColumnDefinition } from '../entities';
-import { ColumnDefinition as JsonColumnDefinition, Session as JsonSession } from 'retro-board-common';
+import { ColumnDefinitionEntity } from '../entities';
+import {
+  ColumnDefinition as JsonColumnDefinition,
+  Session as JsonSession,
+} from 'retro-board-common';
 import { v4 } from 'uuid';
 
-@EntityRepository(ColumnDefinition)
+@EntityRepository(ColumnDefinitionEntity)
 export default class ColumnDefinitionRepository extends Repository<
-  ColumnDefinition
+  ColumnDefinitionEntity
 > {
   async saveFromJson(
     colDef: JsonColumnDefinition,
@@ -18,11 +21,13 @@ export default class ColumnDefinitionRepository extends Repository<
     });
   }
 
-  async updateColumns(session: JsonSession,
-    columns: JsonColumnDefinition[]): Promise<JsonColumnDefinition[]> {
-      await this.delete({ session: { id: session.id }});
-      const promises = columns.map(c => this.saveFromJson(c, session.id));
-      await Promise.all(promises);
-      return columns;
-    }
+  async updateColumns(
+    session: JsonSession,
+    columns: JsonColumnDefinition[]
+  ): Promise<JsonColumnDefinition[]> {
+    await this.delete({ session: { id: session.id } });
+    const promises = columns.map((c) => this.saveFromJson(c, session.id));
+    await Promise.all(promises);
+    return columns;
+  }
 }

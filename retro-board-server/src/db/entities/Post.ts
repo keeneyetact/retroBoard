@@ -9,25 +9,26 @@ import {
   Index,
 } from 'typeorm';
 import { LexoRank } from 'lexorank';
-import Session from './Session';
-import User from './User';
-import Vote from './Vote';
-import PostGroup from './PostGroup';
+import SessionEntity from './Session';
+import UserEntity from './User';
+import VoteEntity from './Vote';
+import PostGroupEntity from './PostGroup';
+import { Post } from 'retro-board-common/src';
 
 @Entity({ name: 'posts' })
-export default class Post {
+export default class PostEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @ManyToOne(() => Session, { nullable: false })
-  public session: Session;
-  @ManyToOne(() => PostGroup, {
+  @ManyToOne(() => SessionEntity, { nullable: false })
+  public session: SessionEntity;
+  @ManyToOne(() => PostGroupEntity, {
     nullable: true,
     eager: true,
     cascade: true,
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
-  public group: PostGroup | null;
+  public group: PostGroupEntity | null;
   @Column({ default: 0 })
   public column: number;
   @Index()
@@ -39,28 +40,39 @@ export default class Post {
   public action: null | string;
   @Column({ nullable: true, type: 'character varying' })
   public giphy: null | string;
-  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
-  public user: User;
-  @OneToMany(
-    () => Vote,
-    vote => vote.post,
-    {
-      cascade: true,
-      nullable: false,
-      eager: true,
-    }
-  )
-  public votes: Vote[] | undefined;
+  @ManyToOne(() => UserEntity, { eager: true, cascade: true, nullable: false })
+  public user: UserEntity;
+  @OneToMany(() => VoteEntity, (vote) => vote.post, {
+    cascade: true,
+    nullable: false,
+    eager: true,
+  })
+  public votes: VoteEntity[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
+
+  toJson(): Post {
+    return {
+      id: this.id,
+      action: this.action,
+      column: this.column,
+      content: this.content,
+      giphy: this.giphy,
+      group: this.group ? this.group.toJson() : null,
+      rank: this.rank,
+      user: this.user.toJson(),
+      votes: this.votes === undefined ? [] : this.votes.map((v) => v.toJson()),
+    };
+  }
+
   constructor(
     id: string,
-    session: Session,
+    session: SessionEntity,
     column: number,
     content: string,
-    user: User
+    user: UserEntity
   ) {
     this.id = id;
     this.session = session;

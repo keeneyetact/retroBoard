@@ -77,15 +77,21 @@ export interface PostGroup extends PostContainer, Rankable, Entity {
 
 export interface User extends Entity {
   name: string;
-  accountType: AccountType;
-  username: string | null;
-  password: string | null;
-  emailVerification: string | null;
   photo: string | null;
+}
+
+export interface FullUser extends User {
+  username: string | null;
+  accountType: AccountType;
   language: string;
 }
 
-export type AccountType = 'anonymous' | 'google' | 'twitter' | 'github' | 'password';
+export type AccountType =
+  | 'anonymous'
+  | 'google'
+  | 'twitter'
+  | 'github'
+  | 'password';
 
 export interface Vote extends Entity {
   user: User;

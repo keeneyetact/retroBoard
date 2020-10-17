@@ -8,46 +8,60 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { TemplateColumnDefinition } from './ColumnDefinition';
-import { SessionOptions as JsonSessionOptions } from 'retro-board-common';
-import User from './User';
-import SessionOptions from './SessionOptions';
+import { TemplateColumnDefinitionEntity } from './ColumnDefinition';
+import {
+  SessionOptions as JsonSessionOptions,
+  SessionTemplate,
+} from 'retro-board-common';
+import UserEntity from './User';
+import SessionOptionsEntity from './SessionOptions';
 
 @Entity({ name: 'templates' })
-export default class SessionTemplate {
+export default class SessionTemplateEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
   @Column({ nullable: false, type: 'character varying' })
   @Index()
   public name: string | null;
-  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
-  public createdBy: User;
+  @ManyToOne(() => UserEntity, { eager: true, cascade: true, nullable: false })
+  public createdBy: UserEntity;
   @OneToMany(
-    () => TemplateColumnDefinition,
-    colDef => colDef.template,
+    () => TemplateColumnDefinitionEntity,
+    (colDef) => colDef.template,
     {
       cascade: true,
       nullable: false,
       eager: false,
     }
   )
-  public columns: TemplateColumnDefinition[] | undefined;
-  @Column(() => SessionOptions)
-  public options: SessionOptions;
+  public columns: TemplateColumnDefinitionEntity[] | undefined;
+  @Column(() => SessionOptionsEntity)
+  public options: SessionOptionsEntity;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
 
+  toJson(): SessionTemplate {
+    return {
+      columns:
+        this.columns === undefined ? [] : this.columns.map((c) => c.toJson()),
+      createdBy: this.createdBy.toJson(),
+      id: this.id,
+      name: this.name || '', // TODO check
+      options: this.options.toJson(),
+    };
+  }
+
   constructor(
     id: string,
     name: string | null,
-    createdBy: User,
+    createdBy: UserEntity,
     options: Partial<JsonSessionOptions>
   ) {
     this.id = id;
     this.name = name;
     this.createdBy = createdBy;
-    this.options = new SessionOptions(options);
+    this.options = new SessionOptionsEntity(options);
   }
 }

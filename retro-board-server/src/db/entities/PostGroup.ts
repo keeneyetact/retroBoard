@@ -9,16 +9,17 @@ import {
   Index,
 } from 'typeorm';
 import { LexoRank } from 'lexorank';
-import Session from './Session';
-import User from './User';
-import Post from './Post';
+import SessionEntity from './Session';
+import UserEntity from './User';
+import PostEntity from './Post';
+import { PostGroup } from 'retro-board-common/src';
 
 @Entity({ name: 'groups' })
-export default class PostGroup {
+export default class PostGroupEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @ManyToOne(() => Session, { nullable: false })
-  public session: Session;
+  @ManyToOne(() => SessionEntity, { nullable: false })
+  public session: SessionEntity;
   @Column({ default: 0 })
   public column: number;
   @Index()
@@ -26,28 +27,36 @@ export default class PostGroup {
   public rank: string;
   @Column()
   public label: string;
-  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
-  public user: User;
-  @OneToMany(
-    () => Post,
-    post => post.session,
-    {
-      cascade: true,
-      nullable: false,
-      eager: false,
-    }
-  )
-  public posts: Post[] | undefined;
+  @ManyToOne(() => UserEntity, { eager: true, cascade: true, nullable: false })
+  public user: UserEntity;
+  @OneToMany(() => PostEntity, (post) => post.session, {
+    cascade: true,
+    nullable: false,
+    eager: false,
+  })
+  public posts: PostEntity[] | undefined;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
+
+  toJson(): PostGroup {
+    return {
+      id: this.id,
+      column: this.column,
+      label: this.label,
+      posts: this.posts ? this.posts.map((p) => p.toJson()) : [],
+      rank: this.rank,
+      user: this.user.toJson(),
+    };
+  }
+
   constructor(
     id: string,
-    session: Session,
+    session: SessionEntity,
     column: number,
     label: string,
-    user: User
+    user: UserEntity
   ) {
     this.id = id;
     this.session = session;

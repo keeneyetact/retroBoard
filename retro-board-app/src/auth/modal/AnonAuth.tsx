@@ -3,12 +3,12 @@ import { Button, Input } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import useTranslations, { useLanguage } from '../../translations';
 import { anonymousLogin, updateLanguage } from '../../api';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 import Wrapper from './Wrapper';
 
 interface AnonAuthProps {
   onClose: () => void;
-  onUser: (user: User | null) => void;
+  onUser: (user: FullUser | null) => void;
 }
 
 const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {

@@ -8,68 +8,73 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import Post from './Post';
-import { ColumnDefinition } from './ColumnDefinition';
-import { SessionOptions as JsonSessionOptions } from 'retro-board-common';
-import User from './User';
-import SessionOptions from './SessionOptions';
-import PostGroup from './PostGroup';
+import PostEntity from './Post';
+import { ColumnDefinitionEntity } from './ColumnDefinition';
+import {
+  SessionOptions as JsonSessionOptions,
+  Session,
+} from 'retro-board-common';
+import UserEntity from './User';
+import SessionOptionsEntity from './SessionOptions';
+import PostGroupEntity from './PostGroup';
 
 @Entity({ name: 'sessions' })
-export default class Session {
+export default class SessionEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
   @Column({ nullable: true, type: 'character varying' })
   @Index()
   public name: string | null;
-  @ManyToOne(() => User, { eager: true, cascade: true, nullable: false })
-  public createdBy: User;
-  @OneToMany(
-    () => Post,
-    post => post.session,
-    {
-      cascade: true,
-      nullable: false,
-      eager: false,
-    }
-  )
-  public posts: Post[] | undefined;
-  @OneToMany(
-    () => PostGroup,
-    group => group.session,
-    {
-      cascade: true,
-      nullable: false,
-      eager: false,
-    }
-  )
-  public groups: PostGroup[] | undefined;
-  @OneToMany(
-    () => ColumnDefinition,
-    colDef => colDef.session,
-    {
-      cascade: true,
-      nullable: false,
-      eager: false,
-    }
-  )
-  public columns: ColumnDefinition[] | undefined;
-  @Column(() => SessionOptions)
-  public options: SessionOptions;
+  @ManyToOne(() => UserEntity, { eager: true, cascade: true, nullable: false })
+  public createdBy: UserEntity;
+  @OneToMany(() => PostEntity, (post) => post.session, {
+    cascade: true,
+    nullable: false,
+    eager: false,
+  })
+  public posts: PostEntity[] | undefined;
+  @OneToMany(() => PostGroupEntity, (group) => group.session, {
+    cascade: true,
+    nullable: false,
+    eager: false,
+  })
+  public groups: PostGroupEntity[] | undefined;
+  @OneToMany(() => ColumnDefinitionEntity, (colDef) => colDef.session, {
+    cascade: true,
+    nullable: false,
+    eager: false,
+  })
+  public columns: ColumnDefinitionEntity[] | undefined;
+  @Column(() => SessionOptionsEntity)
+  public options: SessionOptionsEntity;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   public updated: Date | undefined;
 
+  toJson(): Session {
+    return {
+      columns:
+        this.columns === undefined ? [] : this.columns.map((c) => c.toJson()),
+      createdBy: this.createdBy.toJson(),
+      groups:
+        this.groups === undefined ? [] : this.groups.map((g) => g.toJson()),
+      id: this.id,
+      name: this.name,
+      options: this.options.toJson(),
+      posts: this.posts === undefined ? [] : this.posts.map((p) => p.toJson()),
+    };
+  }
+
   constructor(
     id: string,
     name: string | null,
-    createdBy: User,
+    createdBy: UserEntity,
     options: Partial<JsonSessionOptions>
   ) {
     this.id = id;
     this.name = name;
     this.createdBy = createdBy;
-    this.options = new SessionOptions(options);
+    this.options = new SessionOptionsEntity(options);
   }
 }

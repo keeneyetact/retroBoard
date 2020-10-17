@@ -15,7 +15,9 @@ import { find } from 'lodash';
 import { v4 } from 'uuid';
 import { Store } from './types';
 import { setScope, reportQueryError } from './sentry';
-import SessionOptions from './db/entities/SessionOptions';
+import SessionOptionsEntity from './db/entities/SessionOptions';
+import { UserEntity } from './db/entities';
+import { hasField } from './security/payload-checker';
 
 const {
   RECEIVE_POST,
@@ -50,7 +52,7 @@ interface ExtendedSocket extends socketIo.Socket {
 }
 
 interface Users {
-  [socketId: string]: User | null;
+  [socketId: string]: UserEntity | null;
 }
 
 interface UserData {
@@ -86,6 +88,9 @@ export default (store: Store, io: SocketIO.Server) => {
     console.log(
       chalk`${d()}{green  ==> } ${s(action)} {grey ${JSON.stringify(data)}}`
     );
+    if (hasField('password', data)) {
+      console.error('The following object has a password property: ', data);
+    }
     socket.broadcast.to(getRoom(sessionId)).emit(action, data);
   };
 
@@ -93,13 +98,16 @@ export default (store: Store, io: SocketIO.Server) => {
     console.log(
       chalk`${d()}{green  --> } ${s(action)} {grey ${JSON.stringify(data)}}`
     );
+    if (hasField('password', data)) {
+      console.error('The following object has a password property: ', data);
+    }
     socket.emit(action, data);
   };
 
   const updateOptions = async (
     userId: string | null,
     session: Session,
-    options: SessionOptions
+    options: SessionOptionsEntity
   ) => {
     if (!userId || !session) {
       return;
@@ -184,17 +192,14 @@ export default (store: Store, io: SocketIO.Server) => {
     const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
     if (room) {
       const clients = Object.keys(room.sockets);
-      const names = clients.map(
-        (id, i) =>
-          users[id] || {
-            id: socket.id,
-            name: `(Spectator #${i})`,
-            username: null,
-            photo: null,
-            accountType: 'anonymous',
-            created: null,
-            updated: null,
-          }
+      const names: User[] = clients.map((id, i) =>
+        !!users[id]
+          ? users[id]!.toJson()
+          : {
+              id: socket.id,
+              name: `(Spectator #${i})`,
+              photo: null,
+            }
       );
 
       sendToSelf(socket, RECEIVE_CLIENT_LIST, names);
@@ -204,7 +209,7 @@ export default (store: Store, io: SocketIO.Server) => {
 
   const recordUser = (
     sessionId: string,
-    user: User,
+    user: UserEntity,
     socket: ExtendedSocket
   ) => {
     const socketId = socket.id;
@@ -269,7 +274,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     session.name = data.name;
-    await store.updateName(session.id, data.name);
+    await updateName(session.id, data.name);
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 
@@ -332,7 +337,7 @@ export default (store: Store, io: SocketIO.Server) => {
       if (session.options.allowMultipleVotes || !existingVote) {
         const vote: Vote = {
           id: v4(),
-          user: user,
+          user: user.toJson(),
           type: data.type,
         };
         await persistVote(userId, session.id, post.id, vote);
@@ -385,7 +390,7 @@ export default (store: Store, io: SocketIO.Server) => {
   const onEditOptions = async (
     userId: string | null,
     session: Session,
-    data: SessionOptions,
+    data: SessionOptionsEntity,
     socket: ExtendedSocket
   ) => {
     if (!userId) {

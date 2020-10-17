@@ -1,11 +1,11 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { TemplateColumnDefinition } from '../entities';
+import { TemplateColumnDefinitionEntity } from '../entities';
 import { ColumnDefinition as JsonColumnDefinition } from 'retro-board-common';
 import { v4 } from 'uuid';
 
-@EntityRepository(TemplateColumnDefinition)
+@EntityRepository(TemplateColumnDefinitionEntity)
 export default class TemplateColumnDefinitionRepository extends Repository<
-  TemplateColumnDefinition
+  TemplateColumnDefinitionEntity
 > {
   async saveFromJson(
     colDef: JsonColumnDefinition,

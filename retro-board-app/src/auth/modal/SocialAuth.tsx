@@ -10,14 +10,14 @@ import io from 'socket.io-client';
 import useTranslations, { useLanguage } from '../../translations';
 import config from '../../utils/getConfig';
 import { updateLanguage } from '../../api';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 import Wrapper from './Wrapper';
 
 const API_URL = '/api/auth';
 
 interface SocialAuthProps {
   onClose: () => void;
-  onUser: (user: User | null) => void;
+  onUser: (user: FullUser | null) => void;
 }
 
 function SocialAuth({ onClose, onUser }: SocialAuthProps) {
@@ -52,7 +52,7 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
   useEffect(() => {
     const s = io();
     setSocket(s);
-    s.on('auth', async (_user: User) => {
+    s.on('auth', async (_user: FullUser) => {
       const updatedUser = await updateLanguage(language.value);
       onUser(updatedUser);
       if (windowRef.current) {

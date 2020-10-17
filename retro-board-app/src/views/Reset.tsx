@@ -82,7 +82,12 @@ function ResetPasswordPage() {
               scoreWords={authTranslations.passwordScoreWords}
             />
           </Suspense>
-          <Button onClick={handleChangePassword} disabled={!validPassword}>
+          <Button
+            onClick={handleChangePassword}
+            disabled={!validPassword}
+            variant="contained"
+            color="primary"
+          >
             {translations.resetButton}
           </Button>
         </>

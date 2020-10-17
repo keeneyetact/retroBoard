@@ -1,16 +1,16 @@
 import React from 'react';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 
 interface UserContextProps {
-  user: User | null;
+  user: FullUser | null;
   initialised: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: FullUser | null) => void;
 }
 
 const UserContext = React.createContext<UserContextProps>({
   user: null,
   initialised: false,
-  setUser: (_: User | null) => {},
+  setUser: (_: FullUser | null) => {},
 });
 
 export default UserContext;

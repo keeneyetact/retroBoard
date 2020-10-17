@@ -1,5 +1,5 @@
 import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
-import { SessionTemplate } from '../entities';
+import { SessionTemplateEntity } from '../entities';
 import {
   SessionTemplate as JsonSessionTemplate,
   ColumnDefinition as JsonColumnDefinition,
@@ -8,9 +8,9 @@ import {
 import { v4 } from 'uuid';
 import { TemplateColumnRepository } from '.';
 
-@EntityRepository(SessionTemplate)
+@EntityRepository(SessionTemplateEntity)
 export default class SessionTemplateRepository extends Repository<
-  SessionTemplate
+  SessionTemplateEntity
 > {
   async saveFromJson(
     name: string,

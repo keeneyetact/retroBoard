@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
-import { readSync } from 'fs';
-import { request } from 'http';
 
 interface Request2 extends Request {}
 

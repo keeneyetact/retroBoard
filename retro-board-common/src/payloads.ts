@@ -2,6 +2,7 @@ export interface RegisterPayload {
   name: string;
   username: string;
   password: string;
+  language: string;
 }
 
 export interface ValidateEmailPayload {

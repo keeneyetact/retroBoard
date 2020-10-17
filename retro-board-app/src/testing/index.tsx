@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
 import { Provider, initialState } from '../state/context';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 import {
   DragDropContext,
   Droppable,
@@ -22,12 +22,7 @@ const testingInitialState: State = {
     createdBy: {
       id: 'John Doe',
       name: 'John Doe',
-      accountType: 'anonymous',
       photo: null,
-      username: 'johndoe',
-      password: null,
-      emailVerification: null,
-      language: 'en',
     },
     options: {
       maxDownVotes: null,
@@ -45,35 +40,28 @@ const testingInitialState: State = {
 };
 
 const AllTheProviders: React.SFC = ({ children }) => {
-  const [user, setUser] = useState<User | null>({
+  const [user, setUser] = useState<FullUser | null>({
     id: 'John Doe',
     name: 'John Doe',
-    accountType: 'anonymous',
     photo: null,
-    username: 'johndoe',
-    password: null,
-    emailVerification: null,
+    accountType: 'anonymous',
     language: 'en',
+    username: 'johndoe',
   });
   useEffect(() => {
     setUser({
       id: 'John Doe',
       name: 'John Doe',
-      accountType: 'anonymous',
       photo: null,
-      username: 'johndoe',
-      password: null,
-      emailVerification: null,
+      accountType: 'anonymous',
       language: 'en',
+      username: 'johndoe',
     });
   }, []);
   return (
     <DragDropContext onDragEnd={() => {}}>
       <Droppable droppableId="test">
-        {(
-          dropProvided: DroppableProvided,
-          dropSnapshot: DroppableStateSnapshot
-        ) => (
+        {(dropProvided: DroppableProvided, _: DroppableStateSnapshot) => (
           <div ref={dropProvided.innerRef}>
             <UserContext.Provider value={{ user, setUser, initialised: true }}>
               <Provider initialState={testingInitialState}>{children}</Provider>

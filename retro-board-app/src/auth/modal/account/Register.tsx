@@ -5,7 +5,7 @@ import useTranslations, { useLanguage } from '../../../translations';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import { Person, Email, VpnKey } from '@material-ui/icons';
-import { updateLanguage, register } from '../../../api';
+import { register } from '../../../api';
 import { validate } from 'isemail';
 
 const PasswordStrength = React.lazy(
@@ -35,7 +35,8 @@ const Register = () => {
     const response = await register(
       registerName,
       registerEmail,
-      registerPassword
+      registerPassword,
+      language.value
     );
     if (response.error) {
       switch (response.error) {
@@ -47,7 +48,6 @@ const Register = () => {
           return;
       }
     } else {
-      await updateLanguage(language.value);
       setIsSuccessful(true);
     }
   }, [

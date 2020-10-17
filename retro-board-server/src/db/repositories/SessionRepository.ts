@@ -1,11 +1,13 @@
 import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
-import { Session } from '../entities';
+import { SessionEntity } from '../entities';
 import ColumnRepository from './ColumnRepository';
-import { Session as JsonSession } from 'retro-board-common/src/types';
-import SessionOptions from '../entities/SessionOptions';
+import {
+  Session as JsonSession,
+  SessionOptions,
+} from 'retro-board-common/src/types';
 
-@EntityRepository(Session)
-export default class SessionRepository extends Repository<Session> {
+@EntityRepository(SessionEntity)
+export default class SessionRepository extends Repository<SessionEntity> {
   async updateOptions(
     session: JsonSession,
     options: SessionOptions

@@ -11,22 +11,30 @@ import {
   SessionTemplateRepository,
 } from './repositories';
 import {
-  Session as JsonSession,
-  Post as JsonPost,
-  PostGroup as JsonPostGroup,
-  Vote as JsonVote,
-  User as JsonUser,
-  ColumnDefinition as JsonColumnDefintion,
-  SessionMetadata as JsonSessionMetadata,
+  Session,
+  Post,
+  PostGroup,
+  Vote,
+  ColumnDefinition,
+  SessionMetadata,
   SessionOptions,
   defaultSession,
   VoteType,
+  User,
+  FullUser,
 } from 'retro-board-common';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
 import shortId from 'shortid';
 import { v4 } from 'uuid';
-import { SessionTemplate, Session, ColumnDefinition } from './entities';
+import {
+  SessionTemplateEntity,
+  SessionEntity,
+  PostEntity,
+  PostGroupEntity,
+  ColumnDefinitionEntity,
+} from './entities';
+import UserEntity, { ALL_FIELDS } from './entities/User';
 
 export async function getDb() {
   const connection = await createConnection(getOrmConfig());
@@ -36,7 +44,7 @@ export async function getDb() {
 const create = (
   sessionRepository: SessionRepository,
   userRepository: UserRepository
-) => async (author: JsonUser): Promise<JsonSession> => {
+) => async (author: User): Promise<Session> => {
   try {
     const id = shortId();
     const userWithDefaultTemplate = await userRepository.findOne(
@@ -56,7 +64,7 @@ const create = (
                 ...c,
                 id: v4(),
                 author: { id: author.id },
-              } as JsonColumnDefintion)
+              } as ColumnDefinition)
           ),
         },
         author.id
@@ -87,11 +95,10 @@ const createCustom = (
   userRepository: UserRepository
 ) => async (
   options: SessionOptions,
-  columns: JsonColumnDefintion[],
+  columns: ColumnDefinition[],
   setDefault: boolean,
-  author: JsonUser
-): Promise<JsonSession> => {
-  console.log('Columns: ', columns.length);
+  author: User
+): Promise<Session> => {
   try {
     const id = shortId();
     const session = await sessionRepository.findOne({ id });
@@ -129,30 +136,27 @@ const getSession = (
   postRepository: PostRepository,
   postGroupRepository: PostGroupRepository,
   columnRepository: ColumnRepository
-) => async (
-  _: string | null,
-  sessionId: string
-): Promise<JsonSession | null> => {
+) => async (_: string | null, sessionId: string): Promise<Session | null> => {
   try {
     const session = await sessionRepository.findOne({ id: sessionId });
     if (session) {
       const posts = (await postRepository.find({
         where: { session },
         order: { created: 'ASC' },
-      })) as JsonPost[];
+      })) as PostEntity[];
       const groups = (await postGroupRepository.find({
         where: { session },
         order: { created: 'ASC' },
-      })) as JsonPostGroup[];
+      })) as PostGroupEntity[];
       const columns = (await columnRepository.find({
         where: { session },
         order: { index: 'ASC' },
-      })) as JsonColumnDefintion[];
+      })) as ColumnDefinitionEntity[];
       return {
-        ...session,
-        columns,
-        posts,
-        groups,
+        ...session.toJson(),
+        columns: columns.map((c) => c.toJson()),
+        posts: posts.map((p) => p.toJson()),
+        groups: groups.map((g) => g.toJson()),
       };
     } else {
       return null;
@@ -164,21 +168,24 @@ const getSession = (
 
 const getUser = (userRepository: UserRepository) => async (
   id: string
-): Promise<JsonUser | null> => {
-  const user = await userRepository.findOne(id);
+): Promise<UserEntity | null> => {
+  const user = await userRepository.findOne(id, { select: ALL_FIELDS });
   return user || null;
 };
 
 const getUserByUsername = (userRepository: UserRepository) => async (
   username: string
-): Promise<JsonUser | null> => {
-  const user = await userRepository.findOne({ username });
+): Promise<UserEntity | null> => {
+  const user = await userRepository.findOne(
+    { username },
+    { select: ALL_FIELDS }
+  );
   return user || null;
 };
 
 const getDefaultTemplate = (userRepository: UserRepository) => async (
   id: string
-): Promise<SessionTemplate | null> => {
+): Promise<SessionTemplateEntity | null> => {
   const userWithDefaultTemplate = await userRepository.findOne(
     { id },
     { relations: ['defaultTemplate', 'defaultTemplate.columns'] }
@@ -188,12 +195,12 @@ const getDefaultTemplate = (userRepository: UserRepository) => async (
 
 const updateUser = (userRepository: UserRepository) => async (
   id: string,
-  updatedUser: Partial<JsonUser>
-): Promise<JsonUser | null> => {
+  updatedUser: Partial<UserEntity>
+): Promise<UserEntity | null> => {
   const user = await userRepository.findOne(id);
   if (user) {
     await userRepository.update(id, updatedUser);
-    const newUser = await userRepository.findOne(id);
+    const newUser = await userRepository.findOne(id, { select: ALL_FIELDS });
     return newUser || null;
   }
   return null;
@@ -201,29 +208,29 @@ const updateUser = (userRepository: UserRepository) => async (
 
 const saveSession = (sessionRepository: SessionRepository) => async (
   userId: string,
-  session: JsonSession
+  session: Session
 ): Promise<void> => {
   await sessionRepository.saveFromJson(session, userId);
 };
 
 const updateOptions = (sessionRepository: SessionRepository) => async (
-  session: JsonSession,
+  session: Session,
   options: SessionOptions
 ): Promise<SessionOptions> => {
   return await sessionRepository.updateOptions(session, options);
 };
 
 const updateColumns = (columnRepository: ColumnRepository) => async (
-  session: JsonSession,
-  columns: JsonColumnDefintion[]
-): Promise<JsonColumnDefintion[]> => {
+  session: Session,
+  columns: ColumnDefinition[]
+): Promise<ColumnDefinition[]> => {
   return await columnRepository.updateColumns(session, columns);
 };
 
 const savePost = (postRepository: PostRepository) => async (
   userId: string,
   sessionId: string,
-  post: JsonPost
+  post: Post
 ): Promise<void> => {
   await postRepository.saveFromJson(sessionId, userId, post);
 };
@@ -231,7 +238,7 @@ const savePost = (postRepository: PostRepository) => async (
 const savePostGroup = (postGroupRepository: PostGroupRepository) => async (
   userId: string,
   sessionId: string,
-  group: JsonPostGroup
+  group: PostGroup
 ): Promise<void> => {
   await postGroupRepository.saveFromJson(sessionId, userId, group);
 };
@@ -240,7 +247,7 @@ const saveVote = (voteRepository: VoteRepository) => async (
   userId: string,
   sessionId: string,
   postId: string,
-  vote: JsonVote
+  vote: Vote
 ): Promise<void> => {
   await voteRepository.saveFromJson(postId, userId, vote);
 };
@@ -262,15 +269,15 @@ const deletePostGroup = (postGroupRepository: PostGroupRepository) => async (
 };
 
 const getOrSaveUser = (userRepository: UserRepository) => async (
-  user: JsonUser
-): Promise<JsonUser> => {
+  user: UserEntity
+): Promise<UserEntity> => {
   const existingUser = await userRepository.findOne({
     where: { username: user.username, accountType: user.accountType },
   });
   if (existingUser) {
-    return existingUser as JsonUser;
+    return existingUser;
   }
-  return await userRepository.saveFromJson(user);
+  return await userRepository.save(user);
 };
 
 const updateName = (sessionRepository: SessionRepository) => async (
@@ -316,7 +323,7 @@ const deleteSessions = (sessionRepository: SessionRepository) => async (
 
 const previousSessions = (sessionRepository: SessionRepository) => async (
   userId: string
-): Promise<JsonSessionMetadata[]> => {
+): Promise<SessionMetadata[]> => {
   const ids: number[] = await sessionRepository.query(
     `
   (
@@ -348,39 +355,41 @@ const previousSessions = (sessionRepository: SessionRepository) => async (
     (session) =>
       ({
         created: session.created,
-        createdBy: session.createdBy,
+        createdBy: session.createdBy.toJson(),
         id: session.id,
         name: session.name,
         numberOfNegativeVotes: numberOfVotes('dislike', session),
         numberOfPositiveVotes: numberOfVotes('like', session),
         numberOfPosts: session.posts?.length,
         numberOfActions: numberOfActions(session),
-        participants: getParticipans(session),
+        participants: getParticipants(session),
         canBeDeleted:
           userId === session.createdBy.id &&
           session.createdBy.accountType !== 'anonymous',
-      } as JsonSessionMetadata)
+      } as SessionMetadata)
   );
 };
 
-function getParticipans(session: Session) {
+function getParticipants(session: SessionEntity) {
   return uniqBy(
     [
-      session.createdBy,
-      ...session.posts!.map((p) => p.user),
-      ...flattenDeep(session.posts!.map((p) => p.votes!.map((v) => v.user))),
+      session.createdBy.toJson(),
+      ...session.posts!.map((p) => p.user.toJson()),
+      ...flattenDeep(
+        session.posts!.map((p) => p.votes!.map((v) => v.user.toJson()))
+      ),
     ].filter(Boolean),
     (u) => u.id
   );
 }
 
-function numberOfVotes(type: VoteType, session: Session) {
+function numberOfVotes(type: VoteType, session: SessionEntity) {
   return session.posts!.reduce<number>((prev, cur) => {
     return prev + cur.votes!.filter((v) => v.type === type).length;
   }, 0);
 }
 
-function numberOfActions(session: Session) {
+function numberOfActions(session: SessionEntity) {
   return session.posts!.filter((p) => p.action !== null).length;
 }
 

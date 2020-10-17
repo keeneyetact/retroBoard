@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Context from './Context';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 import { me } from '../api';
 import { useLocation } from 'react-router-dom';
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FullUser | null>(null);
   const [initialised, setInitialised] = useState(false);
   const location = useLocation();
 

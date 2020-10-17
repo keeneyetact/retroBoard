@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { User } from 'retro-board-common';
+import { FullUser } from 'retro-board-common';
 import Login from './account/Login';
 import Register from './account/Register';
 import LostPassword from './account/LostPassword';
 
 interface AccountAuthProps {
   onClose: () => void;
-  onUser: (user: User | null) => void;
+  onUser: (user: FullUser | null) => void;
 }
 
 type Mode = 'login' | 'register' | 'reset';
