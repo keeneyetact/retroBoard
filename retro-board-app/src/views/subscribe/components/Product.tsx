@@ -1,0 +1,80 @@
+import React from 'react';
+import styled from 'styled-components';
+import { colors, Paper } from '@material-ui/core';
+import { useCallback } from 'react';
+import { Product, Currency } from 'retro-board-common';
+
+interface ProductDisplayProps {
+  product: Product;
+  currency: Currency;
+  selected: boolean;
+  onSelect: (product: Product) => void;
+}
+
+function ProductDisplay({
+  product,
+  selected,
+  currency,
+  onSelect,
+}: ProductDisplayProps) {
+  const handleOrder = useCallback(() => {
+    onSelect(product);
+  }, [onSelect, product]);
+
+  return (
+    <Container onClick={handleOrder} selected={selected}>
+      <Paper elevation={3}>
+        <Header>{product.name}</Header>
+        <Description>tbd</Description>
+        <Seats>{product.seats ? `${product.seats} users` : 'Unlimited'}</Seats>
+        <Total>
+          {(product[currency] / 100).toFixed(2)} {currency.toUpperCase()}
+          <PerMonth>/ month</PerMonth>
+        </Total>
+      </Paper>
+    </Container>
+  );
+}
+
+const Container = styled.div<{ selected: boolean }>`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  outline: ${(props) => (props.selected ? '1' : '0')}px solid
+    ${colors.deepPurple[500]};
+`;
+
+const Header = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid ${colors.deepPurple[500]};
+`;
+
+const Description = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid ${colors.deepPurple[500]};
+  background-color: ${colors.deepPurple.A100};
+  flex: 1;
+`;
+
+const Seats = styled.div`
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: 100;
+`;
+
+const Total = styled.div`
+  background-color: ${colors.deepPurple[500]};
+  color: white;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 100;
+`;
+
+const PerMonth = styled.span`
+  font-size: 0.4em;
+`;
+
+export default ProductDisplay;

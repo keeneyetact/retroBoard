@@ -2,6 +2,7 @@ interface HtmlConfig {
   GOOGLE_ANALYTICS_ID: string;
   SENTRY_URL: string;
   GIPHY_API_KEY: string;
+  STRIPE_KEY: string;
   AUTH_GOOGLE_ENABLED: string;
   AUTH_TWITTER_ENABLED: string;
   AUTH_GITHUB_ENABLED: string;
@@ -16,6 +17,7 @@ interface Config {
   GoogleAnalyticsId: string;
   SentryUrl: string;
   GiphyApiKey: string;
+  StripeKey: string;
   GoogleAuthEnabled: boolean;
   TwitterAuthEnabled: boolean;
   GitHubAuthEnabled: boolean;
@@ -36,6 +38,7 @@ function getKey(
     | 'GOOGLE_ANALYTICS_ID'
     | 'SENTRY_URL'
     | 'GIPHY_API_KEY'
+    | 'STRIPE_KEY'
     | 'DEFAULT_LANGUAGE'
     | 'AUTH_GOOGLE_ENABLED'
     | 'AUTH_TWITTER_ENABLED'
@@ -56,6 +59,7 @@ function getConfig(): Config {
   const googleAnalyticsId = getKey('GOOGLE_ANALYTICS_ID', 'NO_GA');
   const sentryUrl = getKey('SENTRY_URL', 'NO_SENTRY');
   const giphyApiKey = getKey('GIPHY_API_KEY', 'NO_GIPHY');
+  const stripeKey = getKey('STRIPE_KEY', 'NO_STRIPE');
   const defaultLanguage = getKey(
     'DEFAULT_LANGUAGE',
     'NO_DEFAULT_LANGUAGE',
@@ -78,6 +82,7 @@ function getConfig(): Config {
     GoogleAnalyticsId: googleAnalyticsId,
     SentryUrl: sentryUrl,
     GiphyApiKey: giphyApiKey,
+    StripeKey: stripeKey,
     GoogleAuthEnabled: isGoogleAuthEnabled,
     GitHubAuthEnabled: isGitHubAuthEnabled,
     TwitterAuthEnabled: isTwitterAuthEnabled,

@@ -18,7 +18,8 @@
     "build-server": "cd retro-board-server && yarn build && cd ..",
     "build": "yarn build-ui && yarn build-server",
     "start": "yarn build-common && yarn start-server & yarn start-ui",
-    "migrate": "cd retro-board-server && yarn migrate && cd .."
+    "migrate": "cd retro-board-server && yarn migrate && cd ..",
+    "stripe-listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
   },
   "repository": {
     "type": "git",

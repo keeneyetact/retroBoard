@@ -10,6 +10,7 @@ import useTranslation from '../translations/useTranslations';
 import { logout } from '../api';
 import UserContext from './Context';
 import Avatar from '../components/Avatar';
+import { useHistory } from 'react-router-dom';
 
 const LoginButton = () => {
   const translations = useTranslation();
@@ -17,6 +18,7 @@ const LoginButton = () => {
   const [modalOpened, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuAnchor = useRef(null);
+  const history = useHistory();
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const openMenu = useCallback(() => setMenuOpen(true), []);
 
@@ -38,6 +40,11 @@ const LoginButton = () => {
     setUser(null);
   }, [setUser]);
 
+  const handleAccount = useCallback(() => {
+    history.push('/account');
+    setMenuOpen(false);
+  }, [history]);
+
   const user = useUser();
   if (user) {
     return (
@@ -50,6 +57,9 @@ const LoginButton = () => {
           <MenuItem onClick={handleLogout}>
             {translations.Header.logout}
           </MenuItem>
+          {user && user.accountType !== 'anonymous' ? (
+            <MenuItem onClick={handleAccount}>Your Account TODO</MenuItem>
+          ) : null}
         </Menu>
       </div>
     );

@@ -7,7 +7,13 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { AccountType, User, FullUser } from 'retro-board-common';
+import {
+  AccountType,
+  User,
+  FullUser,
+  ProStatus,
+  Currency,
+} from 'retro-board-common';
 import { SessionTemplateEntity } from '.';
 
 export const ALL_FIELDS: Array<keyof UserEntity> = [
@@ -20,6 +26,7 @@ export const ALL_FIELDS: Array<keyof UserEntity> = [
   'photo',
   'language',
   'defaultTemplate',
+  'stripeId',
   'created',
   'updated',
 ];
@@ -38,8 +45,14 @@ export default class UserEntity {
   public username: string | null;
   @Column({ nullable: true, type: 'character varying', select: false })
   public password: string | null;
+  @Column({ nullable: true, type: 'character varying' })
+  public email: string | null;
+  @Column({ nullable: true, type: 'character varying' })
+  public currency: Currency | null;
   @Column({ nullable: true, type: 'character varying', select: false })
   public emailVerification: string | null;
+  @Column({ nullable: true, type: 'character varying', select: false })
+  public stripeId: string | null;
   @Column({ nullable: true, type: 'character varying' })
   public photo: string | null;
   @Column({ nullable: false, type: 'character varying', default: 'en' })
@@ -54,11 +67,14 @@ export default class UserEntity {
     this.id = id;
     this.name = name;
     this.password = password || null;
+    this.email = null;
     this.language = 'en';
     this.accountType = 'anonymous';
     this.username = null;
     this.photo = null;
     this.emailVerification = null;
+    this.stripeId = null;
+    this.currency = null;
   }
 
   toJson(): User {
@@ -66,15 +82,6 @@ export default class UserEntity {
       id: this.id,
       name: this.name,
       photo: this.photo,
-    };
-  }
-
-  toFullUser(): FullUser {
-    return {
-      ...this.toJson(),
-      accountType: this.accountType,
-      language: this.language,
-      username: this.username,
     };
   }
 }

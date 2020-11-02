@@ -9,21 +9,26 @@ import {
   ResetPasswordPayload,
   ResetChangePasswordPayload,
   FullUser,
+  Product,
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 import { v4 } from 'uuid';
 
+const requestConfig: Partial<RequestInit> = {
+  mode: 'cors',
+  cache: 'no-cache',
+  credentials: 'same-origin',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  referrer: 'no-referrer',
+};
+
 export async function createGame(): Promise<Session> {
   const response = await fetch(`/api/create`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
   });
   if (response.ok) {
     return await response.json();
@@ -38,14 +43,7 @@ export async function createCustomGame(
 ): Promise<Session> {
   const response = await fetch(`/api/create-custom`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify({
       options,
       columns,
@@ -64,6 +62,16 @@ export async function me(): Promise<FullUser | null> {
   });
   if (response.ok) {
     return (await response.json()) as FullUser;
+  }
+  return null;
+}
+
+export async function getProducts(): Promise<Product[] | null> {
+  const response = await fetch('/api/stripe/products', {
+    credentials: 'same-origin',
+  });
+  if (response.ok) {
+    return (await response.json()) as Product[];
   }
   return null;
 }
@@ -91,14 +99,7 @@ export async function fetchPreviousSessions(): Promise<SessionMetadata[]> {
 export async function logout() {
   const response = await fetch(`/api/logout`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
   });
   if (response.ok) {
     return true;
@@ -112,14 +113,7 @@ export async function anonymousLogin(
   const anonymousUsername = getAnonymousUsername(username);
   const response = await fetch(`/api/auth/anonymous/login`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify({
       username: anonymousUsername,
       password: '<<<<<NONE>>>>>',
@@ -137,14 +131,7 @@ export async function accountLogin(
 ): Promise<FullUser | null> {
   const response = await fetch(`/api/auth/login`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify({ username: email, password }),
   });
   if (response.ok) {
@@ -172,14 +159,7 @@ export async function register(
   };
   const response = await fetch(`/api/register`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify(payload),
   });
   if (response.ok) {
@@ -207,14 +187,7 @@ export async function verifyEmail(
   const payload: ValidateEmailPayload = { email, code };
   const response = await fetch(`/api/validate`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify(payload),
   });
   if (response.ok) {
@@ -228,14 +201,7 @@ export async function resetPassword(email: string): Promise<boolean> {
   const payload: ResetPasswordPayload = { email };
   const response = await fetch(`/api/reset`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify(payload),
   });
   if (response.ok) {
@@ -252,14 +218,7 @@ export async function resetChangePassword(
   const payload: ResetChangePasswordPayload = { email, password, code };
   const response = await fetch(`/api/reset-password`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify(payload),
   });
   if (response.ok) {
@@ -285,14 +244,7 @@ export async function updateLanguage(
 ): Promise<FullUser | null> {
   const response = await fetch(`/api/me/language`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
     body: JSON.stringify({ language }),
   });
   if (response.ok) {
@@ -304,14 +256,7 @@ export async function updateLanguage(
 export async function deleteSession(sessionId: string): Promise<boolean> {
   const response = await fetch(`/api/session/${sessionId}`, {
     method: 'DELETE',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrer: 'no-referrer',
+    ...requestConfig,
   });
   if (response.ok) {
     return true;

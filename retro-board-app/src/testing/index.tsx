@@ -47,6 +47,11 @@ const AllTheProviders: React.SFC = ({ children }) => {
     accountType: 'anonymous',
     language: 'en',
     username: 'johndoe',
+    email: 'john@doe.com',
+    pro: null,
+    stripeId: null,
+    subscriptionsId: null,
+    currency: null,
   });
   useEffect(() => {
     setUser({
@@ -56,6 +61,11 @@ const AllTheProviders: React.SFC = ({ children }) => {
       accountType: 'anonymous',
       language: 'en',
       username: 'johndoe',
+      email: 'john@doe.com',
+      pro: null,
+      stripeId: null,
+      subscriptionsId: null,
+      currency: null,
     });
   }, []);
   return (

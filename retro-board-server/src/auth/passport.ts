@@ -11,6 +11,12 @@ import chalk from 'chalk';
 import loginAnonymous from './logins/anonymous-user';
 import loginUser from './logins/password-user';
 import UserEntity from '../db/entities/User';
+import {
+  BaseProfile,
+  TwitterProfile,
+  GoogleProfile,
+  GitHubProfile,
+} from './types';
 
 export default (store: Store) => {
   // Allowing passport to serialize and deserialize users into sessions
@@ -24,27 +30,72 @@ export default (store: Store) => {
   // The callback that is invoked when an OAuth provider sends back user
   // information. Normally, you would save the user to the database
   // in this callback and it would be customized for each provider
-  const callback = (type: AccountType) => async (
-    _accessToken: string,
-    _refreshToken: string,
-    profile: any,
-    cb: Function
-  ) => {
+  function callback(type: AccountType) {
+    return async (
+      _accessToken: string,
+      _refreshToken: string,
+      anyProfile: any,
+      cb: Function
+    ) => {
+      const profile = anyProfile as BaseProfile;
+      let user: UserEntity;
+      switch (type) {
+        case 'google':
+          user = buildFromGoogleProfile(profile as GoogleProfile);
+          break;
+        case 'github':
+          user = buildFromGitHubProfile(profile as GitHubProfile);
+          break;
+        case 'twitter':
+          user = buildFromTwitterProfile(profile as TwitterProfile);
+          break;
+        default:
+          throw new Error('Unknown provider: ' + type);
+      }
+
+      const dbUser = await store.getOrSaveUser(user);
+      cb(null, dbUser.id);
+    };
+  }
+
+  function buildFromTwitterProfile(profile: TwitterProfile): UserEntity {
+    const user: UserEntity = new UserEntity(v4(), profile.displayName);
+    user.accountType = 'twitter';
+    user.language = 'en';
+    user.photo = profile.photos?.length ? profile.photos[0].value : null;
+    user.username = profile.username;
+    user.email = profile.emails.length ? profile.emails[0].value : null;
+    return user;
+  }
+
+  function buildFromGitHubProfile(profile: GitHubProfile): UserEntity {
     const displayName =
       profile.displayName ||
       profile.username ||
       (profile.emails.length ? profile.emails[0].value : '');
-    const user: UserEntity = new UserEntity(v4(), displayName);
-    user.accountType = type;
-    (user.photo = profile.photos?.length ? profile.photos[0].value : null),
-      (user.language = 'en');
-    user.username =
-      profile.username ||
-      (profile.emails.length ? profile.emails[0].value : null);
 
-    const dbUser = await store.getOrSaveUser(user);
-    cb(null, dbUser.id);
-  };
+    const user: UserEntity = new UserEntity(v4(), displayName);
+    const email = profile.emails
+      ? profile.emails.find((e) => e.primary) || null
+      : null;
+    user.accountType = 'github';
+    user.language = 'en';
+    user.photo = profile.photos?.length ? profile.photos[0].value : null;
+    user.username = profile.username;
+    user.email = email ? email.value : null;
+    return user;
+  }
+
+  function buildFromGoogleProfile(profile: GoogleProfile): UserEntity {
+    const user: UserEntity = new UserEntity(v4(), profile.displayName);
+    const email = profile.emails.length ? profile.emails[0].value : null;
+    user.accountType = 'google';
+    user.language = 'en';
+    user.photo = profile.photos?.length ? profile.photos[0].value : null;
+    user.username = email;
+    user.email = email;
+    return user;
+  }
 
   // Adding each OAuth provider's strategy to passport
   if (TWITTER_CONFIG) {

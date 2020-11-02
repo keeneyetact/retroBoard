@@ -4,32 +4,37 @@ import {
   SessionOptions,
   ColumnDefinition,
   Vote,
-  User,
   SessionMetadata,
   PostGroup,
-  FullUser,
+  Plan,
+  Currency,
 } from 'retro-board-common';
-import { SessionTemplateEntity, SessionEntity } from './db/entities';
+import {
+  SessionTemplateEntity,
+  SubscriptionEntity,
+  UserView,
+} from './db/entities';
 import UserEntity from './db/entities/User';
 
 export interface Store {
   getSession: (userId: string | null, key: string) => Promise<Session | null>;
   getUser: (id: string) => Promise<UserEntity | null>;
+  getUserView: (id: string) => Promise<UserView | null>;
   getUserByUsername: (username: string) => Promise<UserEntity | null>;
   getDefaultTemplate: (userId: string) => Promise<SessionTemplateEntity | null>;
-  create: (author: User) => Promise<Session>;
+  create: (author: UserEntity) => Promise<Session>;
   createCustom: (
     options: SessionOptions,
     columns: ColumnDefinition[],
     setDefault: boolean,
-    author: User
+    author: UserEntity
   ) => Promise<Session>;
   saveSession: (userId: string, session: Session) => Promise<void>;
   getOrSaveUser: (user: UserEntity) => Promise<UserEntity>;
   updateUser: (
     userId: string,
     updatedFields: Partial<UserEntity>
-  ) => Promise<UserEntity | null>;
+  ) => Promise<UserView | null>;
   savePost: (userId: string, sessionId: string, post: Post) => Promise<void>;
   savePostGroup: (
     userId: string,
@@ -63,6 +68,16 @@ export interface Store {
     columns: ColumnDefinition[]
   ) => Promise<ColumnDefinition[]>;
   updateName: (sessionId: string, name: string) => Promise<void>;
+  activateSubscription: (
+    userId: string,
+    stripeSubscriptionId: string,
+    plan: Plan,
+    domain: string | null,
+    currency: Currency
+  ) => Promise<SubscriptionEntity>;
+  cancelSubscription: (
+    stripeSubscriptionId: string
+  ) => Promise<SubscriptionEntity>;
 }
 
 export interface Configuration {
@@ -86,4 +101,6 @@ export interface Configuration {
   GITHUB_SECRET: string;
   SENDGRID_API_KEY: string;
   SENDGRID_SENDER: string;
+  STRIPE_SECRET: string;
+  STRIPE_WEBHOOK_SECRET: string;
 }

@@ -9,6 +9,8 @@ import {
   VoteEntity,
   SessionTemplateEntity,
   TemplateColumnDefinitionEntity,
+  SubscriptionEntity,
+  UserView,
 } from './entities';
 
 const migrationsDirectory = 'src/db/migrations';
@@ -26,10 +28,12 @@ export default function (): ConnectionOptions {
       PostGroupEntity,
       SessionEntity,
       UserEntity,
+      UserView,
       ColumnDefinitionEntity,
       VoteEntity,
       SessionTemplateEntity,
       TemplateColumnDefinitionEntity,
+      SubscriptionEntity,
     ],
     synchronize: false,
     logging: config.SQL_LOG ? 'all' : undefined,

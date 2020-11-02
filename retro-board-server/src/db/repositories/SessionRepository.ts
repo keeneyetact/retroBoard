@@ -37,15 +37,12 @@ export default class SessionRepository extends Repository<SessionEntity> {
     delete sessionWithoutPosts.columns;
 
     const columnsRepo = getCustomRepository(ColumnRepository);
-    const createdSession = await this.save(sessionWithoutPosts);
-
+    await this.save(sessionWithoutPosts);
+    const createdSession = (await this.findOne(sessionWithoutPosts.id))!;
     for (let i = 0; i < session.columns.length; i++) {
       await columnsRepo.saveFromJson(session.columns[i], session.id);
     }
 
-    return {
-      ...createdSession,
-      posts: [],
-    };
+    return createdSession.toJson();
   }
 }

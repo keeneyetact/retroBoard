@@ -1,8 +1,18 @@
 import { Request } from 'express';
-import { User } from 'retro-board-common';
 import { Store } from './types';
 import { genSalt, hash } from 'bcrypt';
-import { UserEntity } from './db/entities';
+import { UserView, UserEntity } from './db/entities';
+
+export async function getUserView(
+  store: Store,
+  request: Request
+): Promise<UserView | null> {
+  if (request.user) {
+    const user = await store.getUserView(request.user);
+    return user;
+  }
+  return null;
+}
 
 export async function getUser(
   store: Store,

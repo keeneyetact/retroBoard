@@ -10,27 +10,34 @@ import theme from './Theme';
 import { Provider as StateContext } from './state';
 import Layout from './Layout';
 import ErrorBoundary from './ErrorBoundary';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import config from './utils/getConfig';
 
 setConfig({
   reloadHooks: false,
 });
 
+const stripePromise = loadStripe(config.StripeKey);
+
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <AuthProvider>
-          <LanguageProvider>
-            <StateContext>
-              <GlobalStyles />
-              <ErrorBoundary>
-                <Layout />
-              </ErrorBoundary>
-            </StateContext>
-          </LanguageProvider>
-        </AuthProvider>
-      </BrowserRouter>
-    </ThemeProvider>
+    <Elements stripe={stripePromise}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <AuthProvider>
+            <LanguageProvider>
+              <StateContext>
+                <GlobalStyles />
+                <ErrorBoundary>
+                  <Layout />
+                </ErrorBoundary>
+              </StateContext>
+            </LanguageProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </Elements>
   );
 }
 

@@ -35,6 +35,7 @@ export default class SessionTemplateRepository extends Repository<
 
     return {
       ...createdTemplate,
+      createdBy: createdTemplate.createdBy.toJson(),
     };
   }
 }

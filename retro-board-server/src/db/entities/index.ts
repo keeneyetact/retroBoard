@@ -8,3 +8,5 @@ export {
 } from './ColumnDefinition';
 export { default as VoteEntity } from './Vote';
 export { default as SessionTemplateEntity } from './SessionTemplate';
+export { default as SubscriptionEntity } from './Subscription';
+export { default as UserView } from './UserView';

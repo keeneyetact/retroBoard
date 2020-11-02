@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { flattenDeep, uniqBy } from 'lodash';
-import { createConnection, Connection } from 'typeorm';
+import { createConnection, Connection, Repository } from 'typeorm';
 import {
   SessionRepository,
   PostRepository,
@@ -9,6 +9,7 @@ import {
   VoteRepository,
   UserRepository,
   SessionTemplateRepository,
+  SubscriptionRepository,
 } from './repositories';
 import {
   Session,
@@ -22,6 +23,8 @@ import {
   VoteType,
   User,
   FullUser,
+  Plan,
+  Currency,
 } from 'retro-board-common';
 import { Store } from '../types';
 import getOrmConfig from './orm-config';
@@ -33,6 +36,8 @@ import {
   PostEntity,
   PostGroupEntity,
   ColumnDefinitionEntity,
+  SubscriptionEntity,
+  UserView,
 } from './entities';
 import UserEntity, { ALL_FIELDS } from './entities/User';
 
@@ -44,7 +49,7 @@ export async function getDb() {
 const create = (
   sessionRepository: SessionRepository,
   userRepository: UserRepository
-) => async (author: User): Promise<Session> => {
+) => async (author: UserEntity): Promise<Session> => {
   try {
     const id = shortId();
     const userWithDefaultTemplate = await userRepository.findOne(
@@ -97,7 +102,7 @@ const createCustom = (
   options: SessionOptions,
   columns: ColumnDefinition[],
   setDefault: boolean,
-  author: User
+  author: UserEntity
 ): Promise<Session> => {
   try {
     const id = shortId();
@@ -173,6 +178,13 @@ const getUser = (userRepository: UserRepository) => async (
   return user || null;
 };
 
+const getUserView = (userRepository: Repository<UserView>) => async (
+  id: string
+): Promise<UserView | null> => {
+  const user = await userRepository.findOne({ id });
+  return user || null;
+};
+
 const getUserByUsername = (userRepository: UserRepository) => async (
   username: string
 ): Promise<UserEntity | null> => {
@@ -193,14 +205,17 @@ const getDefaultTemplate = (userRepository: UserRepository) => async (
   return userWithDefaultTemplate?.defaultTemplate || null;
 };
 
-const updateUser = (userRepository: UserRepository) => async (
+const updateUser = (
+  userRepository: UserRepository,
+  userViewRepository: Repository<UserView>
+) => async (
   id: string,
   updatedUser: Partial<UserEntity>
-): Promise<UserEntity | null> => {
+): Promise<UserView | null> => {
   const user = await userRepository.findOne(id);
   if (user) {
     await userRepository.update(id, updatedUser);
-    const newUser = await userRepository.findOne(id, { select: ALL_FIELDS });
+    const newUser = await getUserView(userViewRepository)(id);
     return newUser || null;
   }
   return null;
@@ -275,6 +290,12 @@ const getOrSaveUser = (userRepository: UserRepository) => async (
     where: { username: user.username, accountType: user.accountType },
   });
   if (existingUser) {
+    if (existingUser.email !== user.email) {
+      return await userRepository.save({
+        ...existingUser,
+        email: user.email,
+      });
+    }
     return existingUser;
   }
   return await userRepository.save(user);
@@ -285,6 +306,40 @@ const updateName = (sessionRepository: SessionRepository) => async (
   name: string
 ): Promise<void> => {
   await sessionRepository.updateName(sessionId, name);
+};
+const activateSubscription = (
+  subscriptionRepository: SubscriptionRepository,
+  userRepository: UserRepository
+) => async (
+  userId: string,
+  stripeSubscriptionId: string,
+  plan: Plan,
+  domain: string | null,
+  currency: Currency
+): Promise<SubscriptionEntity> => {
+  const user = await userRepository.findOne(userId);
+  if (!user) {
+    throw Error('Cannot activate subscription on a non existing user');
+  }
+  const existingSubscription = await subscriptionRepository.activate(
+    stripeSubscriptionId,
+    user,
+    plan,
+    domain
+  );
+  user.currency = currency;
+  await userRepository.save(user);
+  return existingSubscription;
+};
+
+const cancelSubscription = (
+  subscriptionRepository: SubscriptionRepository,
+  userRepository: UserRepository
+) => async (stripeSubscriptionId: string): Promise<SubscriptionEntity> => {
+  const existingSubscription = await subscriptionRepository.cancel(
+    stripeSubscriptionId
+  );
+  return existingSubscription;
 };
 
 const deleteSessions = (sessionRepository: SessionRepository) => async (
@@ -403,8 +458,12 @@ export default async function db(): Promise<Store> {
   const columnRepository = connection.getCustomRepository(ColumnRepository);
   const voteRepository = connection.getCustomRepository(VoteRepository);
   const userRepository = connection.getCustomRepository(UserRepository);
+  const userViewRepository = connection.getRepository(UserView);
   const templateRepository = connection.getCustomRepository(
     SessionTemplateRepository
+  );
+  const subscriptionRepository = connection.getCustomRepository(
+    SubscriptionRepository
   );
   return {
     getSession: getSession(
@@ -414,6 +473,7 @@ export default async function db(): Promise<Store> {
       columnRepository
     ),
     getUser: getUser(userRepository),
+    getUserView: getUserView(userViewRepository),
     getUserByUsername: getUserByUsername(userRepository),
     saveSession: saveSession(sessionRepository),
     updateOptions: updateOptions(sessionRepository),
@@ -424,7 +484,7 @@ export default async function db(): Promise<Store> {
     deletePost: deletePost(postRepository),
     deletePostGroup: deletePostGroup(postGroupRepository),
     getOrSaveUser: getOrSaveUser(userRepository),
-    updateUser: updateUser(userRepository),
+    updateUser: updateUser(userRepository, userViewRepository),
     create: create(sessionRepository, userRepository),
     createCustom: createCustom(
       sessionRepository,
@@ -435,5 +495,13 @@ export default async function db(): Promise<Store> {
     getDefaultTemplate: getDefaultTemplate(userRepository),
     deleteSession: deleteSessions(sessionRepository),
     updateName: updateName(sessionRepository),
+    activateSubscription: activateSubscription(
+      subscriptionRepository,
+      userRepository
+    ),
+    cancelSubscription: cancelSubscription(
+      subscriptionRepository,
+      userRepository
+    ),
   };
 }

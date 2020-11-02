@@ -1,5 +1,4 @@
-import express, { NextFunction } from 'express';
-import bodyParser from 'body-parser';
+import express from 'express';
 import socketIo from 'socket.io';
 import socketIoRedisAdapter from 'socket.io-redis';
 import redis from 'redis';
@@ -11,9 +10,10 @@ import config from './db/config';
 import passport from 'passport';
 import passportInit from './auth/passport';
 import authRouter from './auth/router';
+import stripeRouter from './stripe/router';
 import session from 'express-session';
 import game from './game';
-import { getUser, hashPassword } from './utils';
+import { getUser, hashPassword, getUserView } from './utils';
 import {
   initSentry,
   setupSentryErrorHandler,
@@ -37,8 +37,16 @@ initSentry();
 
 const app = express();
 setupSentryRequestHandler(app);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  express.json({
+    // This is a trick to get the raw buffer on the request, for Stripe
+    verify: (req, _, buf) => {
+      const request: any = req;
+      request.buf = buf;
+    },
+  })
+);
+app.use(express.urlencoded({ extended: true }));
 
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have athenticated the user
@@ -76,16 +84,16 @@ app.use(passport.session());
 
 const httpServer = new http.Server(app);
 
-app.use(
-  mung.json((body, req, res) => {
-    if (body) {
-      const hasPassword = hasField('password', body);
-      if (hasPassword) {
-        console.error('The following object has a password property: ', body);
-      }
-    }
-  })
-);
+// app.use(
+//   mung.json((body, req, res) => {
+//     if (body) {
+//       const hasPassword = hasField('password', body);
+//       if (hasPassword) {
+//         console.error('The following object has a password property: ', body);
+//       }
+//     }
+//   })
+// );
 
 app.get('/api/ping', (req, res) => {
   res.send('pong');
@@ -117,6 +125,9 @@ if (config.REDIS_ENABLED) {
 db().then((store) => {
   passportInit(store);
   game(store, io);
+
+  // Stripe
+  app.use('/api/stripe', stripeRouter(store));
 
   // Create session
   app.post('/api/create', async (req, res) => {
@@ -175,9 +186,9 @@ db().then((store) => {
   });
 
   app.get('/api/me', async (req, res) => {
-    const user = await getUser(store, req);
+    const user = await getUserView(store, req);
     if (user) {
-      res.status(200).send(user.toFullUser());
+      res.status(200).send(user.toJson());
     } else {
       res.status(401).send('Not logged in');
     }
@@ -210,11 +221,12 @@ db().then((store) => {
 
   app.post('/api/me/language', async (req, res) => {
     if (req.user) {
-      const updatedUser = await store.updateUser(req.user, {
+      await store.updateUser(req.user, {
         language: req.body.language,
       });
+      const updatedUser = await getUserView(store, req);
       if (updatedUser) {
-        res.status(200).send(updatedUser?.toFullUser());
+        res.status(200).send(updatedUser.toJson());
       } else {
         res.status(401).send();
       }
@@ -255,7 +267,12 @@ db().then((store) => {
         registerPayload.name,
         user.emailVerification!
       );
-      res.status(200).send(user.toFullUser());
+      const userView = await store.getUserView(user.id);
+      if (userView) {
+        res.status(200).send(userView.toJson());
+      } else {
+        res.status(500).send();
+      }
     }
   });
 
@@ -278,7 +295,7 @@ db().then((store) => {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');
         } else if (updatedUser) {
-          res.status(200).send(updatedUser.toFullUser());
+          res.status(200).send(updatedUser.toJson());
         } else {
           res.status(500).send('Unspecified error');
         }
@@ -324,7 +341,7 @@ db().then((store) => {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');
         } else if (updatedUser) {
-          res.status(200).send(updatedUser.toFullUser());
+          res.status(200).send(updatedUser.toJson());
         } else {
           res.status(500).send('Unspecified error');
         }

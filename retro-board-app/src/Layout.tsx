@@ -22,6 +22,11 @@ import DisclaimerPage from './views/policies/Disclaimer';
 import { HomeOutlined } from '@material-ui/icons';
 import ValidatePage from './views/Validate';
 import ResetPasswordPage from './views/Reset';
+import SubscribePage from './views/subscribe/SubscribePage';
+import SuccessPage from './views/subscribe/SuccessPage';
+import CancelPage from './views/subscribe/CancelPage';
+import AccountPage from './views/account/AccountPage';
+import ProPill from './components/ProPill';
 
 const Title = styled(Typography)`
   flex-grow: 1;
@@ -51,7 +56,7 @@ function App() {
             <MenuIcon />
           </IconButton>
           <MainTitle variant="h6" color="inherit" onClick={goToHome}>
-            Retrospected
+            Retrospected&nbsp;{user?.pro ? <ProPill small /> : null}
           </MainTitle>
           <HomeButton>
             <IconButton color="inherit" aria-label="Home" onClick={goToHome}>
@@ -74,6 +79,10 @@ function App() {
         <Route path="/game/:gameId" component={Game} />
         <Route path="/validate" component={ValidatePage} />
         <Route path="/reset" component={ResetPasswordPage} />
+        <Route path="/account" component={AccountPage} />
+        <Route path="/subscribe" component={SubscribePage} exact />
+        <Route path="/subscribe/success" component={SuccessPage} exact />
+        <Route path="/subscribe/cancel" component={CancelPage} exact />
         <Route path="/privacy" component={PrivacyPolicyPage} />
         <Route path="/terms" component={TermsAndConditionsPage} />
         <Route path="/cookies" component={CookiesPolicyPage} />
@@ -88,6 +97,8 @@ function App() {
 
 const MainTitle = styled(Title)`
   cursor: pointer;
+  display: flex;
+  align-items: center;
   @media screen and (max-width: 600px) {
     display: none;
   }

@@ -19,6 +19,7 @@ export const TWITTER_CONFIG: IStrategyOption | null =
         consumerKey: config.TWITTER_KEY || '',
         consumerSecret: config.TWITTER_SECRET || '',
         callbackURL: twitterURL,
+        includeEmail: true,
       }
     : null;
 
@@ -37,5 +38,6 @@ export const GITHUB_CONFIG: StrategyOptions | null =
         clientID: config.GITHUB_KEY || '',
         clientSecret: config.GITHUB_SECRET || '',
         callbackURL: githubURL,
+        scope: ['user:email'],
       }
     : null;

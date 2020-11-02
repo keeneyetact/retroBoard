@@ -1,3 +1,5 @@
+import { Plan, Currency } from './types';
+
 export interface RegisterPayload {
   name: string;
   username: string;
@@ -18,4 +20,14 @@ export interface ResetChangePasswordPayload {
   email: string;
   password: string;
   code: string;
+}
+
+export interface CreateCustomerPayload {
+  email: string;
+}
+
+export interface CreateSubscriptionPayload {
+  plan: Plan;
+  currency: Currency;
+  domain: string | null;
 }

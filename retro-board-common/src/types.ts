@@ -75,6 +75,21 @@ export interface PostGroup extends PostContainer, Rankable, Entity {
   user: User;
 }
 
+export type ProStatus = 'valid' | 'payment_issue' | 'pending';
+
+export type Plan = 'team' | 'company';
+
+export type Currency = 'gbp' | 'eur' | 'usd';
+
+export interface Product {
+  name: string;
+  plan: Plan;
+  gbp: number;
+  usd: number;
+  eur: number;
+  seats: number | null;
+}
+
 export interface User extends Entity {
   name: string;
   photo: string | null;
@@ -84,6 +99,11 @@ export interface FullUser extends User {
   username: string | null;
   accountType: AccountType;
   language: string;
+  email: string | null;
+  stripeId: string | null;
+  pro: ProStatus | null;
+  subscriptionsId: string | null;
+  currency: Currency | null;
 }
 
 export type AccountType =
