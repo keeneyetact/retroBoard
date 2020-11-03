@@ -38,7 +38,10 @@ router.post('/login', anonAuth, endAnonHandler);
 // With that socket id we can send back the right user info to the right
 // socket
 router.use((req, _, next) => {
-  req.session!.socketId = req.query.socketId;
+  if (req.session) {
+    req.session.socketId = req.query.socketId as string;
+  }
+
   next();
 });
 
