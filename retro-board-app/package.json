@@ -38,9 +38,6 @@
     "md5": "^2.3.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-app-rewire-styled-components": "^3.0.2",
-    "react-app-rewire-yarn-workspaces": "^1.0.3",
-    "react-app-rewired": "^2.1.6",
     "react-autosize-textarea": "^7.1.0",
     "react-beautiful-dnd": "^13.0.0",
     "react-card-flip": "^1.0.11",
@@ -64,9 +61,9 @@
     "whatwg-fetch": "^3.4.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "NODE_ENV=production && react-app-rewired build",
-    "test": "react-app-rewired test"
+    "start": "react-scripts start",
+    "build": "NODE_ENV=production && react-scripts build",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
