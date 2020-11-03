@@ -1,8 +1,10 @@
+import 'reflect-metadata';
 import chalk from 'chalk';
-import postgres from './postgres';
-import { Store } from '../types';
+import { Connection, createConnection } from 'typeorm';
+import getOrmConfig from './orm-config';
 
-export default (): Promise<Store> => {
+export default async function getDb(): Promise<Connection> {
   console.log(chalk`{yellow 💻  Using {red Postgres} database}`);
-  return postgres();
-};
+  const connection = await createConnection(getOrmConfig());
+  return connection;
+}

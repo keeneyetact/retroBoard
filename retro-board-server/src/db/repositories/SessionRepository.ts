@@ -31,6 +31,8 @@ export default class SessionRepository extends Repository<SessionEntity> {
   ): Promise<JsonSession> {
     const sessionWithoutPosts = {
       ...session,
+      posts: undefined,
+      columns: undefined,
       createdBy: { id: authorId },
     };
     delete sessionWithoutPosts.posts;

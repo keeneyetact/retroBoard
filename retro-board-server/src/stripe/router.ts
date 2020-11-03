@@ -1,20 +1,25 @@
 import express, { Router } from 'express';
 import { CreateSubscriptionPayload, Product } from 'retro-board-common';
 import config from '../db/config';
-import { Store } from '../types';
 import Stripe from 'stripe';
-import { getUser } from '../utils';
-import { UserEntity } from 'src/db/entities';
+import { UserEntity } from '../db/entities';
 import {
   StripeEvent,
   CheckoutCompletedPayload,
   SubscriptionDeletedPayload,
 } from './types';
 import { plans, getProduct } from './products';
+import { updateUser } from '../db/actions/users';
+import { getUserFromRequest } from '../utils';
+import {
+  cancelSubscription,
+  activateSubscription,
+} from '../db/actions/subscriptions';
+import { Connection } from 'typeorm';
 
 const stripe = new Stripe(config.STRIPE_SECRET, {} as Stripe.StripeConfig);
 
-function stripeRouter(store: Store): Router {
+function stripeRouter(connection: Connection): Router {
   const router = express.Router();
 
   async function getCustomerId(user: UserEntity): Promise<string> {
@@ -33,7 +38,7 @@ function stripeRouter(store: Store): Router {
         preferred_locales: [user.language],
       });
 
-      await store.updateUser(user.id, {
+      await updateUser(connection, user.id, {
         stripeId: customer.id,
       });
       return customer.id;
@@ -97,7 +102,7 @@ function stripeRouter(store: Store): Router {
           // handle subscription cancelled automatically based
           // upon your subscription settings.
         }
-        store.cancelSubscription(cancelEvent.data.object.id);
+        cancelSubscription(connection, cancelEvent.data.object.id);
         break;
       case 'checkout.session.completed':
         const subEvent = (event as unknown) as StripeEvent<
@@ -105,7 +110,8 @@ function stripeRouter(store: Store): Router {
         >;
 
         if (subEvent.data.object.payment_status === 'paid') {
-          await store.activateSubscription(
+          await activateSubscription(
+            connection,
             subEvent.data.object.client_reference_id,
             subEvent.data.object.subscription,
             subEvent.data.object.metadata.plan,
@@ -122,7 +128,7 @@ function stripeRouter(store: Store): Router {
 
   router.post('/create-checkout-session', async (req, res) => {
     const payload = req.body as CreateSubscriptionPayload;
-    const user = await getUser(store, req);
+    const user = await getUserFromRequest(connection, req);
     const product = getProduct(payload.plan);
 
     if (user) {
@@ -164,7 +170,7 @@ function stripeRouter(store: Store): Router {
   });
 
   router.get('/portal', async (req, res) => {
-    const user = await getUser(store, req);
+    const user = await getUserFromRequest(connection, req);
     if (user && user.stripeId) {
       var session = await stripe.billingPortal.sessions.create({
         customer: user.stripeId,

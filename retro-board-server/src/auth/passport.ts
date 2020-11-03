@@ -4,9 +4,8 @@ import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { Strategy as GithubStrategy } from 'passport-github';
 import { TWITTER_CONFIG, GOOGLE_CONFIG, GITHUB_CONFIG } from './config';
-import { Store } from '../types';
 import { v4 } from 'uuid';
-import { User, AccountType } from 'retro-board-common';
+import { AccountType } from 'retro-board-common';
 import chalk from 'chalk';
 import loginAnonymous from './logins/anonymous-user';
 import loginUser from './logins/password-user';
@@ -17,8 +16,10 @@ import {
   GoogleProfile,
   GitHubProfile,
 } from './types';
+import { getOrSaveUser } from '../db/actions/users';
+import { Connection } from 'typeorm';
 
-export default (store: Store) => {
+export default (connection: Connection) => {
   // Allowing passport to serialize and deserialize users into sessions
   passport.serializeUser((user: string, cb) => {
     cb(null, user);
@@ -53,7 +54,7 @@ export default (store: Store) => {
           throw new Error('Unknown provider: ' + type);
       }
 
-      const dbUser = await store.getOrSaveUser(user);
+      const dbUser = await getOrSaveUser(connection, user);
       cb(null, dbUser.id);
     };
   }
@@ -122,10 +123,10 @@ export default (store: Store) => {
         done: (error: any, user?: any, options?: IVerifyOptions) => void
       ) => {
         if (password && password !== '<<<<<NONE>>>>>') {
-          const user = await loginUser(store, username, password);
+          const user = await loginUser(connection, username, password);
           done(!user ? 'User cannot log in' : null, user?.id);
         } else {
-          const user = await loginAnonymous(store, username);
+          const user = await loginAnonymous(connection, username);
           done(null, user.id);
         }
       }

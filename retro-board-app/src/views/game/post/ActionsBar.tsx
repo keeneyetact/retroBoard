@@ -8,7 +8,7 @@ import ReactCardFlip from 'react-card-flip';
 import useTranslations from '../../../translations';
 import { trackEvent } from '../../../track';
 
-interface ActionsBar {
+interface ActionsBarProps {
   extraActions: React.ReactNode;
   displayExtra: boolean;
   color: string;
@@ -18,7 +18,7 @@ function trackOpenExtra() {
   trackEvent('game/post/extra-menu/open');
 }
 
-const ActionsBar: React.FC<ActionsBar> = ({
+const ActionsBar: React.FC<ActionsBarProps> = ({
   children,
   extraActions,
   displayExtra,

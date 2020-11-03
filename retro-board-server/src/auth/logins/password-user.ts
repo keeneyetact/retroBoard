@@ -1,13 +1,14 @@
-import { Store } from 'src/types';
 import { compare } from 'bcrypt';
-import { UserEntity } from 'src/db/entities';
+import { UserEntity } from '../../db/entities';
+import { Connection } from 'typeorm';
+import { getUserByUsername } from '../../db/actions/users';
 
 export default async function loginUser(
-  store: Store,
+  connection: Connection,
   username: string,
   password: string
 ): Promise<UserEntity | null> {
-  const user = await store.getUserByUsername(username);
+  const user = await getUserByUsername(connection, username);
   if (!user || user.password === null) {
     return null;
   }

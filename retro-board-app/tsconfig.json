@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "composite": false,
     "noEmit": true,
-    "jsx": "preserve",
+    "jsx": "react",
+    "noFallthroughCasesInSwitch": true,
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": ["src"]

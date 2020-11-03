@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 let CACHE: SessionMetadata[] = [];
 
-export default (): [SessionMetadata[], Function] => {
+export default function usePreviousSessions(): [SessionMetadata[], Function] {
   const [sessions, setSessions] = useState<SessionMetadata[]>(CACHE);
   const user = useUser();
 
@@ -25,4 +25,4 @@ export default (): [SessionMetadata[], Function] => {
   }, [refresh]);
 
   return [sessions, refresh];
-};
+}

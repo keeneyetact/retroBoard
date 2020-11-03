@@ -13,31 +13,67 @@ interface PostsSectionProps {
 function PostsSection({ options, onChange }: PostsSectionProps) {
   const translations = useTranslations();
   const { Customize } = translations;
-  const handleChange = useCallback(
-    (prop: keyof SessionOptions) => (value: boolean) => {
+
+  const setAllowAction = useCallback(
+    (value: boolean) => {
       onChange({
         ...options,
-        [prop]: value,
+        allowActions: value,
       });
     },
     [onChange, options]
   );
 
-  const setAllowAction = useCallback(handleChange('allowActions'), [
-    handleChange,
-  ]);
   const setAllowAuthorVisible = useCallback(
-    handleChange('allowAuthorVisible'),
-    [handleChange]
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowAuthorVisible: value,
+      });
+    },
+    [onChange, options]
   );
-  const setAllowReordering = useCallback(handleChange('allowReordering'), [
-    handleChange,
-  ]);
-  const setAllowGrouping = useCallback(handleChange('allowGrouping'), [
-    handleChange,
-  ]);
-  const setAllowGiphy = useCallback(handleChange('allowGiphy'), [handleChange]);
-  const setBlurCards = useCallback(handleChange('blurCards'), [handleChange]);
+
+  const setAllowReordering = useCallback(
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowReordering: value,
+      });
+    },
+    [onChange, options]
+  );
+
+  const setAllowGrouping = useCallback(
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowGrouping: value,
+      });
+    },
+    [onChange, options]
+  );
+
+  const setAllowGiphy = useCallback(
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowGiphy: value,
+      });
+    },
+    [onChange, options]
+  );
+
+  const setBlurCards = useCallback(
+    (value: boolean) => {
+      onChange({
+        ...options,
+        blurCards: value,
+      });
+    },
+    [onChange, options]
+  );
+
   return (
     <SettingCategory
       title={Customize.postCategory!}

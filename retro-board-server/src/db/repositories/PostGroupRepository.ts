@@ -11,6 +11,7 @@ export default class PostGroupRepository extends Repository<PostGroupEntity> {
   ): Promise<JsonPostGroup> {
     const groupWithoutPosts = {
       ...group,
+      posts: undefined,
       session: { id: sessionId },
       createdBy: { id: authorId },
     };

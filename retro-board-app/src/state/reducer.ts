@@ -17,7 +17,7 @@ import {
   EDIT_COLUMNS,
 } from './actions';
 
-export default (state: State, action: Action): State => {
+export default function reducer(state: State, action: Action): State {
   switch (action.type) {
     case TOGGLE_PANEL:
       return { ...state, panelOpen: !state.panelOpen };
@@ -195,4 +195,4 @@ export default (state: State, action: Action): State => {
     default:
       return state;
   }
-};
+}

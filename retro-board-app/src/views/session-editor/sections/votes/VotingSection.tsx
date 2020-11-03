@@ -14,28 +14,43 @@ interface VotingSectionProps {
 function VotingSection({ options, onChange }: VotingSectionProps) {
   const translations = useTranslations();
   const { Customize } = translations;
-  const handleChange = useCallback(
-    (prop: keyof SessionOptions) =>
-      function <T>(value: T) {
-        onChange({
-          ...options,
-          [prop]: value,
-        });
-      },
+
+  const setAllowSelfVoting = useCallback(
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowSelfVoting: value,
+      });
+    },
     [onChange, options]
   );
-
-  const setAllowSelfVoting = useCallback(handleChange('allowSelfVoting'), [
-    handleChange,
-  ]);
   const setAllowMultipleVotes = useCallback(
-    handleChange('allowMultipleVotes'),
-    [handleChange]
+    (value: boolean) => {
+      onChange({
+        ...options,
+        allowMultipleVotes: value,
+      });
+    },
+    [onChange, options]
   );
-  const setMaxUpVotes = useCallback(handleChange('maxUpVotes'), [handleChange]);
-  const setMaxDownVotes = useCallback(handleChange('maxDownVotes'), [
-    handleChange,
-  ]);
+  const setMaxUpVotes = useCallback(
+    (value: number | null) => {
+      onChange({
+        ...options,
+        maxUpVotes: value,
+      });
+    },
+    [onChange, options]
+  );
+  const setMaxDownVotes = useCallback(
+    (value: number | null) => {
+      onChange({
+        ...options,
+        maxDownVotes: value,
+      });
+    },
+    [onChange, options]
+  );
   return (
     <SettingCategory
       title={Customize.votingCategory!}

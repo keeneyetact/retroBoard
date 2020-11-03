@@ -1,25 +1,26 @@
 import { Request } from 'express';
-import { Store } from './types';
 import { genSalt, hash } from 'bcrypt';
 import { UserView, UserEntity } from './db/entities';
+import { Connection } from 'typeorm';
+import { getUserView, getUser } from './db/actions/users';
 
-export async function getUserView(
-  store: Store,
+export async function getUserViewFromRequest(
+  connection: Connection,
   request: Request
 ): Promise<UserView | null> {
   if (request.user) {
-    const user = await store.getUserView(request.user);
+    const user = await getUserView(connection, request.user);
     return user;
   }
   return null;
 }
 
-export async function getUser(
-  store: Store,
+export async function getUserFromRequest(
+  connection: Connection,
   request: Request
 ): Promise<UserEntity | null> {
   if (request.user) {
-    const user = await store.getUser(request.user);
+    const user = await getUser(connection, request.user);
     return user;
   }
   return null;

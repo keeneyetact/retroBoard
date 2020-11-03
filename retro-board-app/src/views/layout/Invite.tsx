@@ -10,7 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Clipboard from 'react-copy-to-clipboard';
 import useTranslations from '../../translations';
 
-export default () => {
+export default function Invite() {
   const [isOpen, open] = useState(false);
   const toggle = useCallback(() => open(!isOpen), [open, isOpen]);
   const translations = useTranslations();
@@ -48,4 +48,4 @@ export default () => {
       </Dialog>
     </>
   );
-};
+}

@@ -80,7 +80,6 @@ function Home() {
   return (
     <Page>
       <MainHeader>{translations.Home.welcome!(user?.name || '')}</MainHeader>
-
       <LaunchButtons>
         <Fab
           variant="extended"

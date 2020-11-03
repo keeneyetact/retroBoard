@@ -13,11 +13,25 @@ import moment from 'moment';
 import socketIo from 'socket.io';
 import { find } from 'lodash';
 import { v4 } from 'uuid';
-import { Store } from './types';
 import { setScope, reportQueryError } from './sentry';
 import SessionOptionsEntity from './db/entities/SessionOptions';
 import { UserEntity } from './db/entities';
 import { hasField } from './security/payload-checker';
+import {
+  getSession,
+  saveSession,
+  updateOptions,
+  updateColumns,
+} from './db/actions/sessions';
+import { getUser } from './db/actions/users';
+import {
+  savePost,
+  savePostGroup,
+  saveVote,
+  deletePost,
+  deletePostGroup,
+} from './db/actions/posts';
+import { Connection } from 'typeorm';
 
 const {
   RECEIVE_POST,
@@ -73,7 +87,7 @@ interface LikeUpdate extends PostUpdate {
 
 const s = (str: string) => chalk`{blue ${str.replace('retrospected/', '')}}`;
 
-export default (store: Store, io: SocketIO.Server) => {
+export default (connection: Connection, io: SocketIO.Server) => {
   const users: Users = {};
   const d = () => chalk`{yellow [${moment().format('HH:mm:ss')}]} `;
 
@@ -104,7 +118,14 @@ export default (store: Store, io: SocketIO.Server) => {
     socket.emit(action, data);
   };
 
-  const updateOptions = async (
+  const persistSession = async (userId: string | null, session: Session) => {
+    if (!userId) {
+      return;
+    }
+    await saveSession(connection, userId, session);
+  };
+
+  const modifyOptions = async (
     userId: string | null,
     session: Session,
     options: SessionOptionsEntity
@@ -115,10 +136,10 @@ export default (store: Store, io: SocketIO.Server) => {
     if (userId !== session.createdBy.id) {
       return;
     }
-    await store.updateOptions(session, options);
+    await updateOptions(connection, session, options);
   };
 
-  const updateColumns = async (
+  const modifyColumns = async (
     userId: string | null,
     session: Session,
     columns: ColumnDefinition[]
@@ -129,7 +150,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (userId !== session.createdBy.id) {
       return;
     }
-    await store.updateColumns(session, columns);
+    await updateColumns(connection, session, columns);
   };
 
   const persistPost = async (
@@ -140,7 +161,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    await store.savePost(userId, sessionId, post);
+    await savePost(connection, userId, sessionId, post);
   };
 
   const persistPostGroup = async (
@@ -151,7 +172,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    await store.savePostGroup(userId, sessionId, group);
+    await savePostGroup(connection, userId, sessionId, group);
   };
 
   const persistVote = async (
@@ -163,10 +184,10 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    await store.saveVote(userId, sessionId, postId, vote);
+    await saveVote(connection, userId, sessionId, postId, vote);
   };
 
-  const deletePost = async (
+  const removePost = async (
     userId: string | null,
     sessionId: string,
     postId: string
@@ -174,10 +195,10 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    await store.deletePost(userId, sessionId, postId);
+    await deletePost(connection, userId, sessionId, postId);
   };
 
-  const deletePostGroup = async (
+  const removePostGroup = async (
     userId: string | null,
     sessionId: string,
     groupId: string
@@ -185,7 +206,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    await store.deletePostGroup(userId, sessionId, groupId);
+    await deletePostGroup(connection, userId, sessionId, groupId);
   };
 
   const sendClientList = (sessionId: string, socket: ExtendedSocket) => {
@@ -257,7 +278,7 @@ export default (store: Store, io: SocketIO.Server) => {
       socket.sessionId = session.id;
       sendToSelf(socket, RECEIVE_BOARD, session);
       if (userId) {
-        const user = await store.getUser(userId);
+        const user = await getUser(connection, userId);
         if (user) {
           recordUser(session.id, user, socket);
         }
@@ -300,7 +321,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     session.posts = session.posts.filter((p) => p.id !== data.id);
-    await deletePost(userId, session.id, data.id);
+    await removePost(userId, session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
   };
 
@@ -314,7 +335,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     session.groups = session.groups.filter((g) => g.id !== data.id);
-    await deletePostGroup(userId, session.id, data.id);
+    await removePostGroup(userId, session.id, data.id);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST_GROUP, data);
   };
 
@@ -327,7 +348,7 @@ export default (store: Store, io: SocketIO.Server) => {
     if (!userId) {
       return;
     }
-    const user = await store.getUser(userId);
+    const user = await getUser(connection, userId);
     const post = find(session.posts, (p) => p.id === data.post.id);
     if (post && user) {
       const existingVote: Vote | undefined = find(
@@ -402,7 +423,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
 
-    await updateOptions(userId, session, data);
+    await modifyOptions(userId, session, data);
 
     sendToAll(socket, session.id, RECEIVE_OPTIONS, data);
   };
@@ -421,7 +442,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
 
-    await updateColumns(userId, session, data);
+    await modifyColumns(userId, session, data);
 
     sendToAll(socket, session.id, RECEIVE_COLUMNS, data);
   };
@@ -477,7 +498,7 @@ export default (store: Store, io: SocketIO.Server) => {
           const sid =
             action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
           if (sid) {
-            const session = await store.getSession(userId, sid);
+            const session = await getSession(connection, sid);
             if (session) {
               try {
                 await action.handler(userId, session, data.payload, socket);

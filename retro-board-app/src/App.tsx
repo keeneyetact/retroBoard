@@ -1,5 +1,3 @@
-import { hot } from 'react-hot-loader/root';
-import { setConfig } from 'react-hot-loader';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
@@ -13,10 +11,6 @@ import ErrorBoundary from './ErrorBoundary';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import config from './utils/getConfig';
-
-setConfig({
-  reloadHooks: false,
-});
 
 const stripePromise = loadStripe(config.StripeKey);
 
@@ -41,4 +35,4 @@ function App() {
   );
 }
 
-export default hot(App);
+export default App;
