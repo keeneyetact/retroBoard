@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 12
+  - 14
 os: linux
 dist: bionic
 install: true
@@ -44,6 +44,7 @@ jobs:
     - stage: deploy-v4
       script:
         - export PACKAGE_VERSION=v4
+        - export TARGET_ARCHS=linux/amd64
         - make install
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker buildx build --cache-from=antoinejaussoin/retro-board-maintenance:${PACKAGE_VERSION} --pull --platform ${TARGET_ARCHS} -f ./retro-board-maintenance/Dockerfile -t antoinejaussoin/retro-board-maintenance:${PACKAGE_VERSION} --push ./retro-board-maintenance

@@ -7,13 +7,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import {
-  AccountType,
-  User,
-  FullUser,
-  ProStatus,
-  Currency,
-} from 'retro-board-common';
+import { AccountType, User, Currency } from 'retro-board-common';
 import { SessionTemplateEntity } from '.';
 
 export const ALL_FIELDS: Array<keyof UserEntity> = [

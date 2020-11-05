@@ -38,7 +38,11 @@ function SubscriberPage() {
     return domainRegex.test(domain);
   }, [domain]);
 
-  const validForm = (!needDomain || validDomain) && !!product;
+  const validForm =
+    (!needDomain || validDomain) &&
+    !!product &&
+    user &&
+    user.accountType !== 'anonymous';
 
   useEffect(() => {
     if (user && domain === DEFAULT_DOMAIN) {
@@ -64,6 +68,7 @@ function SubscriberPage() {
       }
     }
   }, [stripe, product, currency, domain]);
+
   return (
     <Container>
       {user && user.pro && !user.subscriptionsId ? (
@@ -126,6 +131,12 @@ function SubscriberPage() {
         title="Checkout"
         description="You will be redirected to our partner, Stripe, for payment"
       >
+        {!user || user.accountType === 'anonymous' ? (
+          <Alert severity="info" style={{ marginBottom: 10 }}>
+            You cannot register with an anonymous account. Please register with
+            a Social Media or a Password account before continuing.
+          </Alert>
+        ) : null}
         <Button
           onClick={handleCheckout}
           variant="contained"

@@ -42,3 +42,37 @@ export async function cancelSubscription(
   );
   return existingSubscription;
 }
+
+export async function getActiveSubscription(
+  connection: Connection,
+  userId: string
+): Promise<SubscriptionEntity | null> {
+  const subscriptionRepository = connection.getCustomRepository(
+    SubscriptionRepository
+  );
+  const subscriptions = await subscriptionRepository.find({
+    where: {
+      owner: {
+        id: userId,
+      },
+      active: true,
+    },
+    order: {
+      updated: 'DESC',
+    },
+  });
+  if (subscriptions.length === 0) {
+    return null;
+  }
+  return subscriptions[0];
+}
+
+export async function saveSubscription(
+  connection: Connection,
+  subscription: SubscriptionEntity
+): Promise<void> {
+  const subscriptionRepository = connection.getCustomRepository(
+    SubscriptionRepository
+  );
+  await subscriptionRepository.save(subscription);
+}

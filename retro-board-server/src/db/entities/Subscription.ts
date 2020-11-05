@@ -23,9 +23,8 @@ export default class SubscriptionEntity {
   public owner: UserEntity;
   @Column({ nullable: true, type: 'character varying' })
   public domain: string | null;
-  @ManyToMany(() => UserEntity)
-  @JoinTable({ name: 'subscriptions-users' })
-  public users: UserEntity[] | undefined;
+  @Column('text', { array: true, default: '{}' })
+  public members: string[];
   @CreateDateColumn({ type: 'timestamp with time zone', select: false })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone', select: false })
@@ -36,5 +35,6 @@ export default class SubscriptionEntity {
     this.active = true;
     this.plan = plan;
     this.domain = null;
+    this.members = [];
   }
 }

@@ -20,3 +20,23 @@ export async function getPortalUrl(): Promise<string | null> {
   }
   return null;
 }
+
+export async function getMembers(): Promise<string[] | null> {
+  const response = await fetch(`/api/stripe/members`, {
+    method: 'GET',
+    ...requestConfig,
+  });
+  if (response.ok) {
+    const members: string[] = await response.json();
+    return members;
+  }
+  return null;
+}
+
+export async function updateMembers(members: string[]): Promise<void> {
+  await fetch(`/api/stripe/members`, {
+    method: 'PATCH',
+    ...requestConfig,
+    body: JSON.stringify(members),
+  });
+}

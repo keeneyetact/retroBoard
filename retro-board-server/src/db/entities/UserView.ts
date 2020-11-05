@@ -1,5 +1,11 @@
 import { ViewEntity, ViewColumn } from 'typeorm';
-import { AccountType, FullUser, ProStatus, Currency } from 'retro-board-common';
+import {
+  AccountType,
+  FullUser,
+  ProStatus,
+  Currency,
+  Plan,
+} from 'retro-board-common';
 
 @ViewEntity({
   expression: `
@@ -12,13 +18,15 @@ select
 	u."stripeId",
 	u.photo,
 	u.language,
-	u.email,
+  u.email,
+  s.id as "ownSubscriptionsId",
+  s.plan as "ownPlan",
 	coalesce(s.id, s2.id, s3.id) as "subscriptionsId",
-	coalesce(s.active, s2.active, s3.active) as "pro"
+  coalesce(s.active, s2.active, s3.active) as "pro",
+  coalesce(s.plan, s2.plan, s3.plan) as "plan"
 from users u 
 left join subscriptions s on s."ownerId" = u.id and s.active is true
-left join "subscriptions-users" su on su."usersId" = u.id
-left join subscriptions s2 on s2.id = su."subscriptionsId" and s2.active is true
+left join subscriptions s2 on u.email = ANY(s2.members)
 left join subscriptions s3 on s3.domain = split_part(u.email, '@', 2) and s3.active is true
   `,
 })
@@ -40,7 +48,13 @@ export default class UserView {
   @ViewColumn()
   public language: string;
   @ViewColumn()
+  public ownSubscriptionsId: string | null;
+  @ViewColumn()
+  public ownPlan: Plan | null;
+  @ViewColumn()
   public subscriptionsId: string | null;
+  @ViewColumn()
+  public plan: Plan | null;
   @ViewColumn()
   public currency: Currency | null;
   @ViewColumn()
@@ -58,6 +72,9 @@ export default class UserView {
     this.pro = null;
     this.email = null;
     this.currency = null;
+    this.ownPlan = null;
+    this.ownSubscriptionsId = null;
+    this.plan = null;
   }
 
   toJson(): FullUser {
@@ -73,6 +90,9 @@ export default class UserView {
       username: this.username,
       stripeId: this.stripeId,
       currency: this.currency,
+      plan: this.plan,
+      ownPlan: this.ownPlan,
+      ownSubscriptionsId: this.ownSubscriptionsId,
     };
   }
 }

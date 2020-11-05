@@ -39,7 +39,7 @@ const testingInitialState: State = {
   },
 };
 
-const AllTheProviders: React.SFC = ({ children }) => {
+const AllTheProviders: React.FC = ({ children }) => {
   const [user, setUser] = useState<FullUser | null>({
     id: 'John Doe',
     name: 'John Doe',
@@ -52,6 +52,9 @@ const AllTheProviders: React.SFC = ({ children }) => {
     stripeId: null,
     subscriptionsId: null,
     currency: null,
+    plan: null,
+    ownPlan: null,
+    ownSubscriptionsId: null,
   });
   useEffect(() => {
     setUser({
@@ -66,6 +69,9 @@ const AllTheProviders: React.SFC = ({ children }) => {
       stripeId: null,
       subscriptionsId: null,
       currency: null,
+      plan: null,
+      ownPlan: null,
+      ownSubscriptionsId: null,
     });
   }, []);
   return (

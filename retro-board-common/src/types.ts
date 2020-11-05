@@ -104,6 +104,9 @@ export interface FullUser extends User {
   pro: ProStatus | null;
   subscriptionsId: string | null;
   currency: Currency | null;
+  plan: Plan | null;
+  ownPlan: Plan | null;
+  ownSubscriptionsId: string | null;
 }
 
 export type AccountType =
