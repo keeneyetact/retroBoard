@@ -1,4 +1,9 @@
-import { CreateSubscriptionPayload, Plan, Currency } from 'retro-board-common';
+import {
+  CreateSubscriptionPayload,
+  Plan,
+  Currency,
+  StripeLocales,
+} from 'retro-board-common';
 
 const requestConfig: Partial<RequestInit> = {
   mode: 'cors',
@@ -14,12 +19,14 @@ const requestConfig: Partial<RequestInit> = {
 export async function createCheckoutSession(
   plan: Plan,
   currency: Currency,
+  locale: StripeLocales,
   domain: string | null
 ): Promise<{ id: string } | null> {
   const payload: CreateSubscriptionPayload = {
     plan,
     currency,
     domain,
+    locale,
   };
   const response = await fetch(`/api/stripe/create-checkout-session`, {
     method: 'POST',

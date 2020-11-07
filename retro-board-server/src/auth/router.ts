@@ -16,7 +16,6 @@ const anonAuth = passport.authenticate('local');
 export const endOAuthHandler = (req: Request2, res: Response) => {
   const io = req.app.get('io');
   io.in(req.session!.socketId).emit('auth', req.user);
-  console.log('endOAuthHandler', req.user);
   req.logIn(req.user!, (err) => {
     res.end();
   });

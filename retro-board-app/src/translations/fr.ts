@@ -5,6 +5,7 @@ export default {
     logout: 'Déconnexion',
     leave: 'Sortir',
     summaryMode: 'Mode Résumé',
+    account: 'Mon compte',
   },
   LanguagePicker: {
     header: 'Changez de langue',
@@ -158,13 +159,20 @@ export default {
   },
   SocialMediaLogin: {
     header: 'Réseaux Sociaux',
-    info: 'Vous allez utiliser un de vos compte existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
+    info:
+      'Vous allez utiliser un de vos compte existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
   },
   AuthCommon: {
     emailField: 'Adresse e-mail',
     passwordField: 'Mot de passe',
     nameField: 'Votre nom (ou pseudo)',
-    passwordScoreWords: ['faible', 'faible', 'encore un effort', 'suffisant', 'très bien!'],
+    passwordScoreWords: [
+      'faible',
+      'faible',
+      'encore un effort',
+      'suffisant',
+      'très bien!',
+    ],
   },
   AccountLogin: {
     header: 'Classique',
@@ -172,7 +180,8 @@ export default {
     info: 'Connectez-vous avec votre email et votre mot de passe.',
     registerLink: 'Pas de compte ? Cliquez ici',
     forgotPasswordLink: 'Mot de passe oublié ?',
-    errorEmailPasswordIncorrect: 'Les identifiants communiqués sont incorrects.',
+    errorEmailPasswordIncorrect:
+      'Les identifiants communiqués sont incorrects.',
   },
   Register: {
     header: `S'enregistrer`,
@@ -180,12 +189,14 @@ export default {
     registerButton: 'Créer un compte',
     errorAlreadyRegistered: 'Désolé, cet email est déjà enregistré',
     errorGeneral: 'Une error est survenue lors de la création de votre compte.',
-    messageSuccess: 'Merci ! Vous devriez reçevoir un email pour valider votre compte.',
+    messageSuccess:
+      'Merci ! Vous devriez reçevoir un email pour valider votre compte.',
     errorInvalidEmail: `Merci d'entrer un email valide`,
   },
   ValidateAccount: {
     success: `Votre email a été validé. Ne bougez pas, je vous connecte dans quelques secondes.`,
-    error: 'Une erreur est survenue lors de la validation de votre adresse e-mail.',
+    error:
+      'Une erreur est survenue lors de la validation de votre adresse e-mail.',
     loading: 'Nous validons votre e-mail... Merci de votre patience.',
   },
   ResetPassword: {
@@ -193,10 +204,12 @@ export default {
     doneMessage: `C'est fait ! Jetez un oeuil dans votre boîte email, vous devriez reçevoir un email pour mettre à jour votre mot de passe.`,
     header: 'Changer de mot de passe',
     resetButton: 'Mettre à jour',
-    info: 'Vous avez oublié votre mot de passe ? Pas de problème, entrez votre email et vous recevrez un email en retour.',
+    info:
+      'Vous avez oublié votre mot de passe ? Pas de problème, entrez votre email et vous recevrez un email en retour.',
     // Reset Page
     success: `Votre mot de passe a été mis à jour. Je vais vous connecter dans quelques secondes.`,
-    error: 'Une erreur est survenue lors de la mise à jour de votre mot de passe.',
+    error:
+      'Une erreur est survenue lors de la mise à jour de votre mot de passe.',
     loading: 'Nous mettons votre mot de passe à jour. Merci de patienter.',
     resetInfo: 'Merci de choisir un nouveau mot de passe:',
   },
@@ -244,5 +257,64 @@ export default {
     dialogContent: `Cela va révéler (déflouter) tout les posts. L'opération n'est pas reversible.`,
     confirmButton: `Révéler`,
     cancelButton: 'Non merci',
+  },
+  AccountPage: {
+    anonymousError: `Les comptes anonymes ne peuvent avoir accès à leur profile (puisque ils n'en ont pas).`,
+    details: {
+      header: 'Vos Coordonnées',
+      username: `Nom d'utilisateur`,
+      email: 'E-Mail',
+      accountType: 'Type de compte',
+    },
+    plan: {
+      header: 'Votre Accès',
+      plan: 'Accès',
+      youAreOwner: `Vous êtes l'administrateur de cet abonnement. Vous pouvez le gérer via la section ci-dessous.`,
+      youAreMember: `Vous devez votre accès Pro grâce à l'abonnement d'un tiers.`,
+    },
+    subscription: {
+      header: 'Votre Abonnement',
+      manageButton: 'Gérer mon abonnement',
+      membersEditor: {
+        title: 'Votre Equipe',
+        limitReached: (limit) =>
+          `Vous avez atteint le nombre maximum de membres (${limit}) permis par votre abonnement. Vous pouvez passer à l'abonnement Company pour un nombre de collaborateur illimité.`,
+        info: (limit) =>
+          `Ajouter des addresses emails ci-dessous pour donner un accès Pro à vos collaborateurs (dans la limite de ${limit} collaborateurs).`,
+      },
+    },
+  },
+  SubscribePage: {
+    alertAlreadyPro: `Vous avez déjà un compte Pro, vous n'avez peut-être donc pas besoin d'un abonnement supplémentaire.`,
+    alertAlreadySubscribed: `Vous avez déjà un abonnement, vous n'avez peut-être donc pas besoin d'un abonnement supplémentaire.`,
+    currency: {
+      title: 'Devise',
+      description: 'Choisissez une devise de facturation.',
+      warning: (currency: string) =>
+        `Votre compte est déjà en ${currency}, vous ne pouvez donc plus en changer.`,
+    },
+    plan: {
+      title: 'Abonnement',
+      description: `Choisissez l'abonnement qui vous convient`,
+    },
+    domain: {
+      title: 'Nom de domaine',
+      description:
+        'Votre abonnement illimité est basé sur le nom de domaine de votre email.',
+      invalidDomain: `Merci d'entrer un nom de domaine valide.`,
+    },
+    subscribe: {
+      title: 'Payer',
+      description: `Vous serez redirigé vers notre partenaire Stripe. Aucune coordonnées bancaire n'est stockée par Retrospected.`,
+      cannotRegisterWithAnon: `Vous ne pouvez vous abonner en utilisant un compte anonyme. Merci de vous enregistrer avec un compte classique (mot de passe) ou via un l'authentification tierce (Google, Github).`,
+      checkout: 'Payer',
+    },
+  },
+  Products: {
+    team: `Parfait pour une équipe, vous pouvez sélectioner jusqu'à 20 collègues qui recevront un compte Pro.`,
+    company: `Si vous avez besoin de plus, l'abonnement "Company" vous donnera un nombre de compte Pro illimité`,
+    users: (users: number) => `${users} utilisateurs`,
+    unlimited: 'Illimité',
+    month: 'mois',
   },
 } as Translation;

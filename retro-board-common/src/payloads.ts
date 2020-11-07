@@ -1,4 +1,4 @@
-import { Plan, Currency } from './types';
+import { Plan, Currency, StripeLocales } from './types';
 
 export interface RegisterPayload {
   name: string;
@@ -29,5 +29,6 @@ export interface CreateCustomerPayload {
 export interface CreateSubscriptionPayload {
   plan: Plan;
   currency: Currency;
+  locale: StripeLocales;
   domain: string | null;
 }

@@ -5,6 +5,7 @@ import { updateMembers } from './api';
 import { validate } from 'isemail';
 import styled from 'styled-components';
 import { Alert } from '@material-ui/lab';
+import useTranslations from '../../translations';
 
 const MAX_MEMBERS = 19;
 
@@ -21,6 +22,7 @@ function isNotFull(members: string[] | null): boolean {
 }
 
 function MembersEditor() {
+  const { AccountPage: translations } = useTranslations();
   const [members, setMembers] = useStateFetch<string[] | null>(
     '/api/stripe/members',
     null
@@ -68,17 +70,16 @@ function MembersEditor() {
 
   return (
     <Container>
-      <Title>Your Team</Title>
+      <Title>{translations.subscription?.membersEditor?.title}</Title>
       {!isNotFull(members) ? (
         <Alert severity="warning" style={{ marginBottom: 10 }}>
-          You reached the limit of your subscription ({MAX_MEMBERS + 1} users,
-          including yourself). Please remove members, or upgrade to an unlimited
-          Company account.
+          {translations.subscription!.membersEditor!.limitReached!(
+            MAX_MEMBERS + 1
+          )}
         </Alert>
       ) : (
         <Alert severity="info" style={{ marginBottom: 10 }}>
-          Add emails below to grant Pro accounts to up to {MAX_MEMBERS} other
-          colleagues.
+          {translations.subscription!.membersEditor!.info!(MAX_MEMBERS)}
         </Alert>
       )}
       <ChipInput

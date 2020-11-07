@@ -5,6 +5,7 @@ export default {
     logout: 'Afmelden',
     leave: 'Verlaten',
     summaryMode: 'Samenvatting',
+    account: undefined,
   },
   LanguagePicker: {
     header: 'Kies een taal',
@@ -157,7 +158,8 @@ export default {
   },
   SocialMediaLogin: {
     header: 'Social Media authenticatie',
-    info: 'Dit gebruikt je social media account en slaat de sessies op onder je account. Er is geen wachtwoord nodig.',
+    info:
+      'Dit gebruikt je social media account en slaat de sessies op onder je account. Er is geen wachtwoord nodig.',
   },
   AuthCommon: {
     emailField: undefined,
@@ -242,5 +244,60 @@ export default {
     dialogContent: undefined,
     confirmButton: undefined,
     cancelButton: undefined,
+  },
+  AccountPage: {
+    anonymousError: undefined,
+    details: {
+      header: undefined,
+      username: undefined,
+      email: undefined,
+      accountType: undefined,
+    },
+    plan: {
+      header: undefined,
+      plan: undefined,
+      youAreOwner: undefined,
+      youAreMember: undefined,
+    },
+    subscription: {
+      header: undefined,
+      manageButton: undefined,
+      membersEditor: {
+        title: undefined,
+        limitReached: undefined,
+        info: undefined,
+      },
+    },
+  },
+  SubscribePage: {
+    alertAlreadyPro: undefined,
+    alertAlreadySubscribed: undefined,
+    currency: {
+      title: undefined,
+      description: undefined,
+      warning: undefined,
+    },
+    plan: {
+      title: undefined,
+      description: undefined,
+    },
+    domain: {
+      title: undefined,
+      description: undefined,
+      invalidDomain: undefined,
+    },
+    subscribe: {
+      title: undefined,
+      description: undefined,
+      cannotRegisterWithAnon: undefined,
+      checkout: undefined,
+    },
+  },
+  Products: {
+    team: undefined,
+    company: undefined,
+    users: undefined,
+    unlimited: undefined,
+    month: undefined,
   },
 } as Translation;

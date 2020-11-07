@@ -12,6 +12,7 @@ import Input from '../../components/Input';
 import useUser from '../../auth/useUser';
 import { Alert } from '@material-ui/lab';
 import { useEffect } from 'react';
+import useTranslations, { useLanguage } from '../../translations';
 
 function guessDomain(user: FullUser): string {
   if (user.email) {
@@ -31,6 +32,8 @@ function SubscriberPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [domain, setDomain] = useState<string>(DEFAULT_DOMAIN);
   const stripe = useStripe();
+  const { SubscribePage: translations } = useTranslations();
+  const language = useLanguage();
   const needDomain = product && product.seats === null;
 
   const validDomain = useMemo(() => {
@@ -58,6 +61,7 @@ function SubscriberPage() {
       const session = await createCheckoutSession(
         product.plan,
         currency,
+        language.stripeLocale,
         !product.seats ? domain : null
       );
 
@@ -67,31 +71,24 @@ function SubscriberPage() {
         });
       }
     }
-  }, [stripe, product, currency, domain]);
+  }, [stripe, product, currency, domain, language]);
 
   return (
     <Container>
       {user && user.pro && !user.subscriptionsId ? (
-        <Alert severity="info">
-          You already are a Pro user, so you might not need another
-          subscription.
-        </Alert>
+        <Alert severity="info">{translations.alertAlreadyPro}</Alert>
       ) : null}
       {user && user.subscriptionsId ? (
-        <Alert severity="info">
-          You already have a subscription, so you might not need another
-          subscription.
-        </Alert>
+        <Alert severity="info">{translations.alertAlreadySubscribed}</Alert>
       ) : null}
       <Step
         index={1}
-        title="Currency"
-        description="Pick a currency you would like to be billed with"
+        title={translations.currency.title}
+        description={translations.currency.description}
       >
         {user && !!user.currency ? (
           <Alert severity="warning" style={{ marginBottom: 10 }}>
-            Your account is already set to use {currency.toUpperCase()}, so you
-            cannot change the currency anymore.
+            {translations.currency.warning!(currency.toUpperCase())}
           </Alert>
         ) : null}
         <CurrencyPicker
@@ -102,8 +99,8 @@ function SubscriberPage() {
       </Step>
       <Step
         index={2}
-        title="Plan"
-        description="Choose the plan that fits your use case!"
+        title={translations.plan.title}
+        description={translations.plan.description}
       >
         <ProductPicker
           value={product}
@@ -114,27 +111,26 @@ function SubscriberPage() {
       {needDomain ? (
         <Step
           index={3}
-          title="Domain"
-          description="Your unlimited subscription applies to a given domain."
+          title={translations.domain.title}
+          description={translations.domain.description}
         >
           <Input
             value={domain}
             onChangeValue={setDomain}
             error={!validDomain}
-            helperText={!validDomain ? 'Please provide a valid domain' : null}
+            helperText={!validDomain ? translations.domain.invalidDomain : null}
             required
           />
         </Step>
       ) : null}
       <Step
         index={needDomain ? 4 : 3}
-        title="Checkout"
-        description="You will be redirected to our partner, Stripe, for payment"
+        title={translations.subscribe.title}
+        description={translations.subscribe.description}
       >
         {!user || user.accountType === 'anonymous' ? (
           <Alert severity="info" style={{ marginBottom: 10 }}>
-            You cannot register with an anonymous account. Please register with
-            a Social Media or a Password account before continuing.
+            {translations.subscribe.cannotRegisterWithAnon}
           </Alert>
         ) : null}
         <Button
@@ -143,7 +139,7 @@ function SubscriberPage() {
           color="primary"
           disabled={!validForm}
         >
-          Checkout
+          {translations.subscribe.checkout}
         </Button>
       </Step>
     </Container>

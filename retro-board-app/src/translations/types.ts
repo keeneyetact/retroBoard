@@ -4,6 +4,7 @@ export interface Translation {
     logout?: string;
     leave?: string;
     summaryMode?: string;
+    account?: string;
   };
   LanguagePicker: {
     header?: string;
@@ -144,14 +145,14 @@ export interface Translation {
     or?: string;
   };
   SocialMediaLogin: {
-    header?: string; // socialMediaAuthHeader
-    info?: string; // anonymousAuthHeader
+    header?: string;
+    info?: string;
   };
   AuthCommon: {
     emailField?: string;
     passwordField?: string;
     nameField?: string;
-    passwordScoreWords?: string[]; // ['weak', 'weak', 'not quite', 'good', 'strong']
+    passwordScoreWords?: string[];
   };
   AccountLogin: {
     header?: string;
@@ -165,27 +166,27 @@ export interface Translation {
     header?: string;
     info?: string;
     registerButton?: string;
-    errorAlreadyRegistered?: string; // This email is already registered
-    errorGeneral?: string; // An error occurred while trying to create your account.
-    messageSuccess?: string; // Thank you! You should receive an email shortly to validate your account.
-    errorInvalidEmail?: string; // 'Please enter a valid email'
+    errorAlreadyRegistered?: string;
+    errorGeneral?: string;
+    messageSuccess?: string;
+    errorInvalidEmail?: string;
   };
   ValidateAccount: {
-    success?: string; // Your email has been correctly validated. I'm going to log you in in a sec!
-    error?: string; // There was an error validating your email.
-    loading?: string; // We are validating your email. Please wait.
+    success?: string;
+    error?: string;
+    loading?: string;
   };
   ResetPassword: {
     // Reset Modal
-    doneMessage?: string; //  Done! Have a look in your emails, you should get a link to reset your password.
+    doneMessage?: string;
     header?: string;
-    resetButton?: string; // Reset Password
+    resetButton?: string;
     info?: string;
     // Reset Page
-    success?: string; // Your password has been updated. I'm going to log you in in a sec!
-    error?: string; // There was an error updating your password.
-    loading?: string; // We are updating your password. Please wait.
-    resetInfo?: string; // Please provide a new password
+    success?: string;
+    error?: string;
+    loading?: string;
+    resetInfo?: string;
   };
   SummaryBoard: {
     noPosts?: string;
@@ -227,5 +228,60 @@ export interface Translation {
     dialogContent?: string;
     confirmButton?: string;
     cancelButton?: string;
+  };
+  AccountPage: {
+    anonymousError?: string;
+    details: {
+      header?: string;
+      username?: string;
+      email?: string;
+      accountType?: string;
+    };
+    plan: {
+      header?: string;
+      plan?: string;
+      youAreOwner?: string;
+      youAreMember?: string;
+    };
+    subscription: {
+      header?: string;
+      manageButton?: string;
+      membersEditor: {
+        title?: string;
+        limitReached?: (limit: number) => string;
+        info?: (limit: number) => string;
+      };
+    };
+  };
+  SubscribePage: {
+    alertAlreadyPro?: string;
+    alertAlreadySubscribed?: string;
+    currency: {
+      title?: string;
+      description?: string;
+      warning?: (currency: string) => string;
+    };
+    plan: {
+      title?: string;
+      description?: string;
+    };
+    domain: {
+      title?: string;
+      description?: string;
+      invalidDomain?: string;
+    };
+    subscribe: {
+      title?: string;
+      description?: string;
+      cannotRegisterWithAnon?: string;
+      checkout?: string;
+    };
+  };
+  Products: {
+    team?: string;
+    company?: string;
+    users?: (users: number) => string;
+    unlimited?: string;
+    month?: string;
   };
 }

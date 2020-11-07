@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { colors, Paper } from '@material-ui/core';
 import { useCallback } from 'react';
 import { Product, Currency } from 'retro-board-common';
+import useTranslations from '../../../translations';
 
 interface ProductDisplayProps {
   product: Product;
@@ -17,6 +18,7 @@ function ProductDisplay({
   currency,
   onSelect,
 }: ProductDisplayProps) {
+  const { Products: translations } = useTranslations();
   const handleOrder = useCallback(() => {
     onSelect(product);
   }, [onSelect, product]);
@@ -25,11 +27,15 @@ function ProductDisplay({
     <Container onClick={handleOrder} selected={selected}>
       <Paper elevation={3}>
         <Header>{product.name}</Header>
-        <Description>tbd</Description>
-        <Seats>{product.seats ? `${product.seats} users` : 'Unlimited'}</Seats>
+        <Description>{translations[product.plan]}</Description>
+        <Seats>
+          {product.seats
+            ? translations.users!(product.seats)
+            : translations.unlimited}
+        </Seats>
         <Total>
           {(product[currency] / 100).toFixed(2)} {currency.toUpperCase()}
-          <PerMonth>/ month</PerMonth>
+          <PerMonth>/ {translations.month}</PerMonth>
         </Total>
       </Paper>
     </Container>

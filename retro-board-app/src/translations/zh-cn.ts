@@ -5,6 +5,7 @@ export default {
     logout: '注销',
     leave: '离开',
     summaryMode: '主旨模式',
+    account: undefined,
   },
   LanguagePicker: {
     header: '切换语言',
@@ -55,7 +56,7 @@ export default {
     customTemplateCategory: undefined,
     customTemplateCategorySub: undefined,
     startButton: undefined,
-editButton: undefined,
+    editButton: undefined,
     maxUpVotes: undefined,
     maxUpVotesHelp: undefined,
     maxDownVotes: undefined,
@@ -229,5 +230,60 @@ editButton: undefined,
     dialogContent: undefined,
     confirmButton: undefined,
     cancelButton: undefined,
+  },
+  AccountPage: {
+    anonymousError: undefined,
+    details: {
+      header: undefined,
+      username: undefined,
+      email: undefined,
+      accountType: undefined,
+    },
+    plan: {
+      header: undefined,
+      plan: undefined,
+      youAreOwner: undefined,
+      youAreMember: undefined,
+    },
+    subscription: {
+      header: undefined,
+      manageButton: undefined,
+      membersEditor: {
+        title: undefined,
+        limitReached: undefined,
+        info: undefined,
+      },
+    },
+  },
+  SubscribePage: {
+    alertAlreadyPro: undefined,
+    alertAlreadySubscribed: undefined,
+    currency: {
+      title: undefined,
+      description: undefined,
+      warning: undefined,
+    },
+    plan: {
+      title: undefined,
+      description: undefined,
+    },
+    domain: {
+      title: undefined,
+      description: undefined,
+      invalidDomain: undefined,
+    },
+    subscribe: {
+      title: undefined,
+      description: undefined,
+      cannotRegisterWithAnon: undefined,
+      checkout: undefined,
+    },
+  },
+  Products: {
+    team: undefined,
+    company: undefined,
+    users: undefined,
+    unlimited: undefined,
+    month: undefined,
   },
 } as Translation;

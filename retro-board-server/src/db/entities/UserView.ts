@@ -10,23 +10,23 @@ import {
 @ViewEntity({
   expression: `
 select 
-	u.id,
-	u.name,
-	u."accountType",
+  u.id,
+  u.name,
+  u."accountType",
   u.username,
   u.currency,
-	u."stripeId",
-	u.photo,
-	u.language,
+  u."stripeId",
+  u.photo,
+  u.language,
   u.email,
   s.id as "ownSubscriptionsId",
   s.plan as "ownPlan",
-	coalesce(s.id, s2.id, s3.id) as "subscriptionsId",
-  coalesce(s.active, s2.active, s3.active) as "pro",
+  coalesce(s.id, s2.id, s3.id) as "subscriptionsId",
+  coalesce(s.active, s2.active, s3.active, false) as "pro",
   coalesce(s.plan, s2.plan, s3.plan) as "plan"
 from users u 
 left join subscriptions s on s."ownerId" = u.id and s.active is true
-left join subscriptions s2 on u.email = ANY(s2.members)
+left join subscriptions s2 on u.email = ANY(s2.members) and s2.active is true
 left join subscriptions s3 on s3.domain = split_part(u.email, '@', 2) and s3.active is true
   `,
 })

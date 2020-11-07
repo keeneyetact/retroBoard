@@ -58,7 +58,9 @@ const LoginButton = () => {
             {translations.Header.logout}
           </MenuItem>
           {user && user.accountType !== 'anonymous' ? (
-            <MenuItem onClick={handleAccount}>Your Account TODO</MenuItem>
+            <MenuItem onClick={handleAccount}>
+              {translations.Header.account}
+            </MenuItem>
           ) : null}
         </Menu>
       </div>

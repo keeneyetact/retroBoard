@@ -1,5 +1,9 @@
 import express, { Router } from 'express';
-import { CreateSubscriptionPayload, Product } from 'retro-board-common';
+import {
+  CreateSubscriptionPayload,
+  Product,
+  StripeLocales,
+} from 'retro-board-common';
 import config from '../db/config';
 import Stripe from 'stripe';
 import { UserEntity } from '../db/entities';
@@ -24,7 +28,10 @@ const stripe = new Stripe(config.STRIPE_SECRET, {} as Stripe.StripeConfig);
 function stripeRouter(connection: Connection): Router {
   const router = express.Router();
 
-  async function getCustomerId(user: UserEntity): Promise<string> {
+  async function getCustomerId(
+    user: UserEntity,
+    locale: StripeLocales
+  ): Promise<string> {
     if (user.accountType === 'anonymous') {
       throw Error('Anonymous account should not be able to pay');
     }
@@ -32,12 +39,12 @@ function stripeRouter(connection: Connection): Router {
     if (!user.stripeId && user.username) {
       // Create a new customer object
       const customer = await stripe.customers.create({
-        email: user.username,
+        email: user.email || user.username,
         name: user.name,
         metadata: {
           userId: user.id,
         },
-        preferred_locales: [user.language],
+        preferred_locales: [locale],
       });
 
       await updateUser(connection, user.id, {
@@ -134,7 +141,7 @@ function stripeRouter(connection: Connection): Router {
     const product = getProduct(payload.plan);
 
     if (user) {
-      const customerId = await getCustomerId(user);
+      const customerId = await getCustomerId(user, payload.locale);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         client_reference_id: user.id,
@@ -158,8 +165,8 @@ function stripeRouter(connection: Connection): Router {
           },
         ],
         mode: 'subscription',
-        success_url: `${config.BASE_URL}/subscribe/success`,
-        cancel_url: `${config.BASE_URL}/subscribe/cancel`,
+        success_url: `${config.BASE_URL}/account?welcome`,
+        cancel_url: `${config.BASE_URL}/subscribe`,
       });
 
       res.json({ id: session.id });

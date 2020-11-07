@@ -182,3 +182,20 @@ export type IconName =
   | 'boat'
   | 'fitness'
   | 'gesture';
+
+export type StripeLocales =
+  | 'ar-AR'
+  | 'da-DK'
+  | 'de-DE'
+  | 'en-US'
+  | 'es-ES'
+  | 'es-419'
+  | 'fi-FI'
+  | 'fr-FR'
+  | 'he-IL'
+  | 'it-IT'
+  | 'ja-JP'
+  | 'nl-NL'
+  | 'pt-BR'
+  | 'no-NO'
+  | 'sv-S';

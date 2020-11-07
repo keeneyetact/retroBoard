@@ -4,8 +4,8 @@ import { colors } from '@material-ui/core';
 
 interface StepProps {
   index: number;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
 }
 
 const Step: React.FC<StepProps> = ({ index, title, description, children }) => {

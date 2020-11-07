@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface SectionProps {
-  title: string;
+  title?: string;
 }
 
 const Section: React.FC<SectionProps> = ({ title, children }) => {

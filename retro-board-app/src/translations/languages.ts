@@ -15,6 +15,7 @@ import {
   es,
 } from 'date-fns/locale';
 import { Locale } from 'date-fns';
+import { StripeLocales } from 'retro-board-common';
 
 export interface Language {
   value: string;
@@ -22,6 +23,7 @@ export interface Language {
   name: string;
   englishName: string;
   dateLocale: Locale;
+  stripeLocale: StripeLocales;
 }
 
 export default [
@@ -31,6 +33,7 @@ export default [
     iso: 'gb',
     name: 'English',
     englishName: 'English',
+    stripeLocale: 'en-US',
   },
   {
     value: 'fr',
@@ -38,6 +41,7 @@ export default [
     iso: 'fr',
     name: 'Français',
     englishName: 'French',
+    stripeLocale: 'fr-FR',
   },
   {
     value: 'ar',
@@ -45,6 +49,7 @@ export default [
     iso: 'ae',
     name: 'عربي',
     englishName: 'Arabic',
+    stripeLocale: 'ar-AR',
   },
   {
     value: 'zhcn',
@@ -52,6 +57,7 @@ export default [
     iso: 'cn',
     name: '簡中',
     englishName: 'Chinese (Simplified)',
+    stripeLocale: 'en-US',
   },
   {
     value: 'zhtw',
@@ -59,6 +65,7 @@ export default [
     iso: 'tw',
     name: '繁中',
     englishName: 'Chinese (Traditional)',
+    stripeLocale: 'en-US',
   },
   {
     value: 'nl',
@@ -66,6 +73,7 @@ export default [
     iso: 'nl',
     name: 'Nederlands',
     englishName: 'Dutch',
+    stripeLocale: 'nl-NL',
   },
   {
     value: 'de',
@@ -73,6 +81,7 @@ export default [
     iso: 'de',
     name: 'Deutsch',
     englishName: 'German',
+    stripeLocale: 'de-DE',
   },
   {
     value: 'hu',
@@ -80,6 +89,7 @@ export default [
     iso: 'hu',
     name: 'Magyar',
     englishName: 'Hungarian',
+    stripeLocale: 'en-US',
   },
   {
     value: 'it',
@@ -87,6 +97,7 @@ export default [
     iso: 'it',
     name: 'Italiano',
     englishName: 'Italian',
+    stripeLocale: 'it-IT',
   },
   {
     value: 'ja',
@@ -94,6 +105,7 @@ export default [
     iso: 'jp',
     name: '日本語',
     englishName: 'Japanese',
+    stripeLocale: 'ja-JP',
   },
   {
     value: 'pl',
@@ -101,6 +113,7 @@ export default [
     iso: 'pl',
     name: 'Polski',
     englishName: 'Polish',
+    stripeLocale: 'en-US',
   },
   {
     value: 'ptbr',
@@ -108,6 +121,7 @@ export default [
     iso: 'br',
     name: 'Português Brasileiro',
     englishName: 'Portuguese (Brazilian)',
+    stripeLocale: 'pt-BR',
   },
   {
     value: 'ru',
@@ -115,6 +129,7 @@ export default [
     iso: 'ru',
     name: 'Русский',
     englishName: 'Russian',
+    stripeLocale: 'en-US',
   },
   {
     value: 'es',
@@ -122,5 +137,6 @@ export default [
     iso: 'es',
     name: 'Español',
     englishName: 'Spanish',
+    stripeLocale: 'es-ES',
   },
 ] as Language[];

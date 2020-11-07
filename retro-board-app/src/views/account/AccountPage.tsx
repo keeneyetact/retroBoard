@@ -8,10 +8,13 @@ import ProPill from '../../components/ProPill';
 import { Alert } from '@material-ui/lab';
 import Section from './Section';
 import MembersEditor from './MembersEditor';
+import useTranslations from '../../translations';
 
 function AccountPage() {
   const url = usePortalUrl();
   const user = useUser();
+  const { AccountPage: translations } = useTranslations();
+
   const ownsThePlan =
     user &&
     !!user.ownSubscriptionsId &&
@@ -26,11 +29,7 @@ function AccountPage() {
   }
 
   if (user.accountType === 'anonymous') {
-    return (
-      <Alert severity="error">
-        Anonymous accounts cannot have access to their profile.
-      </Alert>
-    );
+    return <Alert severity="error">{translations.anonymousError}</Alert>;
   }
 
   return (
@@ -39,38 +38,34 @@ function AccountPage() {
         {user.name}&nbsp;{user.pro ? <ProPill /> : null}
       </Name>
 
-      <Section title="Your Details">
+      <Section title={translations.details?.header}>
         <Data>
-          <Title>Username</Title>
+          <Title>{translations.details?.username}</Title>
           <Value>{user.username}</Value>
         </Data>
 
         <Data>
-          <Title>Email</Title>
+          <Title>{translations.details?.email}</Title>
           <Value>{user.email}</Value>
         </Data>
 
         <Data>
-          <Title>Account Type</Title>
+          <Title>{translations.details?.accountType}</Title>
           <Value>{user.accountType}</Value>
         </Data>
       </Section>
 
       {user.plan ? (
-        <Section title="Your Plan">
+        <Section title={translations.plan?.header}>
           <Data>
-            <Title>Plan</Title>
+            <Title>{translations.plan?.plan}</Title>
             <Value>{user.plan}</Value>
           </Data>
           {onSomebodysPlan && (
-            <Alert severity="info">
-              You are on this plan through somebody else's subscription.
-            </Alert>
+            <Alert severity="info">{translations.plan?.youAreMember}</Alert>
           )}
           {ownsThePlan && (
-            <Alert severity="info">
-              You are the owner of this plan, through the subscription below.
-            </Alert>
+            <Alert severity="info">{translations.plan?.youAreOwner}</Alert>
           )}
         </Section>
       ) : null}
@@ -84,7 +79,7 @@ function AccountPage() {
               href={url}
               style={{ marginTop: 20 }}
             >
-              Manage my subscription
+              {translations.subscription?.manageButton}
             </Button>
           ) : null}
           {user && user.plan && user.plan === 'team' ? <MembersEditor /> : null}

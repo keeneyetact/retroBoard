@@ -5,6 +5,7 @@ export default {
     logout: 'Logout',
     leave: 'Leave',
     summaryMode: 'Summary Mode',
+    account: 'My Account',
   },
   LanguagePicker: {
     header: 'Choose a language',
@@ -156,7 +157,8 @@ export default {
   },
   SocialMediaLogin: {
     header: 'Social Media',
-    info: 'This will use your account to authenticate you, and will allow you to retrieve all your sessions. No password is stored.',
+    info:
+      'This will use your account to authenticate you, and will allow you to retrieve all your sessions. No password is stored.',
   },
   AuthCommon: {
     emailField: 'E-mail',
@@ -178,7 +180,8 @@ export default {
     registerButton: 'Register',
     errorAlreadyRegistered: 'This email is already registered',
     errorGeneral: 'An error occurred while trying to create your account.',
-    messageSuccess: 'Thank you! You should receive an email shortly to validate your account.',
+    messageSuccess:
+      'Thank you! You should receive an email shortly to validate your account.',
     errorInvalidEmail: 'Please enter a valid email',
   },
   ValidateAccount: {
@@ -188,7 +191,8 @@ export default {
   },
   ResetPassword: {
     // Reset Modal
-    doneMessage: 'Done! Have a look in your emails, you should get a link to reset your password.',
+    doneMessage:
+      'Done! Have a look in your emails, you should get a link to reset your password.',
     header: 'Password Reset',
     resetButton: 'Reset Password',
     info: `Forgot your password? Not a problem. Enter your email below and you'll get a reset email prompto.`,
@@ -243,5 +247,69 @@ export default {
       'This will reveal all blurred cards for everyone. This cannot be undone.',
     confirmButton: `Let's reveal!`,
     cancelButton: 'No thanks',
+  },
+  AccountPage: {
+    anonymousError: `Anonymous accounts cannot have access to their profile (because they don't have one).`,
+    details: {
+      header: 'Your Details',
+      username: 'Username',
+      email: 'Email',
+      accountType: 'Account Type',
+    },
+    plan: {
+      header: 'Your Plan',
+      plan: 'Plan',
+      youAreOwner:
+        'You are the owner of this plan, through the subscription below.',
+      youAreMember: `You are on this plan through somebody else's subscription.`,
+    },
+    subscription: {
+      header: 'Your Subscription',
+      manageButton: 'Manage my subscription',
+      membersEditor: {
+        title: 'Your Team',
+        limitReached: (limit) =>
+          `You reached the limit of your subscription (${limit} users, including yourself). Please remove members, or upgrade to an unlimited Company account.`,
+        info: (
+          limit
+        ) => `Add emails below to grant Pro accounts to up to ${limit} other
+        colleagues.`,
+      },
+    },
+  },
+  SubscribePage: {
+    alertAlreadyPro: `You already are a Pro user, so you might not need another subscription.`,
+    alertAlreadySubscribed: `You already have a subscription, so you might not need another subscription.`,
+    currency: {
+      title: 'Currency',
+      description: 'Pick a currency you would like to be billed with',
+      warning: (currency: string) =>
+        `Your account is already set to use ${currency}, so you cannot change the currency anymore.`,
+    },
+    plan: {
+      title: 'Plan',
+      description: 'Choose the plan that fits your use case!',
+    },
+    domain: {
+      title: 'Domain',
+      description: 'Your unlimited subscription applies to a given domain.',
+      invalidDomain: 'Please provide a valid domain',
+    },
+    subscribe: {
+      title: 'Checkout',
+      description: 'You will be redirected to our partner, Stripe, for payment',
+      cannotRegisterWithAnon:
+        'You cannot register with an anonymous account. Please register with a Social Media or a Password account before continuing.',
+      checkout: 'Checkout',
+    },
+  },
+  Products: {
+    team:
+      'Perfect for smaller teams, you can select up to 20 colleagues who will be upgraded to a Pro account.',
+    company:
+      'If you are a bigger company, you will enjoy an unlimited number of Pro accounts',
+    users: (users: number) => `${users} users`,
+    unlimited: 'Unlimited',
+    month: 'month',
   },
 } as Translation;
