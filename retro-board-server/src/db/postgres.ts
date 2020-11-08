@@ -273,6 +273,13 @@ const getOrSaveUser = (userRepository: UserRepository) => async (
   return await userRepository.saveFromJson(user);
 };
 
+const updateName = (sessionRepository: SessionRepository) => async (
+  sessionId: string,
+  name: string
+): Promise<void> => {
+  await sessionRepository.updateName(sessionId, name);
+};
+
 const deleteSessions = (sessionRepository: SessionRepository) => async (
   userId: string,
   sessionId: string
@@ -418,5 +425,6 @@ export default async function db(): Promise<Store> {
     previousSessions: previousSessions(sessionRepository),
     getDefaultTemplate: getDefaultTemplate(userRepository),
     deleteSession: deleteSessions(sessionRepository),
+    updateName: updateName(sessionRepository),
   };
 }

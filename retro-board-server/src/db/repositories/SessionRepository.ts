@@ -16,6 +16,13 @@ export default class SessionRepository extends Repository<Session> {
     });
     return options;
   }
+  async updateName(sessionId: string, name: string) {
+    const sessionEntity = await this.findOne(sessionId);
+    if (sessionEntity) {
+      sessionEntity.name = name;
+      await this.save(sessionEntity);
+    }
+  }
   async saveFromJson(
     session: Omit<JsonSession, 'createdBy'>,
     authorId: string

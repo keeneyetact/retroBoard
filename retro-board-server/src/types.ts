@@ -60,6 +60,7 @@ export interface Store {
     session: Session,
     columns: ColumnDefinition[]
   ) => Promise<ColumnDefinition[]>;
+  updateName: (sessionId: string, name: string) => Promise<void>;
 }
 
 export interface Configuration {

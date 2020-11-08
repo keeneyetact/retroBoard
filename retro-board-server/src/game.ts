@@ -96,13 +96,6 @@ export default (store: Store, io: SocketIO.Server) => {
     socket.emit(action, data);
   };
 
-  const persistSession = async (userId: string | null, session: Session) => {
-    if (!userId) {
-      return;
-    }
-    await store.saveSession(userId, session);
-  };
-
   const updateOptions = async (
     userId: string | null,
     session: Session,
@@ -276,7 +269,7 @@ export default (store: Store, io: SocketIO.Server) => {
       return;
     }
     session.name = data.name;
-    await persistSession(userId, session);
+    await store.updateName(session.id, data.name);
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 
