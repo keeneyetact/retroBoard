@@ -143,6 +143,10 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 3.2.3
+
+- Fixed a bug with GitHub authentication, where the display name was not set ([#165](https://github.com/antoinejaussoin/retro-board/pull/165)). 👏 Thanks [@hieuwu](https://github.com/hieuwu)!
+
 ### Version 3.2.2
 
 - Fixed a bug where any user editing the name of the session would become owner of the session.
