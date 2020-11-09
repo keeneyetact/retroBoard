@@ -22,6 +22,7 @@ import {
   saveSession,
   updateOptions,
   updateColumns,
+  updateName,
 } from './db/actions/sessions';
 import { getUser } from './db/actions/users';
 import {
@@ -296,7 +297,7 @@ export default (connection: Connection, io: SocketIO.Server) => {
       return;
     }
     session.name = data.name;
-    await updateName(session.id, data.name);
+    await updateName(connection, session.id, data.name);
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 

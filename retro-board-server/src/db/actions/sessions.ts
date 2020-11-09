@@ -313,3 +313,16 @@ export async function updateColumns(
   const columnRepository = connection.getCustomRepository(ColumnRepository);
   return await columnRepository.updateColumns(session, columns);
 }
+
+export async function updateName(
+  connection: Connection,
+  sessionId: string,
+  name: string
+) {
+  const sessionRepository = connection.getCustomRepository(SessionRepository);
+  const session = await sessionRepository.findOne(sessionId);
+  if (session) {
+    session.name = name;
+    await sessionRepository.save(session);
+  }
+}
