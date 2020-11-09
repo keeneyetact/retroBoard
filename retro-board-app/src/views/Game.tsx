@@ -24,15 +24,18 @@ interface RouteParams {
 function GamePage() {
   const { GameMenu, PostBoard } = useTranslations();
   const match = useRouteMatch();
-  const location = useLocation();
+  const { pathname, hash } = useLocation();
   const history = useHistory();
   const { gameId } = useParams<RouteParams>();
   const { state } = useGlobalState();
   const handleChange = useCallback((_, v) => history.push(v), [history]);
   const columns = useColumns();
   const { session } = state;
-  const rootUrl = `${match.url}`;
-  const summaryUrl = `${match.url}/summary`;
+  const rootUrl = `${match.url}${hash}`;
+  const summaryUrl = `${match.url}/summary${hash}`;
+
+  console.log('pathname: ', pathname);
+  const path = pathname + hash;
 
   const {
     initialised,
@@ -86,7 +89,7 @@ function GamePage() {
       ) : null}
       <AppBar position="static" color="default">
         <Tabs
-          value={location.pathname}
+          value={path}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="on"

@@ -30,6 +30,7 @@ import {
   ValidateEmailPayload,
   ResetPasswordPayload,
   ResetChangePasswordPayload,
+  CreateSessionPayload,
 } from 'retro-board-common';
 import registerUser from './auth/register/register-user';
 import { sendVerificationEmail, sendResetPassword } from './email/emailSender';
@@ -144,10 +145,15 @@ db().then((connection) => {
   // Create session
   app.post('/api/create', async (req, res) => {
     const user = await getUserFromRequest(connection, req);
+    const payload: CreateSessionPayload = req.body;
     setScope(async (scope) => {
       if (user) {
         try {
-          const session = await createSession(connection, user);
+          const session = await createSession(
+            connection,
+            user,
+            payload.encryptedCheck
+          );
           res.status(200).send(session);
         } catch (err) {
           reportQueryError(scope, err);

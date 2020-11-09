@@ -4,6 +4,7 @@ export interface Session extends PostContainer, Entity {
   groups: PostGroup[];
   columns: ColumnDefinition[];
   options: SessionOptions;
+  encrypted: string | null;
   createdBy: User;
 }
 
@@ -17,6 +18,7 @@ export interface SessionMetadata extends Entity {
   created: Date;
   createdBy: User;
   canBeDeleted: boolean;
+  encrypted: string;
 }
 
 export interface SessionTemplate extends Entity {
@@ -134,6 +136,7 @@ export type TrackingEvent =
   | 'custom-modal/column/remove'
   | 'custom-modal/template/set-defaut'
   | 'home/create/default'
+  | 'home/create/encrypted'
   | 'home/load-previous'
   | 'game/session/edit-options'
   | 'game/session/edit-columns'

@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components';
-import { getLorem } from './lorem';
 import {
   Typography,
   makeStyles,
@@ -36,6 +35,9 @@ import VoteButton from './VoteButton';
 import ActionButton from './ActionButton';
 import ActionsBar from './ActionsBar';
 import { trackEvent } from '../../../track';
+import useCrypto from '../../../crypto/useCrypto';
+import { getLorem } from './lorem';
+import useCanDecrypt from '../../../crypto/useCanDecrypt';
 
 interface PostItemProps {
   index: number;
@@ -85,6 +87,8 @@ const PostItem = ({
   } = useUserPermissions(post);
   const classes = useStyles();
   const { Actions: translations, Post: postTranslations } = useTranslations();
+  const { encrypt, decrypt } = useCrypto();
+  const canDecrypt = useCanDecrypt();
   const [giphyImageUrl, showGiphyImage, toggleShowGiphyImage] = useGiphy(
     post.giphy
   );
@@ -96,6 +100,7 @@ const PostItem = ({
   const upVoters = useMemo(() => enumerateVotes(post, 'like'), [post]);
   const downVoters = useMemo(() => enumerateVotes(post, 'dislike'), [post]);
   const displayAction = actionsToggled || !!post.action;
+  const readOnly = !canEdit || isBlurred || !canDecrypt;
   const handleShowGiphy = useCallback(() => {
     setShowGiphyEditor(true);
     trackEvent('game/post/giphy/open');
@@ -110,9 +115,24 @@ const PostItem = ({
     },
     [onEditGiphy]
   );
+
+  const handleEdit = useCallback(
+    (postContent: string) => {
+      onEdit(encrypt(postContent));
+    },
+    [onEdit, encrypt]
+  );
+  const handleEditAction = useCallback(
+    (action: string) => {
+      onEditAction(encrypt(action));
+    },
+    [onEditAction, encrypt]
+  );
+
   const actualContent = useMemo(() => {
-    return !isBlurred ? post.content : generateLoremIpsum(post.content);
-  }, [isBlurred, post]);
+    return isBlurred ? generateLoremIpsum(post.content) : decrypt(post.content);
+  }, [decrypt, isBlurred, post.content]);
+
   return (
     <>
       <Draggable
@@ -136,9 +156,9 @@ const PostItem = ({
               <LabelContainer blurred={isBlurred}>
                 <Typography variant="body1">
                   <EditableLabel
-                    readOnly={!canEdit || isBlurred}
+                    readOnly={readOnly}
                     value={actualContent}
-                    onChange={onEdit}
+                    onChange={handleEdit}
                     label="Post content"
                     multiline
                   />
@@ -176,8 +196,8 @@ const PostItem = ({
                 <Typography variant="caption">{translations.title}:</Typography>
                 <Typography variant="body1">
                   <EditableLabel
-                    value={post.action || ''}
-                    onChange={onEditAction}
+                    value={decrypt(post.action || '')}
+                    onChange={handleEditAction}
                     label={translations.title}
                     focused={actionsToggled && !post.action}
                     multiline

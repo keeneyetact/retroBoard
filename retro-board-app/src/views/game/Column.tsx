@@ -1,4 +1,4 @@
-import React, { SFC, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   Input,
@@ -19,6 +19,8 @@ import {
   DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { ColumnContent } from './types';
+import useCrypto from '../../crypto/useCrypto';
+import useCanDecrypt from '../../crypto/useCanDecrypt';
 
 interface ColumnProps {
   column: ColumnContent;
@@ -44,7 +46,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Column: SFC<ColumnProps> = ({
+const Column: React.FC<ColumnProps> = ({
   column,
   options,
   posts,
@@ -65,6 +67,8 @@ const Column: SFC<ColumnProps> = ({
   const isLoggedIn = !!user;
   const { Column: columnTranslations } = useTranslations();
   const [content, setContent] = useState('');
+  const { encrypt } = useCrypto();
+  const canDecrypt = useCanDecrypt();
   const onContentChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value),
     [setContent]
@@ -73,12 +77,13 @@ const Column: SFC<ColumnProps> = ({
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.keyCode === 13 && content) {
-        onAdd(content);
+        onAdd(encrypt(content));
         setContent('');
       }
     },
-    [onAdd, setContent, content]
+    [onAdd, setContent, content, encrypt]
   );
+  const isReadOnly = !canDecrypt || !isLoggedIn;
   return (
     <ColumnWrapper>
       <Add>
@@ -87,7 +92,7 @@ const Column: SFC<ColumnProps> = ({
           onChange={onContentChange}
           value={content}
           onKeyDown={onKeyDown}
-          readOnly={!isLoggedIn}
+          readOnly={isReadOnly}
           startAdornment={
             Icon ? (
               <InputAdornment position="start">
@@ -96,7 +101,7 @@ const Column: SFC<ColumnProps> = ({
             ) : null
           }
         />
-        {options.allowGrouping && isLoggedIn ? (
+        {options.allowGrouping && !isReadOnly ? (
           <AddGroup>
             <Tooltip title={columnTranslations.createGroupTooltip!}>
               <IconButton onClick={onAddGroup} tabIndex={-1}>

@@ -284,4 +284,15 @@ export interface Translation {
     unlimited?: string;
     month?: string;
   };
+  Encryption: {
+    createEncryptedSession?: string;
+    sessionEncryptedHaveKeyTooltip?: string;
+    sessionEncryptedNoKeyTooltip?: string;
+    sessionEncryptedWrongKeyTooltip?: string;
+    newEncryptedSessionWarningTitle?: string;
+    newEncryptedSessionWarningContent?: (key: string) => string;
+    sessionEncryptionError?: string;
+    passwordModalTitle?: string;
+    passwordModelIncorrect?: string;
+  };
 }

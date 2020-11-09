@@ -300,4 +300,15 @@ export default {
     unlimited: undefined,
     month: undefined,
   },
+  Encryption: {
+    createEncryptedSession: undefined,
+    sessionEncryptedHaveKeyTooltip: undefined,
+    sessionEncryptedNoKeyTooltip: undefined,
+    sessionEncryptedWrongKeyTooltip: undefined,
+    newEncryptedSessionWarningTitle: undefined,
+    newEncryptedSessionWarningContent: undefined,
+    sessionEncryptionError: undefined,
+    passwordModalTitle: undefined,
+    passwordModelIncorrect: undefined,
+  },
 } as Translation;

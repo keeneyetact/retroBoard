@@ -15,16 +15,19 @@ import {
 } from '@material-ui/core';
 import { SessionMetadata } from 'retro-board-common';
 import { AvatarGroup } from '@material-ui/lab';
-import CustomAvatar from '../../components/Avatar';
-import ItemStat from './ItemStat';
+import CustomAvatar from '../../../components/Avatar';
+import ItemStat from '../ItemStat';
 import styled from 'styled-components';
-import useOnHover from '../../hooks/useOnHover';
-import useTranslations, { useLanguage } from '../../translations';
+import useOnHover from '../../../hooks/useOnHover';
+import useTranslations, { useLanguage } from '../../../translations';
 import { DeleteForever } from '@material-ui/icons';
+import { useEncryptionKey } from '../../../crypto/useEncryptionKey';
+import { decrypt } from '../../../crypto/crypto';
+import EncryptedLock from './EncryptedLock';
 
 interface PreviousGameItemProps {
   session: SessionMetadata;
-  onClick: (session: SessionMetadata) => void;
+  onClick: (session: SessionMetadata, encryptionKey: string | null) => void;
   onDelete: (session: SessionMetadata) => void;
 }
 
@@ -39,10 +42,11 @@ const PreviousGameItem = ({
     DeleteSession,
   } = useTranslations();
   const language = useLanguage();
+  const [encryptionKey] = useEncryptionKey(session.id);
   const [hover, hoverRef] = useOnHover();
   const handleClick = useCallback(() => {
-    onClick(session);
-  }, [onClick, session]);
+    onClick(session, encryptionKey);
+  }, [onClick, session, encryptionKey]);
   const handleDelete = useCallback(() => {
     setDeleteDialogOpen(false);
     onDelete(session);
@@ -80,9 +84,12 @@ const PreviousGameItem = ({
               </Delete>
             </Top>
           </Typography>
-          <Typography variant="h5" component="h2">
-            {session.name || defaultSessionName}
-          </Typography>
+          <NameContainer>
+            <Typography variant="h5" component="h2">
+              {decrypt(session.name, encryptionKey) || defaultSessionName}&nbsp;
+            </Typography>
+            <EncryptedLock session={session} />
+          </NameContainer>
           <Typography color="textSecondary" style={{ marginBottom: 20 }}>
             {translations.createdBy} <em>{session.createdBy.name}</em>
           </Typography>
@@ -123,7 +130,9 @@ const PreviousGameItem = ({
         open={deleteDialogOpen}
       >
         <DialogTitle id="delete-session-dialog">
-          {DeleteSession.header!(session.name || defaultSessionName!)}
+          {DeleteSession.header!(
+            decrypt(session.name, encryptionKey) || defaultSessionName!
+          )}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{DeleteSession.firstLine}</DialogContentText>
@@ -180,6 +189,11 @@ const Delete = styled.div`
   }
   position: relative;
   left: 12px;
+`;
+
+const NameContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default PreviousGameItem;

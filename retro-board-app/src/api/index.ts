@@ -13,6 +13,7 @@ import {
 } from 'retro-board-common';
 import config from '../utils/getConfig';
 import { v4 } from 'uuid';
+import { CHECK_PREFIX, encrypt } from '../crypto/crypto';
 
 const requestConfig: Partial<RequestInit> = {
   mode: 'cors',
@@ -29,6 +30,25 @@ export async function createGame(): Promise<Session> {
   const response = await fetch(`/api/create`, {
     method: 'POST',
     ...requestConfig,
+  });
+  if (response.ok) {
+    return await response.json();
+  }
+  throw new Error('Could not create a session');
+}
+
+export async function createEncryptedGame(
+  encryptionKey: string
+): Promise<Session> {
+  // We are not sending the encryption key to the backend, only an encrypted string
+  // so we can check, client-side, that the key used by the user is the correct one.
+  const encryptedCheck = encrypt(CHECK_PREFIX, encryptionKey);
+  const response = await fetch(`/api/create`, {
+    method: 'POST',
+    ...requestConfig,
+    body: JSON.stringify({
+      encryptedCheck,
+    }),
   });
   if (response.ok) {
     return await response.json();

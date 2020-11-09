@@ -4,6 +4,14 @@ import { render, getAllByRole } from '../../../../testing';
 import SummaryMode from '../SummaryMode';
 import { ColumnContent } from '../../types';
 import { Post } from 'retro-board-common';
+import { Route, MemoryRouter } from 'react-router-dom';
+
+const renderWithRouter = (children: React.ReactNode) =>
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Route path="/">{children}</Route>
+    </MemoryRouter>
+  );
 
 const buildPost = (likes: number, dislikes: number): Post => {
   const post: Post = {
@@ -13,9 +21,6 @@ const buildPost = (likes: number, dislikes: number): Post => {
     user: {
       id: v4(),
       name: 'bar',
-      username: '',
-      accountType: 'anonymous',
-      language: 'en',
       photo: '',
     },
     votes: [],
@@ -72,24 +77,24 @@ const data: ColumnContent[] = [
 
 describe('SummaryMode', () => {
   it('Should display all columns', () => {
-    const { getAllByRole } = render(<SummaryMode columns={data} />);
+    const { getAllByRole } = renderWithRouter(<SummaryMode columns={data} />);
     const sections = getAllByRole('list');
     expect(sections).toHaveLength(2);
   });
 
   it('Should display all lines within a given column', () => {
-    const container = render(<SummaryMode columns={data} />);
+    const container = renderWithRouter(<SummaryMode columns={data} />);
     const firstSection = container.getAllByRole('list')[0];
     const lines = getAllByRole(firstSection, 'listitem');
     expect(lines).toHaveLength(5);
   });
 
   it('Should display all lines ordered by votes', () => {
-    const container = render(<SummaryMode columns={data} />);
+    const container = renderWithRouter(<SummaryMode columns={data} />);
     const firstSection = container.getAllByRole('list')[0];
     const lines = getAllByRole(firstSection, 'listitem');
     const texts = lines.map(
-      line => line.getElementsByTagName('span')[2].innerHTML
+      (line) => line.getElementsByTagName('span')[2].innerHTML
     );
 
     expect(texts[0]).toBe('4/0');

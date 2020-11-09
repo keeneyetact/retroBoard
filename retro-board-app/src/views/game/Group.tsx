@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { PostGroup } from 'retro-board-common';
 import styled from 'styled-components';
 import {
@@ -11,6 +11,7 @@ import { Delete } from '@material-ui/icons';
 import EditableLabel from '../../components/EditableLabel';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import useTranslations from '../../translations';
+import useCrypto from '../../crypto/useCrypto';
 
 interface GroupProps {
   group: PostGroup;
@@ -27,6 +28,13 @@ const Group: React.FC<GroupProps> = ({
   children,
 }) => {
   const { Group: groupTranslations } = useTranslations();
+  const { decrypt, encrypt } = useCrypto();
+  const handleEditLabel = useCallback(
+    (label: string) => {
+      onEditLabel(encrypt(label));
+    },
+    [onEditLabel, encrypt]
+  );
   return (
     <Droppable droppableId={'group#' + group.id} key={group.id} mode="standard">
       {(
@@ -41,8 +49,8 @@ const Group: React.FC<GroupProps> = ({
           <Header>
             <Label>
               <EditableLabel
-                value={group.label}
-                onChange={onEditLabel}
+                value={decrypt(group.label)}
+                onChange={handleEditLabel}
                 readOnly={readonly}
               />
             </Label>

@@ -33,6 +33,12 @@ import { getNext, getMiddle } from './lexorank';
 import RevealButton from './RevealButton';
 import ModifyOptions from './ModifyOptions';
 import useCanModifyOptions from './useCanModifyOptions';
+import useCrypto from '../../crypto/useCrypto';
+import useCanDecrypt from '../../crypto/useCanDecrypt';
+import EncryptionModal from './EncryptionModal';
+import useShouldDisplayEncryptionWarning from './useShouldDisplayEncryptionWarning';
+import TransitionAlert from '../../components/TransitionAlert';
+import { useEncryptionKey } from '../../crypto/useEncryptionKey';
 
 interface GameModeProps {
   columns: ColumnContent[];
@@ -98,11 +104,15 @@ function GameMode({
   const translations = useTranslations();
   const { state } = useGlobalState();
   const classes = useStyles();
+  const [key] = useEncryptionKey();
   const remainingVotes = useRemainingVotes();
   const user = useUser();
   const isLoggedIn = !!user;
   const canReveal = useCanReveal();
   const canModifyOptions = useCanModifyOptions();
+  const { encrypt, decrypt } = useCrypto();
+  const canDecrypt = useCanDecrypt();
+  const shouldDisplayEncryptionWarning = useShouldDisplayEncryptionWarning();
 
   const handleReveal = useCallback(() => {
     if (state && state.session) {
@@ -147,15 +157,29 @@ function GameMode({
     [onMovePost, onCombinePost, columns]
   );
 
+  const handleRenameSession = useCallback(
+    (name: string) => {
+      onRenameSession(encrypt(name));
+    },
+    [onRenameSession, encrypt]
+  );
+
   if (!state.session) {
     return <span>Loading...</span>;
   }
 
   return (
     <Page>
+      {!canDecrypt ? <EncryptionModal /> : null}
       {!isLoggedIn ? (
         <Alert severity="warning">{translations.PostBoard.notLoggedIn}</Alert>
       ) : null}
+      {!canDecrypt ? (
+        <Alert severity="error">
+          {translations.Encryption.sessionEncryptionError}
+        </Alert>
+      ) : null}
+
       <Box className={classes.container}>
         <HeaderWrapper>
           <ExtraOptions>
@@ -176,15 +200,24 @@ function GameMode({
           >
             <EditableLabel
               placeholder={translations.SessionName.defaultSessionName}
-              value={state.session.name || ''}
+              value={decrypt(state.session.name)}
               centered
-              onChange={onRenameSession}
-              readOnly={!isLoggedIn}
+              onChange={handleRenameSession}
+              readOnly={!isLoggedIn || !canDecrypt}
             />
           </Typography>
           <RemainingVotes up={remainingVotes.up} down={remainingVotes.down} />
         </HeaderWrapper>
-
+        {shouldDisplayEncryptionWarning ? (
+          <TransitionAlert
+            severity="warning"
+            title={translations.Encryption.newEncryptedSessionWarningTitle}
+          >
+            {translations.Encryption.newEncryptedSessionWarningContent!(
+              key || '(unknown)'
+            )}
+          </TransitionAlert>
+        ) : null}
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Columns numberOfColumns={columns.length}>
             {columns.map((column) => (

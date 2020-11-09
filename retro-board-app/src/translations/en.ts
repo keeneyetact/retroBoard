@@ -312,4 +312,17 @@ export default {
     unlimited: 'Unlimited',
     month: 'month',
   },
+  Encryption: {
+    createEncryptedSession: 'Encrypted Session',
+    sessionEncryptedHaveKeyTooltip: `This session is encrypted, and the key is stored in your browser. You can open this session without having to provide the password again.`,
+    sessionEncryptedNoKeyTooltip:
+      'This session is encrypted, and the key is not stored in your browser. You will be asked for the decryption key when opening this session.',
+    sessionEncryptedWrongKeyTooltip: `This session is encrypted, and the key you have stored is not the correct key.`,
+    newEncryptedSessionWarningTitle: `This session is encrypted locally`,
+    newEncryptedSessionWarningContent: (key: string) =>
+      `It is very important for you to save the full URL (which contains the key) somewhere safe, or at least the encryption key: ${key}. If you lose this encryption key, there is nothing that can be done to retrieve the data.`,
+    sessionEncryptionError: `This session is encrypted, and you don't seem to have the decryption key stored locally. Please use the original link, including the decryption key.`,
+    passwordModalTitle: `Encrypted Session - Enter Password`,
+    passwordModelIncorrect: `The encryption key is incorrect.`,
+  },
 } as Translation;

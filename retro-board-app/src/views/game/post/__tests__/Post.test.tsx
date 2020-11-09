@@ -3,15 +3,20 @@ import { noop, groupBy, values } from 'lodash';
 import { render, fireEvent } from '../../../../testing';
 import PostItem from '../Post';
 import { Post, User, Vote, VoteType } from 'retro-board-common';
+import { MemoryRouter, Route } from 'react-router-dom';
 
 const u = (name: string): User => ({
   name,
   id: name,
-  accountType: 'anonymous',
-  username: name,
   photo: null,
-  language: 'en',
 });
+
+const renderWithRouter = (children: React.ReactNode) =>
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Route path="/">{children}</Route>
+    </MemoryRouter>
+  );
 
 function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
   const grouped = groupBy(users, (u) => u.id);
@@ -46,7 +51,7 @@ post.votes = [
 
 describe('Post', () => {
   it('Should properly display the post content', () => {
-    const { getByLabelText } = render(
+    const { getByLabelText } = renderWithRouter(
       <PostItem
         post={post}
         index={1}
@@ -67,7 +72,7 @@ describe('Post', () => {
     const deleteHandler = jest.fn();
     const likeHandler = jest.fn();
     const dislikeHandler = jest.fn();
-    const { getByLabelText, queryByText } = render(
+    const { getByLabelText, queryByText } = renderWithRouter(
       <PostItem
         post={post}
         index={1}
@@ -107,7 +112,7 @@ describe('Post', () => {
     const likeHandler = jest.fn();
     const dislikeHandler = jest.fn();
 
-    const { getByLabelText } = render(
+    const { getByLabelText } = renderWithRouter(
       <PostItem
         post={customPost}
         index={1}
@@ -142,7 +147,7 @@ describe('Post', () => {
     };
     const editHandler = jest.fn();
 
-    const { getByLabelText } = render(
+    const { getByLabelText } = renderWithRouter(
       <PostItem
         post={customPost}
         index={1}
@@ -172,7 +177,7 @@ describe('Post', () => {
     };
     const editHandler = jest.fn();
 
-    const { getByLabelText, queryByLabelText } = render(
+    const { getByLabelText, queryByLabelText } = renderWithRouter(
       <PostItem
         post={customPost}
         index={1}

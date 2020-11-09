@@ -23,6 +23,7 @@ import SpeedDial from './SpeedDial';
 import { calculateSummary } from './calculate-summary';
 import { ColumnStats, ColumnStatsItem, ActionItem } from './types';
 import useTranslation from '../../../translations';
+import useCrypto from '../../../crypto/useCrypto';
 
 interface SummaryModeProps {
   columns: ColumnContent[];
@@ -64,6 +65,7 @@ interface GroupSummaryProps {
 }
 
 const GroupSummary = ({ group }: GroupSummaryProps) => {
+  const { decrypt } = useCrypto();
   return (
     <GroupContainer>
       <GroupTitle>
@@ -71,7 +73,7 @@ const GroupSummary = ({ group }: GroupSummaryProps) => {
           <PositiveNumber>+{group.likes}</PositiveNumber>&nbsp;
           <NegativeNumber>-{group.dislikes}</NegativeNumber>
         </Score>
-        {group.content}
+        {decrypt(group.content)}
       </GroupTitle>
       <PostsList items={group.children} />
     </GroupContainer>
@@ -115,6 +117,7 @@ interface PostLineProps {
 }
 
 const PostLine = ({ item }: PostLineProps) => {
+  const { decrypt } = useCrypto();
   return (
     <Typography component="div">
       <PostContainer role="listitem">
@@ -122,7 +125,9 @@ const PostLine = ({ item }: PostLineProps) => {
           <PositiveNumber>+{item.likes}</PositiveNumber>&nbsp;
           <NegativeNumber>-{item.dislikes}</NegativeNumber>
         </Score>
-        <PostContent aria-label="post content">{item.content}</PostContent>
+        <PostContent aria-label="post content">
+          {decrypt(item.content)}
+        </PostContent>
       </PostContainer>
     </Typography>
   );
@@ -158,6 +163,7 @@ const ActionsList = ({ actions }: ActionsListProps) => {
   const {
     Actions: { summaryTitle },
   } = useTranslations();
+  const { decrypt } = useCrypto();
   return (
     <Grid
       container
@@ -189,8 +195,8 @@ const ActionsList = ({ actions }: ActionsListProps) => {
                     </Avatar>
                   </ListItemIcon>
                   <ListItemText
-                    primary={action.action}
-                    secondary={action.postContent}
+                    primary={decrypt(action.action)}
+                    secondary={decrypt(action.postContent)}
                   />
                 </ListItem>
               ))}

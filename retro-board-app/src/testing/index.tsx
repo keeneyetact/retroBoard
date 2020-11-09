@@ -19,6 +19,7 @@ const testingInitialState: State = {
     posts: [],
     groups: [],
     columns: [],
+    encrypted: null,
     createdBy: {
       id: 'John Doe',
       name: 'John Doe',

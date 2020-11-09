@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { Fab, makeStyles, colors, Button } from '@material-ui/core';
-import { ThumbUpAlt, Settings } from '@material-ui/icons';
+import { ThumbUpAlt, Settings, Lock } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
 import CreateSessionModal from './home/CreateSession';
@@ -12,10 +12,17 @@ import {
   SessionMetadata,
 } from 'retro-board-common';
 import { trackEvent } from './../track';
-import { createGame, createCustomGame, deleteSession } from '../api';
+import {
+  createGame,
+  createEncryptedGame,
+  createCustomGame,
+  deleteSession,
+} from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
 import useUser from '../auth/useUser';
+import shortid from 'shortid';
+import { storeEncryptionKeyLocally } from '../crypto/crypto';
 
 const useStyles = makeStyles({
   media: {
@@ -56,19 +63,31 @@ function Home() {
   );
   const classes = useStyles();
   const [modalOpen, setModalOpen] = useState(false);
+
   const onCloseModal = useCallback(() => {
     setModalOpen(false);
     trackEvent('custom-modal/close');
   }, []);
+
   const onOpenModal = useCallback(() => {
     setModalOpen(true);
     trackEvent('custom-modal/open');
   }, []);
+
   const createDefaultSession = useCallback(async () => {
     const session = await createGame();
     trackEvent('home/create/default');
     history.push('/game/' + session.id);
   }, [history]);
+
+  const createEncryptedSession = useCallback(async () => {
+    const key = shortid();
+    const session = await createEncryptedGame(key);
+    storeEncryptionKeyLocally(session.id, key);
+    trackEvent('home/create/encrypted');
+    history.push(`/game/${session.id}#${key}`);
+  }, [history]);
+
   const handleDeleteSession = useCallback(
     async (session: SessionMetadata) => {
       await deleteSession(session.id);
@@ -90,6 +109,16 @@ function Home() {
         >
           <ThumbUpAlt className={classes.buttonIcon} />
           {translations.Join.standardTab.button}
+        </Fab>
+        <Fab
+          variant="extended"
+          onClick={createEncryptedSession}
+          size="large"
+          color="secondary"
+          disabled={!isLoggedIn}
+        >
+          <Lock className={classes.buttonIcon} />
+          {translations.Encryption.createEncryptedSession}
         </Fab>
         <Button onClick={onOpenModal} color="primary" disabled={!isLoggedIn}>
           <Settings className={classes.buttonIcon} />

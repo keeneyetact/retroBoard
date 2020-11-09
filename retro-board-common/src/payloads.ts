@@ -32,3 +32,7 @@ export interface CreateSubscriptionPayload {
   locale: StripeLocales;
   domain: string | null;
 }
+
+export interface CreateSessionPayload {
+  encryptedCheck?: string;
+}
