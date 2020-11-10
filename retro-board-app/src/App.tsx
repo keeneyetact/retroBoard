@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
+import { Helmet } from 'react-helmet';
 import GlobalStyles from './GlobalStyles';
 import AuthProvider from './auth/AuthProvider';
 import LanguageProvider from './translations/LanguageProvider';
@@ -17,6 +18,14 @@ const stripePromise = loadStripe(config.StripeKey);
 function App() {
   return (
     <Elements stripe={stripePromise}>
+      <Helmet>
+        <meta property="og:title" content="Retrospected.com" />
+        <meta
+          property="og:description"
+          content="Real-time Agile Retrospective Board for development teams"
+        />
+        <meta property="og:url" content="https://www.retrospected.com" />
+      </Helmet>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <AuthProvider>

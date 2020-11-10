@@ -7,6 +7,7 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { CircularProgress, AppBar, Tabs, Tab, Button } from '@material-ui/core';
 import { Dashboard, List, CloudOff } from '@material-ui/icons';
 import useGlobalState from '../state';
@@ -16,6 +17,7 @@ import GameMode from './game/GameMode';
 import SummaryMode from './game/summary/SummaryMode';
 import useColumns from './game/useColumns';
 import NoContent from '../components/NoContent';
+import useCrypto from '../crypto/useCrypto';
 
 interface RouteParams {
   gameId: string;
@@ -26,10 +28,12 @@ function GamePage() {
   const match = useRouteMatch();
   const { pathname, hash } = useLocation();
   const history = useHistory();
+  const translations = useTranslations();
   const { gameId } = useParams<RouteParams>();
   const { state } = useGlobalState();
   const handleChange = useCallback((_, v) => history.push(v), [history]);
   const columns = useColumns();
+  const { decrypt } = useCrypto();
   const { session } = state;
   const rootUrl = `${match.url}${hash}`;
   const summaryUrl = `${match.url}/summary${hash}`;
@@ -74,6 +78,22 @@ function GamePage() {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          {decrypt(session.name) || translations.SessionName.defaultSessionName}{' '}
+          - Retrospected
+        </title>
+        <meta
+          property="og:title"
+          content={`${
+            decrypt(session.name) || translations.SessionName.defaultSessionName
+          } - Retrospected`}
+        />
+        <meta
+          property="og:url"
+          content={window.location.href.replace(hash, '')}
+        />
+      </Helmet>
       {disconnected ? (
         <DisconnectedContainer>
           <DisconnectedTitle>

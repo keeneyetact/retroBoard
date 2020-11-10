@@ -146,6 +146,7 @@ When using the Docker deployment, your database runs from a container. But if yo
 ### Version 4.0.0 (Pending)
 
 - TBD
+- Adding dynamic HTML title for better browser experience ([#167](https://github.com/antoinejaussoin/ retro-board/issues/167)). 👏 Thanks [@sam-pires](https://github.com/sam-pires)!
 
 ### Version 3.2.3
 
