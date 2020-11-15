@@ -8,7 +8,7 @@ import {
   DialogActions,
 } from '@material-ui/core';
 import { Visibility } from '@material-ui/icons';
-import useTranslation from '../../translations/useTranslations';
+import useTranslation from '../../../../translations/useTranslations';
 
 interface RevealButtonProps {
   onClick: () => void;
@@ -16,17 +16,17 @@ interface RevealButtonProps {
 
 function RevealButton({ onClick }: RevealButtonProps) {
   const { RevealCards } = useTranslation();
+  const [revealDialogOpen, setRevealDialogOpen] = useState(false);
   const handleOpenDialog = useCallback(() => {
     setRevealDialogOpen(true);
   }, []);
   const handleCloseDialog = useCallback(() => {
     setRevealDialogOpen(false);
   }, []);
-  const [revealDialogOpen, setRevealDialogOpen] = useState(false);
   return (
     <>
       <Button
-        variant="contained"
+        variant="text"
         color="secondary"
         startIcon={<Visibility />}
         onClick={handleOpenDialog}

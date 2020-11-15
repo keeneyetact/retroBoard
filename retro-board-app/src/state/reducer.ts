@@ -15,10 +15,14 @@ import {
   RECEIVE_VOTE,
   EDIT_OPTIONS,
   EDIT_COLUMNS,
+  LOCK_SESSION,
+  UNAUTHORIZED,
 } from './actions';
 
 export default function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case UNAUTHORIZED:
+      return { ...state, unauthorized: true };
     case TOGGLE_PANEL:
       return { ...state, panelOpen: !state.panelOpen };
     case SET_PLAYERS:
@@ -190,6 +194,17 @@ export default function reducer(state: State, action: Action): State {
         session: {
           ...state.session,
           columns: action.payload,
+        },
+      };
+    case LOCK_SESSION:
+      if (!state.session) {
+        return state;
+      }
+      return {
+        ...state,
+        session: {
+          ...state.session,
+          locked: action.payload,
         },
       };
     default:

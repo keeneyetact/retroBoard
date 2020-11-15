@@ -13,7 +13,7 @@ import { Dashboard, List, CloudOff } from '@material-ui/icons';
 import useGlobalState from '../state';
 import useTranslations from '../translations';
 import useGame from './game/useGame';
-import GameMode from './game/GameMode';
+import Board from './game/board/Board';
 import SummaryMode from './game/summary/SummaryMode';
 import useColumns from './game/useColumns';
 import NoContent from '../components/NoContent';
@@ -34,11 +34,10 @@ function GamePage() {
   const handleChange = useCallback((_, v) => history.push(v), [history]);
   const columns = useColumns();
   const { decrypt } = useCrypto();
-  const { session } = state;
+  const { session, unauthorized } = state;
   const rootUrl = `${match.url}${hash}`;
   const summaryUrl = `${match.url}/summary${hash}`;
 
-  console.log('pathname: ', pathname);
   const path = pathname + hash;
 
   const {
@@ -56,6 +55,7 @@ function GamePage() {
     onRenameSession,
     onEditOptions,
     onEditColumns,
+    onLockSession,
     reconnect,
   } = useGame(gameId);
 
@@ -64,6 +64,15 @@ function GamePage() {
       <LoadingContainer>
         <CircularProgress />
       </LoadingContainer>
+    );
+  }
+
+  if (unauthorized) {
+    return (
+      <NoContent
+        title={translations.Locking.sessionLockedTitle!}
+        subtitle={translations.Locking.sessionLockedDescription!}
+      />
     );
   }
 
@@ -127,7 +136,7 @@ function GamePage() {
         path={`${match.url}`}
         exact
         render={() => (
-          <GameMode
+          <Board
             columns={columns}
             options={session.options}
             onEdit={onEditPost}
@@ -142,6 +151,7 @@ function GamePage() {
             onRenameSession={onRenameSession}
             onEditOptions={onEditOptions}
             onEditColumns={onEditColumns}
+            onLockSession={onLockSession}
           />
         )}
       />

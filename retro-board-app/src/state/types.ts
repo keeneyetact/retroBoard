@@ -3,6 +3,7 @@ import {
   User,
   IconName,
   ColumnDefinitionType,
+  Participant,
 } from 'retro-board-common';
 
 export interface Action {
@@ -12,8 +13,9 @@ export interface Action {
 
 export interface State {
   panelOpen: boolean;
-  players: User[];
+  players: Participant[];
   session: Session | null;
+  unauthorized: boolean;
 }
 
 export interface ColumnSettings {

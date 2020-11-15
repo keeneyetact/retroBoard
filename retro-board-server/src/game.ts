@@ -4,6 +4,7 @@ import {
   Post,
   PostGroup,
   User,
+  Participant,
   Vote,
   VoteType,
   ColumnDefinition,
@@ -15,7 +16,7 @@ import { find } from 'lodash';
 import { v4 } from 'uuid';
 import { setScope, reportQueryError } from './sentry';
 import SessionOptionsEntity from './db/entities/SessionOptions';
-import { UserEntity } from './db/entities';
+import { SessionEntity, UserEntity } from './db/entities';
 import { hasField } from './security/payload-checker';
 import {
   getSession,
@@ -23,6 +24,10 @@ import {
   updateOptions,
   updateColumns,
   updateName,
+  storeVisitor,
+  getSessionWithVisitors,
+  toggleSessionLock,
+  isAllowed,
 } from './db/actions/sessions';
 import { getUser } from './db/actions/users';
 import {
@@ -59,6 +64,9 @@ const {
   RECEIVE_OPTIONS,
   EDIT_COLUMNS,
   RECEIVE_COLUMNS,
+  LOCK_SESSION,
+  RECEIVE_LOCK_SESSION,
+  RECEIVE_UNAUTHORIZED,
 } = Actions;
 
 interface ExtendedSocket extends socketIo.Socket {
@@ -210,28 +218,41 @@ export default (connection: Connection, io: SocketIO.Server) => {
     await deletePostGroup(connection, userId, sessionId, groupId);
   };
 
-  const sendClientList = (sessionId: string, socket: ExtendedSocket) => {
-    const room = io.nsps['/'].adapter.rooms[getRoom(sessionId)];
+  const sendClientList = (session: SessionEntity, socket: ExtendedSocket) => {
+    const room = io.nsps['/'].adapter.rooms[getRoom(session.id)];
     if (room) {
       const clients = Object.keys(room.sockets);
-      const names: User[] = clients.map((id, i) =>
-        !!users[id]
-          ? users[id]!.toJson()
-          : {
-              id: socket.id,
-              name: `(Spectator #${i})`,
-              photo: null,
-              pro: null,
-            }
-      );
+      const onlineParticipants: Participant[] = clients
+        .map((id, i) =>
+          !!users[id]
+            ? users[id]!.toJson()
+            : {
+                id: socket.id,
+                name: `(Spectator #${i})`,
+                photo: null,
+                pro: null,
+              }
+        )
+        .map((user) => ({ ...user, online: true }));
+      const onlineParticipantsIds = onlineParticipants.map((p) => p.id);
 
-      sendToSelf(socket, RECEIVE_CLIENT_LIST, names);
-      sendToAll(socket, sessionId, RECEIVE_CLIENT_LIST, names);
+      const offlineParticipants: Participant[] = session
+        .visitors!.filter((op) => !onlineParticipantsIds.includes(op.id))
+        .map((op) => ({ ...op.toJson(), online: false }));
+
+      sendToSelf(socket, RECEIVE_CLIENT_LIST, [
+        ...onlineParticipants,
+        ...offlineParticipants,
+      ]);
+      sendToAll(socket, session.id, RECEIVE_CLIENT_LIST, [
+        ...onlineParticipants,
+        ...offlineParticipants,
+      ]);
     }
   };
 
   const recordUser = (
-    sessionId: string,
+    session: SessionEntity,
     user: UserEntity,
     socket: ExtendedSocket
   ) => {
@@ -240,7 +261,7 @@ export default (connection: Connection, io: SocketIO.Server) => {
       users[socketId] = user || null;
     }
 
-    sendClientList(sessionId, socket);
+    sendClientList(session, socket);
   };
 
   const onAddPost = async (
@@ -269,6 +290,10 @@ export default (connection: Connection, io: SocketIO.Server) => {
     sendToAll(socket, session.id, RECEIVE_POST_GROUP, group);
   };
 
+  const log = (msg: string) => {
+    console.log(d() + msg);
+  };
+
   const onJoinSession = async (
     userId: string | null,
     session: Session,
@@ -277,11 +302,24 @@ export default (connection: Connection, io: SocketIO.Server) => {
   ) => {
     socket.join(getRoom(session.id), async () => {
       socket.sessionId = session.id;
-      sendToSelf(socket, RECEIVE_BOARD, session);
       if (userId) {
         const user = await getUser(connection, userId);
-        if (user) {
-          recordUser(session.id, user, socket);
+        const sessionEntity = await getSessionWithVisitors(
+          connection,
+          session.id
+        );
+
+        if (user && sessionEntity) {
+          const userAllowed = isAllowed(sessionEntity, user);
+          if (userAllowed) {
+            recordUser(sessionEntity, user, socket);
+            await storeVisitor(connection, session.id, user);
+            sendToSelf(socket, RECEIVE_BOARD, session);
+          } else {
+            log(chalk`{red User not allowed, session locked}`);
+            sendToSelf(socket, RECEIVE_UNAUTHORIZED, null);
+            socket.disconnect();
+          }
         }
       }
     });
@@ -307,8 +345,14 @@ export default (connection: Connection, io: SocketIO.Server) => {
     _data: void,
     socket: ExtendedSocket
   ) => {
-    socket.leave(getRoom(session.id), () => {
-      sendClientList(session.id, socket);
+    socket.leave(getRoom(session.id), async () => {
+      const sessionEntity = await getSessionWithVisitors(
+        connection,
+        session.id
+      );
+      if (sessionEntity) {
+        sendClientList(sessionEntity, socket);
+      }
     });
   };
 
@@ -448,6 +492,26 @@ export default (connection: Connection, io: SocketIO.Server) => {
     sendToAll(socket, session.id, RECEIVE_COLUMNS, data);
   };
 
+  const onLockSession = async (
+    userId: string | null,
+    session: Session,
+    locked: boolean,
+    socket: ExtendedSocket
+  ) => {
+    if (!userId) {
+      return;
+    }
+
+    // Prevent non author from locking/unlocking sessions
+    if (userId !== session.createdBy.id) {
+      return;
+    }
+
+    await toggleSessionLock(connection, session.id, locked);
+
+    sendToAll(socket, session.id, RECEIVE_LOCK_SESSION, locked);
+  };
+
   io.on('connection', async (socket: ExtendedSocket) => {
     const ip =
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
@@ -486,6 +550,7 @@ export default (connection: Connection, io: SocketIO.Server) => {
       { type: LEAVE_SESSION, handler: onLeaveSession },
       { type: EDIT_OPTIONS, handler: onEditOptions },
       { type: EDIT_COLUMNS, handler: onEditColumns },
+      { type: LOCK_SESSION, handler: onLockSession },
     ];
 
     actions.forEach((action) => {
@@ -499,7 +564,7 @@ export default (connection: Connection, io: SocketIO.Server) => {
           const sid =
             action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
           if (sid) {
-            const session = await getSession(connection, sid);
+            const session = await getSession(connection, sid); // Todo check if that's not a performance issue
             if (session) {
               try {
                 await action.handler(userId, session, data.payload, socket);
@@ -513,15 +578,20 @@ export default (connection: Connection, io: SocketIO.Server) => {
       });
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
       if (socket.sessionId) {
         console.log(
           chalk`${d()}{blue Disconnection: }{red User left} {grey ${
             socket.id
           } ${ip}}`
         );
-
-        sendClientList(socket.sessionId, socket);
+        const sessionEntity = await getSessionWithVisitors(
+          connection,
+          socket.sessionId
+        );
+        if (sessionEntity) {
+          sendClientList(sessionEntity, socket);
+        }
       }
     });
   });

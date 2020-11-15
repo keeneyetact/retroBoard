@@ -7,6 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import PostEntity from './Post';
 import { ColumnDefinitionEntity } from './ColumnDefinition';
@@ -49,6 +51,11 @@ export default class SessionEntity {
   public options: SessionOptionsEntity;
   @Column({ nullable: true, type: 'character varying' })
   public encrypted: string | null;
+  @ManyToMany(() => UserEntity, user => user.sessions, { eager: false })
+  @JoinTable({ name: 'visitors' })
+  visitors: UserEntity[] | undefined;
+  @Column({ default: false })
+  public locked: boolean;
   @CreateDateColumn({ type: 'timestamp with time zone' })
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone' })
@@ -66,6 +73,7 @@ export default class SessionEntity {
       options: this.options.toJson(),
       posts: this.posts === undefined ? [] : this.posts.map((p) => p.toJson()),
       encrypted: this.encrypted,
+      locked: this.locked,
     };
   }
 
@@ -80,5 +88,6 @@ export default class SessionEntity {
     this.createdBy = createdBy;
     this.options = new SessionOptionsEntity(options);
     this.encrypted = null;
+    this.locked = false;
   }
 }

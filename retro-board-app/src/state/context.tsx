@@ -22,12 +22,15 @@ import {
   resetSession,
   editOptions,
   editColumns,
+  lockSession,
+  unauthorized,
 } from './actions';
 
 export const initialState: State = {
   panelOpen: false,
   players: [],
   session: null,
+  unauthorized: false,
 };
 
 const Context = createContext({
@@ -66,6 +69,8 @@ export function useGlobalState() {
       resetSession: resetSession(dispatch),
       editOptions: editOptions(dispatch),
       editColumns: editColumns(dispatch),
+      lockSession: lockSession(dispatch),
+      unauthorized: unauthorized(dispatch),
     };
   }, [dispatch]);
   const globalState = useMemo(() => {

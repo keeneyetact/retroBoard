@@ -7,6 +7,7 @@ import {
   VoteType,
   SessionOptions,
   ColumnDefinition,
+  Participant,
 } from 'retro-board-common';
 import { v4 } from 'uuid';
 import { find } from 'lodash';
@@ -52,6 +53,8 @@ const useGame = (sessionId: string) => {
     resetSession,
     editOptions,
     editColumns,
+    lockSession,
+    unauthorized,
   } = useGlobalState();
 
   const { session } = state;
@@ -160,11 +163,11 @@ const useGame = (sessionId: string) => {
       editColumns(columns);
     });
 
-    newSocket.on(Actions.RECEIVE_CLIENT_LIST, (clients: string[]) => {
+    newSocket.on(Actions.RECEIVE_CLIENT_LIST, (participants: Participant[]) => {
       if (debug) {
-        console.log('Receive players list: ', clients);
+        console.log('Receive participants list: ', participants);
       }
-      setPlayers(clients);
+      setPlayers(participants);
     });
 
     newSocket.on(Actions.RECEIVE_DELETE_POST, (post: Post) => {
@@ -211,6 +214,21 @@ const useGame = (sessionId: string) => {
       }
       renameSession(name);
     });
+
+    newSocket.on(Actions.RECEIVE_LOCK_SESSION, (locked: boolean) => {
+      if (debug) {
+        console.log('Receive lock session: ', locked);
+      }
+      lockSession(locked);
+    });
+
+    newSocket.on(Actions.RECEIVE_UNAUTHORIZED, () => {
+      if (debug) {
+        console.log('Receive unauthorized');
+      }
+      unauthorized();
+    });
+
     return () => {
       if (debug) {
         console.log('Attempting disconnection');
@@ -235,6 +253,8 @@ const useGame = (sessionId: string) => {
     deletePostGroup,
     updatePostGroup,
     renameSession,
+    lockSession,
+    unauthorized,
     disconnected,
   ]);
 
@@ -459,6 +479,17 @@ const useGame = (sessionId: string) => {
     [send, editColumns]
   );
 
+  const onLockSession = useCallback(
+    (locked: boolean) => {
+      if (send) {
+        lockSession(locked);
+        send(Actions.LOCK_SESSION, locked);
+        trackAction(Actions.LOCK_SESSION);
+      }
+    },
+    [send, lockSession]
+  );
+
   return {
     initialised,
     disconnected,
@@ -474,6 +505,7 @@ const useGame = (sessionId: string) => {
     onRenameSession,
     onEditOptions,
     onEditColumns,
+    onLockSession,
     reconnect,
   };
 };
