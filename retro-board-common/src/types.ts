@@ -80,9 +80,11 @@ export interface PostGroup extends PostContainer, Rankable, Entity {
 
 export type ProStatus = 'valid' | 'payment_issue' | 'pending';
 
-export type Plan = 'team' | 'company';
+export type Plan = 'team' | 'unlimited';
 
 export type Currency = 'gbp' | 'eur' | 'usd';
+
+export type AccessErrorType = 'non_pro' | 'locked';
 
 export interface Product {
   name: string;
@@ -108,7 +110,7 @@ export interface FullUser extends User {
   language: string;
   email: string | null;
   stripeId: string | null;
-  pro: ProStatus | null;
+  pro: boolean;
   subscriptionsId: string | null;
   currency: Currency | null;
   plan: Plan | null;

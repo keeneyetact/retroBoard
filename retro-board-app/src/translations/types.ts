@@ -277,11 +277,28 @@ export interface Translation {
       checkout?: string;
     };
   };
+  SubscribeModal: {
+    title?: string;
+    header?: string;
+    description?: string;
+    features: {
+      encryptedSession: {
+        title?: string;
+        description?: string;
+      };
+      sessionLocking: {
+        title?: string;
+        description?: string;
+      };
+    };
+    subscribeButton?: string;
+    cancelButton?: string;
+  };
   Products: {
     team?: string;
-    company?: string;
-    users?: (users: number) => string;
     unlimited?: string;
+    users?: (users: number) => string;
+    unlimited_seats?: string;
     month?: string;
   };
   Encryption: {
@@ -304,5 +321,7 @@ export interface Translation {
     cancelButton?: string;
     sessionLockedTitle?: string;
     sessionLockedDescription?: string;
+    sessionNonProTitle?: string;
+    sessionNonProDescription?: string;
   };
 }

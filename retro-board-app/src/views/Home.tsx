@@ -23,6 +23,8 @@ import usePreviousSessions from '../hooks/usePreviousSessions';
 import useUser from '../auth/useUser';
 import shortid from 'shortid';
 import { storeEncryptionKeyLocally } from '../crypto/crypto';
+import ProButton from '../components/ProButton';
+import EncryptionIcon from '../icons/EncryptionIcon';
 
 const useStyles = makeStyles({
   media: {
@@ -110,16 +112,18 @@ function Home() {
           <ThumbUpAlt className={classes.buttonIcon} />
           {translations.Join.standardTab.button}
         </Fab>
-        <Fab
-          variant="extended"
-          onClick={createEncryptedSession}
-          size="large"
-          color="secondary"
-          disabled={!isLoggedIn}
-        >
-          <Lock className={classes.buttonIcon} />
-          {translations.Encryption.createEncryptedSession}
-        </Fab>
+        <ProButton>
+          <Fab
+            variant="extended"
+            onClick={createEncryptedSession}
+            size="large"
+            color="secondary"
+            disabled={!isLoggedIn}
+          >
+            <EncryptionIcon className={classes.buttonIcon} />
+            {translations.Encryption.createEncryptedSession}
+          </Fab>
+        </ProButton>
         <Button onClick={onOpenModal} color="primary" disabled={!isLoggedIn}>
           <Settings className={classes.buttonIcon} />
           {translations.Join.standardTab.customizeButton}

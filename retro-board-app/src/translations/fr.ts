@@ -160,7 +160,7 @@ export default {
   SocialMediaLogin: {
     header: 'Réseaux Sociaux',
     info:
-      'Vous allez utiliser un de vos compte existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
+      'Vous allez utiliser un de vos comptes existant pour vous identifier. Vous pourrez visualiser vos précédentes sessions. Aucun mot de passe ne sera stocké.',
   },
   AuthCommon: {
     emailField: 'Adresse e-mail',
@@ -310,11 +310,30 @@ export default {
       checkout: 'Payer',
     },
   },
+  SubscribeModal: {
+    title: 'Abonnement Pro',
+    header: 'Retrospected Pro',
+    description: `Protéger les données de votre entreprise en vous abonnant à Retrospected Pro. Pour seulement 9.90 €, béneficiez des fonctionalités suivantes:`,
+    features: {
+      encryptedSession: {
+        title: 'Session Cryptées',
+        description:
+          'Vos données sont cryptées localement, sur votre navigateur, les rendant impossible à déchiffrer sur le serveur.',
+      },
+      sessionLocking: {
+        title: 'Session restreintes',
+        description:
+          'Assurez-vous que seules les personnes choisies puissent accéder à votre session.',
+      },
+    },
+    subscribeButton: `S'abonner`,
+    cancelButton: `Annuler`,
+  },
   Products: {
-    team: `Parfait pour une équipe, vous pouvez sélectioner jusqu'à 20 collègues qui recevront un compte Pro.`,
-    company: `Si vous avez besoin de plus, l'abonnement "Company" vous donnera un nombre de compte Pro illimité`,
+    team: `Parfait pour une équipe, vous pouvez sélectioner jusqu'à 20 collègues qui recevront un compte Retrospected Pro.`,
+    unlimited: `Si vous avez besoin de plus, l'abonnement "Pro Unlimited" vous donnera un nombre de compte Pro illimité`,
     users: (users: number) => `${users} utilisateurs`,
-    unlimited: 'Illimité',
+    unlimited_seats: 'Illimité',
     month: 'mois',
   },
   Encryption: {
@@ -340,5 +359,7 @@ export default {
     sessionLockedTitle: 'Cette session est vérouillée.',
     sessionLockedDescription:
       'Demandez à votre modérateur de la dévérouiller pour que vous puissiez la rejoindre. Ensuite, rafraichissez la page.',
+    sessionNonProTitle: `Cette session n'est accessible qu'aux utilisateurs Pro.`,
+    sessionNonProDescription: `Cette session n'est ouverte qu'aux détenteurs d'un compte Retrospected Pro. Vous pouvez demander au modérateur ou au gérant de l'abonnement Pro de vous donner un accès.`,
   },
 } as Translation;

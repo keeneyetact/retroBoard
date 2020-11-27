@@ -14,6 +14,7 @@ if (fileExist) {
 }
 
 const config: Configuration = {
+  LICENCE_KEY: process.env.LICENCE_KEY!,
   DB_NAME: process.env.DB_NAME!,
   DB_USER: process.env.DB_USER!,
   DB_PASSWORD: process.env.DB_PASSWORD!,
@@ -36,6 +37,10 @@ const config: Configuration = {
   SENDGRID_SENDER: process.env.SENDGRID_SENDER!,
   STRIPE_SECRET: process.env.STRIPE_SECRET!,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET!,
+  STRIPE_TEAM_PRODUCT: process.env.STRIPE_TEAM_PRODUCT!,
+  STRIPE_TEAM_PRICE: process.env.STRIPE_TEAM_PRICE!,
+  STRIPE_UNLIMITED_PRODUCT: process.env.STRIPE_UNLIMITED_PRODUCT!,
+  STRIPE_UNLIMITED_PRICE: process.env.STRIPE_UNLIMITED_PRICE!,
 };
 
 export default config;

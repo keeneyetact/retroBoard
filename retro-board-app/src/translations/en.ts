@@ -303,13 +303,33 @@ export default {
       checkout: 'Checkout',
     },
   },
+  SubscribeModal: {
+    title: 'Pro Subscription',
+    header: 'Retrospected Pro',
+    description: `Protect your company's data by subscribing to Retrospected Pro.
+For as low as $9.99, get the following Pro features and more:`,
+    features: {
+      encryptedSession: {
+        title: 'Encrypted Sessions',
+        description:
+          'Your data is encrypted in your browser, making any decryption impossible on the Retrospected server.',
+      },
+      sessionLocking: {
+        title: 'Session Locking',
+        description:
+          'Make sure only authorised people can access your session.',
+      },
+    },
+    subscribeButton: 'Subscribe',
+    cancelButton: 'Cancel',
+  },
   Products: {
     team:
       'Perfect for smaller teams, you can select up to 20 colleagues who will be upgraded to a Pro account.',
-    company:
+    unlimited:
       'If you are a bigger company, you will enjoy an unlimited number of Pro accounts',
     users: (users: number) => `${users} users`,
-    unlimited: 'Unlimited',
+    unlimited_seats: 'Unlimited',
     month: 'month',
   },
   Encryption: {
@@ -338,5 +358,8 @@ export default {
     sessionLockedTitle: 'This session is locked.',
     sessionLockedDescription:
       'Please ask its moderator to unlock it so you can join. Then, refresh this page.',
+    sessionNonProTitle: 'This session is only accessible to Pro users',
+    sessionNonProDescription:
+      'This session uses features only available to Pro users. Please ask the moderator or subscription holder to give you a Pro account.',
   },
 } as Translation;

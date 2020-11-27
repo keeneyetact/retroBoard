@@ -278,11 +278,28 @@ export default {
       checkout: undefined,
     },
   },
+  SubscribeModal: {
+    title: undefined,
+    header: undefined,
+    description: undefined,
+    features: {
+      encryptedSession: {
+        title: undefined,
+        description: undefined,
+      },
+      sessionLocking: {
+        title: undefined,
+        description: undefined,
+      },
+    },
+    subscribeButton: undefined,
+    cancelButton: undefined,
+  },
   Products: {
     team: undefined,
-    company: undefined,
-    users: undefined,
     unlimited: undefined,
+    users: undefined,
+    unlimited_seats: undefined,
     month: undefined,
   },
   Encryption: {
@@ -305,5 +322,7 @@ export default {
     cancelButton: undefined,
     sessionLockedTitle: undefined,
     sessionLockedDescription: undefined,
+    sessionNonProTitle: undefined,
+    sessionNonProDescription: undefined,
   },
 } as Translation;

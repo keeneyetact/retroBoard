@@ -1,4 +1,5 @@
 export interface Configuration {
+  LICENCE_KEY: string;
   DB_NAME: string;
   DB_USER: string;
   DB_PASSWORD: string;
@@ -21,4 +22,8 @@ export interface Configuration {
   SENDGRID_SENDER: string;
   STRIPE_SECRET: string;
   STRIPE_WEBHOOK_SECRET: string;
+  STRIPE_TEAM_PRODUCT: string;
+  STRIPE_TEAM_PRICE: string;
+  STRIPE_UNLIMITED_PRODUCT: string;
+  STRIPE_UNLIMITED_PRICE: string;
 }
