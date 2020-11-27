@@ -12,6 +12,7 @@ import config from '../../utils/getConfig';
 import { updateLanguage } from '../../api';
 import { FullUser } from 'retro-board-common';
 import Wrapper from './Wrapper';
+import SlackLoginButton from './social/SlackLoginButton';
 
 const API_URL = '/api/auth';
 
@@ -44,6 +45,7 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
     [socket]
   );
   const handleGitHub = useCallback(() => handleOAuth('github'), [handleOAuth]);
+  const handleSlack = useCallback(() => handleOAuth('slack'), [handleOAuth]);
   const handleGoogle = useCallback(() => handleOAuth('google'), [handleOAuth]);
   const handleTwitter = useCallback(() => handleOAuth('twitter'), [
     handleOAuth,
@@ -75,13 +77,16 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
       <Alert severity="info">{translations.info}</Alert>
       <AccountsButtons>
         {config.GitHubAuthEnabled && (
-          <GithubLoginButton onClick={handleGitHub} text={'GitHub'} />
+          <GithubLoginButton onClick={handleGitHub} text="GitHub" />
         )}
         {config.GoogleAuthEnabled && (
-          <GoogleLoginButton onClick={handleGoogle} text={'Google'} />
+          <GoogleLoginButton onClick={handleGoogle} text="Google" />
         )}
         {config.TwitterAuthEnabled && (
-          <TwitterLoginButton onClick={handleTwitter} text={'Twitter'} />
+          <TwitterLoginButton onClick={handleTwitter} text="Twitter" />
+        )}
+        {config.SlackAuthEnabled && (
+          <SlackLoginButton onClick={handleSlack} text="Slack" />
         )}
       </AccountsButtons>
     </Wrapper>
