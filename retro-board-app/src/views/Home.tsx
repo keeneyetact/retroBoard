@@ -5,7 +5,7 @@ import { Fab, makeStyles, colors } from '@material-ui/core';
 import { ThumbUpAlt } from '@material-ui/icons';
 import useTranslations from '../translations';
 import PreviousGames from './home/PreviousGames';
-import { SessionMetadata } from 'retro-board-common';
+import { SessionMetadata } from '@retrospected/common';
 import { trackEvent } from './../track';
 import { createGame, createEncryptedGame, deleteSession } from '../api';
 import { Page } from '../components/Page';
@@ -128,10 +128,11 @@ const LaunchButtons = styled.div`
 
   @media (max-width: 500px) {
     flex-direction: column;
+    justify-content: flex-start;
     > button {
       margin: 0;
     }
-    > button:last-child {
+    > *:last-child {
       margin-top: 20px;
     }
   }

@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import styled from 'styled-components';
 import Step from './components/Step';
 import { Button, colors } from '@material-ui/core';
-import { Currency, Product, FullUser } from 'retro-board-common';
+import { Currency, Product, FullUser } from '@retrospected/common';
 import CurrencyPicker from './components/CurrencyPicker';
 import ProductPicker from './components/ProductPicker';
 import Input from '../../components/Input';
@@ -159,6 +159,10 @@ const Header = styled.div`
   font-size: 3rem;
   font-weight: 100;
   justify-content: center;
+
+  @media screen and (max-width: 600px) {
+    font-size: 1.5em;
+  }
 
   @media screen and (max-width: 450px) {
     padding: 5px;

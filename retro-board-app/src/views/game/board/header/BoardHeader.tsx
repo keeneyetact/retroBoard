@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { SessionOptions, ColumnDefinition } from 'retro-board-common';
+import { SessionOptions, ColumnDefinition } from '@retrospected/common';
 import { Typography, makeStyles } from '@material-ui/core';
 import useTranslations from '../../../../translations';
 import useGlobalState from '../../../../state';
@@ -165,6 +165,7 @@ const Header = styled.div`
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
+    row-gap: 20px;
     grid-template-areas:
       'title'
       'left'

@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 import useTranslations, { useLanguage } from '../../translations';
 import config from '../../utils/getConfig';
 import { updateLanguage } from '../../api';
-import { FullUser } from 'retro-board-common';
+import { FullUser } from '@retrospected/common';
 import Wrapper from './Wrapper';
 import SlackLoginButton from './social/SlackLoginButton';
 
@@ -79,14 +79,14 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
         {config.GitHubAuthEnabled && (
           <GithubLoginButton onClick={handleGitHub} text="GitHub" />
         )}
+        {config.SlackAuthEnabled && (
+          <SlackLoginButton onClick={handleSlack} text="Slack" />
+        )}
         {config.GoogleAuthEnabled && (
           <GoogleLoginButton onClick={handleGoogle} text="Google" />
         )}
         {config.TwitterAuthEnabled && (
           <TwitterLoginButton onClick={handleTwitter} text="Twitter" />
-        )}
-        {config.SlackAuthEnabled && (
-          <SlackLoginButton onClick={handleSlack} text="Slack" />
         )}
       </AccountsButtons>
     </Wrapper>

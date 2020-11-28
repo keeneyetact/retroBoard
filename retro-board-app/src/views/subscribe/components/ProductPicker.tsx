@@ -1,5 +1,5 @@
 import React from 'react';
-import { Product, Currency } from 'retro-board-common';
+import { Product, Currency } from '@retrospected/common';
 import 'flag-icon-css/css/flag-icon.min.css';
 import styled from 'styled-components';
 import ProductDisplay from './Product';
@@ -36,7 +36,10 @@ const Container = styled.div`
     margin: 20px;
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 600px) {
+    > * {
+      margin: 5px;
+    }
     > * {
       width: 100%;
     }

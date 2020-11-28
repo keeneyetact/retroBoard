@@ -1,6 +1,6 @@
 {
-  "name": "retro-board-server",
-  "version": "3.2.3",
+  "name": "@retrospected/backend",
+  "version": "4.0.0",
   "license": "GNU GPLv3",
   "private": true,
   "scripts": {
@@ -58,7 +58,7 @@
     "passport-twitter": "^1.0.4",
     "pg": "^8.4.1",
     "redis": "^3.0.2",
-    "retro-board-common": "*",
+    "@retrospected/common": "*",
     "rimraf": "^3.0.2",
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
