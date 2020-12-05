@@ -13,12 +13,12 @@ import {
   ThumbUpOutlined,
   ThumbDownOutlined,
   DeleteForeverOutlined,
-  FeedbackOutlined,
-  Feedback,
   Close,
   EmojiEmotions,
   DragIndicator,
   InsertPhotoTwoTone,
+  Assignment,
+  AssignmentOutlined,
 } from '@material-ui/icons';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import useTranslations from '../../../../translations';
@@ -83,6 +83,8 @@ const PostItem = ({
     canDelete,
     canUpVote,
     canDownVote,
+    canDisplayUpVote,
+    canDisplayDownVote,
     canShowAuthor,
     canReorder,
     canUseGiphy,
@@ -216,34 +218,34 @@ const PostItem = ({
             )}
             <ActionsBar
               color={faded ? colors.grey[100] : color}
-              displayExtra={
-                canDelete ||
-                canCreateAction ||
-                (canEdit && config.hasGiphy && canUseGiphy)
-              }
-              extraActions={
+              rightActions={
                 <>
-                  {canDelete && (
+                  {giphyImageUrl && (
                     <ActionButton
-                      ariaLabel={postTranslations.deleteButton!}
-                      tooltip={postTranslations.deleteButton!}
+                      ariaLabel={postTranslations.toggleGiphyButton!}
+                      tooltip={postTranslations.toggleGiphyButton!}
                       icon={
-                        <DeleteForeverOutlined
-                          style={{ color: Palette.negative }}
+                        <InsertPhotoTwoTone
+                          style={{
+                            color: !showGiphyImage
+                              ? colors.green[200]
+                              : colors.red[200],
+                          }}
                         />
                       }
-                      onClick={onDelete}
+                      onClick={toggleShowGiphyImage}
                     />
                   )}
+
                   {canCreateAction && (
                     <ActionButton
                       ariaLabel={postTranslations.setActionButton!}
                       tooltip={postTranslations.setActionButton!}
                       icon={
                         post.action ? (
-                          <Feedback className={classes.actionIcon} />
+                          <Assignment className={classes.actionIcon} />
                         ) : (
-                          <FeedbackOutlined className={classes.actionIcon} />
+                          <AssignmentOutlined className={classes.actionIcon} />
                         )
                       }
                       onClick={toggleAction}
@@ -258,43 +260,47 @@ const PostItem = ({
                       onClick={handleShowGiphy}
                     />
                   )}
+                  {canDelete && (
+                    <ActionButton
+                      ariaLabel={postTranslations.deleteButton!}
+                      tooltip={postTranslations.deleteButton!}
+                      icon={
+                        <DeleteForeverOutlined
+                          style={{
+                            color: Palette.negative,
+                          }}
+                        />
+                      }
+                      onClick={onDelete}
+                    />
+                  )}
                 </>
               }
             >
-              <VoteButton
-                voters={upVoters}
-                canVote={canUpVote}
-                count={upVotes}
-                icon={<ThumbUpOutlined style={{ color: Palette.positive }} />}
-                onClick={onLike}
-                showTooltip={canShowAuthor}
-                ariaLabel="Like"
-              />
-              <VoteButton
-                voters={downVoters}
-                canVote={canDownVote}
-                count={downVotes}
-                icon={<ThumbDownOutlined style={{ color: Palette.negative }} />}
-                onClick={onDislike}
-                showTooltip={canShowAuthor}
-                ariaLabel="Dislike"
-              />
-              {giphyImageUrl && (
-                <ActionButton
-                  ariaLabel={postTranslations.toggleGiphyButton!}
-                  tooltip={postTranslations.toggleGiphyButton!}
-                  icon={
-                    <InsertPhotoTwoTone
-                      style={{
-                        color: !showGiphyImage
-                          ? colors.green[200]
-                          : colors.red[200],
-                      }}
-                    />
-                  }
-                  onClick={toggleShowGiphyImage}
+              {canDisplayUpVote ? (
+                <VoteButton
+                  voters={upVoters}
+                  canVote={canUpVote}
+                  count={upVotes}
+                  icon={<ThumbUpOutlined style={{ color: Palette.positive }} />}
+                  onClick={onLike}
+                  showTooltip={canShowAuthor}
+                  ariaLabel="Like"
                 />
-              )}
+              ) : null}
+              {canDisplayDownVote ? (
+                <VoteButton
+                  voters={downVoters}
+                  canVote={canDownVote}
+                  count={downVotes}
+                  icon={
+                    <ThumbDownOutlined style={{ color: Palette.negative }} />
+                  }
+                  onClick={onDislike}
+                  showTooltip={canShowAuthor}
+                  ariaLabel="Dislike"
+                />
+              ) : null}
             </ActionsBar>
           </PostCard>
         )}
