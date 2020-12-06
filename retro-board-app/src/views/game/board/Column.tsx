@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import {
   Input,
   InputAdornment,
-  makeStyles,
   IconButton,
   Tooltip,
+  colors,
 } from '@material-ui/core';
-import { CreateNewFolder } from '@material-ui/icons';
+import { CreateNewFolder, SubdirectoryArrowLeft } from '@material-ui/icons';
 import PostItem from './post/Post';
 import { Post, PostGroup, SessionOptions } from '@retrospected/common';
 import useUser from '../../../auth/useUser';
@@ -41,12 +41,6 @@ interface ColumnProps {
   onDelete: (post: Post) => void;
 }
 
-const useStyles = makeStyles({
-  icon: {
-    color: 'grey',
-  },
-});
-
 const Column: React.FC<ColumnProps> = ({
   column,
   options,
@@ -75,7 +69,6 @@ const Column: React.FC<ColumnProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value),
     [setContent]
   );
-  const classes = useStyles();
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.keyCode === 13 && content) {
@@ -98,9 +91,16 @@ const Column: React.FC<ColumnProps> = ({
           startAdornment={
             Icon ? (
               <InputAdornment position="start">
-                <Icon className={classes.icon} />
+                <Icon style={{ color: colors.grey[500] }} />
               </InputAdornment>
             ) : null
+          }
+          endAdornment={
+            <InputAdornment position="start">
+              <EnterIcon>
+                <SubdirectoryArrowLeft style={{ color: colors.grey[300] }} />
+              </EnterIcon>
+            </InputAdornment>
           }
         />
         {options.allowGrouping && !isReadOnly ? (
@@ -244,6 +244,24 @@ const Add = styled.div`
 const AddGroup = styled.div`
   position: relative;
   top: 3px;
+  border-left: 1px solid ${colors.grey[300]};
+  margin-left: 12px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  > * {
+    position: relative;
+    top: -2px;
+  }
+`;
+
+const EnterIcon = styled.div`
+  display: flex;
+  align-items: center;
+  @media (max-width: 600px) {
+    display: none;
+    visibility: hidden;
+  }
 `;
 
 export default Column;
