@@ -273,7 +273,7 @@ export default {
         info: (
           limit
         ) => `Add emails below to grant Pro accounts to up to ${limit} other
-        colleagues.`,
+        colleagues. Press Enter after each email address.`,
       },
     },
   },
@@ -307,7 +307,7 @@ export default {
     title: 'Pro Subscription',
     header: 'Retrospected Pro',
     description: `Protect your company's data by subscribing to Retrospected Pro.
-For as low as $9.99 / £8.99, get the following Pro features and more:`,
+For as low as $11.90 / £8.90, get the following Pro features and more:`,
     features: {
       encryptedSession: {
         title: 'Encrypted Sessions',
