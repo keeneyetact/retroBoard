@@ -151,7 +151,11 @@
           </div>
           <div class="col-md-6 col-lg-5">
             <div class="">
-              <img class="img-fluid" src="%PUBLIC_URL%/marketing/screens/mockup-1-02.png" alt="animation image" />
+              <picture class="img-fluid">
+                <source srcset="%PUBLIC_URL%/marketing/screens/mockup-1-03-s.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/mockup-1-03-s.png" type="image/png" /> 
+                <img class="img-fluid" src="%PUBLIC_URL%/marketing/screens/mockup-1-03-s.png" alt="Retrospected screenshot" />
+              </picture>
             </div>
           </div>
         </div>
@@ -270,7 +274,11 @@
           </div>
           <div class="col-md-5">
             <div class="about-content-right">
-              <img src="%PUBLIC_URL%/marketing/screens/mockup-2-02.png" alt="about us" class="img-fluid" />
+              <picture class="img-fluid">
+                <source srcset="%PUBLIC_URL%/marketing/screens/mockup-2-02.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/mockup-2-02-s.png" type="image/png" /> 
+                <img class="img-fluid" src="%PUBLIC_URL%/marketing/screens/mockup-2-02-s.png" alt="About us" />
+              </picture>
             </div>
           </div>
         </div>
@@ -282,7 +290,11 @@
         <div class="row align-items-center justify-content-between">
           <div class="col-md-4">
             <div class="download-img">
-              <img src="%PUBLIC_URL%/marketing/screens/screen-3-01.png" alt="download" class="img-fluid" />
+              <picture class="img-fluid">
+                <source srcset="%PUBLIC_URL%/marketing/screens/screen-3-01.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/screen-3-01-s.png" type="image/png" /> 
+                <img class="img-fluid" src="%PUBLIC_URL%/marketing/screens/screen-3-01-s.png" alt="iPad mockup" />
+              </picture>
             </div>
           </div>
           <div class="col-md-7">
@@ -522,7 +534,7 @@
                           <img src="%PUBLIC_URL%/marketing/img/pricing-team.svg" alt="pricing img" class="img-fluid">
                       </div>
                       <div class="card-header py-4 border-0 pricing-header">
-                          <div class="h1 text-center mb-0">$<span class="price font-weight-bolder">9.99</span></div>
+                          <div class="h1 text-center mb-0">£<span class="price font-weight-bolder">8.90</span></div>
                           <div class="h4 text-center mb-0"><span class="price-month">/month</span></div>
                       </div>
                       <div class="card-body">
@@ -544,7 +556,7 @@
                         <img src="%PUBLIC_URL%/marketing/img/pricing-unlimited.svg" alt="pricing img" class="img-fluid">
                       </div>
                       <div class="card-header py-4 border-0 pricing-header">
-                          <div class="h1 text-center mb-0">$<span class="price font-weight-bolder">49.99</span></div>
+                          <div class="h1 text-center mb-0">£<span class="price font-weight-bolder">39.90</span></div>
                           <div class="h4 text-center mb-0"><span class="price-month">/month</span></div>
                       </div>
                       <div class="card-body">
@@ -647,8 +659,11 @@
           <div class="col-md-4">
             <div class="single-blog-card card border-0 shadow-sm">
               <span class="category position-absolute badge badge-pill badge-danger">Security</span>
-              <img src="%PUBLIC_URL%/marketing/screens/new-feature-07.png" class="card-img-top position-relative"
-                alt="blog" />
+              <picture class="card-img-top position-relative">
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-07.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-07.png" type="image/png" /> 
+                <img class="card-img-top position-relative" src="%PUBLIC_URL%/marketing/screens/new-feature-07.png" alt="blog" />
+              </picture>
               <div class="card-body">
                 <div class="post-meta mb-2">
                   <ul class="list-inline meta-list">
@@ -666,8 +681,11 @@
           <div class="col-md-4">
             <div class="single-blog-card card border-0 shadow-sm">
               <span class="category position-absolute badge badge-pill badge-info">Customisation</span>
-              <img src="%PUBLIC_URL%/marketing/screens/new-feature-08.png" class="card-img-top position-relative"
-                alt="blog" />
+              <picture class="card-img-top position-relative">
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-08.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-08.png" type="image/png" /> 
+                <img class="card-img-top position-relative" src="%PUBLIC_URL%/marketing/screens/new-feature-08.png" alt="blog" />
+              </picture>
               <div class="card-body">
                 <div class="post-meta mb-2">
                   <ul class="list-inline meta-list">
@@ -688,7 +706,11 @@
           <div class="col-md-4">
             <div class="single-blog-card card border-0 shadow-sm">
               <span class="category position-absolute badge badge-pill badge-danger">Security</span>
-              <img src="%PUBLIC_URL%/marketing/screens/new-feature-09.png" style="margin-top: 20px" class="card-img-top" alt="blog" />
+              <picture class="card-img-top position-relative">
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-09.webp" type="image/webp" />
+                <source srcset="%PUBLIC_URL%/marketing/screens/new-feature-09.png" type="image/png" /> 
+                <img class="card-img-top position-relative" src="%PUBLIC_URL%/marketing/screens/new-feature-09.png" alt="blog" />
+              </picture>
               <div class="card-body">
                 <div class="post-meta mb-2">
                   <ul class="list-inline meta-list">
@@ -708,7 +730,7 @@
         </div>
       </div>
     </section>
-
+<!-- 
     <section class="client-section gray-light-bg ptb-100">
       <div class="container">
         <div class="row justify-content-center">
@@ -726,50 +748,50 @@
           <div class="col-md-12">
             <div class="owl-carousel owl-theme clients-carousel dot-indicator">
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/deloitte.png" alt="deloitte" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/deloitte.jpeg" alt="deloitte" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/delta.png" alt="delta" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/delta.jpeg" alt="delta" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/expedia.png" alt="expedia" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/expedia.jpeg" alt="expedia" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/ibm.png" alt="ibm" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/ibm.jpeg" alt="ibm" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/natwest.png" alt="natwest" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/natwest.jpeg" alt="natwest" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/novartis.png" alt="novartis" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/novartis.jpeg" alt="novartis" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/pwc.png" alt="pwc" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/pwc.jpeg" alt="pwc" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/siemens.png" alt="siemens" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/siemens.jpeg" alt="siemens" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/target.png" alt="target" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/target.jpeg" alt="target" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/vodafone.png" alt="vodafone" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/vodafone.jpeg" alt="vodafone" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/adidas.png" alt="adidas" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/adidas.jpeg" alt="adidas" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/amazon.png" alt="amazon" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/amazon.jpeg" alt="amazon" class="client-img" />
               </div>
               <div class="item single-client">
-                <img src="%PUBLIC_URL%/marketing/screens/logos/barclays.png" alt="barclays" class="client-img" />
+                <img src="%PUBLIC_URL%/marketing/screens/logos/barclays.jpeg" alt="barclays" class="client-img" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </div>
+  </div> -->
 
   <div class="shape-img subscribe-wrap marketing-content">
     <img src="%PUBLIC_URL%/marketing/img/footer-top-shape.png" alt="footer shape" class="img-fluid" />
@@ -777,15 +799,16 @@
 
   <footer class="footer-section marketing-content">
     <div class="footer-top pt-150 pb-5 background-img-2" style="
-          background: url('%PUBLIC_URL%/marketing/screens/bottom.png') no-repeat center top / cover;
+          background: url('%PUBLIC_URL%/marketing/screens/bottom-s.png') no-repeat center top / cover;
         ">
       <div class="container">
         <div class="row justify-content-between">
           <div class="col-lg-3 mb-3 mb-lg-0">
             <div class="footer-nav-wrap text-black">
               <p>
-                This is a free and open-source software. For support, file a GitHub ticket
-                <a href="https://github.com/antoinejaussoin/retro-board" target="_blank" title="GitHub">here.</a>
+                This software is open-source. For non-subscribed customers, file a GitHub ticket for support <a href="https://github.com/antoinejaussoin/retro-board" target="_blank" title="GitHub">here.</a>
+                <br />
+                For customers with a subscription, email <a href="mailto:support@retrospected.com">support@retrospected.com</a>.
               </p>
 
               <div class="social-list-wrap">
