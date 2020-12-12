@@ -305,22 +305,22 @@ export default {
     subscribe: {
       title: 'Payer',
       description: `Vous serez redirigé vers notre partenaire Stripe. Aucune coordonnées bancaire n'est stockée par Retrospected.`,
-      cannotRegisterWithAnon: `Vous ne pouvez vous abonner en utilisant un compte anonyme. Merci de vous enregistrer avec un compte classique (mot de passe) ou via un compte OAuth (Google, Github, Slack...).`,
+      cannotRegisterWithAnon: `Vous devez être connecté avec un compte OAuth ou Classique (mot de passe) avant de continuer.`,
       checkout: 'Payer',
     },
   },
   SubscribeModal: {
     title: 'Abonnement Pro',
     header: 'Retrospected Pro',
-    description: `Protégez les données de votre entreprise en vous abonnant à Retrospected Pro. Pour seulement 9.90 €, bénéficiez des fonctionalités suivantes:`,
+    description: `Protégez les données de votre entreprise en vous abonnant à Retrospected Pro. Avec Retrospected Pro, bénéficiez des fonctionalités suivantes:`,
     features: {
       encryptedSession: {
         title: 'Session Cryptées',
         description:
           'Vos données sont cryptées localement, sur votre navigateur, les rendant impossible à déchiffrer sur le serveur.',
       },
-      sessionLocking: {
-        title: 'Session restreintes',
+      privateSessions: {
+        title: 'Session Privées',
         description:
           'Assurez-vous que seules les personnes choisies puissent accéder à votre session.',
       },
@@ -337,6 +337,7 @@ export default {
   },
   Encryption: {
     createEncryptedSession: 'Session cryptée',
+    sessionNotEncrypted: `Cette session n'est pas cryptée`,
     sessionEncryptedHaveKeyTooltip: `Cette session est chiffrée, et la clef est stockée dans votre navigateur. Vous pouvez ouvrir cette session sans avoir à en donner le mot de passe.`,
     sessionEncryptedNoKeyTooltip: `Cette session est chiffrée, et la clef n'a pas été trouvée dans votre navigateur. Il vous sera demandé de donner le mot de passe lors de l'ouverture de cette session.`,
     sessionEncryptedWrongKeyTooltip: `Cette session est chiffrée, et la clef qui est stockée dans votre navigateur n'est pas la bonne.`,
@@ -347,18 +348,22 @@ export default {
     passwordModalTitle: `Session chiffrée - Saisie du mot de passe`,
     passwordModelIncorrect: `Le mot de passe (ou clef de chiffrement) est incorrect.`,
   },
-  Locking: {
+  Private: {
     lockSuccessNotification:
-      'La session a été correctement vérouillée. Aucun nouveau participant ne pourra y accéder.',
-    unlockSuccessNotification: 'La session a été correctement dévérouillée.',
-    lockButton: 'Vérouiller',
-    unlockButton: 'Dévérouiller',
-    lockDescription: `Vous êtes sur le point de vérouiller la session. Seuls les utilisateurs ayant déjà accédé à cette session (dont la liste s'affiche ci-dessous) pourront accéder à cette session une fois vérouillée.`,
+      'La session a été correctement privatisée. Aucun nouveau participant ne pourra y accéder.',
+    unlockSuccessNotification: 'La session a été correctement rendue publique.',
+    lockButton: 'Rendre privée',
+    unlockButton: 'Rendre publique',
+    lockDescription: `Vous êtes sur le point de privatiser la session. Seuls les utilisateurs ayant déjà accédé à cette session (dont la liste s'affiche ci-dessous) pourront accéder à cette session une fois vérouillée.`,
     cancelButton: 'Annuler',
-    sessionLockedTitle: 'Cette session est vérouillée.',
+    sessionLockedTitle: 'Cette session est privée.',
     sessionLockedDescription:
-      'Demandez à votre modérateur de la dévérouiller pour que vous puissiez la rejoindre. Ensuite, rafraichissez la page.',
+      'Demandez à votre modérateur de la rendre publique pour que vous puissiez la rejoindre. Ensuite, rafraichissez la page.',
     sessionNonProTitle: `Cette session n'est accessible qu'aux utilisateurs Pro.`,
     sessionNonProDescription: `Cette session n'est ouverte qu'aux détenteurs d'un compte Retrospected Pro. Vous pouvez demander au modérateur ou au gérant de l'abonnement Pro de vous donner un accès.`,
+    sessionIsPublic:
+      'Cette session est publique, et accessible à tout le monde.',
+    sessionIsPrivate: 'Cette session est privée, et vous y avez accès.',
+    sessionIsPrivateNoAccess: `Cette session est privée, mais vous n'y avez pas accès.`,
   },
 } as Translation;

@@ -8,19 +8,18 @@ import {
   DialogTitle,
   useMediaQuery,
 } from '@material-ui/core';
-import { Lock } from '@material-ui/icons';
+import { Lock, VerifiedUser } from '@material-ui/icons';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import useUser from '../../auth/useUser';
 import useModal from '../../hooks/useModal';
-import EncryptionIcon from '../../icons/EncryptionIcon';
 import useTranslation from '../../translations/useTranslations';
-import Arrow from './Arrow';
 import Feature from './Feature';
 
 interface ComponentProp {
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 interface ProButtonProps {
@@ -31,7 +30,9 @@ function ProButton({ children }: ProButtonProps) {
   const user = useUser();
   const isPro = user && user.pro;
   const [opened, open, close] = useModal();
-  const clone = React.cloneElement(children, { disabled: !isPro });
+  const clone = isPro
+    ? children
+    : React.cloneElement(children, { onClick: open });
   const history = useHistory();
   const { SubscribeModal: translations } = useTranslation();
   const fullScreen = useMediaQuery('(max-width:600px)');
@@ -54,16 +55,22 @@ function ProButton({ children }: ProButtonProps) {
     [close]
   );
 
+  const handleOpen = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      open();
+    },
+    [open]
+  );
+
   if (isPro) {
     return <>{clone}</>;
   }
 
   return (
-    <Container onClick={open}>
-      <ProPill onClick={open}>
-        <span>Pro feature</span>
-        <Arrow />
-      </ProPill>
+    <Container onClick={handleOpen}>
       {clone}
       <Dialog
         onClose={handleClose}
@@ -82,16 +89,16 @@ function ProButton({ children }: ProButtonProps) {
         <DialogContent>
           <Features>
             <Feature
-              icon={<EncryptionIcon />}
-              color={colors.red[700]}
+              icon={<Lock />}
+              color={colors.green[700]}
               title={translations.features.encryptedSession.title!}
               description={translations.features.encryptedSession.description!}
             />
             <Feature
-              icon={<Lock />}
+              icon={<VerifiedUser />}
               color={colors.green[700]}
-              title={translations.features.sessionLocking.title!}
-              description={translations.features.sessionLocking.description!}
+              title={translations.features.privateSessions.title!}
+              description={translations.features.privateSessions.description!}
             />
           </Features>
         </DialogContent>
@@ -106,45 +113,12 @@ function ProButton({ children }: ProButtonProps) {
   );
 }
 
-const Container = styled.div`
-  position: relative;
+const Container = styled.span`
   cursor: pointer;
   display: flex;
   > * {
     flex: 1;
   }
-`;
-
-const ProPill = styled.div`
-  font-family: 'Reenie Beanie', cursive;
-
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: -27px;
-  right: 20px;
-  padding: 2px 10px;
-  border-radius: 3px;
-  color: ${colors.pink[300]};
-  z-index: 1;
-  font-size: 25px;
-  white-space: nowrap;
-
-  :hover {
-    color: ${colors.pink[700]};
-    svg {
-      color: ${colors.pink[700]};
-    }
-  }
-
-  svg {
-    fill: ${colors.pink[300]};
-    position: relative;
-    top: 10px;
-    left: 10px;
-  }
-
-  cursor: pointer;
 `;
 
 const Header = styled.div`

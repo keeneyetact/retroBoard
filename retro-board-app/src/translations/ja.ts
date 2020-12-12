@@ -288,7 +288,7 @@ export default {
         title: undefined,
         description: undefined,
       },
-      sessionLocking: {
+      privateSessions: {
         title: undefined,
         description: undefined,
       },
@@ -305,6 +305,7 @@ export default {
   },
   Encryption: {
     createEncryptedSession: undefined,
+    sessionNotEncrypted: undefined,
     sessionEncryptedHaveKeyTooltip: undefined,
     sessionEncryptedNoKeyTooltip: undefined,
     sessionEncryptedWrongKeyTooltip: undefined,
@@ -314,7 +315,7 @@ export default {
     passwordModalTitle: undefined,
     passwordModelIncorrect: undefined,
   },
-  Locking: {
+  Private: {
     lockSuccessNotification: undefined,
     unlockSuccessNotification: undefined,
     lockButton: undefined,
@@ -325,5 +326,8 @@ export default {
     sessionLockedDescription: undefined,
     sessionNonProTitle: undefined,
     sessionNonProDescription: undefined,
+    sessionIsPublic: undefined,
+    sessionIsPrivate: undefined,
+    sessionIsPrivateNoAccess: undefined,
   },
 } as Translation;

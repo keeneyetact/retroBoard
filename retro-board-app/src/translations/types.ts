@@ -286,7 +286,7 @@ export interface Translation {
         title?: string;
         description?: string;
       };
-      sessionLocking: {
+      privateSessions: {
         title?: string;
         description?: string;
       };
@@ -303,6 +303,7 @@ export interface Translation {
   };
   Encryption: {
     createEncryptedSession?: string;
+    sessionNotEncrypted?: string;
     sessionEncryptedHaveKeyTooltip?: string;
     sessionEncryptedNoKeyTooltip?: string;
     sessionEncryptedWrongKeyTooltip?: string;
@@ -312,7 +313,7 @@ export interface Translation {
     passwordModalTitle?: string;
     passwordModelIncorrect?: string;
   };
-  Locking: {
+  Private: {
     lockSuccessNotification?: string;
     unlockSuccessNotification?: string;
     lockButton?: string;
@@ -323,5 +324,8 @@ export interface Translation {
     sessionLockedDescription?: string;
     sessionNonProTitle?: string;
     sessionNonProDescription?: string;
+    sessionIsPublic?: string;
+    sessionIsPrivate?: string;
+    sessionIsPrivateNoAccess?: string;
   };
 }

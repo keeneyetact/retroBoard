@@ -1,10 +1,11 @@
 import { colors, Tooltip } from '@material-ui/core';
-import { Lock, LockOpen } from '@material-ui/icons';
+import { Lock, LockOpenOutlined, LockOutlined } from '@material-ui/icons';
 import React from 'react';
 import { SessionMetadata } from '@retrospected/common';
 import { CHECK_PREFIX, decrypt } from '../../../crypto/crypto';
 import { useEncryptionKey } from '../../../crypto/useEncryptionKey';
 import useTranslation from '../../../translations/useTranslations';
+import ProButton from '../../../components/ProButton';
 
 interface EncryptedLockProps {
   session: SessionMetadata;
@@ -15,7 +16,15 @@ function EncryptedLock({ session }: EncryptedLockProps) {
   const { Encryption: translations } = useTranslation();
 
   if (!session.encrypted) {
-    return null;
+    return (
+      <ProButton>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={translations.sessionNotEncrypted!}>
+            <LockOpenOutlined htmlColor={colors.grey[400]} />
+          </Tooltip>
+        </div>
+      </ProButton>
+    );
   }
 
   if (!key) {
@@ -36,7 +45,7 @@ function EncryptedLock({ session }: EncryptedLockProps) {
 
   return (
     <Tooltip title={translations.sessionEncryptedHaveKeyTooltip!}>
-      <LockOpen htmlColor={colors.green[500]} />
+      <LockOutlined htmlColor={colors.green[500]} />
     </Tooltip>
   );
 }
