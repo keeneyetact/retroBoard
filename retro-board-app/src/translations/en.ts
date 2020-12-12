@@ -292,8 +292,10 @@ export default {
     },
     domain: {
       title: 'Domain',
-      description: 'Your unlimited subscription applies to a given domain.',
-      invalidDomain: 'Please provide a valid domain',
+      description:
+        'Your unlimited subscription applies to a given domain. Any user with this email domain will automatically become a Pro user.',
+      invalidDomain:
+        'Please provide a valid domain. The domain cannot be a free or disposable email domain.',
     },
     subscribe: {
       title: 'Checkout',

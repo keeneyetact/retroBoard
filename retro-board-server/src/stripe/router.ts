@@ -15,6 +15,7 @@ import {
 import { plans, getProduct } from './products';
 import { updateUser } from '../db/actions/users';
 import { getUserFromRequest } from '../utils';
+import isValidDomain from '../security/is-valid-domain';
 import {
   cancelSubscription,
   activateSubscription,
@@ -40,14 +41,15 @@ function stripeRouter(connection: Connection): Router {
 
     if (!user.stripeId && user.username) {
       // Create a new customer object
-      const customer = await stripe.customers.create({
+      const userData = {
         email: user.email || user.username,
         name: user.name,
         metadata: {
           userId: user.id,
         },
         preferred_locales: [locale],
-      });
+      };
+      const customer = await stripe.customers.create(userData);
 
       await updateUser(connection, user.id, {
         stripeId: customer.id,
@@ -138,6 +140,10 @@ function stripeRouter(connection: Connection): Router {
     const user = await getUserFromRequest(connection, req);
     const product = getProduct(payload.plan);
 
+    if (payload.domain && !isValidDomain(payload.domain)) {
+      return res.status(403).send();
+    }
+
     if (user) {
       const customerId = await getCustomerId(user, payload.locale);
       const session = await stripe.checkout.sessions.create({
@@ -211,6 +217,11 @@ function stripeRouter(connection: Connection): Router {
       }
     }
     res.status(401).send();
+  });
+
+  router.get('/domain/:domain', async (req, res) => {
+    const domain = req.params.domain;
+    return res.status(200).send(isValidDomain(domain));
   });
 
   return router;
