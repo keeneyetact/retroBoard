@@ -17,6 +17,13 @@ import io from 'socket.io-client';
 import useGlobalState from '../../state';
 import useUser from '../../auth/useUser';
 import { getMiddle, getNext } from './lexorank';
+import { useSnackbar } from 'notistack';
+import {
+  getAddedParticipants,
+  getRemovedParticipants,
+  joinNames,
+} from './participants-notifiers';
+import useTranslation from '../../translations/useTranslations';
 
 const debug = process.env.NODE_ENV === 'development';
 
@@ -36,6 +43,8 @@ function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
 }
 
 const useGame = (sessionId: string) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const translations = useTranslation();
   const [initialised, setInitialised] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
@@ -168,6 +177,7 @@ const useGame = (sessionId: string) => {
       if (debug) {
         console.log('Receive participants list: ', participants);
       }
+
       setPlayers(participants);
     });
 
@@ -260,6 +270,41 @@ const useGame = (sessionId: string) => {
     lockSession,
     unauthorized,
     disconnected,
+  ]);
+
+  const [previousParticipans, setPreviousParticipants] = useState(
+    state.players
+  );
+  useEffect(() => {
+    if (userId && previousParticipans !== state.players) {
+      const added = getAddedParticipants(
+        userId,
+        previousParticipans,
+        state.players
+      );
+      if (added.length) {
+        enqueueSnackbar(translations.Clients.joined!(joinNames(added)), {
+          variant: 'success',
+        });
+      }
+      const removed = getRemovedParticipants(
+        userId,
+        previousParticipans,
+        state.players
+      );
+      if (removed.length) {
+        enqueueSnackbar(translations.Clients.left!(joinNames(removed)), {
+          variant: 'info',
+        });
+      }
+      setPreviousParticipants(state.players);
+    }
+  }, [
+    state.players,
+    previousParticipans,
+    enqueueSnackbar,
+    userId,
+    translations,
   ]);
 
   // Callbacks
