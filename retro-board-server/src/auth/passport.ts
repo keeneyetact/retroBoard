@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy, IVerifyOptions } from 'passport-local';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import { Strategy as GithubStrategy } from 'passport-github';
+import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as SlackStrategy } from 'passport-slack';
 import {
   TWITTER_CONFIG,
@@ -86,9 +86,8 @@ export default (connection: Connection) => {
       (profile.emails.length ? profile.emails[0].value : '');
 
     const user: UserEntity = new UserEntity(v4(), displayName);
-    const email = profile.emails
-      ? profile.emails.find((e) => e.primary) || null
-      : null;
+    const email =
+      profile.emails && profile.emails.length ? profile.emails[0] : null;
     user.accountType = 'github';
     user.language = 'en';
     user.photo = profile.photos?.length ? profile.photos[0].value : null;
