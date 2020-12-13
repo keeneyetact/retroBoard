@@ -153,9 +153,9 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ### Version 4.0.0
 
-- Full support for password-based accounts
 - [⭐️ Pro Feature] Encrypted Sessions: full client-side encryption of your data
-- [⭐️ Pro Feature] Session locking: ensure only your colleagues can access your session
+- [⭐️ Pro Feature] Private Sessions: ensure only your colleagues can access your session
+- Full support for password-based accounts
 - Slack Authentication (OAuth) 🔑
 - Replacing Travis by GitHub Actions for CI and Deployment 🚀
 - New Freemium model
