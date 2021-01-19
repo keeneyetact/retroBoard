@@ -144,7 +144,7 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ### Version 4.0.4
 
-- 🐛 Fixed a bug where adding an action was changing ownership of the post to the person adding the action. 👏 Thanks Karol P.! ([#209](https://github.com/antoinejaussoin/retro-board/issues/209))
+- 🐛 Fixed a bug where adding an action was changing ownership of the post to the person adding the action. 👏 Thanks [@botactic](https://github.com/botactic)! ([#209](https://github.com/antoinejaussoin/retro-board/issues/209))
 - Use TypeORM transactions for every database interactions, fixing some random races conditions.
 - Improving multi-arch support
 - Improving API calls and Sentry
