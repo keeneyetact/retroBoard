@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { colors, Paper } from '@material-ui/core';
 import { useCallback } from 'react';
@@ -36,6 +35,7 @@ function ProductDisplay({
             ? translations.users!(product.seats)
             : `${translations.unlimited_seats} 🎉`}
         </Seats>
+
         <RegularPrice>
           {(product[currency] / 50).toFixed(2)} {currency.toUpperCase()}
         </RegularPrice>

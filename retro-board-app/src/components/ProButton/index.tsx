@@ -12,9 +12,10 @@ import { Lock, VerifiedUser } from '@material-ui/icons';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import useUser from '../../auth/useUser';
+import useIsPro from '../../auth/useIsPro';
 import useModal from '../../hooks/useModal';
 import useTranslation from '../../translations/useTranslations';
+import { startTrial } from '../../views/subscribe/api';
 import Feature from './Feature';
 
 interface ComponentProp {
@@ -27,8 +28,7 @@ interface ProButtonProps {
 }
 
 function ProButton({ children }: ProButtonProps) {
-  const user = useUser();
-  const isPro = user && user.pro;
+  const isPro = useIsPro();
   const [opened, open, close] = useModal();
   const clone = isPro
     ? children
@@ -44,6 +44,16 @@ function ProButton({ children }: ProButtonProps) {
       history.push('/subscribe');
     },
     [history]
+  );
+
+  const handleStartTrial = useCallback(
+    async (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+      e.stopPropagation();
+      e.preventDefault();
+      await startTrial();
+      window.location.reload();
+    },
+    []
   );
 
   const handleClose = useCallback(
@@ -103,6 +113,15 @@ function ProButton({ children }: ProButtonProps) {
           </Features>
         </DialogContent>
         <DialogActions>
+          <LeftButtons>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleStartTrial}
+            >
+              {translations.startTrial}
+            </Button>
+          </LeftButtons>
           <Button onClick={handleClose}>{translations.cancelButton}</Button>
           <Button variant="contained" color="primary" onClick={goToSubscribe}>
             {translations.subscribeButton}
@@ -112,6 +131,11 @@ function ProButton({ children }: ProButtonProps) {
     </Container>
   );
 }
+
+const LeftButtons = styled.div`
+  display: flex;
+  flex: 1;
+`;
 
 const Container = styled.span`
   cursor: pointer;

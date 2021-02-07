@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useHistory, Redirect, Switch, Route } from 'react-router-dom';
 import { trackPageView } from './track';
 import styled from 'styled-components';
@@ -63,7 +63,8 @@ function App() {
             </IconButton>
           </HomeButton>
           <MainTitle variant="h6" color="inherit" onClick={goToHome}>
-            Retrospected&nbsp;{user?.pro ? <ProPill small /> : null}
+            Retrospected&nbsp;
+            <ProPill small />
           </MainTitle>
           <Route path="/game/:gameId" component={Invite} />
           {isInitialised ? (

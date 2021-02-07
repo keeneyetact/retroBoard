@@ -119,6 +119,7 @@ export interface FullUser extends User {
   domain: string | null;
   ownPlan: Plan | null;
   ownSubscriptionsId: string | null;
+  trial: Date | null;
 }
 
 export type AccountType =

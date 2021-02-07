@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import { createCheckoutSession, isValidDomain } from './api';
 import { useCallback } from 'react';
@@ -79,7 +79,7 @@ function SubscriberPage() {
   const validForm =
     (!needDomain || validDomain) &&
     !!product &&
-    user &&
+    !!user &&
     user.accountType !== 'anonymous';
 
   return (
@@ -88,27 +88,12 @@ function SubscriberPage() {
       {user && user.pro && !user.subscriptionsId ? (
         <Alert severity="info">{translations.alertAlreadyPro}</Alert>
       ) : null}
-      {user && user.subscriptionsId ? (
+      {user && user.subscriptionsId && !user.trial ? (
         <Alert severity="info">{translations.alertAlreadySubscribed}</Alert>
       ) : null}
+
       <Step
         index={1}
-        title={translations.currency.title}
-        description={translations.currency.description}
-      >
-        {user && !!user.currency ? (
-          <Alert severity="warning" style={{ marginBottom: 10 }}>
-            {translations.currency.warning!(currency.toUpperCase())}
-          </Alert>
-        ) : null}
-        <CurrencyPicker
-          disabled={(user && !!user.currency) || false}
-          value={currency}
-          onChange={setCurrency}
-        />
-      </Step>
-      <Step
-        index={2}
         title={translations.plan.title}
         description={translations.plan.description}
       >
@@ -124,7 +109,7 @@ function SubscriberPage() {
       </Step>
       {needDomain ? (
         <Step
-          index={3}
+          index={2}
           title={translations.domain.title}
           description={translations.domain.description}
         >
@@ -137,6 +122,22 @@ function SubscriberPage() {
           />
         </Step>
       ) : null}
+      <Step
+        index={needDomain ? 3 : 2}
+        title={translations.currency.title}
+        description={translations.currency.description}
+      >
+        {user && !!user.currency ? (
+          <Alert severity="warning" style={{ marginBottom: 10 }}>
+            {translations.currency.warning!(currency.toUpperCase())}
+          </Alert>
+        ) : null}
+        <CurrencyPicker
+          disabled={(user && !!user.currency) || false}
+          value={currency}
+          onChange={setCurrency}
+        />
+      </Step>
 
       <Step
         index={needDomain ? 4 : 3}

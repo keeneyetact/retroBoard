@@ -21,6 +21,7 @@ import {
   activateSubscription,
   getActiveSubscription,
   saveSubscription,
+  startTrial,
 } from '../db/actions/subscriptions';
 
 const stripe = new Stripe(config.STRIPE_SECRET, {
@@ -144,33 +145,41 @@ function stripeRouter(): Router {
 
     if (user) {
       const customerId = await getCustomerId(user, payload.locale);
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        client_reference_id: user.id,
-        customer: customerId,
-        metadata: {
-          ...payload,
-        },
-        line_items: [
-          {
-            quantity: 1,
-            price_data: {
-              product: product.productId,
-              currency: payload.currency,
-              recurring: {
-                interval: 'month',
-                interval_count: 1,
-              },
-              unit_amount: product[payload.currency],
-            },
+      try {
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          client_reference_id: user.id,
+          customer: customerId,
+          metadata: {
+            ...payload,
           },
-        ],
-        mode: 'subscription',
-        success_url: `${config.BASE_URL}/account?welcome`,
-        cancel_url: `${config.BASE_URL}/subscribe`,
-      });
+          line_items: [
+            {
+              quantity: 1,
+              price_data: {
+                product: product.productId,
+                currency: payload.currency,
+                recurring: {
+                  interval: 'month',
+                  interval_count: 1,
+                },
+                unit_amount: product[payload.currency],
+              },
+            },
+          ],
+          mode: 'subscription',
+          success_url: `${config.BASE_URL}/account?welcome`,
+          cancel_url: `${config.BASE_URL}/subscribe`,
+        });
 
-      res.json({ id: session.id });
+        res.json({ id: session.id });
+      } catch (err) {
+        console.log(
+          'Cannot create Stripe checkout session for customer ',
+          customerId,
+          err
+        );
+      }
     }
   });
 
@@ -183,11 +192,16 @@ function stripeRouter(): Router {
   router.get('/portal', async (req, res) => {
     const user = await getUserFromRequest(req);
     if (user && user.stripeId) {
-      const session = await stripe.billingPortal.sessions.create({
-        customer: user.stripeId,
-        return_url: `${config.BASE_URL}/account`,
-      });
-      res.status(200).send(session);
+      try {
+        const session = await stripe.billingPortal.sessions.create({
+          customer: user.stripeId,
+          return_url: `${config.BASE_URL}/account`,
+        });
+        res.status(200).send(session);
+      } catch (err) {
+        console.error('Cannot find Stripe customer ', user.stripeId);
+        res.status(500).send();
+      }
     } else {
       res.status(500).send();
     }
@@ -220,6 +234,18 @@ function stripeRouter(): Router {
   router.get('/domain/:domain', async (req, res) => {
     const domain = req.params.domain;
     return res.status(200).send(isValidDomain(domain));
+  });
+
+  router.post('/start-trial', async (req, res) => {
+    const user = await getUserFromRequest(req);
+    if (user) {
+      const updatedUser = await startTrial(user.id);
+      if (updatedUser) {
+        return res.status(200).send();
+      }
+    }
+
+    return res.status(500).send();
   });
 
   return router;

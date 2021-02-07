@@ -13,6 +13,7 @@ select
   u.photo,
   u.language,
   u.email,
+  u.trial,
   s.id as "ownSubscriptionsId",
   s.plan as "ownPlan",
   coalesce(s.id, s2.id, s3.id) as "subscriptionsId",
@@ -20,6 +21,7 @@ select
   coalesce(s.plan, s2.plan, s3.plan) as "plan",
   coalesce(s.domain, s2.domain, s3.domain) as "domain"
 from users u 
+
 left join subscriptions s on s."ownerId" = u.id and s.active is true
 left join subscriptions s2 on u.email = ANY(s2.members) and s2.active is true
 left join subscriptions s3 on s3.domain = split_part(u.email, '@', 2) and s3.active is true
@@ -56,6 +58,8 @@ export default class UserView {
   public currency: Currency | null;
   @ViewColumn()
   public pro: boolean;
+  @ViewColumn()
+  public trial: Date | null;
 
   constructor(id: string, name: string) {
     this.id = id;
@@ -73,6 +77,7 @@ export default class UserView {
     this.ownSubscriptionsId = null;
     this.plan = null;
     this.domain = null;
+    this.trial = null;
   }
 
   toJson(): FullUser {
@@ -92,6 +97,7 @@ export default class UserView {
       domain: this.domain,
       ownPlan: this.ownPlan,
       ownSubscriptionsId: this.ownSubscriptionsId,
+      trial: this.trial,
     };
   }
 }

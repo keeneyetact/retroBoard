@@ -28,6 +28,13 @@ export async function createCheckoutSession(
   >('/api/stripe/create-checkout-session', null, payload);
 }
 
+export async function startTrial(): Promise<SessionIdResponse | null> {
+  return await fetchPostGet<void, SessionIdResponse | null>(
+    '/api/stripe/start-trial',
+    null
+  );
+}
+
 export async function isValidDomain(domain: string): Promise<boolean> {
   const result = await fetchGet(
     `/api/stripe/domain/${encodeURIComponent(domain)}`,
