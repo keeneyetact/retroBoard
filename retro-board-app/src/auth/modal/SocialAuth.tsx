@@ -4,6 +4,7 @@ import {
   GithubLoginButton,
   GoogleLoginButton,
   TwitterLoginButton,
+  MicrosoftLoginButton,
 } from 'react-social-login-buttons';
 import styled from 'styled-components';
 import io from 'socket.io-client';
@@ -46,6 +47,9 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
   );
   const handleGitHub = useCallback(() => handleOAuth('github'), [handleOAuth]);
   const handleSlack = useCallback(() => handleOAuth('slack'), [handleOAuth]);
+  const handleMicrosoft = useCallback(() => handleOAuth('microsoft'), [
+    handleOAuth,
+  ]);
   const handleGoogle = useCallback(() => handleOAuth('google'), [handleOAuth]);
   const handleTwitter = useCallback(() => handleOAuth('twitter'), [
     handleOAuth,
@@ -76,6 +80,9 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
     <Wrapper header={translations.header}>
       <Alert severity="info">{translations.info}</Alert>
       <AccountsButtons>
+        {config.MicrosoftAuthEnabled && (
+          <MicrosoftLoginButton onClick={handleMicrosoft} text="Microsoft" />
+        )}
         {config.GoogleAuthEnabled && (
           <GoogleLoginButton onClick={handleGoogle} text="Google" />
         )}
