@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
-import { flatten, sortedUniq, sortBy } from 'lodash';
+import flatten from 'lodash/flatten';
+import sortedUniq from 'lodash/sortedUniq';
+import sortBy from 'lodash/sortBy';
 import { format } from 'date-fns';
 import useGlobalState from '../../../state';
 import useColumns from '../useColumns';
-import useTranslations, { useLanguage } from '../../../translations';
+import useTranslations from '../../../translations';
 import { calculateSummary } from './calculate-summary';
 import { ColumnStatsItem, ActionItem } from './types';
 
 export default function useMarkdown() {
   const { state } = useGlobalState();
   const columns = useColumns();
-  const language = useLanguage();
   const translations = useTranslations();
   const stats = calculateSummary(columns);
 
@@ -42,7 +43,7 @@ export default function useMarkdown() {
 
 ### Session details:
 
-**Date**: ${format(new Date(), 'PPPPpppp', { locale: language.dateLocale })}
+**Date**: ${format(new Date(), 'PPPPpppp')}
 
 **URL**: ${window.location.href.replace('/summary', '')}
 
@@ -69,12 +70,7 @@ ${[...col.items].map((i) => toItem(i, 0)).join('\n')}
     });
 
     return md;
-  }, [
-    state,
-    translations.SessionName.defaultSessionName,
-    language.dateLocale,
-    stats,
-  ]);
+  }, [state, translations.SessionName.defaultSessionName, stats]);
   return result;
 }
 

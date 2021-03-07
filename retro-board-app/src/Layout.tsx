@@ -2,13 +2,10 @@ import { useEffect, useCallback, lazy, Suspense } from 'react';
 import { useHistory, Redirect, Switch, Route } from 'react-router-dom';
 import { trackPageView } from './track';
 import styled from 'styled-components';
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountMenu from './auth/AccountMenu';
 import useGlobalState from './state';
@@ -18,6 +15,7 @@ import useIsInitialised from './auth/useIsInitialised';
 import useUser from './auth/useUser';
 import { HomeOutlined } from '@material-ui/icons';
 import ProPill from './components/ProPill';
+import { CodeSplitLoader } from './CodeSplitLoader';
 
 const Home = lazy(() => import('./views/Home' /* webpackChunkName: "home" */));
 const Game = lazy(() => import('./views/Game' /* webpackChunkName: "game" */));
@@ -117,7 +115,7 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <Suspense fallback={<CircularProgress />}>
+      <Suspense fallback={<CodeSplitLoader />}>
         <Switch>
           <Route path="/" exact>
             {user ? <Home /> : null}

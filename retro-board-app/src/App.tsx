@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/styles';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import { Helmet } from 'react-helmet';
 import GlobalStyles from './GlobalStyles';
 import AuthProvider from './auth/AuthProvider';
@@ -10,10 +10,11 @@ import Layout from './Layout';
 import ErrorBoundary from './ErrorBoundary';
 import { SnackbarProvider } from 'notistack';
 import useIsLicenced from './hooks/useIsLicenced';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import AlertTitle from '@material-ui/lab/AlertTitle';
+import Alert from '@material-ui/lab/Alert';
 import { RecoilRoot } from 'recoil';
 import { Suspense } from 'react';
-import { CircularProgress } from '@material-ui/core';
+import { CodeSplitLoader } from './CodeSplitLoader';
 
 function App() {
   const licenced = useIsLicenced();
@@ -51,7 +52,7 @@ function App() {
                         to obtain a licence.
                       </Alert>
                     ) : null}
-                    <Suspense fallback={<CircularProgress />}>
+                    <Suspense fallback={<CodeSplitLoader />}>
                       <Layout />
                     </Suspense>
                   </ErrorBoundary>

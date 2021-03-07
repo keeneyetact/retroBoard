@@ -1,26 +1,27 @@
 import { useContext, useEffect, useState } from 'react';
 import LanguageContext from './Context';
 import { Translation } from './types';
-import { merge, cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
+import cloneDeep from 'lodash/cloneDeep';
 
 import en from './en';
 
-const fr = import('./fr' /* webpackChunkName: 'fr' */);
-const hu = import('./hu' /* webpackChunkName: 'hu' */);
-const ptbr = import('./pt-br' /* webpackChunkName: 'pt-br' */);
-const pl = import('./pl' /* webpackChunkName: 'pl' */);
-const nl = import('./nl' /* webpackChunkName: 'nl' */);
-const ru = import('./ru' /* webpackChunkName: 'ru' */);
-const zhtw = import('./zh-tw' /* webpackChunkName: 'zh-tw' */);
-const zhcn = import('./zh-cn' /* webpackChunkName: 'zh-cn' */);
-const ar = import('./ar' /* webpackChunkName: 'ar' */);
-const ja = import('./ja' /* webpackChunkName: 'ja' */);
-const de = import('./de' /* webpackChunkName: 'de' */);
-const it = import('./it' /* webpackChunkName: 'it' */);
-const es = import('./es' /* webpackChunkName: "es" */);
+const fr = () => import('./fr' /* webpackChunkName: 'fr' */);
+const hu = () => import('./hu' /* webpackChunkName: 'hu' */);
+const ptbr = () => import('./pt-br' /* webpackChunkName: 'pt-br' */);
+const pl = () => import('./pl' /* webpackChunkName: 'pl' */);
+const nl = () => import('./nl' /* webpackChunkName: 'nl' */);
+const ru = () => import('./ru' /* webpackChunkName: 'ru' */);
+const zhtw = () => import('./zh-tw' /* webpackChunkName: 'zh-tw' */);
+const zhcn = () => import('./zh-cn' /* webpackChunkName: 'zh-cn' */);
+const ar = () => import('./ar' /* webpackChunkName: 'ar' */);
+const ja = () => import('./ja' /* webpackChunkName: 'ja' */);
+const de = () => import('./de' /* webpackChunkName: 'de' */);
+const it = () => import('./it' /* webpackChunkName: 'it' */);
+const es = () => import('./es' /* webpackChunkName: "es" */);
 
 interface Translations {
-  [key: string]: Promise<any>;
+  [key: string]: () => Promise<any>;
 }
 
 const languages: Translations = {
@@ -53,7 +54,7 @@ function useTranslation() {
       if (language === 'en') {
         setMerged(en);
       } else {
-        const { default: translations } = await languages[language];
+        const { default: translations } = await languages[language]();
         setMerged(merge(cloneDeep(en), translations));
       }
     }
