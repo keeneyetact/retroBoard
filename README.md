@@ -143,6 +143,10 @@ When using the Docker deployment, your database runs from a container. But if yo
 
 ## Versions History
 
+### Version 4.1.3 (hotfix)
+
+- 🐛 New users were wrongly added with a quota of 0
+
 ### Version 4.1.2 (hotfix)
 
 - 🐛 Fixed a bug with local storage 

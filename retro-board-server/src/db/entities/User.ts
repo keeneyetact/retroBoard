@@ -82,7 +82,7 @@ export default class UserEntity {
     this.stripeId = null;
     this.currency = null;
     this.trial = null;
-    this.quota = 0;
+    this.quota = 50;
   }
 
   toJson(): User {
