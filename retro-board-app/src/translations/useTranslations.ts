@@ -6,19 +6,19 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import en from './en';
 
-const fr = () => import('./fr' /* webpackChunkName: 'fr' */);
-const hu = () => import('./hu' /* webpackChunkName: 'hu' */);
-const ptbr = () => import('./pt-br' /* webpackChunkName: 'pt-br' */);
-const pl = () => import('./pl' /* webpackChunkName: 'pl' */);
-const nl = () => import('./nl' /* webpackChunkName: 'nl' */);
-const ru = () => import('./ru' /* webpackChunkName: 'ru' */);
-const zhtw = () => import('./zh-tw' /* webpackChunkName: 'zh-tw' */);
-const zhcn = () => import('./zh-cn' /* webpackChunkName: 'zh-cn' */);
-const ar = () => import('./ar' /* webpackChunkName: 'ar' */);
-const ja = () => import('./ja' /* webpackChunkName: 'ja' */);
-const de = () => import('./de' /* webpackChunkName: 'de' */);
-const it = () => import('./it' /* webpackChunkName: 'it' */);
-const es = () => import('./es' /* webpackChunkName: "es" */);
+const fr = () => import('./fr' /* webpackChunkName: 'lang-fr' */);
+const hu = () => import('./hu' /* webpackChunkName: 'lang-hu' */);
+const ptbr = () => import('./pt-br' /* webpackChunkName: 'lang-pt-br' */);
+const pl = () => import('./pl' /* webpackChunkName: 'lang-pl' */);
+const nl = () => import('./nl' /* webpackChunkName: 'lang-nl' */);
+const ru = () => import('./ru' /* webpackChunkName: 'lang-ru' */);
+const zhtw = () => import('./zh-tw' /* webpackChunkName: 'lang-zh-tw' */);
+const zhcn = () => import('./zh-cn' /* webpackChunkName: 'lang-zh-cn' */);
+const ar = () => import('./ar' /* webpackChunkName: 'lang-ar' */);
+const ja = () => import('./ja' /* webpackChunkName: 'lang-ja' */);
+const de = () => import('./de' /* webpackChunkName: 'lang-de' */);
+const it = () => import('./it' /* webpackChunkName: 'lang-it' */);
+const es = () => import('./es' /* webpackChunkName: 'lang-es' */);
 
 interface Translations {
   [key: string]: () => Promise<any>;
@@ -54,8 +54,12 @@ function useTranslation() {
       if (language === 'en') {
         setMerged(en);
       } else {
-        const { default: translations } = await languages[language]();
-        setMerged(merge(cloneDeep(en), translations));
+        try {
+          const { default: translations } = await languages[language]();
+          setMerged(merge(cloneDeep(en), translations));
+        } catch (ex) {
+          setMerged(en);
+        }
       }
     }
     load();

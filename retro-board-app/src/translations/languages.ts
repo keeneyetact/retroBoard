@@ -1,24 +1,33 @@
 import { Locale } from 'date-fns';
 import { StripeLocales } from '@retrospected/common';
 const arDZ = () =>
-  import('date-fns/locale/ar-DZ' /* webpackChunkName: "ar-DZ" */);
+  import('date-fns/locale/ar-DZ' /* webpackChunkName: "date-fns-ar-DZ" */);
 const zhCN = () =>
-  import('date-fns/locale/zh-CN' /* webpackChunkName: "zh-CN" */);
+  import('date-fns/locale/zh-CN' /* webpackChunkName: "date-fns-zh-CN" */);
 const zhTW = () =>
-  import('date-fns/locale/zh-TW' /* webpackChunkName: "zh-TW" */);
-const fr = () => import('date-fns/locale/fr' /* webpackChunkName: "fr" */);
+  import('date-fns/locale/zh-TW' /* webpackChunkName: "date-fns-zh-TW" */);
+const fr = () =>
+  import('date-fns/locale/fr' /* webpackChunkName: "date-fns-fr" */);
 const enGB = () =>
-  import('date-fns/locale/en-GB' /* webpackChunkName: "en-GB" */);
-const nl = () => import('date-fns/locale/nl' /* webpackChunkName: "nl" */);
-const de = () => import('date-fns/locale/de' /* webpackChunkName: "de" */);
-const hu = () => import('date-fns/locale/hu' /* webpackChunkName: "hu" */);
-const it = () => import('date-fns/locale/it' /* webpackChunkName: "it" */);
-const ja = () => import('date-fns/locale/ja' /* webpackChunkName: "ja" */);
-const pl = () => import('date-fns/locale/pl' /* webpackChunkName: "pl" */);
+  import('date-fns/locale/en-GB' /* webpackChunkName: "date-fns-en-GB" */);
+const nl = () =>
+  import('date-fns/locale/nl' /* webpackChunkName: "date-fns-nl" */);
+const de = () =>
+  import('date-fns/locale/de' /* webpackChunkName: "date-fns-de" */);
+const hu = () =>
+  import('date-fns/locale/hu' /* webpackChunkName: "date-fns-hu" */);
+const it = () =>
+  import('date-fns/locale/it' /* webpackChunkName: "date-fns-it" */);
+const ja = () =>
+  import('date-fns/locale/ja' /* webpackChunkName: "date-fns-ja" */);
+const pl = () =>
+  import('date-fns/locale/pl' /* webpackChunkName: "date-fns-pl" */);
 const ptBR = () =>
-  import('date-fns/locale/pt-BR' /* webpackChunkName: "pt-BR" */);
-const ru = () => import('date-fns/locale/ru' /* webpackChunkName: "ru" */);
-const es = () => import('date-fns/locale/es' /* webpackChunkName: "es" */);
+  import('date-fns/locale/pt-BR' /* webpackChunkName: "date-fns-pt-BR" */);
+const ru = () =>
+  import('date-fns/locale/ru' /* webpackChunkName: "date-fns-ru" */);
+const es = () =>
+  import('date-fns/locale/es' /* webpackChunkName: "date-fns-es" */);
 
 export interface Language {
   value: string;
