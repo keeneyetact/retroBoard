@@ -69,6 +69,10 @@ const PrivacyPolicyPage = lazy(
 const Panel = lazy(
   () => import('./views/Panel' /* webpackChunkName: "panel" */)
 );
+const EncryptionDoc = lazy(
+  () =>
+    import('./views/home/Encryption' /* webpackChunkName: "encryption-doc" */)
+);
 
 const Title = styled(Typography)`
   color: white;
@@ -135,6 +139,7 @@ function App() {
           <Route path="/cookies" component={CookiesPolicyPage} />
           <Route path="/acceptable-use" component={AcceptableUsePolicyPage} />
           <Route path="/disclaimer" component={DisclaimerPage} />
+          <Route path="/how-does-encryption-work" component={EncryptionDoc} />
         </Switch>
       </Suspense>
       <Panel />

@@ -18,6 +18,7 @@ import { storeEncryptionKeyLocally } from '../crypto/crypto';
 import ProButton from '../components/ProButton';
 import { useSnackbar } from 'notistack';
 import TrialPrompt from './home/TrialPrompt';
+import HowDoesItWorkButton from '../components/HowDoesItWorkButton';
 
 const useStyles = makeStyles({
   media: {
@@ -41,7 +42,6 @@ function Home() {
   const { enqueueSnackbar } = useSnackbar();
   const [previousSessions, refreshPreviousSessions] = usePreviousSessions();
   const hasPreviousSessions = previousSessions.length > 0;
-
   const classes = useStyles();
 
   const createDefaultSession = useCallback(async () => {
@@ -99,18 +99,20 @@ function Home() {
             </Fab>
           </ProButton>
           <div style={{ width: 30 }} />
-          <ProButton>
-            <Fab
-              variant="extended"
-              onClick={createEncryptedSession}
-              size="large"
-              color="secondary"
-              disabled={!isLoggedIn}
-            >
-              <Lock className={classes.buttonIcon} />
-              {translations.Encryption.createEncryptedSession}
-            </Fab>
-          </ProButton>
+          <HowDoesItWorkButton url="/how-does-encryption-work">
+            <ProButton>
+              <Fab
+                variant="extended"
+                onClick={createEncryptedSession}
+                size="large"
+                color="secondary"
+                disabled={!isLoggedIn}
+              >
+                <Lock className={classes.buttonIcon} />
+                {translations.Encryption.createEncryptedSession}
+              </Fab>
+            </ProButton>
+          </HowDoesItWorkButton>
         </LaunchButtons>
 
         {hasPreviousSessions ? (
@@ -152,7 +154,8 @@ const LaunchButtons = styled.div`
 
   @media (max-width: 500px) {
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     > button {
       margin: 0;
     }
