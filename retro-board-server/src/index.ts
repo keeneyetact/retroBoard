@@ -25,6 +25,7 @@ import {
   setupSentryRequestHandler,
   setScope,
   reportQueryError,
+  throttledManualReport,
 } from './sentry';
 import {
   RegisterPayload,
@@ -44,6 +45,7 @@ import {
 } from './db/actions/sessions';
 import { updateUser, getUserByUsername, getUserView } from './db/actions/users';
 import isLicenced from './security/is-licenced';
+import rateLimit from 'express-rate-limit';
 
 if (!isLicenced()) {
   console.log(chalk`{red ----------------------------------------------- }`);
@@ -57,7 +59,26 @@ support@retrospected.com to obtain a licence.} ⚠️`
 initSentry();
 
 const app = express();
+
+// Rate Limiter
+app.set('trust proxy', 1);
+const limiter = rateLimit({
+  windowMs: config.RATE_LIMIT_WINDOW,
+  max: config.RATE_LIMIT_MAX,
+  message: 'Your request has been rate-limited',
+  onLimitReached: (req, _, options) => {
+    console.error(
+      chalk`{red Request has been rate limited for} {blue ${req.ip}} with options {yellow ${options.windowMs}/${options.max}}`
+    );
+    throttledManualReport('A user has been rate limited', req);
+  },
+});
+app.use(limiter);
+
+// Sentry
 setupSentryRequestHandler(app);
+
+// Stripe
 app.use(
   express.json({
     // This is a trick to get the raw buffer on the request, for Stripe
@@ -74,7 +95,9 @@ app.use(express.urlencoded({ extended: true }));
 let sessionMiddleware: express.RequestHandler;
 
 const httpServer = new http.Server(app);
-const io = new socketIo.Server(httpServer);
+const io = new socketIo.Server(httpServer, {
+  maxHttpBufferSize: config.WS_MAX_BUFFER_SIZE,
+});
 
 if (config.REDIS_ENABLED) {
   const RedisStore = connectRedis(session);

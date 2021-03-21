@@ -1,13 +1,28 @@
 import config from './db/config';
 import * as Sentry from '@sentry/node';
 import chalk from 'chalk';
-import { Express } from 'express';
+import { Express, Request } from 'express';
 import { version } from '../package.json';
 import { QueryFailedError } from 'typeorm';
+import { throttle } from 'lodash';
 
 const useSentry = !!config.SENTRY_URL && config.SENTRY_URL !== 'NO_SENTRY';
 
 type ConfigureScopeFn = (scope: Sentry.Scope | null) => void;
+
+export const throttledManualReport = throttle(manualReport, 60000, {
+  trailing: true,
+  leading: true,
+});
+
+export function manualReport(message: string, request?: Request) {
+  console.log(' ==> reporting to sentry');
+  Sentry.captureEvent({
+    message,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    request: request as any,
+  });
+}
 
 export function initSentry() {
   if (useSentry) {

@@ -32,4 +32,9 @@ export interface Configuration {
   STRIPE_TEAM_PRICE: string;
   STRIPE_UNLIMITED_PRODUCT: string;
   STRIPE_UNLIMITED_PRICE: string;
+  RATE_LIMIT_WINDOW: number;
+  RATE_LIMIT_MAX: number;
+  RATE_LIMIT_WS_POINTS: number;
+  RATE_LIMIT_WS_DURATION: number;
+  WS_MAX_BUFFER_SIZE: number;
 }

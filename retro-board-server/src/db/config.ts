@@ -47,6 +47,11 @@ const config: Configuration = {
   STRIPE_TEAM_PRICE: process.env.STRIPE_TEAM_PRICE!,
   STRIPE_UNLIMITED_PRODUCT: process.env.STRIPE_UNLIMITED_PRODUCT!,
   STRIPE_UNLIMITED_PRICE: process.env.STRIPE_UNLIMITED_PRICE!,
+  RATE_LIMIT_WINDOW: parseInt(process.env.RATE_LIMIT_WINDOW!),
+  RATE_LIMIT_MAX: parseInt(process.env.RATE_LIMIT_MAX!),
+  RATE_LIMIT_WS_POINTS: parseInt(process.env.RATE_LIMIT_WS_POINTS!),
+  RATE_LIMIT_WS_DURATION: parseInt(process.env.RATE_LIMIT_WS_DURATION!),
+  WS_MAX_BUFFER_SIZE: parseInt(process.env.WS_MAX_BUFFER_SIZE!),
 };
 
 export default config;
