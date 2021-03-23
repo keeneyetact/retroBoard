@@ -46,12 +46,15 @@ import {
 import { updateUser, getUserByUsername, getUserView } from './db/actions/users';
 import isLicenced from './security/is-licenced';
 import rateLimit from 'express-rate-limit';
+import { Cache, inMemoryCache, redisCache } from './cache/cache';
+
+const realIpHeader = 'X-Forwarded-For';
 
 if (!isLicenced()) {
   console.log(chalk`{red ----------------------------------------------- }`);
   console.log(
     chalk`⚠️  {red This software is not licenced. Please contact
-support@retrospected.com to obtain a licence.} ⚠️`
+support@retrospected.com to get a licence.} ⚠️`
   );
   console.log(chalk`{red ----------------------------------------------- }`);
 }
@@ -60,20 +63,31 @@ initSentry();
 
 const app = express();
 
+function getActualIp(req: express.Request): string {
+  const headerValue = req.header(realIpHeader);
+  if (headerValue) {
+    return headerValue.split(',')[0];
+  }
+  return req.ip;
+}
+
 // Rate Limiter
 app.set('trust proxy', 1);
-const limiter = rateLimit({
+const heavyLoadLimiter = rateLimit({
   windowMs: config.RATE_LIMIT_WINDOW,
   max: config.RATE_LIMIT_MAX,
-  message: 'Your request has been rate-limited',
+  message:
+    'Your request has been rate-limited. Please try again in a few seconds.',
+  keyGenerator: getActualIp,
   onLimitReached: (req, _, options) => {
     console.error(
-      chalk`{red Request has been rate limited for} {blue ${req.ip}} with options {yellow ${options.windowMs}/${options.max}}`
+      chalk`{red High load request has been rate limited for {blue ${getActualIp(
+        req
+      )}} with options {yellow ${options.windowMs}/${options.max}}}`
     );
-    throttledManualReport('A user has been rate limited', req);
+    throttledManualReport('A heavy load request has been rate limited', req);
   },
 });
-app.use(limiter);
 
 // Sentry
 setupSentryRequestHandler(app);
@@ -98,6 +112,7 @@ const httpServer = new http.Server(app);
 const io = new socketIo.Server(httpServer, {
   maxHttpBufferSize: config.WS_MAX_BUFFER_SIZE,
 });
+let cache: Cache;
 
 if (config.REDIS_ENABLED) {
   const RedisStore = connectRedis(session);
@@ -116,6 +131,7 @@ if (config.REDIS_ENABLED) {
     },
   });
   io.adapter(createAdapter({ pubClient: redisClient, subClient }));
+  cache = redisCache(redisClient);
   console.log(chalk`{red Redis} was properly activated`);
 } else {
   sessionMiddleware = session({
@@ -126,6 +142,7 @@ if (config.REDIS_ENABLED) {
       secure: false,
     },
   });
+  cache = inMemoryCache();
 }
 
 app.use(sessionMiddleware);
@@ -152,7 +169,7 @@ app.get('/healthz', async (_, res) => {
   res.status(200).send();
 });
 
-app.use('/api/auth', authRouter);
+app.use('/api/auth', heavyLoadLimiter, authRouter);
 
 io.use(function (socket, next) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,13 +187,14 @@ db().then(() => {
   app.use('/api/stripe', stripeRouter());
 
   // Create session
-  app.post('/api/create', async (req, res) => {
+  app.post('/api/create', heavyLoadLimiter, async (req, res) => {
     const user = await getUserFromRequest(req);
     const payload: CreateSessionPayload = req.body;
     setScope(async (scope) => {
       if (user) {
         try {
           const session = await createSession(user, payload.encryptedCheck);
+          await cache.invalidate(user.id);
           res.status(200).send(session);
         } catch (err) {
           reportQueryError(scope, err);
@@ -219,21 +237,28 @@ db().then(() => {
     }
   });
 
-  app.get('/api/previous', async (req, res) => {
+  app.get('/api/previous', heavyLoadLimiter, async (req, res) => {
     const user = await getUserFromRequest(req);
     if (user) {
+      const cached = await cache.get(user.id);
+      if (cached) {
+        return res.status(200).send(cached);
+      }
+
       const sessions = await previousSessions(user.id);
+      await cache.set(user.id, sessions, 60 * 1000);
       res.status(200).send(sessions);
     } else {
       res.status(200).send([]);
     }
   });
 
-  app.delete('/api/session/:sessionId', async (req, res) => {
+  app.delete('/api/session/:sessionId', heavyLoadLimiter, async (req, res) => {
     const sessionId = req.params.sessionId;
     const user = await getUserFromRequest(req);
     if (user && user.accountType !== 'anonymous') {
       const success = await deleteSessions(user.id, sessionId);
+      cache.invalidate(user.id);
       if (success) {
         res.status(200).send();
       } else {
@@ -273,7 +298,7 @@ db().then(() => {
     }
   });
 
-  app.post('/api/register', async (req, res) => {
+  app.post('/api/register', heavyLoadLimiter, async (req, res) => {
     if (req.user) {
       res.status(500).send('You are already logged in');
       return;
@@ -301,7 +326,7 @@ db().then(() => {
     }
   });
 
-  app.post('/api/validate', async (req, res) => {
+  app.post('/api/validate', heavyLoadLimiter, async (req, res) => {
     const validatePayload = req.body as ValidateEmailPayload;
     const user = await getUserByUsername(validatePayload.email);
     if (!user) {
@@ -330,7 +355,7 @@ db().then(() => {
     }
   });
 
-  app.post('/api/reset', async (req, res) => {
+  app.post('/api/reset', heavyLoadLimiter, async (req, res) => {
     const resetPayload = req.body as ResetPasswordPayload;
     const user = await getUserByUsername(resetPayload.email);
     if (!user) {
@@ -349,7 +374,7 @@ db().then(() => {
     res.status(200).send(isLicenced());
   });
 
-  app.post('/api/reset-password', async (req, res) => {
+  app.post('/api/reset-password', heavyLoadLimiter, async (req, res) => {
     const validatePayload = req.body as ResetChangePasswordPayload;
     const user = await getUserByUsername(validatePayload.email);
     if (!user) {
