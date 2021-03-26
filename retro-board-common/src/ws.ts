@@ -41,3 +41,23 @@ export interface WsSaveTemplatePayload {
   columns: ColumnDefinition[];
   options: SessionOptions;
 }
+
+export type WsErrorType =
+  | 'cannot_save_post'
+  | 'cannot_save_group'
+  | 'cannot_get_session'
+  | 'cannot_register_vote'
+  | 'cannot_edit_post'
+  | 'cannot_edit_group'
+  | 'cannot_save_options'
+  | 'cannot_save_columns'
+  | 'cannot_delete_post'
+  | 'cannot_delete_group'
+  | 'cannot_rename_session'
+  | 'unknown_error'
+  | 'action_unauthorised';
+
+export interface WsErrorPayload {
+  type: WsErrorType;
+  details: string | null;
+}

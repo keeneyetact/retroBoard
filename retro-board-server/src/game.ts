@@ -13,14 +13,21 @@ import {
   WsDeleteGroupPayload,
   WsSaveTemplatePayload,
   WsReceiveLikeUpdatePayload,
+  WsErrorType,
   Session,
   SessionOptions,
+  WsErrorPayload,
 } from '@retrospected/common';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import chalk from 'chalk';
 import moment from 'moment';
 import { Server, Socket } from 'socket.io';
-import { setScope, reportQueryError, throttledManualReport } from './sentry';
+import {
+  setScope,
+  reportQueryError,
+  throttledManualReport,
+  manualMessage,
+} from './sentry';
 import { SessionEntity, UserView } from './db/entities';
 import { hasField } from './security/payload-checker';
 import {
@@ -78,6 +85,8 @@ const {
   RECEIVE_LOCK_SESSION,
   RECEIVE_UNAUTHORIZED,
   RECEIVE_RATE_LIMITED,
+  RECEIVE_ERROR,
+  REQUEST_BOARD,
 } = Actions;
 
 interface ExtendedSocket extends Socket {
@@ -176,6 +185,24 @@ export default (io: Server) => {
     sendClientList(session, socket);
   };
 
+  function sendToAllOrError<T>(
+    socket: ExtendedSocket,
+    sessionId: string,
+    action: string,
+    errorType: WsErrorType,
+    data: T | null
+  ) {
+    if (data === null) {
+      sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+        details: null,
+        type: errorType,
+      });
+      manualMessage(errorType);
+    } else {
+      sendToAll<T>(socket, sessionId, action, data);
+    }
+  }
+
   const onAddPost = async (
     userId: string,
     sessionId: string,
@@ -183,11 +210,13 @@ export default (io: Server) => {
     socket: ExtendedSocket
   ) => {
     const createdPost = await savePost(userId, sessionId, post);
-    if (createdPost) {
-      sendToAll<Post>(socket, sessionId, RECEIVE_POST, createdPost);
-    } else {
-      // todo !!
-    }
+    sendToAllOrError<Post>(
+      socket,
+      sessionId,
+      RECEIVE_POST,
+      'cannot_save_post',
+      createdPost
+    );
   };
 
   const onAddPostGroup = async (
@@ -197,15 +226,34 @@ export default (io: Server) => {
     socket: ExtendedSocket
   ) => {
     const createdGroup = await savePostGroup(userId, sessionId, group);
-    if (createdGroup) {
-      sendToAll<PostGroup>(socket, sessionId, RECEIVE_POST_GROUP, createdGroup);
-    } else {
-      // todo
-    }
+    sendToAllOrError<PostGroup>(
+      socket,
+      sessionId,
+      RECEIVE_POST_GROUP,
+      'cannot_save_group',
+      createdGroup
+    );
   };
 
   const log = (msg: string) => {
     console.log(d() + msg);
+  };
+
+  const onRequestBoard = async (
+    _userId: string,
+    sessionId: string,
+    _payload: undefined,
+    socket: ExtendedSocket
+  ) => {
+    const session = await getSession(sessionId);
+    if (session) {
+      sendToSelf<Session>(socket, RECEIVE_BOARD, session);
+    } else {
+      sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+        type: 'cannot_get_session',
+        details: null,
+      });
+    }
   };
 
   const onJoinSession = async (
@@ -237,7 +285,10 @@ export default (io: Server) => {
         if (session) {
           sendToSelf<Session>(socket, RECEIVE_BOARD, session);
         } else {
-          // todo
+          sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+            type: 'cannot_get_session',
+            details: null,
+          });
         }
       } else {
         log(chalk`{red User not allowed, session locked}`);
@@ -260,8 +311,14 @@ export default (io: Server) => {
     data: WsNameData,
     socket: ExtendedSocket
   ) => {
-    await updateName(sessionId, data.name);
-    sendToAll<string>(socket, sessionId, RECEIVE_SESSION_NAME, data.name);
+    const success = await updateName(sessionId, data.name);
+    sendToAllOrError<string>(
+      socket,
+      sessionId,
+      RECEIVE_SESSION_NAME,
+      'cannot_rename_session',
+      success ? data.name : null
+    );
   };
 
   const onLeaveSession = async (
@@ -283,12 +340,13 @@ export default (io: Server) => {
     data: WsDeletePostPayload,
     socket: ExtendedSocket
   ) => {
-    await deletePost(userId, sessionId, data.postId);
-    sendToAll<WsDeletePostPayload>(
+    const success = await deletePost(userId, sessionId, data.postId);
+    sendToAllOrError<WsDeletePostPayload>(
       socket,
       sessionId,
       RECEIVE_DELETE_POST,
-      data
+      'cannot_delete_post',
+      success ? data : null
     );
   };
 
@@ -298,12 +356,13 @@ export default (io: Server) => {
     data: WsDeleteGroupPayload,
     socket: ExtendedSocket
   ) => {
-    await deletePostGroup(userId, sessionId, data.groupId);
-    sendToAll<WsDeleteGroupPayload>(
+    const success = await deletePostGroup(userId, sessionId, data.groupId);
+    sendToAllOrError<WsDeleteGroupPayload>(
       socket,
       sessionId,
       RECEIVE_DELETE_POST_GROUP,
-      data
+      'cannot_delete_group',
+      success ? data : null
     );
   };
 
@@ -314,14 +373,19 @@ export default (io: Server) => {
     socket: ExtendedSocket
   ) => {
     const vote = await registerVote(userId, sessionId, data.postId, data.type);
-    if (vote) {
-      sendToAll<WsReceiveLikeUpdatePayload>(socket, sessionId, RECEIVE_LIKE, {
-        postId: data.postId,
-        vote,
-      });
-    } else {
-      // todo
-    }
+
+    sendToAllOrError<WsReceiveLikeUpdatePayload>(
+      socket,
+      sessionId,
+      RECEIVE_LIKE,
+      'cannot_register_vote',
+      vote
+        ? {
+            postId: data.postId,
+            vote,
+          }
+        : null
+    );
   };
 
   const onEditPost = async (
@@ -331,9 +395,13 @@ export default (io: Server) => {
     socket: ExtendedSocket
   ) => {
     const persistedPost = await updatePost(sessionId, data.post);
-    if (persistedPost) {
-      sendToAll<Post>(socket, sessionId, RECEIVE_EDIT_POST, persistedPost);
-    }
+    sendToAllOrError<Post>(
+      socket,
+      sessionId,
+      RECEIVE_EDIT_POST,
+      'cannot_edit_post',
+      persistedPost
+    );
   };
 
   const onEditPostGroup = async (
@@ -343,11 +411,13 @@ export default (io: Server) => {
     socket: ExtendedSocket
   ) => {
     const group = await updatePostGroup(userId, sessionId, data);
-    if (group) {
-      sendToAll<PostGroup>(socket, sessionId, RECEIVE_EDIT_POST_GROUP, group);
-    } else {
-      // todo
-    }
+    sendToAllOrError<PostGroup>(
+      socket,
+      sessionId,
+      RECEIVE_EDIT_POST_GROUP,
+      'cannot_edit_group',
+      group
+    );
   };
 
   const onEditOptions = async (
@@ -356,8 +426,14 @@ export default (io: Server) => {
     data: SessionOptions,
     socket: ExtendedSocket
   ) => {
-    await updateOptions(sessionId, data);
-    sendToAll<SessionOptions>(socket, sessionId, RECEIVE_OPTIONS, data);
+    const options = await updateOptions(sessionId, data);
+    sendToAllOrError<SessionOptions>(
+      socket,
+      sessionId,
+      RECEIVE_OPTIONS,
+      'cannot_save_options',
+      options
+    );
   };
 
   const onEditColumns = async (
@@ -366,8 +442,14 @@ export default (io: Server) => {
     data: ColumnDefinition[],
     socket: ExtendedSocket
   ) => {
-    await updateColumns(sessionId, data);
-    sendToAll<ColumnDefinition[]>(socket, sessionId, RECEIVE_COLUMNS, data);
+    const columns = await updateColumns(sessionId, data);
+    sendToAllOrError<ColumnDefinition[]>(
+      socket,
+      sessionId,
+      RECEIVE_COLUMNS,
+      'cannot_save_columns',
+      columns
+    );
   };
 
   const onSaveTemplate = async (
@@ -429,6 +511,7 @@ export default (io: Server) => {
       { type: DELETE_POST_GROUP, handler: onDeletePostGroup },
 
       { type: JOIN_SESSION, handler: onJoinSession },
+      { type: REQUEST_BOARD, handler: onRequestBoard },
       { type: RENAME_SESSION, handler: onRenameSession, onlyAuthor: true },
       { type: LEAVE_SESSION, handler: onLeaveSession },
       { type: EDIT_OPTIONS, handler: onEditOptions, onlyAuthor: true },
@@ -452,19 +535,31 @@ export default (io: Server) => {
           );
           await rateLimiter.consume(sid);
           setScope(async (scope) => {
+            if (scope) {
+              scope.setUser({ id: userId });
+              scope.setExtra('action', action.type);
+              scope.setExtra('session', sid);
+            }
             if (sid) {
-              const exists = await doesSessionExists(sid); // might be removed
+              const exists = await doesSessionExists(sid);
               if (exists) {
                 try {
                   if (action.onlyAuthor) {
                     if (!(await wasSessionCreatedBy(sid, userId))) {
-                      return; // TODO: return error
+                      sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+                        type: 'action_unauthorised',
+                        details: null,
+                      });
+                      return;
                     }
                   }
                   await action.handler(userId, sid, data.payload, socket);
                 } catch (err) {
                   reportQueryError(scope, err);
-                  // TODO: send error to UI
+                  sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+                    type: 'unknown_error',
+                    details: null,
+                  });
                 }
               }
             }
