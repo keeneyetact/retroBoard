@@ -1,12 +1,12 @@
 import { Dispatch } from './types';
 import {
   Post,
-  Vote,
   PostGroup,
   SessionOptions,
   ColumnDefinition,
   Participant,
   AccessErrorType,
+  VoteExtract,
 } from '@retrospected/common';
 
 export const TOGGLE_PANEL = 'retrospected/panel/toggle';
@@ -69,17 +69,17 @@ export const updatePostGroup = (dispatch: Dispatch) => (group: PostGroup) => {
 
 export const receiveVote = (dispatch: Dispatch) => (
   postId: string,
-  vote: Vote
+  vote: VoteExtract
 ) => {
   dispatch(createAction(RECEIVE_VOTE, { postId, vote }));
 };
 
-export const deletePost = (dispatch: Dispatch) => (post: Post) => {
-  dispatch(createAction(DELETE_POST, post));
+export const deletePost = (dispatch: Dispatch) => (postId: string) => {
+  dispatch(createAction(DELETE_POST, postId));
 };
 
-export const deletePostGroup = (dispatch: Dispatch) => (group: PostGroup) => {
-  dispatch(createAction(DELETE_POST_GROUP, group));
+export const deletePostGroup = (dispatch: Dispatch) => (groupId: string) => {
+  dispatch(createAction(DELETE_POST_GROUP, groupId));
 };
 
 export const editOptions = (dispatch: Dispatch) => (

@@ -4,9 +4,9 @@ import {
   Session,
   User,
   SessionOptions,
-  Vote,
   VoteType,
   defaultOptions,
+  VoteExtract,
 } from '@retrospected/common';
 import { v4 } from 'uuid';
 
@@ -28,15 +28,16 @@ const anotherUser: User = {
   name: 'Another User',
 };
 
-function buildVotes(type: VoteType, users: User[], post: Post): Vote[] {
+function buildVotes(type: VoteType, users: User[], post: Post): VoteExtract[] {
   return users.map(
     (user) =>
       ({
         id: v4(),
         post,
         type,
-        user,
-      } as Vote)
+        userId: user.id,
+        userName: user.name,
+      } as VoteExtract)
   );
 }
 

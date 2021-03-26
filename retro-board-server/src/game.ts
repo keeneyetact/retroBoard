@@ -1,23 +1,26 @@
 import {
   Actions,
-  Session,
   Post,
   PostGroup,
-  User,
   Participant,
-  Vote,
-  VoteType,
   ColumnDefinition,
   UnauthorizedAccessPayload,
+  WsUserData,
+  WsNameData,
+  WsLikeUpdatePayload,
+  WsPostUpdatePayload,
+  WsDeletePostPayload,
+  WsDeleteGroupPayload,
+  WsSaveTemplatePayload,
+  WsReceiveLikeUpdatePayload,
+  Session,
+  SessionOptions,
 } from '@retrospected/common';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import chalk from 'chalk';
 import moment from 'moment';
 import { Server, Socket } from 'socket.io';
-import { find } from 'lodash';
-import { v4 } from 'uuid';
 import { setScope, reportQueryError, throttledManualReport } from './sentry';
-import SessionOptionsEntity from './db/entities/SessionOptions';
 import { SessionEntity, UserView } from './db/entities';
 import { hasField } from './security/payload-checker';
 import {
@@ -30,16 +33,20 @@ import {
   toggleSessionLock,
   isAllowed,
   saveTemplate,
+  doesSessionExists,
+  wasSessionCreatedBy,
 } from './db/actions/sessions';
 import { getUser, getUserView } from './db/actions/users';
 import {
   savePost,
   savePostGroup,
-  saveVote,
   deletePost,
   deletePostGroup,
+  updatePost,
+  updatePostGroup,
 } from './db/actions/posts';
 import config from './db/config';
+import { registerVote } from './db/actions/votes';
 
 const {
   RECEIVE_POST,
@@ -75,27 +82,11 @@ const {
 
 interface ExtendedSocket extends Socket {
   sessionId: string;
-  userId: string | null;
+  userId: string;
 }
 
 interface Users {
   [socketId: string]: UserView | null;
-}
-
-interface UserData {
-  user: User;
-}
-
-interface NameData extends UserData {
-  name: string;
-}
-
-interface PostUpdate extends UserData {
-  post: Post;
-}
-
-interface LikeUpdate extends PostUpdate {
-  type: VoteType;
 }
 
 const rateLimiter = new RateLimiterMemory({
@@ -136,63 +127,6 @@ export default (io: Server) => {
     socket.emit(action, data);
   }
 
-  const persistPost = async (
-    userId: string | null,
-    sessionId: string,
-    post: Post,
-    update: boolean
-  ) => {
-    if (!userId) {
-      return;
-    }
-    await savePost(userId, sessionId, post, update);
-  };
-
-  const persistPostGroup = async (
-    userId: string | null,
-    sessionId: string,
-    group: PostGroup
-  ) => {
-    if (!userId) {
-      return;
-    }
-    await savePostGroup(userId, sessionId, group);
-  };
-
-  const persistVote = async (
-    userId: string | null,
-    sessionId: string,
-    postId: string,
-    vote: Vote
-  ) => {
-    if (!userId) {
-      return;
-    }
-    await saveVote(userId, sessionId, postId, vote);
-  };
-
-  const removePost = async (
-    userId: string | null,
-    sessionId: string,
-    postId: string
-  ) => {
-    if (!userId) {
-      return;
-    }
-    await deletePost(userId, sessionId, postId);
-  };
-
-  const removePostGroup = async (
-    userId: string | null,
-    sessionId: string,
-    groupId: string
-  ) => {
-    if (!userId) {
-      return;
-    }
-    await deletePostGroup(userId, sessionId, groupId);
-  };
-
   const sendClientList = (session: SessionEntity, socket: ExtendedSocket) => {
     const roomId = getRoom(session.id);
     const allSockets = io.of('/').in(getRoom(session.id)).sockets; // That doesn't actually do what it's supposed to do
@@ -218,11 +152,11 @@ export default (io: Server) => {
         .visitors!.filter((op) => !onlineParticipantsIds.includes(op.id))
         .map((op) => ({ ...op.toJson(), online: false }));
 
-      sendToSelf(socket, RECEIVE_CLIENT_LIST, [
+      sendToSelf<Participant[]>(socket, RECEIVE_CLIENT_LIST, [
         ...onlineParticipants,
         ...offlineParticipants,
       ]);
-      sendToAll(socket, session.id, RECEIVE_CLIENT_LIST, [
+      sendToAll<Participant[]>(socket, session.id, RECEIVE_CLIENT_LIST, [
         ...onlineParticipants,
         ...offlineParticipants,
       ]);
@@ -243,29 +177,31 @@ export default (io: Server) => {
   };
 
   const onAddPost = async (
-    userId: string | null,
-    session: Session,
+    userId: string,
+    sessionId: string,
     post: Post,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
+    const createdPost = await savePost(userId, sessionId, post);
+    if (createdPost) {
+      sendToAll<Post>(socket, sessionId, RECEIVE_POST, createdPost);
+    } else {
+      // todo !!
     }
-    await persistPost(userId, session.id, post, false);
-    sendToAll(socket, session.id, RECEIVE_POST, post);
   };
 
   const onAddPostGroup = async (
-    userId: string | null,
-    session: Session,
+    userId: string,
+    sessionId: string,
     group: PostGroup,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
+    const createdGroup = await savePostGroup(userId, sessionId, group);
+    if (createdGroup) {
+      sendToAll<PostGroup>(socket, sessionId, RECEIVE_POST_GROUP, createdGroup);
+    } else {
+      // todo
     }
-    await persistPostGroup(userId, session.id, group);
-    sendToAll(socket, session.id, RECEIVE_POST_GROUP, group);
   };
 
   const log = (msg: string) => {
@@ -273,15 +209,15 @@ export default (io: Server) => {
   };
 
   const onJoinSession = async (
-    userId: string | null,
-    session: Session,
-    _: UserData,
+    userId: string,
+    sessionId: string,
+    _: WsUserData,
     socket: ExtendedSocket
   ) => {
-    await socket.join(getRoom(session.id));
-    socket.sessionId = session.id;
+    await socket.join(getRoom(sessionId));
+    socket.sessionId = sessionId;
     const user = userId ? await getUserView(userId) : null;
-    const sessionEntity = await getSessionWithVisitors(session.id);
+    const sessionEntity = await getSessionWithVisitors(sessionId);
 
     if (sessionEntity) {
       const userAllowed = isAllowed(sessionEntity, user);
@@ -290,221 +226,167 @@ export default (io: Server) => {
           const userEntity = await getUser(user.id);
           if (userEntity) {
             // TODO : inneficient, rework all this
-            await storeVisitor(session.id, userEntity);
-            const sessionEntity2 = await getSessionWithVisitors(session.id);
+            await storeVisitor(sessionId, userEntity);
+            const sessionEntity2 = await getSessionWithVisitors(sessionId);
             if (sessionEntity2) {
               recordUser(sessionEntity2, user, socket);
             }
           }
         }
-        sendToSelf(socket, RECEIVE_BOARD, session);
+        const session = await getSession(sessionId);
+        if (session) {
+          sendToSelf<Session>(socket, RECEIVE_BOARD, session);
+        } else {
+          // todo
+        }
       } else {
         log(chalk`{red User not allowed, session locked}`);
         const payload: UnauthorizedAccessPayload = {
           type: userAllowed.reason,
         };
-        sendToSelf(socket, RECEIVE_UNAUTHORIZED, payload);
+        sendToSelf<UnauthorizedAccessPayload>(
+          socket,
+          RECEIVE_UNAUTHORIZED,
+          payload
+        );
         socket.disconnect();
       }
     }
   };
 
   const onRenameSession = async (
-    userId: string | null,
-    session: Session,
-    data: NameData,
+    _userId: string,
+    sessionId: string,
+    data: WsNameData,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    session.name = data.name;
-    await updateName(session.id, data.name);
-    sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
+    await updateName(sessionId, data.name);
+    sendToAll<string>(socket, sessionId, RECEIVE_SESSION_NAME, data.name);
   };
 
   const onLeaveSession = async (
-    _userId: string | null,
-    session: Session,
+    _userId: string,
+    sessionId: string,
     _data: void,
     socket: ExtendedSocket
   ) => {
-    await socket.leave(getRoom(session.id));
-    const sessionEntity = await getSessionWithVisitors(session.id);
+    await socket.leave(getRoom(sessionId));
+    const sessionEntity = await getSessionWithVisitors(sessionId);
     if (sessionEntity) {
       sendClientList(sessionEntity, socket);
     }
   };
 
   const onDeletePost = async (
-    userId: string | null,
-    session: Session,
-    data: Post,
+    userId: string,
+    sessionId: string,
+    data: WsDeletePostPayload,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    session.posts = session.posts.filter((p) => p.id !== data.id);
-    await removePost(userId, session.id, data.id);
-    sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
+    await deletePost(userId, sessionId, data.postId);
+    sendToAll<WsDeletePostPayload>(
+      socket,
+      sessionId,
+      RECEIVE_DELETE_POST,
+      data
+    );
   };
 
   const onDeletePostGroup = async (
-    userId: string | null,
-    session: Session,
-    data: PostGroup,
+    userId: string,
+    sessionId: string,
+    data: WsDeleteGroupPayload,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    session.groups = session.groups.filter((g) => g.id !== data.id);
-    await removePostGroup(userId, session.id, data.id);
-    sendToAll(socket, session.id, RECEIVE_DELETE_POST_GROUP, data);
+    await deletePostGroup(userId, sessionId, data.groupId);
+    sendToAll<WsDeleteGroupPayload>(
+      socket,
+      sessionId,
+      RECEIVE_DELETE_POST_GROUP,
+      data
+    );
   };
 
   const onLikePost = async (
-    userId: string | null,
-    session: Session,
-    data: LikeUpdate,
+    userId: string,
+    sessionId: string,
+    data: WsLikeUpdatePayload,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    const user = await getUser(userId);
-    const post = find(session.posts, (p) => p.id === data.post.id);
-    if (post && user) {
-      const existingVote: Vote | undefined = find(
-        post.votes,
-        (v) => v.user.id === user.id && v.type === data.type
-      );
-
-      if (session.options.allowMultipleVotes || !existingVote) {
-        const vote: Vote = {
-          id: v4(),
-          user: user.toJson(),
-          type: data.type,
-        };
-        await persistVote(userId, session.id, post.id, vote);
-        sendToAll(socket, session.id, RECEIVE_LIKE, { postId: post.id, vote });
-      }
+    const vote = await registerVote(userId, sessionId, data.postId, data.type);
+    if (vote) {
+      sendToAll<WsReceiveLikeUpdatePayload>(socket, sessionId, RECEIVE_LIKE, {
+        postId: data.postId,
+        vote,
+      });
+    } else {
+      // todo
     }
   };
 
   const onEditPost = async (
-    userId: string | null,
-    session: Session,
-    data: PostUpdate,
+    _userId: string,
+    sessionId: string,
+    data: WsPostUpdatePayload,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    const post = find(session.posts, (p) => p.id === data.post.id);
-    if (post) {
-      post.content = data.post.content;
-      post.action = data.post.action;
-      post.giphy = data.post.giphy;
-      post.column = data.post.column;
-      post.group = data.post.group;
-      post.rank = data.post.rank;
-      await persistPost(userId, session.id, post, true);
-      sendToAll(socket, session.id, RECEIVE_EDIT_POST, data);
+    const persistedPost = await updatePost(sessionId, data.post);
+    if (persistedPost) {
+      sendToAll<Post>(socket, sessionId, RECEIVE_EDIT_POST, persistedPost);
     }
   };
 
   const onEditPostGroup = async (
-    userId: string | null,
-    session: Session,
+    userId: string,
+    sessionId: string,
     data: PostGroup,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-    const group = find(session.groups, (g) => g.id === data.id);
+    const group = await updatePostGroup(userId, sessionId, data);
     if (group) {
-      group.column = data.column;
-      group.label = data.label;
-      group.rank = data.rank;
-      await persistPostGroup(userId, session.id, group);
-      sendToAll(socket, session.id, RECEIVE_EDIT_POST_GROUP, data);
+      sendToAll<PostGroup>(socket, sessionId, RECEIVE_EDIT_POST_GROUP, group);
+    } else {
+      // todo
     }
   };
 
   const onEditOptions = async (
-    userId: string | null,
-    session: Session,
-    data: SessionOptionsEntity,
+    _userId: string,
+    sessionId: string,
+    data: SessionOptions,
     socket: ExtendedSocket
   ) => {
-    if (!userId || !session) {
-      return;
-    }
-    // Prevent non author from modifying options
-    if (userId !== session.createdBy.id) {
-      return;
-    }
-
-    await updateOptions(session, data);
-
-    sendToAll(socket, session.id, RECEIVE_OPTIONS, data);
+    await updateOptions(sessionId, data);
+    sendToAll<SessionOptions>(socket, sessionId, RECEIVE_OPTIONS, data);
   };
 
   const onEditColumns = async (
-    userId: string | null,
-    session: Session,
+    _userId: string,
+    sessionId: string,
     data: ColumnDefinition[],
     socket: ExtendedSocket
   ) => {
-    if (!userId || !session) {
-      return;
-    }
-    // Prevent non author from modifying columns
-    if (userId !== session.createdBy.id) {
-      return;
-    }
-    await updateColumns(session, data);
-    sendToAll(socket, session.id, RECEIVE_COLUMNS, data);
+    await updateColumns(sessionId, data);
+    sendToAll<ColumnDefinition[]>(socket, sessionId, RECEIVE_COLUMNS, data);
   };
 
   const onSaveTemplate = async (
-    userId: string | null,
-    session: Session,
-    data: { columns: ColumnDefinition[]; options: SessionOptionsEntity },
-    _: ExtendedSocket
+    userId: string,
+    _sessionId: string,
+    data: WsSaveTemplatePayload,
+    _socket: ExtendedSocket
   ) => {
-    if (!userId || !session) {
-      return;
-    }
-    // Prevent non author from saving as template
-    if (userId !== session.createdBy.id) {
-      return;
-    }
-
-    await saveTemplate(userId, session, data.columns, data.options);
+    await saveTemplate(userId, data.columns, data.options);
   };
 
   const onLockSession = async (
-    userId: string | null,
-    session: Session,
+    _: string,
+    sessionId: string,
     locked: boolean,
     socket: ExtendedSocket
   ) => {
-    if (!userId) {
-      return;
-    }
-
-    // Prevent non author from locking/unlocking sessions
-    if (userId !== session.createdBy.id) {
-      return;
-    }
-
-    await toggleSessionLock(session.id, locked);
-
-    sendToAll(socket, session.id, RECEIVE_LOCK_SESSION, locked);
+    await toggleSessionLock(sessionId, locked);
+    sendToAll<boolean>(socket, sessionId, RECEIVE_LOCK_SESSION, locked);
   };
 
   io.on('connection', async (socket: ExtendedSocket) => {
@@ -522,15 +404,18 @@ export default (io: Server) => {
         } ${ip} ${userId ? userId : 'anon'}}}`
     );
 
+    type ActionHandler = (
+      userId: string,
+      sessionId: string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: any,
+      socket: ExtendedSocket
+    ) => Promise<void>;
+
     interface Action {
       type: string;
-      handler: (
-        userId: string | null,
-        session: Session,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        data: any,
-        socket: ExtendedSocket
-      ) => Promise<void>;
+      handler: ActionHandler;
+      onlyAuthor?: boolean;
     }
 
     const actions: Action[] = [
@@ -544,12 +429,12 @@ export default (io: Server) => {
       { type: DELETE_POST_GROUP, handler: onDeletePostGroup },
 
       { type: JOIN_SESSION, handler: onJoinSession },
-      { type: RENAME_SESSION, handler: onRenameSession },
+      { type: RENAME_SESSION, handler: onRenameSession, onlyAuthor: true },
       { type: LEAVE_SESSION, handler: onLeaveSession },
-      { type: EDIT_OPTIONS, handler: onEditOptions },
-      { type: EDIT_COLUMNS, handler: onEditColumns },
-      { type: SAVE_TEMPLATE, handler: onSaveTemplate },
-      { type: LOCK_SESSION, handler: onLockSession },
+      { type: EDIT_OPTIONS, handler: onEditOptions, onlyAuthor: true },
+      { type: EDIT_COLUMNS, handler: onEditColumns, onlyAuthor: true },
+      { type: SAVE_TEMPLATE, handler: onSaveTemplate, onlyAuthor: true },
+      { type: LOCK_SESSION, handler: onLockSession, onlyAuthor: true },
     ];
 
     actions.forEach((action) => {
@@ -568,10 +453,15 @@ export default (io: Server) => {
           await rateLimiter.consume(sid);
           setScope(async (scope) => {
             if (sid) {
-              const session = await getSession(sid); // Todo check if that's not a performance issue
-              if (session) {
+              const exists = await doesSessionExists(sid); // might be removed
+              if (exists) {
                 try {
-                  await action.handler(userId, session, data.payload, socket);
+                  if (action.onlyAuthor) {
+                    if (!(await wasSessionCreatedBy(sid, userId))) {
+                      return; // TODO: return error
+                    }
+                  }
+                  await action.handler(userId, sid, data.payload, socket);
                 } catch (err) {
                   reportQueryError(scope, err);
                   // TODO: send error to UI
