@@ -34,6 +34,24 @@ import {
 import useTranslation from '../../translations/useTranslations';
 import { omit } from 'lodash';
 
+export type Status =
+  /**
+   * Not yet connected, will connect as soon as possible
+   */
+  | 'not-connected'
+  /**
+   * Connected to the websocket, but hasn't got the session data yet
+   */
+  | 'connecting'
+  /**
+   * Connected to the websocket, and got session data (all ready to display)
+   */
+  | 'connected'
+  /**
+   * Disconnected, not planning to re-connect automatically (switch to not-connected for that)
+   */
+  | 'disconnected';
+
 const debug = process.env.NODE_ENV === 'development';
 
 function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
@@ -54,8 +72,7 @@ function sendFactory(socket: SocketIOClient.Socket, sessionId: string) {
 const useGame = (sessionId: string) => {
   const { enqueueSnackbar } = useSnackbar();
   const translations = useTranslation();
-  const [initialised, setInitialised] = useState(false);
-  const [disconnected, setDisconnected] = useState(false);
+  const [status, setStatus] = useState<Status>('not-connected');
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
   const {
     state,
@@ -79,7 +96,6 @@ const useGame = (sessionId: string) => {
   const { session } = state;
   const user = useUser();
   const userId = user?.id;
-  const [prevUserId, setPrevUserId] = useState(userId);
   const allowMultipleVotes = session
     ? session.options.allowMultipleVotes
     : false;
@@ -90,7 +106,30 @@ const useGame = (sessionId: string) => {
     sessionId,
   ]);
 
-  const reconnect = useCallback(() => setDisconnected(false), []);
+  const reconnect = useCallback(() => {
+    setStatus('not-connected');
+  }, []);
+
+  // Creating the socket
+  useEffect(() => {
+    let newSocket: SocketIOClient.Socket | null = null;
+    if (status === 'not-connected') {
+      newSocket = io();
+      setSocket(newSocket);
+    }
+  }, [status]);
+
+  // Cleaning up the socket
+  useEffect(() => {
+    return () => {
+      if (debug) {
+        console.log('Attempting disconnection');
+      }
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+  }, [socket]);
 
   // This will run on unmount
   useEffect(() => {
@@ -103,100 +142,93 @@ const useGame = (sessionId: string) => {
     };
   }, [resetSession]);
 
-  // Handles re-connection if the user changes (login/logout)
-  useEffect(() => {
-    if (userId !== prevUserId) {
-      if (debug) {
-        console.log('User changed, set disconnected to false');
-      }
-      setDisconnected(false);
-      setPrevUserId(userId);
-    }
-  }, [userId, prevUserId]);
-
   // This effect will run everytime the gameId, the user, or the socket changes.
   // It will close and restart the socket every time.
   useEffect(() => {
-    if (disconnected) {
+    if (status !== 'not-connected') {
       return;
     }
+    if (!socket) {
+      return;
+    }
+
     if (debug) {
       console.log('Initialising Game socket');
     }
-    const newSocket = io();
-    resetSession();
-    setSocket(newSocket);
 
-    const send = sendFactory(newSocket, sessionId);
+    socket.removeAllListeners();
+
+    const send = sendFactory(socket, sessionId);
 
     // Socket events listeners
-    newSocket.on('disconnect', () => {
+    socket.on('disconnect', () => {
       if (debug) {
         console.warn('Server disconnected');
       }
       trackEvent('game/session/disconnect');
-      setDisconnected(true);
+      setStatus('disconnected');
     });
 
-    newSocket.on('connect', () => {
+    socket.on('connect', () => {
       if (debug) {
         console.log('Connected to the socket');
       }
-      setInitialised(true);
+      setStatus('connecting');
       send<void>(Actions.JOIN_SESSION);
       trackAction(Actions.JOIN_SESSION);
     });
 
-    newSocket.on(Actions.RECEIVE_POST, (post: Post) => {
+    socket.on(Actions.RECEIVE_POST, (post: Post) => {
       if (debug) {
         console.log('Receive new post: ', post);
       }
       receivePost(post);
     });
 
-    newSocket.on(Actions.RECEIVE_POST_GROUP, (group: PostGroup) => {
+    socket.on(Actions.RECEIVE_POST_GROUP, (group: PostGroup) => {
       if (debug) {
         console.log('Receive new post group: ', group);
       }
       receivePostGroup(group);
     });
 
-    newSocket.on(Actions.RECEIVE_BOARD, (posts: Post[]) => {
+    socket.on(Actions.RECEIVE_BOARD, (posts: Post[]) => {
       if (debug) {
         console.log('Receive entire board: ', posts);
       }
+      setStatus('connected');
       receiveBoard(posts);
     });
 
-    newSocket.on(Actions.RECEIVE_OPTIONS, (options: SessionOptions) => {
+    socket.on(Actions.RECEIVE_OPTIONS, (options: SessionOptions) => {
       if (debug) {
         console.log('Receive updated options: ', options);
       }
       editOptions(options);
     });
 
-    newSocket.on(Actions.RECEIVE_COLUMNS, (columns: ColumnDefinition[]) => {
+    socket.on(Actions.RECEIVE_COLUMNS, (columns: ColumnDefinition[]) => {
       if (debug) {
         console.log('Receive updated columns: ', columns);
       }
       editColumns(columns);
     });
 
-    newSocket.on(Actions.RECEIVE_CLIENT_LIST, (participants: Participant[]) => {
+    socket.on(Actions.RECEIVE_CLIENT_LIST, (participants: Participant[]) => {
       if (debug) {
         console.log('Receive participants list: ', participants);
       }
       setPlayers(participants);
     });
 
-    newSocket.on(Actions.RECEIVE_DELETE_POST, (post: WsDeletePostPayload) => {
+    socket.on(Actions.RECEIVE_DELETE_POST, (post: WsDeletePostPayload) => {
       if (debug) {
         console.log('Delete post: ', post);
       }
       deletePost(post.postId);
     });
 
-    newSocket.on(
+    socket.on(
       Actions.RECEIVE_DELETE_POST_GROUP,
       (group: WsDeleteGroupPayload) => {
         if (debug) {
@@ -206,7 +238,7 @@ const useGame = (sessionId: string) => {
       }
     );
 
-    newSocket.on(
+    socket.on(
       Actions.RECEIVE_LIKE,
       ({ postId, vote }: WsReceiveLikeUpdatePayload) => {
         if (debug) {
@@ -216,7 +248,7 @@ const useGame = (sessionId: string) => {
       }
     );
 
-    newSocket.on(Actions.RECEIVE_EDIT_POST, (post: Post | null) => {
+    socket.on(Actions.RECEIVE_EDIT_POST, (post: Post | null) => {
       if (debug) {
         console.log('Receive edit post: ', post);
       }
@@ -225,28 +257,28 @@ const useGame = (sessionId: string) => {
       }
     });
 
-    newSocket.on(Actions.RECEIVE_EDIT_POST_GROUP, (group: PostGroup) => {
+    socket.on(Actions.RECEIVE_EDIT_POST_GROUP, (group: PostGroup) => {
       if (debug) {
         console.log('Receive edit group: ', group);
       }
       updatePostGroup(group);
     });
 
-    newSocket.on(Actions.RECEIVE_SESSION_NAME, (name: string) => {
+    socket.on(Actions.RECEIVE_SESSION_NAME, (name: string) => {
       if (debug) {
         console.log('Receive session name: ', name);
       }
       renameSession(name);
     });
 
-    newSocket.on(Actions.RECEIVE_LOCK_SESSION, (locked: boolean) => {
+    socket.on(Actions.RECEIVE_LOCK_SESSION, (locked: boolean) => {
       if (debug) {
         console.log('Receive lock session: ', locked);
       }
       lockSession(locked);
     });
 
-    newSocket.on(
+    socket.on(
       Actions.RECEIVE_UNAUTHORIZED,
       (payload: UnauthorizedAccessPayload) => {
         if (debug) {
@@ -256,32 +288,29 @@ const useGame = (sessionId: string) => {
       }
     );
 
-    newSocket.on(Actions.RECEIVE_ERROR, (payload: WsErrorPayload) => {
+    socket.on(Actions.RECEIVE_ERROR, (payload: WsErrorPayload) => {
       if (debug) {
         console.log('Receive Error: ', payload);
       }
       enqueueSnackbar(translations.PostBoard.error!(payload.type), {
         variant: 'error',
       });
-      send<void>(Actions.REQUEST_BOARD);
+      if (payload.type !== 'cannot_get_session') {
+        send<void>(Actions.REQUEST_BOARD);
+      } else {
+        setStatus('connected');
+      }
     });
 
-    newSocket.on(Actions.RECEIVE_RATE_LIMITED, () => {
+    socket.on(Actions.RECEIVE_RATE_LIMITED, () => {
       enqueueSnackbar(
         'You have been rate-limited, as you have sent too many messages in a short period of time.',
         { variant: 'error', title: 'Rate Limit Error' }
       );
     });
-
-    return () => {
-      if (debug) {
-        console.log('Attempting disconnection');
-      }
-      if (newSocket) {
-        newSocket.disconnect();
-      }
-    };
   }, [
+    socket,
+    status,
     userId,
     sessionId,
     resetSession,
@@ -299,7 +328,6 @@ const useGame = (sessionId: string) => {
     renameSession,
     lockSession,
     unauthorized,
-    disconnected,
     enqueueSnackbar,
     translations,
   ]);
@@ -307,6 +335,7 @@ const useGame = (sessionId: string) => {
   const [previousParticipans, setPreviousParticipants] = useState(
     state.players
   );
+
   useEffect(() => {
     if (userId && previousParticipans !== state.players) {
       const added = getAddedParticipants(
@@ -591,8 +620,7 @@ const useGame = (sessionId: string) => {
   );
 
   return {
-    initialised,
-    disconnected,
+    status,
     onAddPost,
     onAddGroup,
     onEditPost,

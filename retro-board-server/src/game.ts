@@ -512,7 +512,7 @@ export default (io: Server) => {
 
       { type: JOIN_SESSION, handler: onJoinSession },
       { type: REQUEST_BOARD, handler: onRequestBoard },
-      { type: RENAME_SESSION, handler: onRenameSession, onlyAuthor: true },
+      { type: RENAME_SESSION, handler: onRenameSession },
       { type: LEAVE_SESSION, handler: onLeaveSession },
       { type: EDIT_OPTIONS, handler: onEditOptions, onlyAuthor: true },
       { type: EDIT_COLUMNS, handler: onEditColumns, onlyAuthor: true },
@@ -561,6 +561,11 @@ export default (io: Server) => {
                     details: null,
                   });
                 }
+              } else {
+                sendToSelf<WsErrorPayload>(socket, RECEIVE_ERROR, {
+                  type: 'cannot_get_session',
+                  details: null,
+                });
               }
             }
           });

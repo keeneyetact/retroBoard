@@ -50,8 +50,7 @@ function GamePage() {
   const path = pathname + hash;
 
   const {
-    initialised,
-    disconnected,
+    status,
     onAddPost,
     onMovePost,
     onCombinePost,
@@ -69,7 +68,7 @@ function GamePage() {
     reconnect,
   } = useGame(gameId);
 
-  if (!disconnected && (!session || !initialised)) {
+  if (status === 'not-connected' || status === 'connecting') {
     return (
       <LoadingContainer>
         <CircularProgress />
@@ -108,7 +107,7 @@ function GamePage() {
           content={window.location.href.replace(hash, '')}
         />
       </Helmet>
-      {disconnected ? (
+      {status === 'disconnected' ? (
         <DisconnectedContainer>
           <DisconnectedTitle>
             <CloudOff
