@@ -17,6 +17,7 @@ import {
   Session,
   SessionOptions,
   WsErrorPayload,
+  WebsocketMessage,
 } from '@retrospected/common';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import chalk from 'chalk';
@@ -54,8 +55,10 @@ import {
 } from './db/actions/posts';
 import config from './db/config';
 import { registerVote } from './db/actions/votes';
+// import wait from './utils';
 
 const {
+  ACK,
   RECEIVE_POST,
   RECEIVE_POST_GROUP,
   RECEIVE_BOARD,
@@ -521,11 +524,14 @@ export default (io: Server) => {
     ];
 
     actions.forEach((action) => {
-      socket.on(action.type, async (data) => {
-        // To remove
-        // console.log('Message length: ', JSON.stringify(data).length);
+      socket.on(action.type, async (data: WebsocketMessage<unknown>) => {
+        if (action.type === LIKE_SUCCESS) {
+          // await wait(10000); // REMOVE
+        }
         const sid =
           action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
+
+        sendToSelf(socket, ACK, data.ack);
 
         try {
           console.log(
