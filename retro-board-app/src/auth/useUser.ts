@@ -8,4 +8,15 @@ function useUser(): FullUser | null {
   return user;
 }
 
+interface UseUserMetadataReturn {
+  user: FullUser | null;
+  initialised: boolean;
+}
+
+export function useUserMetadata(): UseUserMetadataReturn {
+  const { user, initialised } = useContext(UserContext);
+
+  return { user, initialised };
+}
+
 export default useUser;
