@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -18,11 +17,11 @@ import { Palette } from '../../../Theme';
 import useTranslations from '../../../translations';
 import { Page } from '../../../components/Page';
 import SpeedDial from './SpeedDial';
-import { calculateSummary } from './calculate-summary';
+import { useSummary } from './useSummary';
 import { ColumnStats, ColumnStatsItem, ActionItem } from './types';
 import useTranslation from '../../../translations';
 import useCrypto from '../../../crypto/useCrypto';
-import isFaded from '../isFaded';
+import isSearchMatch from '../is-search-match';
 
 interface SummaryModeProps {
   columns: ColumnContent[];
@@ -122,7 +121,14 @@ interface PostLineProps {
 
 const PostLine = ({ item, search }: PostLineProps) => {
   const { decrypt } = useCrypto();
-  const higlighted = search && !isFaded(item.content, search, false);
+  const higlighted =
+    search &&
+    isSearchMatch(
+      item.content,
+      item.user ? item.user.name : null,
+      search,
+      false
+    );
   return (
     <Typography component="div">
       <PostContainer role="listitem">
@@ -217,9 +223,7 @@ const ActionsList = ({ actions }: ActionsListProps) => {
 };
 
 const SummaryMode = ({ columns, search }: SummaryModeProps) => {
-  const stats = useMemo(() => {
-    return calculateSummary(columns);
-  }, [columns]);
+  const stats = useSummary(columns);
   return (
     <Page>
       <div>
