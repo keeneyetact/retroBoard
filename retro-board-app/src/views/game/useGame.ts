@@ -18,12 +18,12 @@ import {
   WsReceiveLikeUpdatePayload,
   WsErrorPayload,
   WebsocketMessage,
+  Session,
 } from '@retrospected/common';
 import { v4 } from 'uuid';
 import find from 'lodash/find';
 import { setScope, trackAction, trackEvent } from '../../track';
 import io from 'socket.io-client';
-import useGlobalState from '../../state';
 import { useUserMetadata } from '../../auth/useUser';
 import { getMiddle, getNext } from './lexorank';
 import { useSnackbar } from 'notistack';
@@ -36,6 +36,9 @@ import useTranslation from '../../translations/useTranslations';
 import { omit } from 'lodash';
 import { AckItem } from './types';
 import useMutableRead from '../../hooks/useMutableRead';
+import useParticipants from './useParticipants';
+import useUnauthorised from './useUnauthorised';
+import useSession from './useSession';
 
 export type Status =
   /**
@@ -97,14 +100,15 @@ const useGame = (sessionId: string) => {
   );
   const statusValue = useMutableRead(status);
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
+  const { participants, updateParticipants } = useParticipants();
+  const { setUnauthorised, resetUnauthorised } = useUnauthorised();
   const [acks, setAcks] = useState<AckItem[]>([]);
   const prevUser = useRef<string | null | undefined>(undefined); // Undefined until the user is actually loaded
   const {
-    state,
+    session,
     receivePost,
     receivePostGroup,
     receiveBoard,
-    setPlayers,
     deletePost,
     updatePost,
     deletePostGroup,
@@ -115,10 +119,7 @@ const useGame = (sessionId: string) => {
     editOptions,
     editColumns,
     lockSession,
-    unauthorized,
-  } = useGlobalState();
-
-  const { session } = state;
+  } = useSession();
 
   const allowMultipleVotes = session
     ? session.options.allowMultipleVotes
@@ -155,9 +156,10 @@ const useGame = (sessionId: string) => {
         statusValue.current = 'need-to-disconnect';
         resetSession();
         socket.disconnect();
+        resetUnauthorised();
       }
     };
-  }, [socket, resetSession, statusValue]);
+  }, [socket, resetSession, statusValue, resetUnauthorised]);
 
   // Disconnect when needed
   useEffect(() => {
@@ -172,17 +174,6 @@ const useGame = (sessionId: string) => {
       }
     }
   }, [status, socket, resetSession, userInitialised]);
-
-  // Disconnecting on unmount
-  useEffect(() => {
-    return () => {
-      if (debug) {
-        console.log('Unmount');
-      }
-
-      // trackEvent('game/session/reset');
-    };
-  }, [resetSession]);
 
   // This will run on login/logout
   useEffect(() => {
@@ -262,12 +253,12 @@ const useGame = (sessionId: string) => {
       receivePostGroup(group);
     });
 
-    socket.on(Actions.RECEIVE_BOARD, (posts: Post[]) => {
+    socket.on(Actions.RECEIVE_BOARD, (session: Session) => {
       if (debug) {
-        console.log('Receive entire board: ', posts);
+        console.log('Receive entire board: ', session);
       }
+      receiveBoard(session);
       setStatus('connected');
-      receiveBoard(posts);
     });
 
     socket.on(Actions.RECEIVE_OPTIONS, (options: SessionOptions) => {
@@ -288,7 +279,7 @@ const useGame = (sessionId: string) => {
       if (debug) {
         console.log('Receive participants list: ', participants);
       }
-      setPlayers(participants);
+      updateParticipants(participants);
     });
 
     socket.on(Actions.RECEIVE_DELETE_POST, (post: WsDeletePostPayload) => {
@@ -354,7 +345,7 @@ const useGame = (sessionId: string) => {
         if (debug) {
           console.log('Receive unauthorized');
         }
-        unauthorized(payload.type);
+        setUnauthorised(payload.type);
       }
     );
 
@@ -388,7 +379,7 @@ const useGame = (sessionId: string) => {
     receivePost,
     receiveVote,
     receiveBoard,
-    setPlayers,
+    updateParticipants,
     deletePost,
     updatePost,
     editOptions,
@@ -398,20 +389,18 @@ const useGame = (sessionId: string) => {
     updatePostGroup,
     renameSession,
     lockSession,
-    unauthorized,
     enqueueSnackbar,
+    setUnauthorised,
   ]);
 
-  const [previousParticipans, setPreviousParticipants] = useState(
-    state.players
-  );
+  const [previousParticipans, setPreviousParticipants] = useState(participants);
 
   useEffect(() => {
-    if (userId && previousParticipans !== state.players) {
+    if (userId && previousParticipans !== participants) {
       const added = getAddedParticipants(
         userId,
         previousParticipans,
-        state.players
+        participants
       );
       if (added.length) {
         enqueueSnackbar(translations.Clients.joined!(joinNames(added)), {
@@ -421,17 +410,17 @@ const useGame = (sessionId: string) => {
       const removed = getRemovedParticipants(
         userId,
         previousParticipans,
-        state.players
+        participants
       );
       if (removed.length) {
         enqueueSnackbar(translations.Clients.left!(joinNames(removed)), {
           variant: 'info',
         });
       }
-      setPreviousParticipants(state.players);
+      setPreviousParticipants(participants);
     }
   }, [
-    state.players,
+    participants,
     previousParticipans,
     enqueueSnackbar,
     userId,

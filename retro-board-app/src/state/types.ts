@@ -1,23 +1,4 @@
-import {
-  Session,
-  IconName,
-  ColumnDefinitionType,
-  Participant,
-  AccessErrorType,
-} from '@retrospected/common';
-
-export interface Action {
-  type: string;
-  payload?: any;
-}
-
-export interface State {
-  panelOpen: boolean;
-  players: Participant[];
-  session: Session | null;
-  unauthorized: boolean;
-  unauthorized_reason?: AccessErrorType;
-}
+import { IconName, ColumnDefinitionType } from '@retrospected/common';
 
 export interface ColumnSettings {
   color: string;
@@ -37,5 +18,3 @@ export interface TemplateDefinition {
   type: Template;
   name: string;
 }
-
-export type Dispatch = (action: Action) => void;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react';
-import { Provider, initialState } from '../state/context';
-import { FullUser } from '@retrospected/common';
+import { FullUser, Session } from '@retrospected/common';
 import {
   DragDropContext,
   Droppable,
@@ -9,39 +8,46 @@ import {
   DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
 import UserContext from '../auth/Context';
-import { State } from '../state/types';
+import useSession from '../views/game/useSession';
+import { RecoilRoot } from 'recoil';
 
-const testingInitialState: State = {
-  ...initialState,
-  session: {
-    id: 'test-session',
-    name: 'My Retro',
-    posts: [],
-    groups: [],
-    columns: [],
-    encrypted: null,
-    locked: false,
-    createdBy: {
-      id: 'John Doe',
-      name: 'John Doe',
-      photo: null,
-    },
-    options: {
-      maxDownVotes: null,
-      maxUpVotes: null,
-      allowActions: true,
-      allowAuthorVisible: false,
-      allowMultipleVotes: false,
-      allowSelfVoting: false,
-      allowGiphy: true,
-      allowGrouping: true,
-      allowReordering: true,
-      blurCards: false,
-    },
+export const initialSession: Session = {
+  id: 'test-session',
+  name: 'My Retro',
+  posts: [],
+  groups: [],
+  columns: [],
+  encrypted: null,
+  locked: false,
+  createdBy: {
+    id: 'John Doe',
+    name: 'John Doe',
+    photo: null,
+  },
+  options: {
+    maxDownVotes: null,
+    maxUpVotes: null,
+    allowActions: true,
+    allowAuthorVisible: false,
+    allowMultipleVotes: false,
+    allowSelfVoting: false,
+    allowGiphy: true,
+    allowGrouping: true,
+    allowReordering: true,
+    blurCards: false,
   },
 };
 
-const AllTheProviders: React.FC = ({ children }) => {
+export const AllTheProviders: React.FC = ({ children }) => {
+  return (
+    <RecoilRoot>
+      <Inner>{children}</Inner>
+    </RecoilRoot>
+  );
+};
+
+const Inner: React.FC = ({ children }) => {
+  const { receiveBoard } = useSession();
   const [user, setUser] = useState<FullUser | null>({
     id: 'John Doe',
     name: 'John Doe',
@@ -61,6 +67,7 @@ const AllTheProviders: React.FC = ({ children }) => {
     trial: null,
   });
   useEffect(() => {
+    receiveBoard(initialSession);
     setUser({
       id: 'John Doe',
       name: 'John Doe',
@@ -79,14 +86,14 @@ const AllTheProviders: React.FC = ({ children }) => {
       ownSubscriptionsId: null,
       trial: null,
     });
-  }, []);
+  }, [receiveBoard]);
   return (
     <DragDropContext onDragEnd={() => {}}>
       <Droppable droppableId="test">
         {(dropProvided: DroppableProvided, _: DroppableStateSnapshot) => (
           <div ref={dropProvided.innerRef}>
             <UserContext.Provider value={{ user, setUser, initialised: true }}>
-              <Provider initialState={testingInitialState}>{children}</Provider>
+              {children}
             </UserContext.Provider>
           </div>
         )}

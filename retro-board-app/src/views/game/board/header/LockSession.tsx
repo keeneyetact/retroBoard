@@ -12,24 +12,23 @@ import { Lock, VerifiedUser } from '@material-ui/icons';
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import CustomAvatar from '../../../../components/Avatar';
-import useGlobalState from '../../../../state';
 import { useSnackbar } from 'notistack';
 import useTranslations from '../../../../translations';
 import ProButton from '../../../../components/ProButton';
+import useParticipants from '../../useParticipants';
+import useSession from '../../useSession';
 
 interface LockSessionProps {
   onLock(locked: boolean): void;
 }
 
 function LockSession({ onLock }: LockSessionProps) {
-  const { state } = useGlobalState();
+  const { session } = useSession();
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const { Private: translations } = useTranslations();
+  const { participants } = useParticipants();
   const fullScreen = useMediaQuery('(max-width:600px)');
-
-  const session = state.session;
-  const players = state.players;
 
   const handleLock = useCallback(() => {
     if (session) {
@@ -93,7 +92,7 @@ function LockSession({ onLock }: LockSessionProps) {
         </DialogContent>
         <DialogContent>
           <Users>
-            {players.map((player) => (
+            {participants.map((player) => (
               <UserContainer key={player.id}>
                 <AvatarContainer>
                   <CustomAvatar user={player} />
