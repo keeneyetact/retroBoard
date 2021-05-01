@@ -4,6 +4,7 @@ import SettingCategory from '../SettingCategory';
 import OptionItem from '../OptionItem';
 import useTranslations from '../../../../translations';
 import BooleanOption from '../BooleanOption';
+import MaxPostsSlider from './MaxPostsSlider';
 
 interface PostsSectionProps {
   options: SessionOptions;
@@ -74,11 +75,28 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
     [onChange, options]
   );
 
+  const setMaxPosts = useCallback(
+    (value: number | null) => {
+      onChange({
+        ...options,
+        maxPosts: value,
+      });
+    },
+    [onChange, options]
+  );
+
   return (
     <SettingCategory
       title={Customize.postCategory!}
       subtitle={Customize.postCategorySub!}
     >
+      <OptionItem
+        label={Customize.maxPosts!}
+        help={Customize.maxPostsHelp!}
+        wide
+      >
+        <MaxPostsSlider value={options.maxPosts} onChange={setMaxPosts} />
+      </OptionItem>
       <OptionItem label={Customize.blurCards!} help={Customize.blurCardsHelp!}>
         <BooleanOption value={options.blurCards} onChange={setBlurCards} />
       </OptionItem>

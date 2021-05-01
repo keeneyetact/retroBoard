@@ -66,6 +66,8 @@ export default {
     maxUpVotesHelp: `Numero massimo di "mi piace" che un utente può mettere`,
     maxDownVotes: 'Numero massimo di "non mi piace"',
     maxDownVotesHelp: `Numero massimo di "non mi piace" che un utente può mettere`,
+    maxPosts: undefined,
+    maxPostsHelp: undefined,
     allowSelfVoting: "Permettere l'auto votazione",
     allowSelfVotingHelp:
       'Se consentire ad un utente di votare sul proprio post',
@@ -113,6 +115,7 @@ export default {
     reconnect: 'Riconnesso',
     notLoggedIn:
       'Non sei autenticato. Puoi assistere a questa sessione come spettatore ma non puoi partecipare',
+    maxPostsReached: undefined,
   },
   GameMenu: {
     board: 'Board',

@@ -62,6 +62,8 @@ export default {
     maxUpVotesHelp: undefined,
     maxDownVotes: undefined,
     maxDownVotesHelp: undefined,
+    maxPosts: undefined,
+    maxPostsHelp: undefined,
     allowSelfVoting: undefined,
     allowSelfVotingHelp: undefined,
     allowMultipleVotes: undefined,
@@ -106,6 +108,7 @@ export default {
     reconnect: undefined,
     notLoggedIn: undefined,
     error: undefined,
+    maxPostsReached: undefined,
   },
   GameMenu: {
     board: undefined,

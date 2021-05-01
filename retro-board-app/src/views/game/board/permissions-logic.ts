@@ -1,7 +1,40 @@
 import { Post, Session, User, VoteType } from '@retrospected/common';
 import some from 'lodash/some';
 
-export interface UserPermissions {
+export interface SessionUserPermissions {
+  canCreatePost: boolean;
+  canCreateGroup: boolean;
+  hasReachedMaxPosts: boolean;
+}
+
+export function sessionPermissionLogic(
+  session: Session | null,
+  user: User | null,
+  canDecrypt: boolean,
+  userDisabled: boolean
+): SessionUserPermissions {
+  const numberOfPosts =
+    session && user
+      ? session.posts.filter((p) => p.user.id === user.id).length
+      : 0;
+
+  const hasReachedMaxPosts =
+    !!session &&
+    session.options.maxPosts !== null &&
+    session.options.maxPosts <= numberOfPosts;
+  const canCreatePost =
+    !!user && canDecrypt && !userDisabled && !hasReachedMaxPosts;
+  const canCreateGroup =
+    canCreatePost && !!session && session.options.allowGrouping;
+
+  return {
+    canCreatePost,
+    canCreateGroup,
+    hasReachedMaxPosts,
+  };
+}
+
+export interface PostUserPermissions {
   canUpVote: boolean;
   canDownVote: boolean;
   canDisplayUpVote: boolean;
@@ -16,11 +49,11 @@ export interface UserPermissions {
   isBlurred: boolean;
 }
 
-export function permissionLogic(
+export function postPermissionLogic(
   post: Post,
   session: Session | null,
   user: User | null
-): UserPermissions {
+): PostUserPermissions {
   if (!session) {
     return {
       canCreateAction: false,

@@ -60,6 +60,8 @@ export interface Translation {
     editButton?: string;
     maxUpVotes?: string;
     maxUpVotesHelp?: string;
+    maxPosts?: string;
+    maxPostsHelp?: string;
     maxDownVotes?: string;
     maxDownVotesHelp?: string;
     allowSelfVoting?: string;
@@ -105,6 +107,7 @@ export interface Translation {
     reconnect?: string;
     notLoggedIn?: string;
     error?: (error: WsErrorType) => string;
+    maxPostsReached?: string;
   };
   GameMenu: {
     board?: string;

@@ -65,6 +65,8 @@ export default {
     maxUpVotesHelp: `Maximum aantal 'likes' die een gebruiker mag uitbrengen`,
     maxDownVotes: 'Maximum down-votes',
     maxDownVotesHelp: `Maximum aantal 'dislikes' die een gebruiker mag uitbrengen`,
+    maxPosts: undefined,
+    maxPostsHelp: undefined,
     allowSelfVoting: 'Zelf-stemmen toestaan',
     allowSelfVotingHelp:
       'Of een gebruiker op zijn eigen retropunten mag stemmen',
@@ -113,6 +115,7 @@ export default {
     reconnect: 'Opnieuw verbinden',
     notLoggedIn:
       'Je bent niet ingelogd. Je kan de sessie bekijken als toeschouwer maar moet inloggen om deel te nemen.',
+    maxPostsReached: undefined,
   },
   GameMenu: {
     board: 'Bord',
