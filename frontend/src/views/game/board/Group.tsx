@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { PostGroup } from '@retrospected/common';
 import styled from 'styled-components';
 import {
@@ -8,11 +8,17 @@ import {
 } from 'react-beautiful-dnd';
 import grey from '@material-ui/core/colors/grey';
 import IconButton from '@material-ui/core/IconButton';
-import { Delete } from '@material-ui/icons';
+import {
+  Delete,
+  KeyboardArrowDown,
+  KeyboardArrowRight,
+  Message,
+} from '@material-ui/icons';
 import EditableLabel from '../../../components/EditableLabel';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import useTranslations from '../../../translations';
 import useCrypto from '../../../crypto/useCrypto';
+import { Badge } from '@material-ui/core';
 
 interface GroupProps {
   group: PostGroup;
@@ -29,6 +35,7 @@ const Group: React.FC<GroupProps> = ({
   children,
 }) => {
   const { Group: groupTranslations } = useTranslations();
+  const [collapsed, setCollapsed] = useState(false);
   const { decrypt, encrypt } = useCrypto();
   const handleEditLabel = useCallback(
     (label: string) => {
@@ -36,6 +43,12 @@ const Group: React.FC<GroupProps> = ({
     },
     [onEditLabel, encrypt]
   );
+  const handleDelete = useCallback(() => {
+    onDelete(group);
+  }, [onDelete, group]);
+  const toggleCollapse = useCallback(() => {
+    setCollapsed((c) => !c);
+  }, []);
   return (
     <Droppable droppableId={'group#' + group.id} key={group.id} mode="standard">
       {(
@@ -47,7 +60,7 @@ const Group: React.FC<GroupProps> = ({
           {...dropProvided.droppableProps}
           draggingOver={dropSnapshot.isDraggingOver}
         >
-          <Header>
+          <Header collapsed={collapsed}>
             <Label>
               <EditableLabel
                 value={decrypt(group.label)}
@@ -55,23 +68,39 @@ const Group: React.FC<GroupProps> = ({
                 readOnly={readonly}
               />
             </Label>
-            <DeleteContainer>
-              <IconButton onClick={() => onDelete(group)}>
-                <Delete />
+            <ActionsContainer>
+              {collapsed ? (
+                <Badge
+                  badgeContent={group.posts.length.toString()}
+                  color={group.posts.length ? 'primary' : 'secondary'}
+                  style={{ marginRight: 10 }}
+                >
+                  <Message />
+                </Badge>
+              ) : null}
+              {!collapsed ? (
+                <IconButton onClick={handleDelete}>
+                  <Delete />
+                </IconButton>
+              ) : null}
+              <IconButton onClick={toggleCollapse}>
+                {collapsed ? <KeyboardArrowRight /> : <KeyboardArrowDown />}
               </IconButton>
-            </DeleteContainer>
+            </ActionsContainer>
           </Header>
-          <Content>
-            <div>{children}</div>
-            {group.posts.length === 0 ? (
-              <NoPosts>
-                <Alert severity="info">
-                  <AlertTitle>{groupTranslations.emptyGroupTitle}</AlertTitle>
-                  {groupTranslations.emptyGroupContent}
-                </Alert>
-              </NoPosts>
-            ) : null}
-          </Content>
+          {!collapsed ? (
+            <Content>
+              <div>{children}</div>
+              {group.posts.length === 0 ? (
+                <NoPosts>
+                  <Alert severity="info">
+                    <AlertTitle>{groupTranslations.emptyGroupTitle}</AlertTitle>
+                    {groupTranslations.emptyGroupContent}
+                  </Alert>
+                </NoPosts>
+              ) : null}
+            </Content>
+          ) : null}
         </GroupContainer>
       )}
     </Droppable>
@@ -88,11 +117,12 @@ const GroupContainer = styled.div<{ draggingOver: boolean }>`
   background-color: ${(props) => (props.draggingOver ? grey[200] : 'unset')};
 `;
 
-const Header = styled.div`
+const Header = styled.div<{ collapsed: boolean }>`
   display: flex;
   align-items: center;
-  background-color: ${grey[100]};
-  padding: 10px;
+  background-color: ${(props) => (props.collapsed ? grey[50] : grey[100])};
+  padding: ${(props) => (props.collapsed ? '3px 10px' : '10px')};
+  color: ${(props) => (props.collapsed ? grey[500] : 'inherit')};
 `;
 
 const Content = styled.div`
@@ -106,7 +136,7 @@ const Label = styled.div`
   flex: 1;
 `;
 
-const DeleteContainer = styled.div``;
+const ActionsContainer = styled.div``;
 
 const NoPosts = styled.div`
   justify-self: center;
