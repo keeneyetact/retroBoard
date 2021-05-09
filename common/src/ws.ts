@@ -1,6 +1,7 @@
 import {
   ColumnDefinition,
   Post,
+  PostGroup,
   SessionOptions,
   User,
   VoteExtract,
@@ -22,7 +23,12 @@ export interface WsNameData {
 }
 
 export interface WsPostUpdatePayload {
-  post: Omit<Omit<Post, 'votes'>, 'user'>;
+  post: Omit<Omit<Omit<Post, 'votes'>, 'user'>, 'group'>;
+  groupId: string | null;
+}
+
+export interface WsGroupUpdatePayload {
+  group: Omit<Omit<PostGroup, 'posts'>, 'user'>;
 }
 
 export interface WsLikeUpdatePayload {

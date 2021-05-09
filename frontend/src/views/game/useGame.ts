@@ -19,6 +19,7 @@ import {
   WsErrorPayload,
   WebsocketMessage,
   Session,
+  WsGroupUpdatePayload,
 } from '@retrospected/common';
 import { v4 } from 'uuid';
 import find from 'lodash/find';
@@ -486,7 +487,10 @@ const useGame = (sessionId: string) => {
     (group: PostGroup) => {
       if (send) {
         updatePostGroup(group);
-        send<PostGroup>(Actions.EDIT_POST_GROUP, group);
+        send<WsGroupUpdatePayload>(
+          Actions.EDIT_POST_GROUP,
+          toGroupUpdate(group)
+        );
         trackAction(Actions.EDIT_POST_GROUP);
       }
     },
@@ -701,7 +705,14 @@ const useGame = (sessionId: string) => {
 
 function toPostUpdate(post: Post): WsPostUpdatePayload {
   return {
-    post: omit(post, ['votes', 'user']),
+    post: omit(post, ['votes', 'user', 'group']),
+    groupId: post.group ? post.group.id : null,
+  };
+}
+
+function toGroupUpdate(group: PostGroup): WsGroupUpdatePayload {
+  return {
+    group: omit(group, ['user', 'posts']),
   };
 }
 

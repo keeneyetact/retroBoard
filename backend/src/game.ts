@@ -18,6 +18,7 @@ import {
   SessionOptions,
   WsErrorPayload,
   WebsocketMessage,
+  WsGroupUpdatePayload,
 } from '@retrospected/common';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import chalk from 'chalk';
@@ -392,7 +393,7 @@ export default (io: Server) => {
     data: WsPostUpdatePayload,
     socket: Socket
   ) => {
-    const persistedPost = await updatePost(sessionId, data.post);
+    const persistedPost = await updatePost(sessionId, data.post, data.groupId);
     sendToAllOrError<Post>(
       socket,
       sessionId,
@@ -405,10 +406,10 @@ export default (io: Server) => {
   const onEditPostGroup = async (
     userId: string,
     sessionId: string,
-    data: PostGroup,
+    data: WsGroupUpdatePayload,
     socket: Socket
   ) => {
-    const group = await updatePostGroup(userId, sessionId, data);
+    const group = await updatePostGroup(userId, sessionId, data.group);
     sendToAllOrError<PostGroup>(
       socket,
       sessionId,

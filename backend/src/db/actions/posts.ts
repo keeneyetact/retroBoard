@@ -32,7 +32,8 @@ export async function savePost(
 
 export async function updatePost(
   sessionId: string,
-  postData: Omit<Omit<Post, 'votes'>, 'user'>
+  postData: Omit<Omit<Omit<Post, 'votes'>, 'user'>, 'group'>,
+  groupId: string | null
 ): Promise<Post | null> {
   return await transaction(async (manager) => {
     const postRepository = manager.getCustomRepository(PostRepository);
@@ -45,7 +46,7 @@ export async function updatePost(
       post.action = postData.action;
       post.giphy = postData.giphy;
       post.column = postData.column;
-      post.group = postData.group;
+      post.group = (groupId ? { id: groupId } : null) as PostGroup;
       post.rank = postData.rank;
       const persisted = await postRepository.updateFromJson(sessionId, post);
       return persisted ? persisted.toJson() : null;
@@ -79,7 +80,7 @@ export async function savePostGroup(
 export async function updatePostGroup(
   userId: string,
   sessionId: string,
-  groupData: PostGroup
+  groupData: Omit<Omit<PostGroup, 'user'>, 'posts'>
 ) {
   return await transaction(async (manager) => {
     const postGroupRepository = manager.getCustomRepository(
