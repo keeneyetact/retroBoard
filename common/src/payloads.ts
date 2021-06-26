@@ -26,6 +26,11 @@ export interface CreateCustomerPayload {
   email: string;
 }
 
+export interface AdminChangePasswordPayload {
+  userId: string;
+  password: string;
+}
+
 export interface CreateSubscriptionPayload {
   plan: Plan;
   currency: Currency;
@@ -43,4 +48,10 @@ export interface UnauthorizedAccessPayload {
 
 export interface SelfHostedCheckPayload {
   key: string;
+}
+
+export interface SelfHostingPayload {
+  selfHosted: boolean;
+  adminEmail: string;
+  licenced: boolean;
 }

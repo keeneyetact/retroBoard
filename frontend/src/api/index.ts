@@ -8,6 +8,7 @@ import {
   ResetChangePasswordPayload,
   FullUser,
   Product,
+  SelfHostingPayload,
 } from '@retrospected/common';
 import config from '../utils/getConfig';
 import { v4 } from 'uuid';
@@ -92,6 +93,7 @@ export async function accountLogin(
 interface RegisterResponse {
   user: FullUser | null;
   error: 'already-exists' | 'other' | null;
+  loggedIn: boolean;
 }
 
 export async function register(
@@ -113,15 +115,17 @@ export async function register(
       body: JSON.stringify(payload),
     });
     if (response.ok) {
-      const user = await response.json();
+      const { user, loggedIn } = await response.json();
       return {
         user,
         error: null,
+        loggedIn,
       };
     } else if (response.status === 403) {
       return {
         user: null,
         error: 'already-exists',
+        loggedIn: false,
       };
     }
   } catch (error) {
@@ -131,6 +135,7 @@ export async function register(
   return {
     user: null,
     error: 'other',
+    loggedIn: false,
   };
 }
 
@@ -204,4 +209,11 @@ export async function getGiphyUrl(giphyId: string): Promise<string | null> {
     console.error('Could not fetch Giphy', error);
     return null;
   }
+}
+
+export async function fetchSelfHostingInfo(): Promise<SelfHostingPayload | null> {
+  return await fetchGet<SelfHostingPayload | null>(
+    '/api/admin/self-hosting',
+    null
+  );
 }

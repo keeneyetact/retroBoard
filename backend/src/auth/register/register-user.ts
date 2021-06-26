@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 import { hashPassword } from '../../utils';
 import UserEntity from '../../db/entities/User';
 import { getUserByUsername, getOrSaveUser } from '../../db/actions/users';
+import config from '../../config';
 
 export default async function registerUser(
   details: RegisterPayload
@@ -16,7 +17,10 @@ export default async function registerUser(
   newUser.language = details.language;
   newUser.username = details.username;
   newUser.email = details.username;
-  newUser.emailVerification = v4();
+  // If self-hosted we skip the requirement for email checks
+  if (!config.SELF_HOSTED) {
+    newUser.emailVerification = v4();
+  }
   newUser.accountType = 'password';
 
   const persistedUser = await getOrSaveUser(newUser);

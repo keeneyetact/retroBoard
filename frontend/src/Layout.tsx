@@ -16,6 +16,8 @@ import { HomeOutlined } from '@material-ui/icons';
 import ProPill from './components/ProPill';
 import { CodeSplitLoader } from './CodeSplitLoader';
 import useSidePanel from './views/panel/useSidePanel';
+import useIsLicenced from './global/useIsLicenced';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const Home = lazy(() => import('./views/Home' /* webpackChunkName: "home" */));
 const Game = lazy(() => import('./views/Game' /* webpackChunkName: "game" */));
@@ -73,6 +75,9 @@ const EncryptionDoc = lazy(
   () =>
     import('./views/home/Encryption' /* webpackChunkName: "encryption-doc" */)
 );
+const AdminPage = lazy(
+  () => import('./views/admin/AdminPage' /* webpackChunkName: "admin-page" */)
+);
 
 const Title = styled(Typography)`
   color: white;
@@ -80,6 +85,7 @@ const Title = styled(Typography)`
 
 function App() {
   const history = useHistory();
+  const licenced = useIsLicenced();
   const isCompatible = useIsCompatibleBrowser();
   const { toggle: togglePanel } = useSidePanel();
   const isInitialised = useIsInitialised();
@@ -96,6 +102,16 @@ function App() {
   }, [history]);
   return (
     <div>
+      {!licenced ? (
+        <Alert title="Unlicenced" severity="error">
+          <AlertTitle>Retrospected is Unlicenced</AlertTitle>
+          This software is unlicenced. Please contact{' '}
+          <a href="mailto:support@retrospected.com">
+            support@retrospected.com
+          </a>{' '}
+          to obtain a licence.
+        </Alert>
+      ) : null}
       <AppBar position="sticky">
         <Toolbar>
           <IconButton color="inherit" aria-label="Menu" onClick={togglePanel}>
@@ -134,6 +150,7 @@ function App() {
           <Route path="/subscribe" component={SubscribePageOuter} exact />
           <Route path="/subscribe/success" component={SuccessPage} exact />
           <Route path="/subscribe/cancel" component={CancelPage} exact />
+          <Route path="/admin" component={AdminPage} />
           <Route path="/privacy" component={PrivacyPolicyPage} />
           <Route path="/terms" component={TermsAndConditionsPage} />
           <Route path="/cookies" component={CookiesPolicyPage} />

@@ -10,6 +10,7 @@ import config from './config';
 import passport from 'passport';
 import passportInit from './auth/passport';
 import authRouter from './auth/router';
+import adminRouter from './admin/router';
 import stripeRouter from './stripe/router';
 import session from 'express-session';
 import game from './game';
@@ -45,16 +46,14 @@ import {
   getDefaultTemplate,
 } from './db/actions/sessions';
 import { updateUser, getUserByUsername, getUserView } from './db/actions/users';
-import isLicenced from './security/is-licenced';
+import { isLicenced } from './security/is-licenced';
 import rateLimit from 'express-rate-limit';
 import { Cache, inMemoryCache, redisCache } from './cache/cache';
 import { validateLicence } from './db/actions/licences';
 
 const realIpHeader = 'X-Forwarded-For';
-let licenced = false;
 
 isLicenced().then((hasLicence) => {
-  licenced = hasLicence;
   if (!hasLicence) {
     console.log(chalk`{red ----------------------------------------------- }`);
     console.log(
@@ -202,6 +201,9 @@ db().then(() => {
   // Stripe
   app.use('/api/stripe', stripeRouter());
 
+  // Admin
+  app.use('/api/admin', adminRouter);
+
   // Create session
   app.post('/api/create', heavyLoadLimiter, async (req, res) => {
     const user = await getUserFromRequest(req);
@@ -328,14 +330,25 @@ db().then(() => {
     if (!user) {
       res.status(500).send();
     } else {
-      await sendVerificationEmail(
-        registerPayload.username,
-        registerPayload.name,
-        user.emailVerification!
-      );
+      if (user.emailVerification) {
+        await sendVerificationEmail(
+          registerPayload.username,
+          registerPayload.name,
+          user.emailVerification!
+        );
+      } else {
+        req.logIn(user.id, (err) => {
+          if (err) {
+            console.log('Cannot login Error: ', err);
+            res.status(500).send('Cannot login');
+          }
+        });
+      }
       const userView = await getUserView(user.id);
       if (userView) {
-        res.status(200).send(userView.toJson());
+        res
+          .status(200)
+          .send({ loggedIn: !user.emailVerification, user: userView.toJson() });
       } else {
         res.status(500).send();
       }
@@ -384,10 +397,6 @@ db().then(() => {
     });
     await sendResetPassword(resetPayload.email, user.name, code);
     res.status(200).send();
-  });
-
-  app.get('/api/licenced', (_, res) => {
-    res.status(200).send(licenced);
   });
 
   app.post('/api/reset-password', heavyLoadLimiter, async (req, res) => {
