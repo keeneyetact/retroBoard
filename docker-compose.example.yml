@@ -78,12 +78,17 @@ services:
       SENDGRID_SENDER: # Email to be used as the sender for emails
       SENDGRID_VERIFICATION_EMAIL_TID: # Verification email template ID
       SENDGRID_RESET_PASSWORD_TID: # Reset password email template ID
+      SENDGRID_SELF_HOST_EMAIL_TID: # Self host welcome email template ID
       STRIPE_SECRET: # Stripe payment account secret
       STRIPE_WEBHOOK_SECRET: # Stripe webhook secret
       STRIPE_TEAM_PRODUCT: # Stripe product information
       STRIPE_TEAM_PRICE: # Stripe product information
       STRIPE_UNLIMITED_PRODUCT: # Stripe product information
       STRIPE_UNLIMITED_PRICE: # Stripe product information
+      STRIPE_SELF_HOSTED_PRODUCT: # Stripe product information
+      STRIPE_SELF_HOSTED_URL_GBP: # Stripe payment page for Self Hosting
+      STRIPE_SELF_HOSTED_URL_EUR: # Stripe payment page for Self Hosting
+      STRIPE_SELF_HOSTED_URL_USD: # Stripe payment page for Self Hosting
       RATE_LIMIT_WINDOW: 10000 # Rate Limiting window size for expensive requests (in ms)
       RATE_LIMIT_MAX: 3 # Rate Limiting max requests per window
       RATE_LIMIT_WS_POINTS: 10 # Websocket rate limiting, max messages per duration

@@ -513,8 +513,6 @@
                         <img src="%PUBLIC_URL%/marketing/img/pricing-free.svg" alt="pricing img" class="img-fluid">
                       </div>
                       <div class="card-header py-4 border-0 pricing-header">
-                        <div class="h4 text-center mb-0"><span class="price font-weight-bolder">&nbsp;</span></div>
-                        <div class="h6 text-center mb-0 color-primary launch-offer">&nbsp;</div>
                         <div class="h1 text-center mb-0"><span class="price font-weight-bolder">Free</span></div>
                         <div class="h4 text-center mb-0"><span class="price-month">&nbsp;</span></div>
                       </div>
@@ -531,7 +529,7 @@
                   </div>
               </div>
             </a>
-            <a href="/subscribe" style="color: unset">
+            <a href="/subscribe?product=team" style="color: unset">
               <div class="col-lg-3 col-md">
                   <div class="card  text-center single-pricing-pack">
                       <div class="pt-4"><h5>Pro Team</h5></div>
@@ -539,8 +537,6 @@
                           <img src="%PUBLIC_URL%/marketing/img/pricing-team.svg" alt="pricing img" class="img-fluid">
                       </div>
                       <div class="card-header py-4 border-0 pricing-header">
-                          <div class="h4 text-center mb-0 crossed-out">$<span class="price font-weight-bolder">19.90</span></div>
-                          <div class="h6 text-center mb-0 color-primary launch-offer">Limited launch offer, 50% off!</div>
                           <div class="h1 text-center mb-0">$<span class="price font-weight-bolder">9.95</span></div>
                           <div class="h4 text-center mb-0"><span class="price-month">/month</span></div>
                       </div>
@@ -552,12 +548,12 @@
                               <li>Private Sessions</li>
                               <li>20 Users</li>
                           </ul>
-                          <a href="/subscribe" class="btn outline-btn mb-3">Subscribe Now</a>
+                          <a href="/subscribe?product=team" class="btn outline-btn mb-3">Subscribe Now</a>
                       </div>
                   </div>
               </div>
             </a>
-            <a href="/subscribe"  style="color: unset">
+            <a href="/subscribe?product=unlimited"  style="color: unset">
               <div class="col-lg-3 col-md">
                   <div class="card popular-price text-center single-pricing-pack">
                       <div class="pt-4"><h5>Pro Unlimited</h5></div>
@@ -565,8 +561,6 @@
                         <img src="%PUBLIC_URL%/marketing/img/pricing-unlimited.svg" alt="pricing img" class="img-fluid">
                       </div>
                       <div class="card-header py-4 border-0 pricing-header">
-                        <div class="h4 text-center mb-0 crossed-out">$<span class="price font-weight-bolder">99.90</span></div>
-                        <div class="h6 text-center mb-0 color-primary launch-offer">Limited launch offer, 50% off!</div>
                         <div class="h1 text-center mb-0">$<span class="price font-weight-bolder">49.95</span></div>
                         <div class="h4 text-center mb-0"><span class="price-month">/month</span></div>
                       </div>
@@ -577,36 +571,35 @@
                               <li>All users from your domain are Pro automatically</li>
                               <li>&nbsp;</li>
                           </ul>
-                          <a href="/subscribe" class="btn solid-btn mb-3">Subscribe Now</a>
+                          <a href="/subscribe?product=unlimited" class="btn solid-btn mb-3">Subscribe Now</a>
                       </div>
                   </div>
               </div>
             </a>  
-            <div class="col-lg-3 col-md">
-              <div class="card text-center single-pricing-pack">
-                  <div class="pt-4"><h5>Self-hosted</h5></div>
-                  <div class="pricing-img mt-4">
-                    <img src="%PUBLIC_URL%/marketing/img/pricing-self-hosted.svg" alt="pricing img" class="img-fluid">
-                  </div>
-                  <div class="card-header py-4 border-0 pricing-header">
-                      <div class="h4 text-center mb-0"><span class="price font-weight-bolder">&nbsp;</span></div>
-                      <div class="h6 text-center mb-0 color-primary launch-offer">&nbsp;</div>
-                      <div class="h1 text-center mb-0"><span class="price font-weight-bolder">Call us!</span></div>
-                      <div class="h4 text-center mb-0"><span class="price-month">&nbsp;</span></div>
-                  </div>
-                  <div class="card-body">
-                      <ul class="list-unstyled text-sm mb-4 pricing-feature-list">
-                        <li><em>Everything from Unlimited, plus:</em></li>
-                          <li>Support for self-hosting</li>
-                          <li>All users are Pro users</li>
-                          <li>Lifetime license</li>
-                          <li>&nbsp;</li>
-                      </ul>
-                      <a href="mailto:support@retrospected.com" class="btn outline-btn mb-3">Contact us</a>
-                  </div>
+            <a href="/subscribe?product=self-hosted"  style="color: unset">
+              <div class="col-lg-3 col-md">
+                <div class="card text-center single-pricing-pack">
+                    <div class="pt-4"><h5>Self-hosted</h5></div>
+                    <div class="pricing-img mt-4">
+                      <img src="%PUBLIC_URL%/marketing/img/pricing-self-hosted.svg" alt="pricing img" class="img-fluid">
+                    </div>
+                    <div class="card-header py-4 border-0 pricing-header">
+                        <div class="h1 text-center mb-0"><span class="price font-weight-bolder">$599</span></div>
+                        <div class="h4 text-center mb-0"><span class="price-month">One-time fee</span></div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled text-sm mb-4 pricing-feature-list">
+                          <li><em>Everything from Unlimited, plus:</em></li>
+                            <li>Support for self-hosting</li>
+                            <li>All users are Pro users</li>
+                            <li>Lifetime license</li>
+                            <li>Free updates</li>
+                        </ul>
+                        <a href="/subscribe?product=self-hosted" class="btn outline-btn mb-3">Buy Now</a>
+                    </div>
+                </div>
               </div>
-            </div>
-          
+            </a>
           </div>
           <div class="mt-5 text-center">
               <p class="mb-2">Any other question? <a href="mailto:support@retrospected.com" class="color-secondary">

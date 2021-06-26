@@ -196,8 +196,7 @@ export default {
   },
   SocialMediaLogin: {
     header: 'OAuth',
-    info:
-      'This will use a third party provider of your choosing to authenticate you. No password is stored.',
+    info: 'This will use a third party provider of your choosing to authenticate you. No password is stored.',
   },
   AuthCommon: {
     emailField: 'E-mail',
@@ -371,14 +370,16 @@ export default {
       },
     },
     subscribeButton: 'Subscribe',
+    payButton: 'Select',
     cancelButton: 'Cancel',
     startTrial: '30-day Trial',
   },
   Products: {
-    team:
-      'Perfect for smaller teams, you can select up to 20 colleagues who will be upgraded to a Pro account.',
+    team: 'Perfect for smaller teams, you can select up to 20 colleagues who will be upgraded to a Pro account.',
     unlimited:
-      'If you are a bigger company, you will enjoy an unlimited number of Pro accounts',
+      'If you are a bigger company, you will enjoy an unlimited number of Pro accounts.',
+    'self-hosted':
+      'Retrospected on premises, one-time fee and unlimited updates. Keep total control of your data, for ever.',
     users: (users: number) => `${users} users`,
     unlimited_seats: 'Unlimited',
     month: 'month',

@@ -19,10 +19,8 @@ function ProductDisplay({
   currency,
   onSelect,
 }: ProductDisplayProps) {
-  const {
-    Products: translations,
-    SubscribeModal: subscribeTranslations,
-  } = useTranslations();
+  const { Products: translations, SubscribeModal: subscribeTranslations } =
+    useTranslations();
   const handleOrder = useCallback(() => {
     onSelect(product);
   }, [onSelect, product]);
@@ -38,15 +36,18 @@ function ProductDisplay({
             : `${translations.unlimited_seats} 🎉`}
         </Seats>
 
-        <RegularPrice>
-          {(product[currency] / 50).toFixed(2)} {currency.toUpperCase()}
-        </RegularPrice>
         <Total>
           {(product[currency] / 100).toFixed(2)} {currency.toUpperCase()}
-          <PerMonth>/ {translations.month}</PerMonth>
+          {product.recurring ? (
+            <PerMonth>/ {translations.month}</PerMonth>
+          ) : null}
         </Total>
         <PickMe>
-          <PickMeButton>{subscribeTranslations.subscribeButton}</PickMeButton>
+          <PickMeButton>
+            {product.recurring
+              ? subscribeTranslations.subscribeButton
+              : subscribeTranslations.payButton}
+          </PickMeButton>
         </PickMe>
       </Paper>
     </Container>
@@ -92,19 +93,11 @@ const Total = styled.div`
   text-align: center;
   font-size: 2em;
   font-weight: 300;
+  padding: 10px 0;
 `;
 
 const PerMonth = styled.span`
   font-size: 0.4em;
-`;
-
-const RegularPrice = styled.div`
-  background-color: ${deepPurple[500]};
-  color: white;
-  text-align: center;
-  font-size: 1em;
-  font-weight: 100;
-  text-decoration: line-through;
 `;
 
 const PickMe = styled.div`
