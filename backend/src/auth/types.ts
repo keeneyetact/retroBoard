@@ -1,6 +1,14 @@
+import { OktaProfile as BaseOktaProfile } from 'passport-okta-oauth20';
+
 export interface BaseProfile {
   id: string;
-  provider: 'google' | 'github' | 'twitter' | 'Slack' | 'microsoft';
+  provider:
+    | 'google'
+    | 'github'
+    | 'twitter'
+    | 'Slack'
+    | 'microsoft'
+    | 'okta-social';
 }
 
 interface GoogleProfileEmail {
@@ -173,3 +181,5 @@ export interface MicrosoftProfile extends BaseProfile {
     id: string;
   };
 }
+
+export interface OktaProfile extends BaseOktaProfile, BaseProfile {}

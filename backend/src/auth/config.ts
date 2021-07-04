@@ -2,9 +2,10 @@ import { IStrategyOption } from 'passport-twitter';
 import { IOAuth2StrategyOption } from 'passport-google-oauth';
 import { StrategyOptions as GitHubStrategy } from 'passport-github2';
 import { MicrosoftStrategyOptions } from 'passport-microsoft';
+import { OktaStrategyOptions } from 'passport-okta-oauth20';
 import config from '../config';
 
-const providers = ['twitter', 'google', 'github', 'slack', 'microsoft'];
+const providers = ['twitter', 'google', 'github', 'slack', 'microsoft', 'okta'];
 
 const CLIENT_ORIGIN = config.BASE_URL || 'http://localhost:3000';
 
@@ -12,7 +13,8 @@ const callbacks = providers.map((provider) => {
   return `${CLIENT_ORIGIN}/api/auth/${provider}/callback`;
 });
 
-const [twitterURL, googleURL, githubURL, slackURL, microsoftURL] = callbacks;
+const [twitterURL, googleURL, githubURL, slackURL, microsoftURL, oktaURL] =
+  callbacks;
 
 export const TWITTER_CONFIG: IStrategyOption | null =
   config.TWITTER_KEY && config.TWITTER_SECRET
@@ -60,5 +62,16 @@ export const MICROSOFT_CONFIG: MicrosoftStrategyOptions | null =
         clientSecret: config.MICROSOFT_SECRET || '',
         callbackURL: microsoftURL,
         scope: ['user.read'],
+      }
+    : null;
+
+export const OKTA_CONFIG: OktaStrategyOptions | null =
+  config.OKTA_AUDIENCE && config.OKTA_KEY && config.OKTA_SECRET
+    ? {
+        audience: config.OKTA_AUDIENCE,
+        clientID: config.OKTA_KEY,
+        clientSecret: config.OKTA_SECRET,
+        scope: ['openid', 'email', 'profile'],
+        callbackURL: oktaURL,
       }
     : null;
