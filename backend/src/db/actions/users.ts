@@ -37,7 +37,7 @@ export async function getUserView(id: string): Promise<UserView | null> {
   });
 }
 
-async function getUserViewInner(
+export async function getUserViewInner(
   manager: EntityManager,
   id: string
 ): Promise<UserView | null> {
@@ -93,6 +93,25 @@ export async function getOrSaveUser(user: UserEntity): Promise<UserEntity> {
       });
     }
     return await userRepository.save(user);
+  });
+}
+
+export async function updateUserPassword(
+  id: string,
+  password: string
+): Promise<UserEntity | null> {
+  return await transaction(async (manager) => {
+    const userRepository = manager.getCustomRepository(UserRepository);
+    const existingUser = await userRepository.findOne({
+      where: { id },
+    });
+    if (existingUser) {
+      return await userRepository.save({
+        ...existingUser,
+        password,
+      });
+    }
+    return null;
   });
 }
 
