@@ -3,6 +3,7 @@ import * as socketIo from 'socket.io';
 import { createAdapter } from 'socket.io-redis';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
+import csurf from 'csurf';
 import http from 'http';
 import chalk from 'chalk';
 import db from './db';
@@ -12,11 +13,12 @@ import passportInit from './auth/passport';
 import authRouter from './auth/router';
 import adminRouter from './admin/router';
 import stripeRouter from './stripe/router';
+import slackRouter from './slack/router';
 import session from 'express-session';
 import game from './game';
 import {
   hashPassword,
-  getUserFromRequest,
+  getIdentityFromRequest,
   getUserViewFromRequest,
   getUserQuota,
 } from './utils';
@@ -36,7 +38,7 @@ import {
   CreateSessionPayload,
   SelfHostedCheckPayload,
 } from '@retrospected/common';
-import registerUser from './auth/register/register-user';
+import registerPasswordUser from './auth/register/register-user';
 import { sendVerificationEmail, sendResetPassword } from './email/emailSender';
 import { v4 } from 'uuid';
 import {
@@ -45,11 +47,20 @@ import {
   deleteSessions,
   getDefaultTemplate,
 } from './db/actions/sessions';
-import { updateUser, getUserByUsername, getUserView } from './db/actions/users';
+import {
+  updateUser,
+  getUserView,
+  getPasswordIdentity,
+  updateIdentity,
+  getIdentityByUsername,
+} from './db/actions/users';
 import { isLicenced } from './security/is-licenced';
 import rateLimit from 'express-rate-limit';
 import { Cache, inMemoryCache, redisCache } from './cache/cache';
 import { validateLicence } from './db/actions/licences';
+import { hasField } from './security/payload-checker';
+import mung from 'express-mung';
+import { QueryFailedError } from 'typeorm';
 
 const realIpHeader = 'X-Forwarded-For';
 
@@ -113,6 +124,9 @@ const heavyLoadLimiter = rateLimit({
   },
 });
 
+// CSRF Protection
+const csrfProtection = csurf();
+
 // Sentry
 setupSentryRequestHandler(app);
 
@@ -146,7 +160,7 @@ if (config.REDIS_ENABLED) {
   });
 
   sessionMiddleware = session({
-    secret: `${config.SESSION_SECRET!}-2`, // Increment to force re-auth
+    secret: `${config.SESSION_SECRET!}-6`, // Increment to force re-auth
     resave: true,
     saveUninitialized: true,
     store: new RedisStore({ client: redisClient }),
@@ -169,7 +183,7 @@ if (config.REDIS_ENABLED) {
   );
 } else {
   sessionMiddleware = session({
-    secret: `${config.SESSION_SECRET!}-2`, // Increment to force re-auth
+    secret: `${config.SESSION_SECRET!}-9`, // Increment to force re-auth
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -183,16 +197,29 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(
-//   mung.json((body, req, res) => {
-//     if (body) {
-//       const hasPassword = hasField('password', body);
-//       if (hasPassword) {
-//         console.error('The following object has a password property: ', body);
-//       }
-//     }
-//   })
-// );
+if (process.env.NODE_ENV !== 'production') {
+  app.use(
+    mung.json((body) => {
+      if (body) {
+        const hasPassword = hasField('password', body);
+        if (hasPassword) {
+          console.error('The following object has a password property: ', body);
+        }
+        const hasStripeId = hasField('stripeId', body);
+        if (hasStripeId) {
+          console.error(
+            'The following object has a stripe ID property: ',
+            body
+          );
+        }
+      }
+    })
+  );
+}
+
+app.get('/api/csrf', csrfProtection, (req, res) => {
+  res.json({ token: req.csrfToken() });
+});
 
 app.get('/api/ping', (req, res) => {
   res.send('pong');
@@ -223,28 +250,41 @@ db().then(() => {
   // Admin
   app.use('/api/admin', adminRouter);
 
+  // Slack
+  app.use('/api/slack', slackRouter());
+
   // Create session
-  app.post('/api/create', heavyLoadLimiter, async (req, res) => {
-    const user = await getUserFromRequest(req);
-    const payload: CreateSessionPayload = req.body;
-    setScope(async (scope) => {
-      if (user) {
-        try {
-          const session = await createSession(user, payload.encryptedCheck);
-          await cache.invalidate(user.id);
-          res.status(200).send(session);
-        } catch (err) {
-          reportQueryError(scope, err);
-          res.status(500).send();
-          throw err;
+  app.post(
+    '/api/create',
+    csrfProtection,
+    heavyLoadLimiter,
+    async (req, res) => {
+      const identity = await getIdentityFromRequest(req);
+      const payload: CreateSessionPayload = req.body;
+      setScope(async (scope) => {
+        if (identity) {
+          try {
+            const session = await createSession(
+              identity.user,
+              payload.encryptedCheck
+            );
+            await cache.invalidate(identity.user.id);
+            res.status(200).send(session);
+          } catch (err: unknown) {
+            if (err instanceof QueryFailedError) {
+              reportQueryError(scope, err);
+            }
+            res.status(500).send();
+            throw err;
+          }
+        } else {
+          res
+            .status(401)
+            .send('You must be logged in in order to create a session');
         }
-      } else {
-        res
-          .status(401)
-          .send('You must be logged in in order to create a session');
-      }
-    });
-  });
+      });
+    }
+  );
 
   app.post('/api/logout', async (req, res, next) => {
     req.logout();
@@ -275,43 +315,50 @@ db().then(() => {
   });
 
   app.get('/api/previous', heavyLoadLimiter, async (req, res) => {
-    const user = await getUserFromRequest(req);
-    if (user) {
-      const cached = await cache.get(user.id);
+    const identity = await getIdentityFromRequest(req);
+    if (identity) {
+      const cached = await cache.get(identity.user.id);
       if (cached) {
         return res.status(200).send(cached);
       }
 
-      const sessions = await previousSessions(user.id);
-      await cache.set(user.id, sessions, 60 * 1000);
+      const sessions = await previousSessions(identity.user.id);
+      await cache.set(identity.user.id, sessions, 60 * 1000);
       res.status(200).send(sessions);
     } else {
       res.status(200).send([]);
     }
   });
 
-  app.delete('/api/session/:sessionId', heavyLoadLimiter, async (req, res) => {
-    const sessionId = req.params.sessionId;
-    const user = await getUserFromRequest(req);
-    if (user) {
-      const success = await deleteSessions(user.id, sessionId);
-      cache.invalidate(user.id);
-      if (success) {
-        res.status(200).send();
+  app.delete(
+    '/api/session/:sessionId',
+    csrfProtection,
+    heavyLoadLimiter,
+    async (req, res) => {
+      const sessionId = req.params.sessionId;
+      const identity = await getIdentityFromRequest(req);
+      if (identity) {
+        const success = await deleteSessions(identity.id, sessionId);
+        cache.invalidate(identity.user.id);
+        if (success) {
+          res.status(200).send();
+        } else {
+          res.status(403).send();
+        }
       } else {
         res.status(403).send();
       }
-    } else {
-      res.status(403).send();
     }
-  });
+  );
 
-  app.post('/api/me/language', async (req, res) => {
-    if (req.user) {
-      await updateUser(req.user, {
+  app.post('/api/me/language', csrfProtection, async (req, res) => {
+    const user = await getUserViewFromRequest(req);
+    if (user) {
+      await updateUser(user.id, {
         language: req.body.language,
       });
       const updatedUser = await getUserViewFromRequest(req);
+
       if (updatedUser) {
         res.status(200).send(updatedUser.toJson());
       } else {
@@ -323,8 +370,9 @@ db().then(() => {
   });
 
   app.get('/api/me/default-template', async (req, res) => {
-    if (req.user) {
-      const defaultTemplate = await getDefaultTemplate(req.user);
+    const user = await getUserViewFromRequest(req);
+    if (user) {
+      const defaultTemplate = await getDefaultTemplate(user.id);
       if (defaultTemplate) {
         res.status(200).send(defaultTemplate);
       } else {
@@ -341,33 +389,37 @@ db().then(() => {
       return;
     }
     const registerPayload = req.body as RegisterPayload;
-    if ((await getUserByUsername(registerPayload.username)) !== null) {
+    if (
+      (await getIdentityByUsername('password', registerPayload.username)) !==
+      null
+    ) {
       res.status(403).send('User already exists');
       return;
     }
-    const user = await registerUser(registerPayload);
-    if (!user) {
+    const identity = await registerPasswordUser(registerPayload);
+    if (!identity) {
       res.status(500).send();
     } else {
-      if (user.emailVerification) {
+      if (identity.emailVerification) {
         await sendVerificationEmail(
           registerPayload.username,
           registerPayload.name,
-          user.emailVerification!
+          identity.emailVerification!
         );
       } else {
-        req.logIn(user.id, (err) => {
+        req.logIn(identity.toIds(), (err) => {
           if (err) {
             console.log('Cannot login Error: ', err);
             res.status(500).send('Cannot login');
           }
         });
       }
-      const userView = await getUserView(user.id);
+      const userView = await getUserView(identity.id);
       if (userView) {
-        res
-          .status(200)
-          .send({ loggedIn: !user.emailVerification, user: userView.toJson() });
+        res.status(200).send({
+          loggedIn: !identity.emailVerification,
+          user: userView.toJson(),
+        });
       } else {
         res.status(500).send();
       }
@@ -376,19 +428,19 @@ db().then(() => {
 
   app.post('/api/validate', heavyLoadLimiter, async (req, res) => {
     const validatePayload = req.body as ValidateEmailPayload;
-    const user = await getUserByUsername(validatePayload.email);
-    if (!user) {
+    const identity = await getPasswordIdentity(validatePayload.email);
+    if (!identity) {
       res.status(404).send('Email not found');
       return;
     }
     if (
-      user.emailVerification &&
-      user.emailVerification === validatePayload.code
+      identity.emailVerification &&
+      identity.emailVerification === validatePayload.code
     ) {
-      const updatedUser = await updateUser(user.id, {
+      const updatedUser = await updateIdentity(identity.id, {
         emailVerification: null,
       });
-      req.logIn(user.id, (err) => {
+      req.logIn(identity.toIds(), (err) => {
         if (err) {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');
@@ -405,36 +457,36 @@ db().then(() => {
 
   app.post('/api/reset', heavyLoadLimiter, async (req, res) => {
     const resetPayload = req.body as ResetPasswordPayload;
-    const user = await getUserByUsername(resetPayload.email);
-    if (!user) {
+    const identity = await getPasswordIdentity(resetPayload.email);
+    if (!identity) {
       res.status(404).send('Email not found');
       return;
     }
     const code = v4();
-    await updateUser(user.id, {
+    await updateIdentity(identity.id, {
       emailVerification: code,
     });
-    await sendResetPassword(resetPayload.email, user.name, code);
+    await sendResetPassword(resetPayload.email, identity.user.name, code);
     res.status(200).send();
   });
 
   app.post('/api/reset-password', heavyLoadLimiter, async (req, res) => {
-    const validatePayload = req.body as ResetChangePasswordPayload;
-    const user = await getUserByUsername(validatePayload.email);
-    if (!user) {
+    const resetPayload = req.body as ResetChangePasswordPayload;
+    const identity = await getPasswordIdentity(resetPayload.email);
+    if (!identity) {
       res.status(404).send('Email not found');
       return;
     }
     if (
-      user.emailVerification &&
-      user.emailVerification === validatePayload.code
+      identity.emailVerification &&
+      identity.emailVerification === resetPayload.code
     ) {
-      const hashedPassword = await hashPassword(validatePayload.password);
-      const updatedUser = await updateUser(user.id, {
+      const hashedPassword = await hashPassword(resetPayload.password);
+      const updatedUser = await updateIdentity(identity.id, {
         emailVerification: null,
         password: hashedPassword,
       });
-      req.logIn(user.id, (err) => {
+      req.logIn(identity.toIds(), (err) => {
         if (err) {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');

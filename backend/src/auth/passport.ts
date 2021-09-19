@@ -15,12 +15,10 @@ import {
   SLACK_CONFIG,
   OKTA_CONFIG,
 } from './config';
-import { v4 } from 'uuid';
 import { AccountType } from '@retrospected/common';
 import chalk from 'chalk';
 import loginUser from './logins/password-user';
 import loginAnonymous from './logins/anonymous-user';
-import UserEntity from '../db/entities/User';
 import {
   BaseProfile,
   TwitterProfile,
@@ -30,14 +28,17 @@ import {
   SlackProfile,
   OktaProfile,
 } from './types';
-import { getOrSaveUser } from '../db/actions/users';
+import { registerUser, UserRegistration } from '../db/actions/users';
+import { serialiseIds, UserIds, deserialiseIds } from '../utils';
 
 export default () => {
-  passport.serializeUser((user: string, cb) => {
-    cb(null, user);
+  passport.serializeUser<string>((user, cb) => {
+    // Typings are wrong
+    const actualUser = user as unknown as UserIds;
+    cb(null, serialiseIds(actualUser));
   });
-  passport.deserializeUser(async (userId: string, cb) => {
-    cb(null, userId);
+  passport.deserializeUser<string>(async (userId: string, cb) => {
+    cb(null, deserialiseIds(userId) as unknown as string);
   });
 
   function callback<TProfile, TCallback>(type: AccountType) {
@@ -48,7 +49,7 @@ export default () => {
       cb: TCallback
     ) => {
       const profile = anyProfile as unknown as BaseProfile;
-      let user: UserEntity;
+      let user: UserRegistration | null;
       switch (type) {
         case 'google':
           user = buildFromGoogleProfile(profile as GoogleProfile);
@@ -72,82 +73,120 @@ export default () => {
           throw new Error('Unknown provider: ' + type);
       }
 
-      const dbUser = await getOrSaveUser(user);
       const callback = cb as unknown as (
         error: string | null,
-        user: string
+        user: UserIds | null
       ) => void;
-      callback(null, dbUser.id);
+
+      if (!user) {
+        callback('Cannot build a user profile', null);
+        return;
+      }
+
+      const dbIdentity = await registerUser(user);
+
+      callback(null, dbIdentity.toIds());
     };
   }
 
-  function buildFromTwitterProfile(profile: TwitterProfile): UserEntity {
-    const user: UserEntity = new UserEntity(v4(), profile.displayName);
-    user.accountType = 'twitter';
-    user.language = 'en';
-    user.photo = profile.photos?.length ? profile.photos[0].value : null;
-    user.username = profile.username;
-    user.email = profile.emails.length ? profile.emails[0].value : null;
-    return user;
+  function buildFromTwitterProfile(
+    profile: TwitterProfile
+  ): UserRegistration | null {
+    const email = profile.emails.length ? profile.emails[0].value : null;
+    if (!email) {
+      return null;
+    }
+    return {
+      name: profile.displayName,
+      type: 'twitter',
+      language: 'en',
+      photo: profile.photos?.length ? profile.photos[0].value : undefined,
+      username: profile.username,
+      email,
+    };
   }
 
-  function buildFromGitHubProfile(profile: GitHubProfile): UserEntity {
+  function buildFromGitHubProfile(
+    profile: GitHubProfile
+  ): UserRegistration | null {
     const displayName =
       profile.displayName ||
       profile.username ||
       (profile.emails.length ? profile.emails[0].value : '');
-
-    const user: UserEntity = new UserEntity(v4(), displayName);
     const email =
       profile.emails && profile.emails.length ? profile.emails[0] : null;
-    user.accountType = 'github';
-    user.language = 'en';
-    user.photo = profile.photos?.length ? profile.photos[0].value : null;
-    user.username = profile.username;
-    user.email = email ? email.value : null;
-    return user;
+
+    if (!email) {
+      return null;
+    }
+
+    return {
+      name: displayName,
+      type: 'github',
+      language: 'en',
+      photo: profile.photos?.length ? profile.photos[0].value : undefined,
+      username: profile.username,
+      email: email.value,
+    };
   }
 
-  function buildFromGoogleProfile(profile: GoogleProfile): UserEntity {
-    const user: UserEntity = new UserEntity(v4(), profile.displayName);
+  function buildFromGoogleProfile(
+    profile: GoogleProfile
+  ): UserRegistration | null {
     const email = profile.emails.length ? profile.emails[0].value : null;
-    user.accountType = 'google';
-    user.language = 'en';
-    user.photo = profile.photos?.length ? profile.photos[0].value : null;
-    user.username = email;
-    user.email = email;
-    return user;
+    if (!email) {
+      return null;
+    }
+    return {
+      name: profile.displayName,
+      type: 'google',
+      language: 'en',
+      photo: profile.photos?.length ? profile.photos[0].value : undefined,
+      username: email,
+      email,
+    };
   }
 
-  function buildFromSlackProfile(profile: SlackProfile): UserEntity {
-    const user: UserEntity = new UserEntity(v4(), profile.displayName);
+  function buildFromSlackProfile(
+    profile: SlackProfile
+  ): UserRegistration | null {
     const email = profile.user.email;
-    user.accountType = 'slack';
-    user.language = 'en';
-    user.photo = profile.user.image_192;
-    user.username = email;
-    user.email = email;
-    return user;
+
+    return {
+      name: profile.displayName,
+      type: 'slack',
+      language: 'en',
+      photo: profile.user.image_192,
+      username: email,
+      email,
+      slackUserId: profile.id,
+      slackTeamId: profile.team ? profile.team.id : undefined,
+    };
   }
 
-  function buildFromMicrosoftProfile(profile: MicrosoftProfile): UserEntity {
-    const user: UserEntity = new UserEntity(v4(), profile.displayName);
+  function buildFromMicrosoftProfile(
+    profile: MicrosoftProfile
+  ): UserRegistration | null {
     const email = profile.emails[0].value;
-    user.accountType = 'microsoft';
-    user.language = 'en';
-    user.username = email;
-    user.email = email;
-    return user;
+    return {
+      name: profile.displayName,
+      type: 'microsoft',
+      language: 'en',
+      username: email,
+      email,
+    };
   }
 
-  function buildFromOktaProfile(profile: OktaProfile): UserEntity {
-    const user: UserEntity = new UserEntity(v4(), profile.fullName);
+  function buildFromOktaProfile(profile: OktaProfile): UserRegistration | null {
     const email = profile.email;
-    user.accountType = 'okta';
-    user.language = 'en';
-    user.username = email;
-    user.email = email;
-    return user;
+
+    return {
+      name: profile.fullName,
+      type: 'okta',
+      language: 'en',
+      username: email,
+      email,
+    };
   }
 
   // Adding each OAuth provider's strategy to passport
@@ -191,7 +230,7 @@ export default () => {
         password: string,
         done: (
           error: string | null,
-          user?: string,
+          user?: UserIds,
           options?: IVerifyOptions
         ) => void
       ) => {
@@ -203,12 +242,18 @@ export default () => {
           const actualUsername = username
             .replace('ANONUSER__', '')
             .replace('__ANONUSER', '');
-          const user = await loginAnonymous(actualUsername, password);
-          done(!user ? 'Anonymous account not valid' : null, user?.id);
+          const identity = await loginAnonymous(actualUsername, password);
+          done(
+            !identity ? 'Anonymous account not valid' : null,
+            identity ? identity.toIds() : undefined
+          );
         } else {
           // Regular account login
-          const user = await loginUser(username, password);
-          done(!user ? 'User cannot log in' : null, user?.id);
+          const identity = await loginUser(username, password);
+          done(
+            !identity ? 'User cannot log in' : null,
+            identity ? identity.toIds() : undefined
+          );
         }
       }
     )

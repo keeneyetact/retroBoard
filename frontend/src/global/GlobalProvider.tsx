@@ -7,6 +7,7 @@ import {
   oauthAvailabilitiesState,
   selfHostedState,
 } from './state';
+import { loadCsrfToken } from '../api/fetch';
 
 const GlobalProvider: React.FC = ({ children }) => {
   const setEmail = useSetRecoilState(adminEmailState);
@@ -16,8 +17,8 @@ const GlobalProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadGlobal() {
+      await loadCsrfToken(); // Make sure the CSRF token is loaded before anything else
       const infos = await fetchSelfHostingInfo();
-      console.log('infos: ', infos);
       if (infos) {
         setEmail(infos.adminEmail);
         setLicenced(infos.licenced);

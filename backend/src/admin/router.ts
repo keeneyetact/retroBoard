@@ -1,14 +1,20 @@
 import express from 'express';
-import { getAllPasswordUsers, updateUser, getUser } from '../db/actions/users';
+import {
+  getAllPasswordUsers,
+  getPasswordIdentityByUserId,
+  updateIdentity,
+} from '../db/actions/users';
 import config from '../config';
 import { isLicenced } from '../security/is-licenced';
 import {
   AdminChangePasswordPayload,
   SelfHostingPayload,
 } from '@retrospected/common';
-import { getUserFromRequest, hashPassword } from '../utils';
+import { getIdentityFromRequest, hashPassword } from '../utils';
+import csurf from 'csurf';
 
 const router = express.Router();
+const csrfProtection = csurf();
 
 router.get('/self-hosting', async (_, res) => {
   const licenced = await isLicenced();
@@ -29,24 +35,24 @@ router.get('/self-hosting', async (_, res) => {
 });
 
 router.get('/users', async (req, res) => {
-  const authUser = await getUserFromRequest(req);
-  if (!authUser || authUser.email !== config.SELF_HOSTED_ADMIN) {
+  const identity = await getIdentityFromRequest(req);
+  if (!identity || identity.user.email !== config.SELF_HOSTED_ADMIN) {
     return res.status(403).send('You are not allowed to do this');
   }
   const users = await getAllPasswordUsers();
   res.send(users.map((u) => u.toJson()));
 });
 
-router.patch('/user', async (req, res) => {
-  const authUser = await getUserFromRequest(req);
-  if (!authUser || authUser.email !== config.SELF_HOSTED_ADMIN) {
+router.patch('/user', csrfProtection, async (req, res) => {
+  const authIdentity = await getIdentityFromRequest(req);
+  if (!authIdentity || authIdentity.user.email !== config.SELF_HOSTED_ADMIN) {
     return res.status(403).send('You are not allowed to do this');
   }
   const payload = req.body as AdminChangePasswordPayload;
-  const user = await getUser(payload.userId);
-  if (user) {
+  const identity = await getPasswordIdentityByUserId(payload.userId);
+  if (identity) {
     const hashedPassword = await hashPassword(payload.password);
-    const updatedUser = await updateUser(user.id, {
+    const updatedUser = await updateIdentity(identity.id, {
       password: hashedPassword,
     });
     if (updatedUser) {

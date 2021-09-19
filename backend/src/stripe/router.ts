@@ -6,7 +6,7 @@ import {
 } from '@retrospected/common';
 import config from '../config';
 import Stripe from 'stripe';
-import { UserEntity } from '../db/entities';
+import { UserIdentityEntity } from '../db/entities';
 import {
   StripeEvent,
   CheckoutCompletedPayload,
@@ -15,7 +15,7 @@ import {
 import { plans, getProduct } from './products';
 import { updateUser } from '../db/actions/users';
 import { registerLicence } from '../db/actions/licences';
-import { getUserFromRequest } from '../utils';
+import { getIdentityFromRequest } from '../utils';
 import isValidDomain from '../security/is-valid-domain';
 import {
   cancelSubscription,
@@ -24,40 +24,44 @@ import {
   saveSubscription,
   startTrial,
 } from '../db/actions/subscriptions';
+import csurf from 'csurf';
 
 const stripe = new Stripe(config.STRIPE_SECRET, {
   apiVersion: '2020-08-27',
 } as Stripe.StripeConfig);
 
+// CSRF Protection
+const csrfProtection = csurf();
+
 function stripeRouter(): Router {
   const router = express.Router();
 
   async function getCustomerId(
-    user: UserEntity,
+    identity: UserIdentityEntity,
     locale: StripeLocales
   ): Promise<string> {
-    if (user.accountType === 'anonymous') {
+    if (identity.accountType === 'anonymous') {
       throw Error('Anonymous account should not be able to pay');
     }
 
-    if (!user.stripeId && user.username) {
+    if (!identity.user.stripeId && identity.username) {
       // Create a new customer object
       const userData = {
-        email: user.email || user.username,
-        name: user.name,
+        email: identity.user.email || identity.username,
+        name: identity.user.name,
         metadata: {
-          userId: user.id,
+          userId: identity.user.id,
         },
         preferred_locales: [locale],
       };
       const customer = await stripe.customers.create(userData);
 
-      await updateUser(user.id, {
+      await updateUser(identity.user.id, {
         stripeId: customer.id,
       });
       return customer.id;
-    } else if (user.stripeId) {
-      return user.stripeId;
+    } else if (identity.user.stripeId) {
+      return identity.user.stripeId;
     } else {
       throw Error('Unspecified error');
     }
@@ -177,21 +181,21 @@ function stripeRouter(): Router {
     res.sendStatus(200);
   });
 
-  router.post('/create-checkout-session', async (req, res) => {
+  router.post('/create-checkout-session', csrfProtection, async (req, res) => {
     const payload = req.body as CreateSubscriptionPayload;
-    const user = await getUserFromRequest(req);
+    const identity = await getIdentityFromRequest(req);
     const product = getProduct(payload.plan);
 
     if (payload.domain && !isValidDomain(payload.domain)) {
       return res.status(403).send();
     }
 
-    if (user) {
-      const customerId = await getCustomerId(user, payload.locale);
+    if (identity) {
+      const customerId = await getCustomerId(identity, payload.locale);
       try {
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
-          client_reference_id: user.id,
+          client_reference_id: identity.user.id,
           customer: customerId,
           metadata: {
             ...payload,
@@ -233,16 +237,16 @@ function stripeRouter(): Router {
   });
 
   router.get('/portal', async (req, res) => {
-    const user = await getUserFromRequest(req);
-    if (user && user.stripeId) {
+    const identity = await getIdentityFromRequest(req);
+    if (identity && identity.user.stripeId) {
       try {
         const session = await stripe.billingPortal.sessions.create({
-          customer: user.stripeId,
+          customer: identity.user.stripeId,
           return_url: `${config.BASE_URL}/account`,
         });
-        res.status(200).send(session);
+        res.status(200).send({ url: session.url });
       } catch (err) {
-        console.error('Cannot find Stripe customer ', user.stripeId);
+        console.error('Cannot find Stripe customer ', identity.user.stripeId);
         res.status(500).send();
       }
     } else {
@@ -251,9 +255,9 @@ function stripeRouter(): Router {
   });
 
   router.get('/members', async (req, res) => {
-    const user = await getUserFromRequest(req);
-    if (user) {
-      const subscription = await getActiveSubscription(user.id);
+    const identity = await getIdentityFromRequest(req);
+    if (identity) {
+      const subscription = await getActiveSubscription(identity.user.id);
       if (subscription && subscription.plan === 'team') {
         return res.status(200).send(subscription.members);
       }
@@ -261,10 +265,10 @@ function stripeRouter(): Router {
     res.status(401).send();
   });
 
-  router.patch('/members', async (req, res) => {
-    const user = await getUserFromRequest(req);
-    if (user) {
-      const subscription = await getActiveSubscription(user.id);
+  router.patch('/members', csrfProtection, async (req, res) => {
+    const identity = await getIdentityFromRequest(req);
+    if (identity) {
+      const subscription = await getActiveSubscription(identity.user.id);
       if (subscription && subscription.plan === 'team') {
         subscription.members = req.body as string[];
         await saveSubscription(subscription);
@@ -279,10 +283,10 @@ function stripeRouter(): Router {
     return res.status(200).send(isValidDomain(domain));
   });
 
-  router.post('/start-trial', async (req, res) => {
-    const user = await getUserFromRequest(req);
-    if (user) {
-      const updatedUser = await startTrial(user.id);
+  router.post('/start-trial', csrfProtection, async (req, res) => {
+    const identity = await getIdentityFromRequest(req);
+    if (identity) {
+      const updatedUser = await startTrial(identity.user.id);
       if (updatedUser) {
         return res.status(200).send();
       }

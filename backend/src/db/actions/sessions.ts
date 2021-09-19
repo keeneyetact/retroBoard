@@ -33,6 +33,24 @@ import { EntityManager } from 'typeorm';
 import { getUserViewInner, isUserPro } from './users';
 import { ALL_FIELDS } from '../entities/User';
 
+export async function createSessionFromSlack(
+  slackUserId: string,
+  name: string
+): Promise<Session | null> {
+  return await transaction(async (manager) => {
+    const userRepository = manager.getCustomRepository(UserRepository);
+    const users = await userRepository.find({ where: { slackUserId } });
+    if (!users.length) {
+      return null;
+    }
+    const user = users[0];
+    const session = await createSession(user);
+    session.name = name;
+    await saveSession(user.id, session);
+    return session;
+  });
+}
+
 export async function createSession(
   author: UserEntity,
   encryptionCheck?: string
@@ -181,22 +199,22 @@ export async function saveSession(
 }
 
 export async function deleteSessions(
-  userId: string,
+  identityId: string,
   sessionId: string
 ): Promise<boolean> {
   return await transaction(async (manager) => {
     const sessionRepository = manager.getCustomRepository(SessionRepository);
     const session = await sessionRepository.findOne(sessionId);
-    const user = await getUserViewInner(manager, userId);
+    const user = await getUserViewInner(manager, identityId);
     if (!user) {
-      console.info('User not found', userId);
+      console.info('Identity not found', identityId);
       return false;
     }
     if (!session) {
       console.info('Session not found', sessionId);
       return false;
     }
-    if (session.createdBy.id !== userId || !user.canDeleteSession) {
+    if (session.createdBy.id !== user.id || !user.canDeleteSession) {
       console.error(
         'The user is not the one who created the session, or is anonymous'
       );
@@ -278,9 +296,7 @@ export async function previousSessions(
                 ? !session.visitors.map((v) => v.id).includes(userId)
                 : false,
             participants: getParticipants(session.visitors),
-            canBeDeleted:
-              userId === session.createdBy.id &&
-              (loadedUser.accountType !== 'anonymous' || !!loadedUser.password),
+            canBeDeleted: userId === session.createdBy.id,
           } as SessionMetadata)
       );
     }
