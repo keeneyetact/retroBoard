@@ -14,8 +14,6 @@ jobs:
       - name: Read VERSION
         id: package
         uses: martinbeentjes/npm-get-version-action@master
-        with:
-          path: ./VERSION
 
       - name: Echo VERSION
         run: echo ${{ steps.package.outputs.current-version }}
