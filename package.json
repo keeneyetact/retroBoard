@@ -1,6 +1,6 @@
 {
   "name": "retrospected",
-  "version": "4.7.1",
+  "version": "4.7.2",
   "description": "An agile retrospective board - Powering www.retrospected.com",
   "private": true,
   "workspaces": [
@@ -24,7 +24,8 @@
     "start": "yarn build-common && yarn backend & yarn frontend",
     "migrate": "cd backend && yarn migrate && cd ..",
     "stripe-login": "stripe login",
-    "stripe-listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
+    "stripe-listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
+    "bump": ". ./scripts/bump.sh"
   },
   "repository": {
     "type": "git",
