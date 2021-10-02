@@ -1,16 +1,12 @@
 import { useState, useCallback, useMemo, useRef } from 'react';
-import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Tooltip from '@material-ui/core/Tooltip';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import blue from '@material-ui/core/colors/blue';
-import yellow from '@material-ui/core/colors/yellow';
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
-import grey from '@material-ui/core/colors/grey';
+import styled from '@emotion/styled';
+import Typography from '@mui/material/Typography';
+import Popover from '@mui/material/Popover';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Tooltip from '@mui/material/Tooltip';
+import { colors } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import {
   ThumbUpOutlined,
   ThumbDownOutlined,
@@ -21,7 +17,7 @@ import {
   Assignment,
   AssignmentOutlined,
   EmojiEmotionsOutlined,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import useTranslations from '../../../../translations';
 import EditableLabel from '../../../../components/EditableLabel';
@@ -55,17 +51,19 @@ interface PostItemProps {
   onDelete: () => void;
 }
 
-const useStyles = makeStyles((theme) => ({
-  actionContainer: {
-    backgroundColor: theme.palette.grey[100],
-  },
-  actionIcon: {
-    color: blue[400],
-  },
-  ghipyIcon: {
-    color: yellow[700],
-  },
-}));
+const useStyles = makeStyles((theme: any) => {
+  return {
+    actionContainer: {
+      backgroundColor: theme.palette.grey[100],
+    },
+    actionIcon: {
+      color: colors.blue[400],
+    },
+    ghipyIcon: {
+      color: colors.yellow[700],
+    },
+  };
+});
 
 const PostItem = ({
   index,
@@ -166,7 +164,7 @@ const PostItem = ({
               </Tooltip>
             ) : null}
             {canReorder ? (
-              <DragHandle {...provided.dragHandleProps}>
+              <DragHandle {...provided.dragHandleProps} className="drag-handle">
                 <DragIndicator />
               </DragHandle>
             ) : null}
@@ -224,7 +222,7 @@ const PostItem = ({
               </CardContent>
             )}
             <ActionsBar
-              color={faded ? grey[100] : color}
+              color={faded ? colors.grey[100] : color}
               rightActions={
                 <>
                   {giphyImageUrl && (
@@ -234,7 +232,9 @@ const PostItem = ({
                       icon={
                         <InsertPhotoTwoTone
                           style={{
-                            color: !showGiphyImage ? green[200] : red[200],
+                            color: !showGiphyImage
+                              ? colors.green[200]
+                              : colors.red[200],
                           }}
                         />
                       }
@@ -316,7 +316,6 @@ const PostItem = ({
         open={showGiphyEditor}
         anchorEl={postElement.current}
         onClose={handleHideGiphyEditor}
-        onEscapeKeyDown={handleHideGiphyEditor}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'left',
@@ -345,7 +344,7 @@ const DragHandle = styled.div`
   top: 3px;
   right: 3px;
   visibility: hidden;
-  color: ${grey[500]};
+  color: ${colors.grey[500]};
 `;
 
 const PostCard = styled(Card)`
@@ -354,7 +353,7 @@ const PostCard = styled(Card)`
   position: relative;
 
   :hover {
-    ${DragHandle} {
+    & .drag-handle {
       visibility: visible;
     }
   }
@@ -393,7 +392,7 @@ const CloseButtonContainer = styled.div`
   border-radius: 15px;
   color: white;
   font-size: 0.5em;
-  background-color: ${red[400]};
+  background-color: ${colors.red[400]};
   cursor: pointer;
 `;
 

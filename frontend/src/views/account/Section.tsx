@@ -1,5 +1,5 @@
-import grey from '@material-ui/core/colors/grey';
-import styled from 'styled-components';
+import { colors } from '@mui/material';
+import styled from '@emotion/styled';
 
 interface SectionProps {
   title?: string;
@@ -15,7 +15,7 @@ const Section: React.FC<SectionProps> = ({ title, children }) => {
 };
 
 const Container = styled.section`
-  border: 1px solid ${grey[200]};
+  border: 1px solid ${colors.grey[200]};
   border-radius: 10px;
   margin: 10px;
   padding: 20px;

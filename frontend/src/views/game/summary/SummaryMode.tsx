@@ -1,17 +1,17 @@
-import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import useTheme from '@material-ui/core/styles/useTheme';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Avatar from '@material-ui/core/Avatar';
-import grey from '@material-ui/core/colors/grey';
-import { Feedback } from '@material-ui/icons';
+import styled from '@emotion/styled';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Avatar from '@mui/material/Avatar';
+import { colors } from '@mui/material';
+import { Feedback } from '@mui/icons-material';
 import { ColumnContent } from '../types';
 import { Palette } from '../../../Theme';
 import useTranslations from '../../../translations';
@@ -22,6 +22,7 @@ import { ColumnStats, ColumnStatsItem, ActionItem } from './types';
 import useTranslation from '../../../translations';
 import useCrypto from '../../../crypto/useCrypto';
 import isSearchMatch from '../is-search-match';
+import { Box } from '@mui/system';
 
 interface SummaryModeProps {
   columns: ColumnContent[];
@@ -36,27 +37,25 @@ interface SectionProps {
 const Section = ({ stats, search }: SectionProps) => {
   const { SummaryBoard: translations } = useTranslation();
   return (
-    <Grid container spacing={4} component="section" role="list">
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader
-            title={
-              <Typography variant="h6" style={{ fontWeight: 300 }}>
-                {stats.column.label}
-              </Typography>
-            }
-            style={{ backgroundColor: stats.column.color }}
-          />
-          <CardContent>
-            {stats.items.length ? (
-              <PostsList items={stats.items} search={search} />
-            ) : (
-              <Typography variant="body1">{translations.noPosts}</Typography>
-            )}
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    <Box marginBottom={2} role="list">
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="h6" style={{ fontWeight: 300 }}>
+              {stats.column.label}
+            </Typography>
+          }
+          style={{ backgroundColor: stats.column.color }}
+        />
+        <CardContent>
+          {stats.items.length ? (
+            <PostsList items={stats.items} search={search} />
+          ) : (
+            <Typography variant="body1">{translations.noPosts}</Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
@@ -82,7 +81,7 @@ const GroupSummary = ({ group, search }: GroupSummaryProps) => {
 };
 
 const GroupContainer = styled.div`
-  border-left: 1px dashed ${grey[500]};
+  border-left: 1px dashed ${colors.grey[500]};
   margin-left: -10px;
   padding-left: 10px;
   > :nth-child(2) {
@@ -184,7 +183,7 @@ const ActionsList = ({ actions }: ActionsListProps) => {
       spacing={4}
       component="section"
       role="list"
-      style={{ marginTop: 30 }}
+      style={{ marginTop: 20 }}
     >
       <Grid item xs={12}>
         <Card>

@@ -1,27 +1,23 @@
 import { useCallback, useState } from 'react';
-import CardBase from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import red from '@material-ui/core/colors/red';
-import indigo from '@material-ui/core/colors/indigo';
-import green from '@material-ui/core/colors/green';
-import amber from '@material-ui/core/colors/amber';
-import grey from '@material-ui/core/colors/grey';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogContent from '@material-ui/core/DialogContent';
+import CardBase from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import { colors } from '@mui/material';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogContent from '@mui/material/DialogContent';
 import { SessionMetadata } from '@retrospected/common';
-import { AvatarGroup } from '@material-ui/lab';
+import { AvatarGroup } from '@mui/material';
 import CustomAvatar from '../../../components/Avatar';
 import ItemStat from '../ItemStat';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import useOnHover from '../../../hooks/useOnHover';
 import useTranslations from '../../../translations';
-import { DeleteForever } from '@material-ui/icons';
+import { DeleteForever } from '@mui/icons-material';
 import { useEncryptionKey } from '../../../crypto/useEncryptionKey';
 import useFormatDate from '../../../hooks/useFormatDate';
 import { decrypt } from '../../../crypto/crypto';
@@ -46,7 +42,7 @@ const PreviousGameItem = ({
   } = useTranslations();
   const [encryptionKey] = useEncryptionKey(session.id);
   const { formatDistanceToNow } = useFormatDate();
-  const [hover, hoverRef] = useOnHover();
+  const [hover, hoverRef] = useOnHover<HTMLDivElement>();
   const handleClick = useCallback(() => {
     onClick(session, encryptionKey);
   }, [onClick, session, encryptionKey]);
@@ -82,7 +78,7 @@ const PreviousGameItem = ({
               </LastUpdated>
               <Delete>
                 {session.canBeDeleted ? (
-                  <IconButton onClick={handleOpenDialog}>
+                  <IconButton onClick={handleOpenDialog} size="large">
                     <DeleteForever />
                   </IconButton>
                 ) : null}
@@ -103,22 +99,22 @@ const PreviousGameItem = ({
             <ItemStat
               value={session.numberOfPosts}
               label={translations.posts!(session.numberOfPosts)}
-              color={green[500]}
+              color={colors.green[500]}
             />
             <ItemStat
               value={session.participants.length}
               label={translations.participants!(session.participants.length)}
-              color={indigo[500]}
+              color={colors.indigo[500]}
             />
             <ItemStat
               value={session.numberOfVotes}
               label={translations.votes!(session.numberOfVotes)}
-              color={red[500]}
+              color={colors.red[500]}
             />
             <ItemStat
               value={session.numberOfActions}
               label={translations.actions!(session.numberOfActions)}
-              color={amber[500]}
+              color={colors.amber[500]}
             />
           </Stats>
           <AvatarGroup
@@ -150,7 +146,7 @@ const PreviousGameItem = ({
           <Button
             variant="contained"
             color="inherit"
-            style={{ backgroundColor: red[500], color: 'white' }}
+            style={{ backgroundColor: colors.red[500], color: 'white' }}
             onClick={handleDelete}
           >
             {DeleteSession.yesImSure}
@@ -175,7 +171,7 @@ const Stats = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 10px;
-  background-color: ${grey[100]};
+  background-color: ${colors.grey[100]};
   margin: 0 -20px 20px;
 `;
 
@@ -192,7 +188,7 @@ const LastUpdated = styled.div`
 
 const Delete = styled.div`
   svg {
-    color: ${red[500]};
+    color: ${colors.red[500]};
   }
   position: relative;
   left: 12px;
@@ -204,7 +200,7 @@ const NameContainer = styled.div`
 `;
 
 const SessionId = styled.span`
-  color: ${grey[300]};
+  color: ${colors.grey[300]};
   padding-left: 5px;
 `;
 

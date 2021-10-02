@@ -1,15 +1,15 @@
 import { useCallback, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Alert } from '@material-ui/lab';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Alert } from '@mui/material';
 import useTranslations from '../../../translations';
 import { FullUser } from '@retrospected/common';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import Link from '../../../components/Link';
-import { Email, VpnKey } from '@material-ui/icons';
+import { Email, VpnKey } from '@mui/icons-material';
 import { accountLogin } from '../../../api';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 interface LoginProps {
   onClose: () => void;
@@ -24,10 +24,8 @@ const Login = ({
   onAskRegistration,
   onAskPasswordReset,
 }: LoginProps) => {
-  const {
-    AccountLogin: translations,
-    AuthCommon: authTranslations,
-  } = useTranslations();
+  const { AccountLogin: translations, AuthCommon: authTranslations } =
+    useTranslations();
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [error, setError] = useState('');
@@ -78,6 +76,7 @@ const Login = ({
         title={authTranslations.emailField}
         placeholder={authTranslations.emailField}
         type="email"
+        variant="standard"
         fullWidth
         style={{ marginTop: 20 }}
         leftIcon={<Email />}
@@ -88,6 +87,7 @@ const Login = ({
         title={authTranslations.passwordField}
         placeholder={authTranslations.passwordField}
         type="password"
+        variant="standard"
         fullWidth
         style={{ marginTop: 20 }}
         leftIcon={<VpnKey />}

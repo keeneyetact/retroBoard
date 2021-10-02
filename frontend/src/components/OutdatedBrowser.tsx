@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react';
 import clsx from 'clsx';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import ErrorIcon from '@material-ui/icons/Error';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Theme } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import { makeStyles } from '@mui/styles';
 
 interface OutdatedBrowserProps {
   show: boolean;
@@ -62,6 +63,7 @@ const OutdatedBrowser = ({ show }: OutdatedBrowserProps) => {
             aria-label="close"
             color="inherit"
             onClick={handleClose}
+            size="large"
           >
             <CloseIcon className={classes.icon} />
           </IconButton>,

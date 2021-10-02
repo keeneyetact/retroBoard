@@ -1,11 +1,11 @@
-import { Alert } from '@material-ui/lab';
-import { DataGrid, GridColDef } from '@material-ui/data-grid';
+import { Alert } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { FullUser } from '@retrospected/common';
 import useUser from '../../auth/useUser';
 import useAdminEmail from '../../global/useAdminEmail';
 import useStateFetch from '../../hooks/useStateFetch';
 import { useMemo } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import ChangePassword from './ChangePassword';
 import useIsSelfHosted from '../../global/useIsSelfHosted';
 

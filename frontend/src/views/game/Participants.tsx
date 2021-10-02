@@ -1,4 +1,4 @@
-import { AvatarGroup } from '@material-ui/lab';
+import { AvatarGroup } from '@mui/material';
 import CustomAvatar from '../../components/Avatar';
 import useParticipants from './useParticipants';
 
@@ -6,7 +6,12 @@ function Participants() {
   const { participants } = useParticipants();
   return (
     <div>
-      <AvatarGroup max={20}>
+      <AvatarGroup
+        max={20}
+        sx={{
+          flexDirection: 'row',
+        }}
+      >
         {participants
           .filter((u) => u.online)
           .map((user) => {

@@ -1,5 +1,5 @@
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
 
 interface ActionButtonProps {
   tooltip: React.ReactElement | string | number;
@@ -34,7 +34,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
           disabled={!!disabled}
           aria-label={ariaLabel}
           tabIndex={-1}
-          innerRef={innerRef}
+          ref={innerRef}
           style={{
             position: 'relative',
             paddingLeft: 0,

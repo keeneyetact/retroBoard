@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
-import styled from 'styled-components';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import styled from '@emotion/styled';
+import Select from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import { languages } from '../translations';
 import 'flag-icon-css/css/flag-icon.min.css';
 
@@ -12,14 +13,14 @@ interface LanguagePickerProps {
 
 const LanguagePicker = ({ value, onChange }: LanguagePickerProps) => {
   const handleSelect = useCallback(
-    (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    (event: SelectChangeEvent<unknown>) => {
       const language = event.target.value as string;
       onChange(language);
     },
     [onChange]
   );
   return (
-    <StyledSelect value={value} onChange={handleSelect}>
+    <StyledSelect value={value} onChange={handleSelect} variant="standard">
       {languages.map((language) => (
         <MenuItem value={language.value} key={language.value}>
           <LanguageItem>

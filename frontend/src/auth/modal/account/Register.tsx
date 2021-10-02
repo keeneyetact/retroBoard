@@ -6,12 +6,12 @@ import {
   lazy,
   useContext,
 } from 'react';
-import Button from '@material-ui/core/Button';
-import { Alert } from '@material-ui/lab';
+import Button from '@mui/material/Button';
+import { Alert } from '@mui/material';
 import useTranslations, { useLanguage } from '../../../translations';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
-import { Person, Email, VpnKey } from '@material-ui/icons';
+import { Person, Email, VpnKey } from '@mui/icons-material';
 import { register } from '../../../api';
 import { validate } from 'isemail';
 import UserContext from '../../Context';
@@ -111,6 +111,7 @@ const Register = ({ onClose }: RegisterProps) => {
             onChangeValue={setRegisterName}
             title={authTranslations.nameField}
             placeholder={authTranslations.nameField}
+            variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
             leftIcon={<Person />}
@@ -121,6 +122,7 @@ const Register = ({ onClose }: RegisterProps) => {
             onChangeValue={setRegisterEmail}
             title={authTranslations.emailField}
             placeholder={authTranslations.emailField}
+            variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
             leftIcon={<Email />}
@@ -137,6 +139,7 @@ const Register = ({ onClose }: RegisterProps) => {
             onChangeValue={setRegisterPassword}
             title={authTranslations.passwordField}
             placeholder={authTranslations.passwordField}
+            variant="standard"
             type="password"
             fullWidth
             style={{ marginTop: 20 }}

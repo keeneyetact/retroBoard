@@ -1,7 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import { Helmet } from 'react-helmet';
-import GlobalStyles from './GlobalStyles';
+import { Global } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
+import globalCss from './GlobalStyles';
 import AuthProvider from './auth/AuthProvider';
 import LanguageProvider from './translations/LanguageProvider';
 import theme from './Theme';
@@ -27,6 +28,7 @@ function App() {
       </Helmet>
       <SnackbarProvider
         maxSnack={3}
+        autoHideDuration={3000}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'center',
@@ -38,7 +40,7 @@ function App() {
               <AuthProvider>
                 <LanguageProvider>
                   <QuotaManager>
-                    <GlobalStyles />
+                    <Global styles={globalCss} />
                     <ErrorBoundary>
                       <Suspense fallback={<CodeSplitLoader />}>
                         <Layout />
