@@ -36,7 +36,7 @@ function SubscriberPage() {
   const query = queryString.parse(window.location.search);
   const defaultProduct: Plan | null = query.product
     ? (query.product as Plan)
-    : null;
+    : 'team';
   const [currency, setCurrency] = useState<Currency>('eur');
   const [plan, setPlan] = useState<Plan | null>(defaultProduct);
   const product = useMemo(() => {

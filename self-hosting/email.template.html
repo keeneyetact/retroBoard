@@ -1,5 +1,6 @@
 <html>
   <body>
+    <!-- SEND GRID START -->
     <style>
       * {
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
@@ -47,16 +48,30 @@
 
       .warning {
         background-color: #fff1f2;
-        padding: 15px;
       }
-      .warning h4 {
+
+      .warning b {
+        color: red;
+      }
+
+      .info {
+        background-color: #e1f5fe;
+      }
+
+      .info b {
+        color: #01579b;
+      }
+
+      .alert {
+        padding: 15px;
+        margin-top: 20px;
+      }
+      .alert h4 {
         font-size: 1.2rem;
         font-weight: bold;
         margin: 2px 0;
       }
-      .warning b {
-        color: red;
-      }
+
       section {
         margin-left: 10px;
         margin-bottom: 30px;
@@ -111,9 +126,32 @@
 
     <div class="key">{{key}}</div>
 
+    <div class="alert info">
+      <h4>Quick Start</h4>
+      <p>
+        You can be up and running in 5 minutes by using your personalised
+        <b>docker-compose</b> file below.<br />
+        Alternatively, if you would like to customise it or get more details
+        about the installation, please visit our
+        <a
+          href="https://docs.retrospected.com/docs/self-hosting/quick-start?email={{email}}&amp;licence={{key}}"
+          >documentation website</a
+        >.<br />
+        You will also find useful information about
+        <a href="https://docs.retrospected.com/docs/self-hosting/backup"
+          >backup</a
+        >,
+        <a href="https://docs.retrospected.com/docs/self-hosting/pgadmin"
+          >database management</a
+        >, etc.
+      </p>
+    </div>
+
+    <p style="margin-top: 30px"></p>
+
     <hr />
 
-    <h2>Installation</h2>
+    <h2>Quick Start</h2>
 
     <p>
       You'll be up and running in no time. Your
@@ -153,7 +191,7 @@
         </li>
         <li>You're done!</li>
       </ol>
-      <div class="warning">
+      <div class="alert warning">
         <h4>Warning</h4>
         <p>
           If you wish to change the default passwords, it is very important that
@@ -173,21 +211,23 @@
         <span class="file">docker-compose.yml</span> file (1800 by default).
       </p>
       <p>
-        You can also access <a href="https://www.pgadmin.org">PGAdmin</a>, which
-        will give you access to your database. PGAdmin is available on port 1801
-        (by default), and you can use the following credentials if you didn't
-        modify the defaults:
+        You can also access
+        <a href="https://docs.retrospected.com/docs/self-hosting/pgadmin"
+          >PGAdmin</a
+        >, which will give you access to your database. PGAdmin is available on
+        port 1801 (by default), and you can use the following credentials if you
+        didn't modify the defaults:
       </p>
       <ul>
         <li>Username: <b>{{email}}</b></li>
         <li>Password: <b>{{pgAdminPassword}}</b></li>
       </ul>
       <p>
-        If you want more configuration options, have a look at the full
+        If you want more configuration options, have a look at our
         <span class="file">docker-compose.yml</span>
         <a
-          href="https://github.com/antoinejaussoin/retro-board/blob/develop/docker-compose.example.yml"
-          >here</a
+          href="https://docs.retrospected.com/docs/self-hosting/quick-start?email={{email}}&amp;licence={{key}}"
+          >editor here</a
         >.
       </p>
     </section>
@@ -291,5 +331,7 @@
 <span class="hljs-attr">  pgadmin:</span></pre>
 
     <!-- DOCKER COMPOSE FILE END -->
+
+    <!-- SEND GRID END -->
   </body>
 </html>
