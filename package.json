@@ -1,6 +1,6 @@
 {
   "name": "retrospected",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "An agile retrospective board - Powering www.retrospected.com",
   "private": true,
   "workspaces": [
@@ -54,7 +54,7 @@
   },
   "homepage": "http://www.retrospected.com",
   "dependencies": {
-    "del-cli": "^3.0.1",
-    "typescript": "^4.2.4"
+    "del-cli": "^4.0.1",
+    "typescript": "^4.4.4"
   }
 }
