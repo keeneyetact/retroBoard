@@ -55,6 +55,7 @@ function GamePage() {
     status,
     acks,
     onAddPost,
+    onChatMessage,
     onMovePost,
     onCombinePost,
     onAddGroup,
@@ -183,7 +184,11 @@ function GamePage() {
         />
       ) : null}
       <ParticipantContainer>
-        <Participants onReady={onUserReady} />
+        <Participants
+          onReady={onUserReady}
+          messages={session.messages}
+          onMessage={onChatMessage}
+        />
       </ParticipantContainer>
     </div>
   );
