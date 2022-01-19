@@ -50,3 +50,6 @@ configuration.json
 
 *.rest
 .docusaurus
+
+output.txt
+vulnerabilities.md
