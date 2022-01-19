@@ -1,7 +1,7 @@
 import express from 'express';
 import * as socketIo from 'socket.io';
 import { createAdapter } from 'socket.io-redis';
-import redis from 'redis';
+import { createClient } from 'redis';
 import connectRedis from 'connect-redis';
 import csurf from 'csurf';
 import http from 'http';
@@ -38,7 +38,7 @@ import {
   CreateSessionPayload,
   SelfHostedCheckPayload,
   DeleteAccountPayload,
-} from '@retrospected/common';
+} from './common';
 import registerPasswordUser from './auth/register/register-user';
 import { sendVerificationEmail, sendResetPassword } from './email/emailSender';
 import { v4 } from 'uuid';
@@ -64,6 +64,7 @@ import { QueryFailedError } from 'typeorm';
 import { deleteAccount } from './db/actions/delete';
 
 const realIpHeader = 'X-Forwarded-For';
+const isProduction = process.env.NODE_ENV === 'production';
 
 isLicenced().then((hasLicence) => {
   if (!hasLicence) {
@@ -157,7 +158,7 @@ const io = new socketIo.Server(httpServer, {
 
 if (config.REDIS_ENABLED) {
   const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient({
+  const redisClient = createClient({
     host: config.REDIS_HOST,
     port: config.REDIS_PORT,
   });
@@ -168,7 +169,7 @@ if (config.REDIS_ENABLED) {
     saveUninitialized: true,
     store: new RedisStore({ client: redisClient }),
     cookie: {
-      secure: false,
+      secure: isProduction,
     },
   });
 
@@ -189,7 +190,7 @@ if (config.REDIS_ENABLED) {
     resave: true,
     saveUninitialized: true,
     cookie: {
-      secure: false,
+      secure: isProduction,
     },
   });
 }
@@ -414,7 +415,8 @@ db().then(() => {
           identity.emailVerification!
         );
       } else {
-        req.logIn(identity.toIds(), (err) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        req.logIn(identity.toIds(), (err: any) => {
           if (err) {
             console.log('Cannot login Error: ', err);
             res.status(500).send('Cannot login');
@@ -447,7 +449,8 @@ db().then(() => {
       const updatedUser = await updateIdentity(identity.id, {
         emailVerification: null,
       });
-      req.logIn(identity.toIds(), (err) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      req.logIn(identity.toIds(), (err: any) => {
         if (err) {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');
@@ -493,7 +496,8 @@ db().then(() => {
         emailVerification: null,
         password: hashedPassword,
       });
-      req.logIn(identity.toIds(), (err) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      req.logIn(identity.toIds(), (err: any) => {
         if (err) {
           console.log('Cannot login Error: ', err);
           res.status(500).send('Cannot login');

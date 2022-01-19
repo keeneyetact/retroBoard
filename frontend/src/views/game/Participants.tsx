@@ -15,7 +15,7 @@ import useUser from '../../auth/useUser';
 import useTranslation from '../../translations/useTranslations';
 import { useCallback } from 'react';
 import { trackEvent } from '../../track';
-import { Message } from '@retrospected/common';
+import { Message } from 'common';
 import useModal from '../../hooks/useModal';
 import ChatModal from './chat/ChatModal';
 
@@ -104,6 +104,7 @@ function Participants({ onReady, onMessage, messages }: ParticipantsProps) {
 
 const Container = styled.div`
   display: flex;
+  gap: 10px;
   > :first-child {
     flex: 1;
   }
