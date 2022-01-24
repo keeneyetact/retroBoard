@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@mui/material';
 import { formatRelative } from 'date-fns';
 import { useDateLocale } from 'hooks/useFormatDate';
+import useCrypto from 'crypto/useCrypto';
 
 type ChatMessageProps = {
   message: Message;
@@ -10,6 +11,7 @@ type ChatMessageProps = {
 
 export default function ChatMessage({ message }: ChatMessageProps) {
   const locale = useDateLocale();
+  const { decrypt } = useCrypto();
   return (
     <Container>
       <Photo>
@@ -24,7 +26,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             {formatRelative(new Date(message.created), new Date(), { locale })}
           </Time>
         </Header>
-        <Content>{message.content}</Content>
+        <Content>{decrypt(message.content)}</Content>
       </Inner>
     </Container>
   );
@@ -43,6 +45,7 @@ const Inner = styled.div`
 
 const Photo = styled.div`
   width: 30px;
+  padding-top: 3px;
   > img {
     width: 30px;
     height: 30px;
@@ -53,7 +56,8 @@ const Photo = styled.div`
 
 const Header = styled.div`
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  padding-bottom: 4px;
 `;
 
 const Name = styled.span`
@@ -63,10 +67,11 @@ const Name = styled.span`
 
 const Time = styled.span`
   color: ${colors.grey[500]};
+  font-size: 0.8rem;
 `;
 
 const Content = styled.div`
   margin: 0;
   padding: 0;
-  white-space: pre;
+  white-space: pre-wrap;
 `;
