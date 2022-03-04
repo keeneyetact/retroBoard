@@ -89,6 +89,9 @@ This will run a demo version, which you can turn into a fully licenced version b
 - Changing naming convention for the database. All fields and tables are now `snake_case`.
 - Simplified the configuration of TypeORM, removed the generation of `ormconfig.json`.
 - Added Integration tests using Cypress to catch Docker-specific errors and have some basic smoke tests.
+- Upgrade to `react-scripts` (Create React App) 5.0.0
+- Upgrade jQuery (for the marketing / home page), to 3.6.0 for security reasons
+- ⏫ Upgrading dependencies
 
 ### Version 4.11.5 (hotfix)
 
@@ -635,7 +638,7 @@ Many thanks to the following contributors who helped translating the app:
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
 
-Special thanks to [@andresin87](https://github.com/andresin87) for pointing the `flag-icon-css` package to me, it replaces the PNG flags in a neater way.
+Special thanks to [@andresin87](https://github.com/andresin87) for pointing the `flag-icons` package to me, it replaces the PNG flags in a neater way.
 
 Another special thanks to Browserstack, as they allow me to test this project in other browsers.
 
