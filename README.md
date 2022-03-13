@@ -84,6 +84,11 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 4.13.0 (unreleased)
+
+- Adding the option of paying for Retrospected Pro annually, getting one month free in the process
+- Update prices, especially for USD
+
 ### Version 4.12.1 (hotfix)
 
 - Adding users to a Pro Team subscription wasn't working anymore, because of Webpack 5.
