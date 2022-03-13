@@ -89,7 +89,7 @@ const AccountMenu = () => {
                 <ListItemText>{translations.Header.account}</ListItemText>
               </MenuItem>
             ) : null}
-            <Divider />
+            {user && user.accountType !== 'anonymous' ? <Divider /> : null}
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout />
@@ -107,6 +107,7 @@ const AccountMenu = () => {
         onClick={handleModalOpen}
         variant="contained"
         color="secondary"
+        data-cy="login-button"
         startIcon={<AccountIcon />}
       >
         {translations.AnonymousLogin.header}
