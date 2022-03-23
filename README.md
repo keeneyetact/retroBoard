@@ -84,6 +84,10 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 4.12.1 (hotfix)
+
+- Adding users to a Pro Team subscription wasn't working anymore, because of Webpack 5.
+
 ### Version 4.12.0
 
 - Changing naming convention for the database. All fields and tables are now `snake_case`.
