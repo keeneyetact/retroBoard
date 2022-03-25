@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { verifyEmail } from '../api';
 import { Alert } from '@mui/material';
@@ -9,7 +9,7 @@ import useTranslations from '../translations';
 
 function ValidatePage() {
   const { setUser } = useContext(UserContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { ValidateAccount: translations } = useTranslations();
   const params = new URLSearchParams(location.search);
@@ -28,7 +28,7 @@ function ValidatePage() {
         if (result) {
           setTimeout(() => {
             setUser(result);
-            history.push('/');
+            navigate('/');
           }, 2000);
         }
       } else {
@@ -37,7 +37,7 @@ function ValidatePage() {
       }
     }
     verify();
-  }, [email, code, history, setUser]);
+  }, [email, code, navigate, setUser]);
 
   return (
     <div style={{ margin: 50 }}>

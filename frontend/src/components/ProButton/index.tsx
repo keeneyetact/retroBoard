@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { colors } from '@mui/material';
 import { AllInclusive, Lock, VerifiedUser } from '@mui/icons-material';
 import { useCallback, cloneElement } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import useIsPro from '../../auth/useIsPro';
 import useIsDisabled from '../../hooks/useIsDisabled';
@@ -37,7 +37,7 @@ function ProButton({ children, quota }: ProButtonProps) {
   const isValid = isPro || (quota && !isDisabled);
   const [opened, open, close] = useModal();
   const clone = isValid ? children : cloneElement(children, { onClick: open });
-  const history = useHistory();
+  const navigate = useNavigate();
   const { SubscribeModal: translations } = useTranslation();
   const fullScreen = useMediaQuery('(max-width:600px)');
 
@@ -46,10 +46,10 @@ function ProButton({ children, quota }: ProButtonProps) {
       e.stopPropagation();
       e.preventDefault();
       trackEvent('trial/modal/subscribe');
-      history.push('/subscribe');
+      navigate('/subscribe');
       close();
     },
-    [history, close]
+    [navigate, close]
   );
 
   const handleStartTrial = useCallback(

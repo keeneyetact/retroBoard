@@ -10,7 +10,7 @@ import useTranslation from '../translations/useTranslations';
 import { logout } from '../api';
 import UserContext from './Context';
 import Avatar from '../components/Avatar';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Logout, Star } from '@mui/icons-material';
 import { colors, Divider, ListItemIcon, ListItemText } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -21,7 +21,7 @@ const AccountMenu = () => {
   const [modalOpened, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuAnchor = useRef<HTMLDivElement>(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const openMenu = useCallback(() => setMenuOpen(true), []);
 
@@ -44,14 +44,14 @@ const AccountMenu = () => {
   }, [setUser]);
 
   const handleAccount = useCallback(() => {
-    history.push('/account');
+    navigate('/account');
     setMenuOpen(false);
-  }, [history]);
+  }, [navigate]);
 
   const handleSubscribe = useCallback(() => {
-    history.push('/subscribe');
+    navigate('/subscribe');
     setMenuOpen(false);
-  }, [history]);
+  }, [navigate]);
 
   const user = useUser();
   if (user) {
@@ -122,7 +122,7 @@ const AvatarContainer = styled.div`
   align-items: center;
   cursor: pointer;
 
-  > *:first-child {
+  > :first-of-type {
     margin-right: 10px;
   }
 `;

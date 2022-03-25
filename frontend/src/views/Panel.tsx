@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styled from '@emotion/styled';
-import { Route, Link as RouterLink } from 'react-router-dom';
+import { Route, Link as RouterLink, Routes } from 'react-router-dom';
 import { colors } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import Link from '@mui/material/Link';
@@ -37,7 +37,9 @@ function Panel() {
             onChange={languageContext.setLanguage}
           />
           <Content>
-            <Route path="/game/:gameId" component={ParticipantsList} />
+            <Routes>
+              <Route path="/game/:gameId" element={<ParticipantsList />} />
+            </Routes>
           </Content>
         </Top>
         <Bottom>
