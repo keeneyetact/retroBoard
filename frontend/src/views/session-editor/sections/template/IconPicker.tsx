@@ -1,46 +1,52 @@
-import { useCallback } from 'react';
-import { getIcon, getAllIcons } from '../../../../state/icons';
-import { IconName } from 'common';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { SelectChangeEvent } from '@mui/material';
+import { useCallback, useRef } from 'react';
+import { Button, Popover } from '@mui/material';
+import styled from '@emotion/styled';
+import { Picker, EmojiData } from 'emoji-mart';
+import useModal from 'hooks/useModal';
+import Icon from 'components/Icon/Icon';
 
 interface IconPickerProps {
-  value: IconName | null;
-  onChange: (value: IconName) => void;
+  value: string | null;
+  onChange: (value: string) => void;
 }
 
 const IconPicker = ({ value, onChange }: IconPickerProps) => {
-  const icons = getAllIcons();
+  const ref = useRef<HTMLButtonElement>(null);
+  const [opened, open, close] = useModal();
   const handleChange = useCallback(
-    (event: SelectChangeEvent<IconName>) => {
-      onChange(event.target.value as IconName);
+    (emoji: EmojiData) => {
+      if (emoji.id) {
+        onChange(emoji.id);
+        close();
+      }
     },
-    [onChange]
+    [onChange, close]
   );
-  const actualValue: IconName = value || 'help';
   return (
-    <Select
-      value={actualValue}
-      renderValue={renderIcon}
-      onChange={handleChange}
-      variant="standard"
-    >
-      {icons.map((icon) => {
-        const AnIcon = getIcon(icon)!;
-        return (
-          <MenuItem value={icon} key={icon}>
-            <AnIcon />
-          </MenuItem>
-        );
-      })}
-    </Select>
+    <Container>
+      <Button
+        ref={ref}
+        onClick={open}
+        size="small"
+        style={{ padding: 5, minWidth: 40 }}
+      >
+        <Icon icon={value || 'grey_question'} />
+      </Button>
+      <Popover
+        open={opened}
+        anchorEl={ref.current}
+        onClose={close}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Picker onSelect={handleChange} />
+      </Popover>
+    </Container>
   );
 };
 
-function renderIcon(icon: unknown): React.ReactNode {
-  const Icon = getIcon(icon as IconName);
-  return Icon ? <Icon /> : null;
-}
+const Container = styled.div``;
 
 export default IconPicker;
