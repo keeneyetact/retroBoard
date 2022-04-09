@@ -35,9 +35,6 @@ export interface BackendConfig {
   OKTA_SECRET: string;
   SENDGRID_API_KEY: string;
   SENDGRID_SENDER: string;
-  SENDGRID_VERIFICATION_EMAIL_TID: string;
-  SENDGRID_RESET_PASSWORD_TID: string;
-  SENDGRID_SELF_HOST_EMAIL_TID: string;
   STRIPE_SECRET: string;
   STRIPE_WEBHOOK_SECRET: string;
   STRIPE_TEAM_PRODUCT: string;
@@ -53,6 +50,12 @@ export interface BackendConfig {
   RATE_LIMIT_WS_POINTS: number;
   RATE_LIMIT_WS_DURATION: number;
   WS_MAX_BUFFER_SIZE: number;
+  MAIL_SMTP_HOST: string;
+  MAIL_PORT: number;
+  MAIL_SECURE: boolean;
+  MAIL_USER: string;
+  MAIL_PASSWORD: string;
+  MAIL_SENDER: string;
 }
 
 export type LicenceMetadata = {

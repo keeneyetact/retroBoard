@@ -85,12 +85,6 @@ const config: BackendConfig = {
   OKTA_SECRET: defaults('OKTA_SECRET', ''),
   SENDGRID_API_KEY: defaults('SENDGRID_API_KEY', ''),
   SENDGRID_SENDER: defaults('SENDGRID_SENDER', ''),
-  SENDGRID_VERIFICATION_EMAIL_TID: defaults(
-    'SENDGRID_VERIFICATION_EMAIL_TID',
-    ''
-  ),
-  SENDGRID_RESET_PASSWORD_TID: defaults('SENDGRID_RESET_PASSWORD_TID', ''),
-  SENDGRID_SELF_HOST_EMAIL_TID: defaults('SENDGRID_SELF_HOST_EMAIL_TID', ''),
   STRIPE_SECRET: defaults('STRIPE_SECRET', ''),
   STRIPE_WEBHOOK_SECRET: defaults('STRIPE_WEBHOOK_SECRET', ''),
   STRIPE_TEAM_PRODUCT: defaults('STRIPE_TEAM_PRODUCT', ''),
@@ -106,6 +100,12 @@ const config: BackendConfig = {
   RATE_LIMIT_WS_POINTS: defaultsNumber('RATE_LIMIT_WS_POINTS', 600),
   RATE_LIMIT_WS_DURATION: defaultsNumber('RATE_LIMIT_WS_DURATION', 60),
   WS_MAX_BUFFER_SIZE: defaultsNumber('WS_MAX_BUFFER_SIZE', 10_000),
+  MAIL_SMTP_HOST: defaults('MAIL_SMTP_HOST', ''),
+  MAIL_PORT: defaultsNumber('MAIL_PORT', 465),
+  MAIL_SECURE: defaultsBool('MAIL_SECURE', true),
+  MAIL_SENDER: defaults('MAIL_SENDER', ''),
+  MAIL_USER: defaults('MAIL_USER', ''),
+  MAIL_PASSWORD: defaults('MAIL_PASSWORD', ''),
 };
 
 export default config;
