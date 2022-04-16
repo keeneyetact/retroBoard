@@ -15,6 +15,9 @@ function get(name, rest) {
 describe('Post workflow', () => {
   it('Should login and write a post', () => {
     cy.visit('/');
+
+    // We need to wait until the backend is ready
+    cy.wait(+Cypress.env('backend_delay'));
     
     get('login-button').click();
     get('anon-tab').click();
