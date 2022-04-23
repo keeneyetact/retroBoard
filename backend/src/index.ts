@@ -421,6 +421,63 @@ db().then(() => {
     }
   });
 
+  app.delete('/api/user/:identityId', heavyLoadLimiter, async (req, res) => {
+    const user = await getUserViewFromRequest(req);
+    if (!user || user.email !== config.SELF_HOSTED_ADMIN) {
+      res
+        .status(403)
+        .send('Deleting a user is only allowed for the self-hosted admin.');
+      return;
+    }
+    const userToDelete = await getUserView(req.params.identityId);
+    if (userToDelete) {
+      const result = await deleteAccount(
+        userToDelete,
+        req.body as DeleteAccountPayload
+      );
+      res.status(200).send(result);
+    } else {
+      res.status(404).send('User not found');
+    }
+  });
+
+  app.post('/api/user', heavyLoadLimiter, async (req, res) => {
+    const user = await getUserViewFromRequest(req);
+    if (!user || user.email !== config.SELF_HOSTED_ADMIN) {
+      res
+        .status(403)
+        .send('Adding a user is only allowed for the self-hosted admin.');
+      return;
+    }
+    if (config.DISABLE_PASSWORD_REGISTRATION) {
+      res.status(403).send('Password accounts registration is disabled.');
+      return;
+    }
+
+    const registerPayload = req.body as RegisterPayload;
+    if (
+      (await getIdentityByUsername('password', registerPayload.username)) !==
+      null
+    ) {
+      res.status(403).send('User already exists');
+      return;
+    }
+    const identity = await registerPasswordUser(registerPayload, true);
+    if (!identity) {
+      res.status(500).send();
+    } else {
+      const userView = await getUserView(identity.id);
+      if (userView) {
+        res.status(200).send({
+          loggedIn: false,
+          user: userView.toJson(),
+        });
+      } else {
+        res.status(500).send();
+      }
+    }
+  });
+
   app.post('/api/validate', heavyLoadLimiter, async (req, res) => {
     const validatePayload = req.body as ValidateEmailPayload;
     const identity = await getPasswordIdentity(validatePayload.email);
