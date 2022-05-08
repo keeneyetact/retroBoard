@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import AccountIcon from '@mui/icons-material/AccountCircle';
 import useUser from './useUser';
 import LoginModal from './modal/LoginModal';
-import useTranslation from '../translations/useTranslations';
 import { logout } from '../api';
 import UserContext from './Context';
 import Avatar from '../components/Avatar';
@@ -15,9 +14,10 @@ import { Key, Logout, Star } from '@mui/icons-material';
 import { colors, Divider, ListItemIcon, ListItemText } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import useIsAdmin from './useIsAdmin';
+import { useTranslation } from 'react-i18next';
 
 const AccountMenu = () => {
-  const translations = useTranslation();
+  const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
   const [modalOpened, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -98,7 +98,7 @@ const AccountMenu = () => {
                 <ListItemIcon>
                   <AccountCircle />
                 </ListItemIcon>
-                <ListItemText>{translations.Header.account}</ListItemText>
+                <ListItemText>{t('Header.account')}</ListItemText>
               </MenuItem>
             ) : null}
             {isAdmin ? (
@@ -106,7 +106,7 @@ const AccountMenu = () => {
                 <ListItemIcon>
                   <Key />
                 </ListItemIcon>
-                <ListItemText>{translations.Header.adminPanel}</ListItemText>
+                <ListItemText>{t('Header.adminPanel')}</ListItemText>
               </MenuItem>
             ) : null}
             {isAdmin || isNotAnon ? <Divider /> : null}
@@ -114,7 +114,7 @@ const AccountMenu = () => {
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>
-              <ListItemText>{translations.Header.logout}</ListItemText>
+              <ListItemText>{t('Header.logout')}</ListItemText>
             </MenuItem>
           </Menu>
         ) : null}
@@ -130,7 +130,7 @@ const AccountMenu = () => {
         data-cy="login-button"
         startIcon={<AccountIcon />}
       >
-        {translations.AnonymousLogin.header}
+        {t('AnonymousLogin.header')}
       </Button>
       {modalOpened && <LoginModal onClose={handleModalClose} />}
     </>

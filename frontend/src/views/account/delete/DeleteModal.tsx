@@ -23,7 +23,7 @@ import UserContext from '../../../auth/Context';
 import { useNavigate } from 'react-router';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { trackEvent } from '../../../track';
 import useUser from 'auth/useUser';
 
@@ -50,11 +50,7 @@ export function DeleteModal({
   const { enqueueSnackbar } = useSnackbar();
   const push = useNavigate();
   const confirm = useConfirm();
-  const {
-    AccountPage: {
-      deleteAccount: { modal: translations },
-    },
-  } = useTranslations();
+  const { t } = useTranslation();
 
   const handleDelete = useCallback(async () => {
     if (!user) {
@@ -71,10 +67,14 @@ export function DeleteModal({
       'data-cy': 'delete-modal-confirm',
     };
     confirm({
-      title: translations.confirm.title,
-      description: translations.confirm.description,
-      confirmationText: translations.confirm.confirmation,
-      cancellationText: translations.confirm.cancellation,
+      title: t('AccountPage.deleteAccount.modal.confirm.title'),
+      description: t('AccountPage.deleteAccount.modal.confirm.description'),
+      confirmationText: t(
+        'AccountPage.deleteAccount.modal.confirm.confirmation'
+      ),
+      cancellationText: t(
+        'AccountPage.deleteAccount.modal.confirm.cancellation'
+      ),
       confirmationButtonProps: buttonProps as any,
     })
       .then(async () => {
@@ -124,7 +124,7 @@ export function DeleteModal({
     confirm,
     onClose,
     onDelete,
-    translations,
+    t,
     enqueueSnackbar,
   ]);
 
@@ -142,10 +142,14 @@ export function DeleteModal({
     >
       <DialogContent>
         <List
-          subheader={<ListSubheader>{translations.subheader}</ListSubheader>}
+          subheader={
+            <ListSubheader>
+              {t('AccountPage.deleteAccount.modal.subheader')}
+            </ListSubheader>
+          }
         >
           <DeleteItem checked disabled icon={<Person />}>
-            {translations.deleteAccount} ({user.email})
+            {t('AccountPage.deleteAccount.modal.deleteAccount')} ({user.email})
           </DeleteItem>
           <DeleteItem
             checked={deleteSessions}
@@ -153,13 +157,15 @@ export function DeleteModal({
             icon={<Dashboard />}
             cy="delete-modal-sessions"
           >
-            <p>{translations.deleteSessions.main}</p>
+            <p>{t('AccountPage.deleteAccount.modal.deleteSessions.main')}</p>
             {deleteSessions ? (
-              <Red>{translations.deleteSessions.selected}</Red>
+              <Red>
+                {t('AccountPage.deleteAccount.modal.deleteSessions.selected')}
+              </Red>
             ) : (
               <Green>
-                <b>{translations.recommended}</b> -{' '}
-                {translations.deleteSessions.unselected}
+                <b>{t('AccountPage.deleteAccount.modal.recommended')}</b> -{' '}
+                {t('AccountPage.deleteAccount.modal.deleteSessions.unselected')}
               </Green>
             )}
           </DeleteItem>
@@ -169,13 +175,15 @@ export function DeleteModal({
             icon={<Note />}
             cy="delete-modal-posts"
           >
-            <p>{translations.deletePosts.main}</p>
+            <p>{t('AccountPage.deleteAccount.modal.deletePosts.main')}</p>
             {deletePosts ? (
-              <Red>{translations.deletePosts.selected}</Red>
+              <Red>
+                {t('AccountPage.deleteAccount.modal.deletePosts.selected')}
+              </Red>
             ) : (
               <Green>
-                <b>{translations.recommended}</b> -{' '}
-                {translations.deletePosts.unselected}
+                <b>{t('AccountPage.deleteAccount.modal.recommended')}</b> -{' '}
+                {t('AccountPage.deleteAccount.modal.deletePosts.unselected')}
               </Green>
             )}
           </DeleteItem>
@@ -185,13 +193,15 @@ export function DeleteModal({
             icon={<ThumbUpOutlined />}
             cy="delete-modal-votes"
           >
-            <p>{translations.deleteVotes.main}</p>
+            <p>{t('AccountPage.deleteAccount.modal.deleteVotes.main')}</p>
             {deleteVotes ? (
-              <Red>{translations.deleteVotes.selected}</Red>
+              <Red>
+                {t('AccountPage.deleteAccount.modal.deleteVotes.selected')}
+              </Red>
             ) : (
               <Green>
-                <b>{translations.recommended}</b> -{' '}
-                {translations.deleteVotes.unselected}
+                <b>{t('AccountPage.deleteAccount.modal.recommended')}</b> -{' '}
+                {t('AccountPage.deleteAccount.modal.deleteVotes.unselected')}
               </Green>
             )}
           </DeleteItem>
@@ -204,9 +214,11 @@ export function DeleteModal({
           onClick={handleDelete}
           data-cy="delete-modal-delete-button"
         >
-          {translations.deleteAccountButton}
+          {t('AccountPage.deleteAccount.modal.deleteAccountButton')}
         </Button>
-        <Button onClick={onClose}>{translations.cancelButton}</Button>
+        <Button onClick={onClose}>
+          {t('AccountPage.deleteAccount.modal.cancelButton')}
+        </Button>
       </DialogActions>
     </Dialog>
   );

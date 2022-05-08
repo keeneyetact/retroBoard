@@ -6,14 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Visibility } from '@mui/icons-material';
-import useTranslation from '../../../../translations/useTranslations';
+import { useTranslation } from 'react-i18next';
 
 interface RevealButtonProps {
   onClick: () => void;
 }
 
 function RevealButton({ onClick }: RevealButtonProps) {
-  const { RevealCards } = useTranslation();
+  const { t } = useTranslation();
   const [revealDialogOpen, setRevealDialogOpen] = useState(false);
   const handleOpenDialog = useCallback(() => {
     setRevealDialogOpen(true);
@@ -29,7 +29,7 @@ function RevealButton({ onClick }: RevealButtonProps) {
         startIcon={<Visibility />}
         onClick={handleOpenDialog}
       >
-        {RevealCards.buttonLabel}
+        {t('RevealCards.buttonLabel')}
       </Button>
       <Dialog
         onClose={handleCloseDialog}
@@ -37,17 +37,19 @@ function RevealButton({ onClick }: RevealButtonProps) {
         open={revealDialogOpen}
       >
         <DialogTitle id="reveal-cards-dialog">
-          {RevealCards.dialogTitle}
+          {t('RevealCards.dialogTitle')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{RevealCards.dialogContent}</DialogContentText>
+          <DialogContentText>
+            {t('RevealCards.dialogContent')}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>
-            {RevealCards.cancelButton}
+            {t('RevealCards.cancelButton')}
           </Button>
           <Button variant="contained" color="primary" onClick={onClick}>
-            {RevealCards.confirmButton}
+            {t('RevealCards.confirmButton')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import useToggle from '../../hooks/useToggle';
 import { ColumnSettings } from '../../state/types';
 import TemplateSection from './sections/template/TemplateSection';
@@ -39,8 +39,7 @@ function SessionEditor({
   onChange,
   onClose,
 }: SessionEditorProps) {
-  const translations = useTranslations();
-  const { Customize, Generic } = translations;
+  const { t } = useTranslation();
   const fullScreen = useMediaQuery('(max-width:600px)');
   const [isDefaultTemplate, toggleIsDefaultTemplate] = useToggle(false);
   const [definitions, setDefinitions] = useState<ColumnSettings[]>(columns);
@@ -48,29 +47,20 @@ function SessionEditor({
   const [currentTab, setCurrentTab] = useState('template');
 
   useEffect(() => {
-    const extrapolatedColumns = columns.map((c) =>
-      extrapolate(c, translations)
-    );
+    const extrapolatedColumns = columns.map((c) => extrapolate(c, t));
     setDefinitions(extrapolatedColumns);
-  }, [columns, translations]);
+  }, [columns, t]);
 
   useEffect(() => {
     setOptions(incomingOptions);
   }, [incomingOptions]);
 
   const handleCreate = useCallback(() => {
-    const definitionsToPersist = hasChanged(columns, definitions, translations)
+    const definitionsToPersist = hasChanged(columns, definitions, t)
       ? definitions
       : columns;
     onChange(options, definitionsToPersist, isDefaultTemplate);
-  }, [
-    onChange,
-    options,
-    definitions,
-    isDefaultTemplate,
-    columns,
-    translations,
-  ]);
+  }, [onChange, options, definitions, isDefaultTemplate, columns, t]);
 
   const handleTab = useCallback((_: React.ChangeEvent<{}>, value: string) => {
     setCurrentTab(value);
@@ -94,9 +84,9 @@ function SessionEditor({
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label={Customize.template} value="template" />
-          <Tab label={Customize.postCategory} value="posts" />
-          <Tab label={Customize.votingCategory} value="voting" />
+          <Tab label={t('Customize.template')} value="template" />
+          <Tab label={t('Customize.postCategory')} value="posts" />
+          <Tab label={t('Customize.votingCategory')} value="voting" />
         </Tabs>
       </AppBar>
       <DialogContent>
@@ -118,13 +108,13 @@ function SessionEditor({
               onChange={toggleIsDefaultTemplate}
             />
           }
-          label={Customize.makeDefaultTemplate!}
+          label={t('Customize.makeDefaultTemplate')!}
         />
         <Button onClick={onClose} variant="text">
-          {Generic.cancel}
+          {t('Generic.cancel')}
         </Button>
         <Button onClick={handleCreate} color="primary" variant="contained">
-          {edit ? Customize.editButton : Customize.startButton}
+          {edit ? t('Customize.editButton') : t('Customize.startButton')}
         </Button>
       </DialogActions>
     </Dialog>

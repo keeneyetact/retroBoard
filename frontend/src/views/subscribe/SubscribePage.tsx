@@ -14,13 +14,14 @@ import Input from '../../components/Input';
 import useUser from '../../auth/useUser';
 import { Alert } from '@mui/material';
 import { useEffect } from 'react';
-import useTranslations, { useLanguage } from '../../translations';
+import { useLanguage } from '../../translations';
+import { useTranslation } from 'react-i18next';
 import useProducts from './components/useProducts';
 import { find } from 'lodash';
 
 function guessDomain(user: FullUser): string {
   if (user.email) {
-    const parts = user.email.split('@');
+    const parts = user.email.split('SubscribePage.@');
     if (parts.length === 2) {
       return parts[1];
     }
@@ -48,9 +49,8 @@ function SubscriberPage() {
   }, [plan, products]);
   const [domain, setDomain] = useState<string>(DEFAULT_DOMAIN);
   const stripe = useStripe();
-  const { SubscribePage: translations, Products: productsTranslations } =
-    useTranslations();
-  const language = useLanguage();
+  const { t } = useTranslation();
+  const [language] = useLanguage();
   const needDomain = product && product.plan === 'unlimited';
   const needLogin =
     !!product &&
@@ -112,8 +112,8 @@ function SubscriberPage() {
     (index: number) => (
       <Step
         index={index}
-        title={translations.plan.title}
-        description={translations.plan.description}
+        title={t('SubscribePage.plan.title')}
+        description={t('SubscribePage.plan.description')}
       >
         <ProductPicker
           value={plan}
@@ -133,7 +133,7 @@ function SubscriberPage() {
               size="medium"
             />
           }
-          label={`🎁  ${productsTranslations.wantToPayYearly!}`}
+          label={`🎁  ${t('Products.wantToPayYearly')}`}
         />
       </Step>
     ),
@@ -141,15 +141,15 @@ function SubscriberPage() {
       ? (index: number) => (
           <Step
             index={index}
-            title={translations.domain.title}
-            description={translations.domain.description}
+            title={t('SubscribePage.domain.title')}
+            description={t('SubscribePage.domain.description')}
           >
             <Input
               value={domain}
               onChangeValue={setDomain}
               error={!validDomain}
               helperText={
-                !validDomain ? translations.domain.invalidDomain : null
+                !validDomain ? t('SubscribePage.domain.invalidDomain') : null
               }
               required
             />
@@ -159,12 +159,14 @@ function SubscriberPage() {
     (index: number) => (
       <Step
         index={index}
-        title={translations.currency.title}
-        description={translations.currency.description}
+        title={t('SubscribePage.currency.title')}
+        description={t('SubscribePage.currency.description')}
       >
         {user && !!user.currency ? (
           <Alert severity="warning" style={{ marginBottom: 10 }}>
-            {translations.currency.warning!(currency.toUpperCase())}
+            {t('SubscribePage.currency.warning', {
+              currency: currency.toUpperCase(),
+            })}
           </Alert>
         ) : null}
         <CurrencyPicker
@@ -177,14 +179,14 @@ function SubscriberPage() {
     (index: number) => (
       <Step
         index={index}
-        title={`${translations.subscribe.title} ${
+        title={`${t('SubscribePage.subscribe.title')} ${
           product ? ` - ${product.name}` : ''
         }`}
-        description={translations.subscribe.description}
+        description={t('SubscribePage.subscribe.description')}
       >
         {needLogin ? (
           <Alert severity="info" style={{ marginBottom: 10 }}>
-            {translations.subscribe.cannotRegisterWithAnon}
+            {t('SubscribePage.subscribe.cannotRegisterWithAnon')}
           </Alert>
         ) : null}
         <Button
@@ -193,7 +195,7 @@ function SubscriberPage() {
           color="primary"
           disabled={!validForm}
         >
-          {translations.subscribe.checkout}
+          {t('SubscribePage.subscribe.checkout')}
         </Button>
       </Step>
     ),
@@ -203,10 +205,12 @@ function SubscriberPage() {
     <Container>
       <Header>Retrospected Pro</Header>
       {user && user.pro && !user.subscriptionsId ? (
-        <Alert severity="info">{translations.alertAlreadyPro}</Alert>
+        <Alert severity="info">{t('SubscribePage.alertAlreadyPro')}</Alert>
       ) : null}
       {user && user.subscriptionsId && !user.trial ? (
-        <Alert severity="info">{translations.alertAlreadySubscribed}</Alert>
+        <Alert severity="info">
+          {t('SubscribePage.alertAlreadySubscribed')}
+        </Alert>
       ) : null}
 
       {steps.map((step, index) => {

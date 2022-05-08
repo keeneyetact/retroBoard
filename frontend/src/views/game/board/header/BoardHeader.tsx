@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { SessionOptions, ColumnDefinition } from 'common';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import useRemainingVotes from './useRemainingVotes';
 import useCanReveal from './useCanReveal';
 import EditableLabel from '../../../../components/EditableLabel';
@@ -51,7 +51,7 @@ function BoardHeader({
   onLockSession,
   onRenameSession,
 }: BoardHeaderProps) {
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const classes = useStyles();
   const [key] = useEncryptionKey();
   const remainingVotes = useRemainingVotes();
@@ -91,24 +91,18 @@ function BoardHeader({
     <>
       {!canDecrypt ? <EncryptionModal /> : null}
       {!isLoggedIn ? (
-        <Alert severity="warning">{translations.PostBoard.notLoggedIn}</Alert>
+        <Alert severity="warning">{t('PostBoard.notLoggedIn')}</Alert>
       ) : null}
       {!canDecrypt ? (
-        <Alert severity="error">
-          {translations.Encryption.sessionEncryptionError}
-        </Alert>
+        <Alert severity="error">{t('Encryption.sessionEncryptionError')}</Alert>
       ) : null}
       {permissions.hasReachedMaxPosts ? (
-        <Alert severity="warning">
-          {translations.PostBoard.maxPostsReached}
-        </Alert>
+        <Alert severity="warning">{t('PostBoard.maxPostsReached')}</Alert>
       ) : null}
       {isDisabled ? (
         <Alert severity="warning">
-          <AlertTitle>
-            {translations.TrialPrompt.allowanceReachedTitle}
-          </AlertTitle>
-          {translations.TrialPrompt.allowanceReachedDescription}
+          <AlertTitle>{t('TrialPrompt.allowanceReachedTitle')}</AlertTitle>
+          {t('TrialPrompt.allowanceReachedDescription')}
         </Alert>
       ) : null}
 
@@ -130,7 +124,7 @@ function BoardHeader({
             className={classes.sessionName}
           >
             <EditableLabel
-              placeholder={translations.SessionName.defaultSessionName}
+              placeholder={t('SessionName.defaultSessionName')}
               value={decrypt(session.name)}
               centered
               onChange={handleRenameSession}
@@ -148,11 +142,11 @@ function BoardHeader({
       {shouldDisplayEncryptionWarning ? (
         <TransitionAlert
           severity="warning"
-          title={translations.Encryption.newEncryptedSessionWarningTitle}
+          title={t('Encryption.newEncryptedSessionWarningTitle')}
         >
-          {translations.Encryption.newEncryptedSessionWarningContent!(
-            key || '(unknown)'
-          )}
+          {t('Encryption.newEncryptedSessionWarningContent', {
+            key: key || '(unknown)',
+          })}
         </TransitionAlert>
       ) : null}
     </>

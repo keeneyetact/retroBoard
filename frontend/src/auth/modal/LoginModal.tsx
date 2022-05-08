@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import UserContext from '../Context';
 import SocialAuth from './SocialAuth';
 import AnonAuth from './AnonAuth';
@@ -26,7 +26,7 @@ const Login = ({ onClose }: LoginModalProps) => {
   const hasNoSocialMediaAuth = !any;
   const hasNoWayOfLoggingIn =
     hasNoSocialMediaAuth && disableAnonymous && disablePasswords;
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const fullScreen = useMediaQuery('(max-width:600px)');
   const { setUser } = useContext(UserContext);
   const [currentTab, setCurrentTab] = useState<TabType>(
@@ -68,21 +68,21 @@ const Login = ({ onClose }: LoginModalProps) => {
             >
               {!hasNoSocialMediaAuth ? (
                 <Tab
-                  label={translations.SocialMediaLogin.header}
+                  label={t('SocialMediaLogin.header')}
                   value="social"
                   data-cy="social-tab"
                 />
               ) : null}
               {!disablePasswords ? (
                 <Tab
-                  label={translations.AccountLogin.header}
+                  label={t('AccountLogin.header')}
                   value="account"
                   data-cy="account-tab"
                 />
               ) : null}
               {!disableAnonymous ? (
                 <Tab
-                  label={translations.AnonymousLogin.anonymousAuthHeader}
+                  label={t('AnonymousLogin.anonymousAuthHeader')}
                   value="anon"
                   data-cy="anon-tab"
                 />

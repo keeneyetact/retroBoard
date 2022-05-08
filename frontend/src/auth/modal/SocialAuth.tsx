@@ -8,13 +8,14 @@ import {
 } from 'react-social-login-buttons';
 import styled from '@emotion/styled';
 import io, { Socket } from 'socket.io-client';
-import useTranslations, { useLanguage } from '../../translations';
-import { updateLanguage } from '../../api';
+import { useLanguage } from '../../translations';
+import { me, updateLanguage } from '../../api';
 import { FullUser } from 'common';
 import Wrapper from './Wrapper';
 import SlackLoginButton from './social/SlackLoginButton';
 import OktaLoginButton from './social/OktaLoginButton';
 import useOAuthAvailabilities from '../../global/useOAuthAvailabilities';
+import { useTranslation } from 'react-i18next';
 
 const API_URL = '/api/auth';
 
@@ -26,9 +27,9 @@ interface SocialAuthProps {
 function SocialAuth({ onClose, onUser }: SocialAuthProps) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const windowRef = useRef<Window | null>(null);
-  const { SocialMediaLogin: translations } = useTranslations();
+  const { t } = useTranslation();
   const { details } = useOAuthAvailabilities();
-  const language = useLanguage();
+  const [language] = useLanguage();
   const handleOAuth = useCallback(
     (provider: string) => {
       const width = 600;
@@ -64,7 +65,10 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
     const s = io();
     setSocket(s);
     s.on('auth', async (_user: FullUser) => {
-      const updatedUser = await updateLanguage(language.value);
+      let updatedUser = await me();
+      if (updatedUser?.language === null) {
+        updatedUser = await updateLanguage(language.locale);
+      }
       onUser(updatedUser);
       if (windowRef.current) {
         windowRef.current.close();
@@ -82,8 +86,8 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
   }, [onClose, onUser, language]);
 
   return (
-    <Wrapper header={translations.header}>
-      <Alert severity="info">{translations.info}</Alert>
+    <Wrapper header={t('SocialMediaLogin.header')}>
+      <Alert severity="info">{t('SocialMediaLogin.info')}</Alert>
       <AccountsButtons>
         {details.microsoft && (
           <MicrosoftLoginButton onClick={handleMicrosoft} text="Microsoft" />

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { SessionOptions } from 'common';
 import SettingCategory from '../SettingCategory';
 import OptionItem from '../OptionItem';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import BooleanOption from '../BooleanOption';
 import MaxVoteSlider from './MaxVoteSlider';
 
@@ -12,8 +12,7 @@ interface VotingSectionProps {
 }
 
 function VotingSection({ options, onChange }: VotingSectionProps) {
-  const translations = useTranslations();
-  const { Customize } = translations;
+  const { t } = useTranslation();
 
   const setAllowSelfVoting = useCallback(
     (value: boolean) => {
@@ -53,19 +52,19 @@ function VotingSection({ options, onChange }: VotingSectionProps) {
   );
   return (
     <SettingCategory
-      title={Customize.votingCategory!}
-      subtitle={Customize.votingCategorySub!}
+      title={t('Customize.votingCategory')!}
+      subtitle={t('Customize.votingCategorySub')!}
     >
       <OptionItem
-        label={Customize.maxUpVotes!}
-        help={Customize.maxUpVotesHelp!}
+        label={t('Customize.maxUpVotes')!}
+        help={t('Customize.maxUpVotesHelp')!}
         wide
       >
         <MaxVoteSlider value={options.maxUpVotes} onChange={setMaxUpVotes} />
       </OptionItem>
       <OptionItem
-        label={Customize.maxDownVotes!}
-        help={Customize.maxDownVotesHelp!}
+        label={t('Customize.maxDownVotes')!}
+        help={t('Customize.maxDownVotesHelp')!}
         wide
       >
         <MaxVoteSlider
@@ -74,8 +73,8 @@ function VotingSection({ options, onChange }: VotingSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.allowSelfVoting!}
-        help={Customize.allowSelfVotingHelp!}
+        label={t('Customize.allowSelfVoting')!}
+        help={t('Customize.allowSelfVotingHelp')!}
       >
         <BooleanOption
           value={options.allowSelfVoting}
@@ -83,8 +82,8 @@ function VotingSection({ options, onChange }: VotingSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.allowMultipleVotes!}
-        help={Customize.allowMultipleVotesHelp!}
+        label={t('Customize.allowMultipleVotes')!}
+        help={t('Customize.allowMultipleVotesHelp')!}
       >
         <BooleanOption
           value={options.allowMultipleVotes}

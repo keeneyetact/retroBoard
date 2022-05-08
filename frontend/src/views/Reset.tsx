@@ -7,7 +7,7 @@ import UserContext from '../auth/Context';
 import Input from '../components/Input';
 import { VpnKey } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import useTranslations from '../translations';
+import { useTranslation } from 'react-i18next';
 
 const PasswordStrength = lazy(
   () =>
@@ -20,8 +20,7 @@ function ResetPasswordPage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const { ResetPassword: translations, AuthCommon: authTranslations } =
-    useTranslations();
+  const { t } = useTranslation();
   const params = new URLSearchParams(location.search);
   const email = params.get('email');
   const code = params.get('code');
@@ -53,22 +52,22 @@ function ResetPasswordPage() {
   return (
     <div style={{ margin: 50 }}>
       {success === true && !loading ? (
-        <Alert severity="success">{translations.success}</Alert>
+        <Alert severity="success">{t('ResetPassword.success')}</Alert>
       ) : null}
       {success === false && !loading ? (
-        <Alert severity="error">{translations.error}</Alert>
+        <Alert severity="error">{t('ResetPassword.error')}</Alert>
       ) : null}
       {success === null && loading ? (
-        <Alert severity="info">{translations.loading}</Alert>
+        <Alert severity="info">{t('ResetPassword.loading')}</Alert>
       ) : null}
       {success === null && !loading ? (
         <>
-          <Alert severity="info">{translations.resetInfo}</Alert>
+          <Alert severity="info">{t('ResetPassword.resetInfo')}</Alert>
           <Input
             value={password}
             onChangeValue={setPassword}
-            title={authTranslations.passwordField}
-            placeholder={authTranslations.passwordField}
+            title={t('AuthCommon.passwordField')}
+            placeholder={t('AuthCommon.passwordField')}
             type="password"
             fullWidth
             style={{ marginTop: 20 }}
@@ -79,8 +78,8 @@ function ResetPasswordPage() {
             <PasswordStrength
               onChangeScore={setScore}
               password={password}
-              shortScoreWord={authTranslations.passwordScoreWords![0]}
-              scoreWords={authTranslations.passwordScoreWords}
+              shortScoreWord={t('AuthCommon.passwordScoreWords')![0]}
+              scoreWords={t('AuthCommon.passwordScoreWords')}
             />
           </Suspense>
           <Button
@@ -89,7 +88,7 @@ function ResetPasswordPage() {
             variant="contained"
             color="primary"
           >
-            {translations.resetButton}
+            {t('ResetPassword.resetButton')}
           </Button>
         </>
       ) : null}

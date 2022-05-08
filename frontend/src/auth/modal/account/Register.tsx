@@ -8,7 +8,7 @@ import {
 } from 'react';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material';
-import useTranslations, { useLanguage } from '../../../translations';
+import { useLanguage } from '../../../translations';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import { Person, Email, VpnKey } from '@mui/icons-material';
@@ -16,6 +16,7 @@ import { register } from '../../../api';
 import { validate } from 'isemail';
 import UserContext from '../../Context';
 import useBackendCapabilities from 'global/useBackendCapabilities';
+import { useTranslation } from 'react-i18next';
 
 type RegisterProps = {
   onClose: () => void;
@@ -29,9 +30,8 @@ const PasswordStrength = lazy(
 );
 
 const Register = ({ onClose }: RegisterProps) => {
-  const { Register: translations, AuthCommon: authTranslations } =
-    useTranslations();
-  const language = useLanguage();
+  const { t } = useTranslation();
+  const [language] = useLanguage();
   const [registerName, setRegisterName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -52,15 +52,15 @@ const Register = ({ onClose }: RegisterProps) => {
       registerName,
       registerEmail,
       registerPassword,
-      language.value
+      language.locale
     );
     if (response.error) {
       switch (response.error) {
         case 'already-exists':
-          setGeneralError(translations.errorAlreadyRegistered!);
+          setGeneralError(t('Register.errorAlreadyRegistered')!);
           return;
         default:
-          setGeneralError(translations.errorGeneral!);
+          setGeneralError(t('Register.errorGeneral')!);
           return;
       }
     } else {
@@ -74,8 +74,8 @@ const Register = ({ onClose }: RegisterProps) => {
     registerName,
     registerEmail,
     registerPassword,
-    language.value,
-    translations,
+    language.locale,
+    t,
     setUser,
     onClose,
   ]);
@@ -91,7 +91,7 @@ const Register = ({ onClose }: RegisterProps) => {
 
   return (
     <Wrapper
-      header={translations.header}
+      header={t('Register.header')}
       actions={
         !isSuccessful ? (
           <Button
@@ -101,16 +101,16 @@ const Register = ({ onClose }: RegisterProps) => {
             disabled={!validEmail || passwordScore < 3 || !validName}
             data-cy="register-button"
           >
-            {translations.registerButton}
+            {t('Register.registerButton')}
           </Button>
         ) : undefined
       }
     >
       {isSuccessful ? (
-        <Alert severity="success">{translations.messageSuccess}</Alert>
+        <Alert severity="success">{t('Register.messageSuccess')}</Alert>
       ) : (
         <>
-          <Alert severity="info">{translations.info}</Alert>
+          <Alert severity="info">{t('Register.info')}</Alert>
 
           {!!generalError ? (
             <Alert severity="error" style={{ marginTop: 10 }}>
@@ -121,8 +121,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerName}
             onChangeValue={setRegisterName}
-            title={authTranslations.nameField}
-            placeholder={authTranslations.nameField}
+            title={t('AuthCommon.nameField')}
+            placeholder={t('AuthCommon.nameField')}
             variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
@@ -133,8 +133,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerEmail}
             onChangeValue={setRegisterEmail}
-            title={authTranslations.emailField}
-            placeholder={authTranslations.emailField}
+            title={t('AuthCommon.emailField')}
+            placeholder={t('AuthCommon.emailField')}
             variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
@@ -143,7 +143,7 @@ const Register = ({ onClose }: RegisterProps) => {
             error={!validEmail && registerEmail.length > 0}
             helperText={
               !validEmail && registerEmail.length > 0
-                ? translations.errorInvalidEmail
+                ? t('Register.errorInvalidEmail')
                 : undefined
             }
             data-cy="register-email"
@@ -151,8 +151,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerPassword}
             onChangeValue={setRegisterPassword}
-            title={authTranslations.passwordField}
-            placeholder={authTranslations.passwordField}
+            title={t('AuthCommon.passwordField')}
+            placeholder={t('AuthCommon.passwordField')}
             variant="standard"
             type="password"
             fullWidth
@@ -165,8 +165,12 @@ const Register = ({ onClose }: RegisterProps) => {
             <PasswordStrength
               onChangeScore={setPasswordScore}
               password={registerPassword}
-              shortScoreWord={authTranslations.passwordScoreWords![0]}
-              scoreWords={authTranslations.passwordScoreWords}
+              shortScoreWord={
+                t(`AuthCommon.passwordScoreWords`, { returnObjects: true })[0]
+              }
+              scoreWords={t('AuthCommon.passwordScoreWords', {
+                returnObjects: true,
+              })}
             />
           </Suspense>
         </>

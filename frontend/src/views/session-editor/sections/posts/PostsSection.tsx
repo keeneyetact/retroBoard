@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { SessionOptions } from 'common';
 import SettingCategory from '../SettingCategory';
 import OptionItem from '../OptionItem';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import BooleanOption from '../BooleanOption';
 import MaxPostsSlider from './MaxPostsSlider';
 
@@ -12,8 +12,7 @@ interface PostsSectionProps {
 }
 
 function PostsSection({ options, onChange }: PostsSectionProps) {
-  const translations = useTranslations();
-  const { Customize } = translations;
+  const { t } = useTranslation();
 
   const setAllowAction = useCallback(
     (value: boolean) => {
@@ -97,28 +96,31 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
 
   return (
     <SettingCategory
-      title={Customize.postCategory!}
-      subtitle={Customize.postCategorySub!}
+      title={t('Customize.postCategory')!}
+      subtitle={t('Customize.postCategorySub')!}
     >
       <OptionItem
-        label={Customize.maxPosts!}
-        help={Customize.maxPostsHelp!}
+        label={t('Customize.maxPosts')!}
+        help={t('Customize.maxPostsHelp')!}
         wide
       >
         <MaxPostsSlider value={options.maxPosts} onChange={setMaxPosts} />
       </OptionItem>
-      <OptionItem label={Customize.blurCards!} help={Customize.blurCardsHelp!}>
+      <OptionItem
+        label={t('Customize.blurCards')!}
+        help={t('Customize.blurCardsHelp')!}
+      >
         <BooleanOption value={options.blurCards} onChange={setBlurCards} />
       </OptionItem>
       <OptionItem
-        label={Customize.allowActions!}
-        help={Customize.allowActionsHelp!}
+        label={t('Customize.allowActions')!}
+        help={t('Customize.allowActionsHelp')!}
       >
         <BooleanOption value={options.allowActions} onChange={setAllowAction} />
       </OptionItem>
       <OptionItem
-        label={Customize.allowAuthorVisible!}
-        help={Customize.allowAuthorVisibleHelp!}
+        label={t('Customize.allowAuthorVisible')!}
+        help={t('Customize.allowAuthorVisibleHelp')!}
       >
         <BooleanOption
           value={options.allowAuthorVisible}
@@ -126,8 +128,8 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.newPostsFirst!}
-        help={Customize.newPostsFirstHelp!}
+        label={t('Customize.newPostsFirst')!}
+        help={t('Customize.newPostsFirstHelp')!}
       >
         <BooleanOption
           value={options.newPostsFirst}
@@ -135,8 +137,8 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.allowReordering!}
-        help={Customize.allowReorderingHelp!}
+        label={t('Customize.allowReordering')!}
+        help={t('Customize.allowReorderingHelp')!}
       >
         <BooleanOption
           value={options.allowReordering}
@@ -144,8 +146,8 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.allowGrouping!}
-        help={Customize.allowGroupingHelp!}
+        label={t('Customize.allowGrouping')!}
+        help={t('Customize.allowGroupingHelp')!}
       >
         <BooleanOption
           value={options.allowGrouping}
@@ -153,8 +155,8 @@ function PostsSection({ options, onChange }: PostsSectionProps) {
         />
       </OptionItem>
       <OptionItem
-        label={Customize.allowGiphy!}
-        help={Customize.allowGiphyHelp!}
+        label={t('Customize.allowGiphy')!}
+        help={t('Customize.allowGiphyHelp')!}
       >
         <BooleanOption value={options.allowGiphy} onChange={setAllowGiphy} />
       </OptionItem>

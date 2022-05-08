@@ -3,7 +3,7 @@ import { colors } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useCallback } from 'react';
 import { Product, Currency } from 'common';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 
 interface ProductDisplayProps {
   product: Product;
@@ -20,8 +20,7 @@ function ProductDisplay({
   yearly,
   onSelect,
 }: ProductDisplayProps) {
-  const { Products: translations, SubscribeModal: subscribeTranslations } =
-    useTranslations();
+  const { t } = useTranslation();
 
   const handleOrder = useCallback(() => {
     onSelect(product);
@@ -36,26 +35,26 @@ function ProductDisplay({
     <Container onClick={handleOrder} selected={selected}>
       <Paper elevation={selected ? 24 : 2}>
         <Header>{product.name}</Header>
-        <Description>{translations[product.plan]}</Description>
+        <Description>{t(`Products.${product.plan}`)}</Description>
         <Seats>
           {product.seats
-            ? translations.users!(product.seats)
-            : `${translations.unlimited_seats} 🎉`}
+            ? t('Products.users', { users: product.seats })
+            : `${t('Products.unlimited_seats')} 🎉`}
         </Seats>
 
         <Total>
           {price.toFixed(2)} {currency.toUpperCase()}
           {product.recurring ? (
             <PerMonth>
-              / {yearly ? translations.year : translations.month}
+              / {yearly ? t('Products.year') : t('Products.month')}
             </PerMonth>
           ) : null}
         </Total>
         <PickMe>
           <PickMeButton>
             {product.recurring
-              ? subscribeTranslations.subscribeButton
-              : subscribeTranslations.payButton}
+              ? t('SubscribeModal.subscribeButton')
+              : t('SubscribeModal.payButton')}
           </PickMeButton>
         </PickMe>
       </Paper>

@@ -5,7 +5,7 @@ import Input from './Input';
 import ChatMessage from './Message';
 import { useCallback, useMemo } from 'react';
 import { sortBy } from 'lodash';
-import useTranslations from 'translations';
+import { useTranslation } from 'react-i18next';
 import useCrypto from 'crypto/useCrypto';
 
 type ChatProps = {
@@ -14,7 +14,7 @@ type ChatProps = {
 };
 
 export default function Chat({ messages, onMessage }: ChatProps) {
-  const { Chat: translations } = useTranslations();
+  const { t } = useTranslation();
   const { encrypt } = useCrypto();
   const sortedMessages = useMemo(() => {
     return sortBy(messages, (m) => m.created);
@@ -35,7 +35,7 @@ export default function Chat({ messages, onMessage }: ChatProps) {
         </Messages>
       </ScrollContainer>
       <Input
-        placeholder={translations.writeAMessage}
+        placeholder={t('Chat.writeAMessage')}
         onNewMessage={handleInput}
         cy="chat-input"
       />

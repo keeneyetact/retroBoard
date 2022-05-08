@@ -8,7 +8,7 @@ import { colors } from '@mui/material';
 import { CreateNewFolder, SubdirectoryArrowLeft } from '@mui/icons-material';
 import PostItem from './post/Post';
 import { Post, PostGroup } from 'common';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import Group from './Group';
 import {
   Droppable,
@@ -55,7 +55,7 @@ const Column: React.FC<ColumnProps> = ({
   onEditGroup,
   onDeleteGroup,
 }) => {
-  const { Column: columnTranslations } = useTranslations();
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
   const { encrypt } = useCrypto();
   const permissions = useSessionUserPermissions();
@@ -113,7 +113,7 @@ const Column: React.FC<ColumnProps> = ({
         />
         {permissions.canCreateGroup ? (
           <AddGroup>
-            <Tooltip title={columnTranslations.createGroupTooltip!}>
+            <Tooltip title={t('Column.createGroupTooltip')}>
               <IconButton onClick={onAddGroup} tabIndex={-1} size="large">
                 <CreateNewFolder />
               </IconButton>

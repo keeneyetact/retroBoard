@@ -2,10 +2,11 @@ import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import { Alert } from '@mui/material';
-import useTranslations, { useLanguage } from '../../translations';
-import { anonymousLogin, updateLanguage } from '../../api';
+import { anonymousLogin, me, updateLanguage } from '../../api';
 import { FullUser } from 'common';
 import Wrapper from './Wrapper';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from 'translations';
 
 interface AnonAuthProps {
   onClose: () => void;
@@ -13,10 +14,10 @@ interface AnonAuthProps {
 }
 
 const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
-  const { AnonymousLogin: loginTranslations } = useTranslations();
-  const language = useLanguage();
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
+  const [language] = useLanguage();
 
   const handleAnonLogin = useCallback(() => {
     async function login() {
@@ -27,7 +28,10 @@ const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
           setError('Your anonymous account is not valid.');
           return;
         }
-        const updatedUser = await updateLanguage(language.value);
+        let updatedUser = await me();
+        if (updatedUser?.language === null) {
+          updatedUser = await updateLanguage(language.locale);
+        }
         onUser(updatedUser);
         if (onClose) {
           onClose();
@@ -43,7 +47,7 @@ const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
 
   return (
     <Wrapper
-      header={loginTranslations.anonymousAuthHeader}
+      header={t('AnonymousLogin.anonymousAuthHeader')}
       actions={
         <Button
           onClick={handleAnonLogin}
@@ -52,12 +56,12 @@ const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
           disabled={!username.trim().length}
           data-cy="anon-login-button"
         >
-          {loginTranslations.buttonLabel}
+          {t('AnonymousLogin.buttonLabel')}
         </Button>
       }
     >
       <Alert severity="info">
-        {loginTranslations.anonymousAuthDescription}
+        {t('AnonymousLogin.anonymousAuthDescription')}
       </Alert>
       {!!error ? (
         <Alert severity="error" style={{ marginTop: 10 }}>
@@ -67,8 +71,8 @@ const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
       <Input
         value={username}
         onChange={handleUsernameChange}
-        title={loginTranslations.buttonLabel}
-        placeholder={loginTranslations.namePlaceholder}
+        title={t('AnonymousLogin.buttonLabel')}
+        placeholder={t('AnonymousLogin.namePlaceholder')}
         fullWidth
         style={{ marginTop: 20 }}
         inputProps={{ 'data-cy': 'anon-input' }}

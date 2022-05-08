@@ -6,7 +6,7 @@ import { SessionOptions, ColumnDefinition } from 'common';
 import { toColumnDefinitions } from '../../../../state/columns';
 import { trackEvent } from '../../../../track';
 import { Settings } from '@mui/icons-material';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import useSession from '../../useSession';
 
 interface ModifyOptionsProps {
@@ -23,7 +23,7 @@ function ModifyOptions({
   onEditColumns,
   onSaveTemplate,
 }: ModifyOptionsProps) {
-  const { Join } = useTranslations();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { session } = useSession();
 
@@ -68,7 +68,7 @@ function ModifyOptions({
         startIcon={<Settings />}
         onClick={() => setOpen(true)}
       >
-        {Join.standardTab.customizeButton}
+        {t('Join.standardTab.customizeButton')}
       </Button>
       {open ? (
         <SessionEditor

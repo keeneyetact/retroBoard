@@ -18,7 +18,7 @@ export default function useFormatDate() {
 }
 
 export function useDateLocale() {
-  const language = useLanguage();
+  const [language] = useLanguage();
   const [locale, setLocale] = useState<Locale>(() => englishLocale);
 
   useEffect(() => {

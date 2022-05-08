@@ -4,7 +4,7 @@ import sortedUniq from 'lodash/sortedUniq';
 import sortBy from 'lodash/sortBy';
 import { format } from 'date-fns';
 import useColumns from '../useColumns';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { useSummary } from './useSummary';
 import { ColumnStatsItem, ActionItem } from './types';
 import useSession from '../useSession';
@@ -12,7 +12,7 @@ import useSession from '../useSession';
 export default function useMarkdown() {
   const { session } = useSession();
   const columns = useColumns();
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const stats = useSummary(columns);
 
   const result = useMemo(() => {
@@ -37,7 +37,7 @@ export default function useMarkdown() {
     let md = `
 # Retrospected Session
 
-## ${session.name || translations.SessionName.defaultSessionName}
+## ${session.name || t('SessionName.defaultSessionName')}
 
 ### Session details:
 
@@ -68,7 +68,7 @@ ${[...col.items].map((i) => toItem(i, 0)).join('\n')}
     });
 
     return md;
-  }, [session, translations.SessionName.defaultSessionName, stats]);
+  }, [session, t, stats]);
   return result;
 }
 

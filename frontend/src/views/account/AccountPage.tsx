@@ -7,7 +7,7 @@ import ProPill from '../../components/ProPill';
 import { Alert } from '@mui/material';
 import Section from './Section';
 import MembersEditor from './MembersEditor';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useIsTrial from '../../auth/useIsTrial';
 import TrialPrompt from '../home/TrialPrompt';
@@ -21,8 +21,7 @@ function AccountPage() {
   const isTrial = useIsTrial();
   const formatDistanceToNow = useFormatDate();
   const navigate = useNavigate();
-  const { AccountPage: translations, SubscribePage: subscribeTranslations } =
-    useTranslations();
+  const { t } = useTranslation();
   const [deleteModalOpen, handleDeleteModalOpen, handleDeleteModalClose] =
     useModal();
 
@@ -40,7 +39,7 @@ function AccountPage() {
   }
 
   if (user.accountType === 'anonymous') {
-    return <Alert severity="error">{translations.anonymousError}</Alert>;
+    return <Alert severity="error">{t('AccountPage.anonymousError')}</Alert>;
   }
 
   return (
@@ -52,53 +51,55 @@ function AccountPage() {
           <ProPill />
         </Name>
 
-        <Section title={translations.details?.header}>
+        <Section title={t('AccountPage.details.header')}>
           <Data>
-            <Title>{translations.details?.username}</Title>
+            <Title>{t('AccountPage.details.username')}</Title>
             <Value>{user.username}</Value>
           </Data>
 
           <Data>
-            <Title>{translations.details?.email}</Title>
+            <Title>{t('AccountPage.details.email')}</Title>
             <Value>{user.email}</Value>
           </Data>
 
           <Data>
-            <Title>{translations.details?.accountType}</Title>
+            <Title>{t('AccountPage.details.accountType')}</Title>
             <Value>{user.accountType}</Value>
           </Data>
         </Section>
 
         {user.plan ? (
-          <Section title={translations.plan?.header}>
+          <Section title={t('AccountPage.plan.header')}>
             <Data>
-              <Title>{translations.plan?.plan}</Title>
+              <Title>{t('AccountPage.plan.plan')}</Title>
               <Value>{user.plan}</Value>
             </Data>
 
             {user.domain ? (
               <Data>
-                <Title>{subscribeTranslations.domain.title}</Title>
+                <Title>{t('SubscribePage.domain.title')}</Title>
                 <Value>{user.domain}</Value>
               </Data>
             ) : null}
             {onSomebodysPlan && (
-              <Alert severity="info">{translations.plan?.youAreMember}</Alert>
+              <Alert severity="info">
+                {t('AccountPage.plan.youAreMember')}
+              </Alert>
             )}
             {ownsThePlan && (
-              <Alert severity="info">{translations.plan?.youAreOwner}</Alert>
+              <Alert severity="info">{t('AccountPage.plan.youAreOwner')}</Alert>
             )}
           </Section>
         ) : null}
 
         {ownsThePlan && user && user.plan && user.plan === 'team' ? (
-          <Section title={translations.subscription?.membersEditor?.title}>
+          <Section title={t('AccountPage.subscription.membersEditor.title')}>
             <MembersEditor />
           </Section>
         ) : null}
 
         {ownsThePlan && !isTrial ? (
-          <Section title={translations.subscription.header}>
+          <Section title={t('AccountPage.subscription.header')}>
             {url ? (
               <Button
                 variant="contained"
@@ -106,18 +107,18 @@ function AccountPage() {
                 href={url}
                 style={{ marginTop: 20 }}
               >
-                {translations.subscription?.manageButton}
+                {t('AccountPage.subscription.manageButton')}
               </Button>
             ) : null}
           </Section>
         ) : null}
 
         {isTrial ? (
-          <Section title={translations.trial.header}>
+          <Section title={t('AccountPage.trial.header')}>
             <Alert severity="info">
-              {translations.trial.yourTrialWillExpireIn!(
-                formatDistanceToNow(new Date(user.trial!))
-              )}
+              {t('AccountPage.trial.yourTrialWillExpireIn', {
+                date: formatDistanceToNow(new Date(user.trial!)),
+              })}
             </Alert>
             <Button
               variant="contained"
@@ -125,13 +126,15 @@ function AccountPage() {
               style={{ marginTop: 20 }}
               onClick={() => navigate('/subscribe')}
             >
-              {translations.trial.subscribe}
+              {t('AccountPage.trial.subscribe')}
             </Button>
           </Section>
         ) : null}
 
-        <Section title={translations.deleteAccount.title} danger>
-          <Alert severity="error">{translations.deleteAccount.warning}</Alert>
+        <Section title={t('AccountPage.deleteAccount.title')} danger>
+          <Alert severity="error">
+            {t('AccountPage.deleteAccount.warning')}
+          </Alert>
 
           <Button
             color="error"
@@ -140,7 +143,7 @@ function AccountPage() {
             style={{ marginTop: 20 }}
             data-cy="delete-account-button"
           >
-            {translations.deleteAccount.deleteData}
+            {t('AccountPage.deleteAccount.deleteData')}
           </Button>
 
           <DeleteModal

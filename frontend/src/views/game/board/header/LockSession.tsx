@@ -11,7 +11,7 @@ import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import CustomAvatar from '../../../../components/Avatar';
 import { useSnackbar } from 'notistack';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import ProButton from '../../../../components/ProButton';
 import useParticipants from '../../useParticipants';
 import useSession from '../../useSession';
@@ -24,7 +24,7 @@ function LockSession({ onLock }: LockSessionProps) {
   const { session } = useSession();
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { Private: translations } = useTranslations();
+  const { t } = useTranslation();
   const { participants } = useParticipants();
   const fullScreen = useMediaQuery('(max-width:600px)');
 
@@ -33,13 +33,13 @@ function LockSession({ onLock }: LockSessionProps) {
       onLock(!session.locked);
       enqueueSnackbar(
         session.locked
-          ? translations.unlockSuccessNotification
-          : translations.lockSuccessNotification,
+          ? t('Private.unlockSuccessNotification')
+          : t('Private.lockSuccessNotification'),
         { variant: 'success' }
       );
     }
     setOpen(false);
-  }, [session, onLock, enqueueSnackbar, translations]);
+  }, [session, onLock, enqueueSnackbar, t]);
 
   const handleOpenDialog = useCallback(() => {
     if (session && !session.locked) {
@@ -72,7 +72,7 @@ function LockSession({ onLock }: LockSessionProps) {
           }
           onClick={handleOpenDialog}
         >
-          {session.locked ? translations.unlockButton : translations.lockButton}
+          {session.locked ? t('Private.unlockButton') : t('Private.lockButton')}
         </Button>
       </ProButton>
       <Dialog
@@ -83,10 +83,10 @@ function LockSession({ onLock }: LockSessionProps) {
       >
         <DialogTitle id="lock-session-dialog">
           <Lock style={{ position: 'relative', top: 3 }} />
-          &nbsp;{translations.lockButton}
+          &nbsp;{t('Private.lockButton')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{translations.lockDescription}</DialogContentText>
+          <DialogContentText>{t('Private.lockDescription')}</DialogContentText>
         </DialogContent>
         <DialogContent>
           <Users>
@@ -102,10 +102,10 @@ function LockSession({ onLock }: LockSessionProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>
-            {translations.cancelButton}
+            {t('Private.cancelButton')}
           </Button>
           <Button variant="contained" color="primary" onClick={handleLock}>
-            {translations.lockButton}
+            {t('Private.lockButton')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -16,7 +16,7 @@ import CustomAvatar from '../../../components/Avatar';
 import ItemStat from '../ItemStat';
 import styled from '@emotion/styled';
 import useOnHover from '../../../hooks/useOnHover';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@mui/icons-material';
 import { useEncryptionKey } from '../../../crypto/useEncryptionKey';
 import useFormatDate from '../../../hooks/useFormatDate';
@@ -35,11 +35,7 @@ const PreviousGameItem = ({
   onClick,
   onDelete,
 }: PreviousGameItemProps) => {
-  const {
-    PreviousGame: translations,
-    SessionName: { defaultSessionName },
-    DeleteSession,
-  } = useTranslations();
+  const { t } = useTranslation();
   const [encryptionKey] = useEncryptionKey(session.id);
   const formatDistanceToNow = useFormatDate();
   const [hover, hoverRef] = useOnHover<HTMLDivElement>();
@@ -62,6 +58,7 @@ const PreviousGameItem = ({
     setDeleteDialogOpen(false);
   }, []);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   return (
     <>
       <Card onClick={handleClick} raised={hover} ref={hoverRef}>
@@ -87,39 +84,47 @@ const PreviousGameItem = ({
           </Typography>
           <NameContainer>
             <Typography variant="h5" component="h2">
-              {decrypt(session.name, encryptionKey) || defaultSessionName}&nbsp;
+              {decrypt(session.name, encryptionKey) ||
+                t('SessionName.defaultSessionName')}
+              &nbsp;
             </Typography>
             <EncryptedLock session={session} />
             <PrivateSessionIcon session={session} />
           </NameContainer>
           <Typography color="textSecondary" style={{ marginBottom: 20 }}>
-            {translations.createdBy} <em>{session.createdBy.name}</em>
+            {t('PreviousGame.createdBy')} <em>{session.createdBy.name}</em>
           </Typography>
           <Stats>
             <ItemStat
               value={session.numberOfPosts}
-              label={translations.posts!(session.numberOfPosts)}
+              label={t('PreviousGame.posts', { count: +session.numberOfPosts })}
               color={colors.green[500]}
             />
             <ItemStat
               value={session.participants.length}
-              label={translations.participants!(session.participants.length)}
+              label={t('PreviousGame.participants', {
+                count: session.participants.length,
+              })}
               color={colors.indigo[500]}
             />
             <ItemStat
               value={session.numberOfVotes}
-              label={translations.votes!(session.numberOfVotes)}
+              label={t('PreviousGame.votes', { count: +session.numberOfVotes })}
               color={colors.red[500]}
             />
             <ItemStat
               value={session.numberOfActions}
-              label={translations.actions!(session.numberOfActions)}
+              label={t('PreviousGame.actions', {
+                count: +session.numberOfActions,
+              })}
               color={colors.amber[500]}
             />
           </Stats>
           <AvatarGroup
             max={10}
-            title={translations.participants!(session.participants.length)}
+            title={t('PreviousGame.participants', {
+              count: session.participants.length,
+            })}
           >
             {session.participants.map((user) => {
               return <CustomAvatar user={user} key={user.id} />;
@@ -133,23 +138,27 @@ const PreviousGameItem = ({
         open={deleteDialogOpen}
       >
         <DialogTitle id="delete-session-dialog">
-          {DeleteSession.header!(
-            decrypt(session.name, encryptionKey) || defaultSessionName!
-          )}
+          {t('DeleteSession.header', {
+            name:
+              decrypt(session.name, encryptionKey) ||
+              t('SessionName.defaultSessionName'),
+          })}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{DeleteSession.firstLine}</DialogContentText>
-          <DialogContentText>{DeleteSession.secondLine}</DialogContentText>
+          <DialogContentText>{t('DeleteSession.firstLine')}</DialogContentText>
+          <DialogContentText>{t('DeleteSession.secondLine')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>{DeleteSession.cancel}</Button>
+          <Button onClick={handleCloseDialog}>
+            {t('DeleteSession.cancel')}
+          </Button>
           <Button
             variant="contained"
             color="inherit"
             style={{ backgroundColor: colors.red[500], color: 'white' }}
             onClick={handleDelete}
           >
-            {DeleteSession.yesImSure}
+            {t('DeleteSession.yesImSure')}
           </Button>
         </DialogActions>
       </Dialog>

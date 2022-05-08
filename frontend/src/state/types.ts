@@ -1,4 +1,5 @@
 import { ColumnDefinitionType } from 'common';
+import { Namespace, TFunction } from 'react-i18next';
 
 export interface ColumnSettings {
   color: string;
@@ -18,3 +19,5 @@ export interface TemplateDefinition {
   type: Template;
   name: string;
 }
+
+export type TranslationFunction = TFunction<Namespace<'ns1'>, undefined>;

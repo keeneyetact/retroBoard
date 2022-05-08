@@ -1,31 +1,33 @@
-import { Translation } from '../translations';
-import { Template, ColumnSettings, TemplateDefinition } from './types';
+import {
+  Template,
+  ColumnSettings,
+  TemplateDefinition,
+  TranslationFunction,
+} from './types';
 import { getTemplateColumnByType } from './columns';
 
-export function getAllTemplates(
-  translations: Translation
-): TemplateDefinition[] {
+export function getAllTemplates(t: TranslationFunction): TemplateDefinition[] {
   return [
     {
       type: 'default',
-      name: translations.Template.default!,
+      name: t('Template.default')!,
     },
     {
       type: 'well-not-well',
-      name: translations.Template.wellNotWell!,
+      name: t('Template.wellNotWell')!,
     },
     {
       type: 'start-stop-continue',
-      name: translations.Template.startStopContinue!,
+      name: t('Template.startStopContinue')!,
     },
-    { type: 'four-l', name: translations.Template.fourLs! },
-    { type: 'sailboat', name: translations.Template.sailboat! },
+    { type: 'four-l', name: t('Template.fourLs')! },
+    { type: 'sailboat', name: t('Template.sailboat')! },
   ];
 }
 
 export function getTemplate(
   template: Template,
-  translations: Translation
+  translations: TranslationFunction
 ): ColumnSettings[] {
   const dic = getTemplateColumnByType(translations);
   switch (template) {

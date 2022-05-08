@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useIsTrial from '../../auth/useIsTrial';
 import useUser from '../../auth/useUser';
 import useFormatDate from '../../hooks/useFormatDate';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import useQuota from '../../hooks/useQuota';
 import Button from '@mui/material/Button';
 import ProButton from '../../components/ProButton';
@@ -13,7 +13,7 @@ export default function TrialPrompt() {
   const user = useUser();
   const isInTrial = useIsTrial();
   const formatDistanceToNow = useFormatDate();
-  const { TrialPrompt: translations } = useTranslations();
+  const { t } = useTranslation();
   const { quota } = useQuota();
   const quotaLeft = !!quota ? quota.quota - quota.posts : null;
   const overQuota = !!quota && quota.posts >= quota.quota;
@@ -29,13 +29,13 @@ export default function TrialPrompt() {
 
     return (
       <Alert severity={color}>
-        <AlertTitle>{translations.onTrialTitle}</AlertTitle>
-        {translations.remainingTrialSentence!(
-          formatDistanceToNow(new Date(user.trial))
-        )}
+        <AlertTitle>{t('TrialPrompt.onTrialTitle')}</AlertTitle>
+        {t('TrialPrompt.remainingTrialSentence', {
+          remaining: formatDistanceToNow(new Date(user.trial)),
+        })}
         &nbsp;
         <Link style={{ textDecoration: 'none' }} to="/subscribe">
-          {translations.subscribeNow}
+          {t('TrialPrompt.subscribeNow')}
         </Link>
       </Alert>
     );
@@ -45,17 +45,17 @@ export default function TrialPrompt() {
     <>
       {user.trial && !isInTrial ? (
         <Alert severity="error">
-          <AlertTitle>{translations.trialEndedTitle}</AlertTitle>
-          {translations.trialEndedSentence}&nbsp;
+          <AlertTitle>{t('TrialPrompt.trialEndedTitle')}</AlertTitle>
+          {t('TrialPrompt.trialEndedSentence')}&nbsp;
           <Link style={{ textDecoration: 'none' }} to="/subscribe">
-            {translations.subscribeNow}
+            {t('TrialPrompt.subscribeNow')}
           </Link>
         </Alert>
       ) : null}
       {overQuota ? (
         <Alert severity="error">
-          <AlertTitle>{translations.allowanceReachedTitle}</AlertTitle>
-          {translations.allowanceReachedDescription}
+          <AlertTitle>{t('TrialPrompt.allowanceReachedTitle')}</AlertTitle>
+          {t('TrialPrompt.allowanceReachedDescription')}
           <ProButton>
             <Button
               variant="contained"
@@ -63,15 +63,15 @@ export default function TrialPrompt() {
               size="small"
               style={{ marginLeft: 10 }}
             >
-              {translations.subscribeNow}
+              {t('TrialPrompt.subscribeNow')}
             </Button>
           </ProButton>
         </Alert>
       ) : null}
       {nearQuota ? (
         <Alert severity="warning">
-          <AlertTitle>{translations.nearEndAllowanceTitle}</AlertTitle>
-          {translations.nearEndAllowanceDescription!(quotaLeft)}
+          <AlertTitle>{t('TrialPrompt.nearEndAllowanceTitle')}</AlertTitle>
+          {t('TrialPrompt.nearEndAllowanceDescription', { quota: quotaLeft })}
           <ProButton>
             <Button
               variant="contained"
@@ -79,7 +79,7 @@ export default function TrialPrompt() {
               size="small"
               style={{ marginLeft: 10 }}
             >
-              {translations.subscribeNow}
+              {t('TrialPrompt.subscribeNow')}
             </Button>
           </ProButton>
         </Alert>

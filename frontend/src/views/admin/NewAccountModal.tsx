@@ -7,13 +7,14 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import useTranslations, { useLanguage } from '../../translations';
+import { useLanguage } from '../../translations';
 import Input from '../../components/Input';
 import { Person, Email, VpnKey } from '@mui/icons-material';
 import { addUser } from '../../api';
 import { validate } from 'isemail';
 import useBackendCapabilities from 'global/useBackendCapabilities';
 import { FullUser } from 'common';
+import { useTranslation } from 'react-i18next';
 
 type NewAccountModalProps = {
   open: boolean;
@@ -33,9 +34,8 @@ export function NewAccountModal({
   onAdd,
   onClose,
 }: NewAccountModalProps) {
-  const { Register: translations, AuthCommon: authTranslations } =
-    useTranslations();
-  const language = useLanguage();
+  const { t } = useTranslation();
+  const [language] = useLanguage();
   const [registerName, setRegisterName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -55,15 +55,15 @@ export function NewAccountModal({
       registerName,
       registerEmail,
       registerPassword,
-      language.value
+      language.locale
     );
     if (response.error) {
       switch (response.error) {
         case 'already-exists':
-          setGeneralError(translations.errorAlreadyRegistered!);
+          setGeneralError(t('Register.errorAlreadyRegistered')!);
           return;
         default:
-          setGeneralError(translations.errorGeneral!);
+          setGeneralError(t('Register.errorGeneral')!);
           return;
       }
     } else if (response.user) {
@@ -76,9 +76,8 @@ export function NewAccountModal({
     registerName,
     registerEmail,
     registerPassword,
-    language.value,
-    translations,
-
+    language.locale,
+    t,
     onAdd,
   ]);
 
@@ -96,7 +95,7 @@ export function NewAccountModal({
       <DialogTitle>Create a new user</DialogTitle>
       <DialogContent>
         {isSuccessful ? (
-          <Alert severity="success">{translations.messageSuccess}</Alert>
+          <Alert severity="success">{t('Register.messageSuccess')}</Alert>
         ) : (
           <>
             {!!generalError ? (
@@ -129,7 +128,7 @@ export function NewAccountModal({
               error={!validEmail && registerEmail.length > 0}
               helperText={
                 !validEmail && registerEmail.length > 0
-                  ? translations.errorInvalidEmail
+                  ? t('Register.errorInvalidEmail')
                   : undefined
               }
             />
@@ -149,8 +148,8 @@ export function NewAccountModal({
               <PasswordStrength
                 onChangeScore={setPasswordScore}
                 password={registerPassword}
-                shortScoreWord={authTranslations.passwordScoreWords![0]}
-                scoreWords={authTranslations.passwordScoreWords}
+                shortScoreWord={t('AuthCommon.passwordScoreWords')[0]}
+                scoreWords={t('AuthCommon.passwordScoreWords')}
               />
             </Suspense>
           </>

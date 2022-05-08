@@ -15,7 +15,7 @@ import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
 import { colors } from '@mui/material';
 import { Dashboard, List, CloudOff } from '@mui/icons-material';
-import useTranslations from '../translations';
+import { useTranslation } from 'react-i18next';
 import useGame from './game/useGame';
 import Board from './game/board/Board';
 import SummaryMode from './game/summary/SummaryMode';
@@ -34,10 +34,9 @@ interface RouteParams {
 }
 
 function GamePage() {
-  const { GameMenu, PostBoard } = useTranslations();
   const { pathname, hash } = useLocation();
   const navigate = useNavigate();
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const { gameId } = useParams<keyof RouteParams>();
   const { session } = useSession();
   const handleChange = useCallback(
@@ -100,13 +99,13 @@ function GamePage() {
     <div>
       <Helmet>
         <title>
-          {decrypt(session.name) || translations.SessionName.defaultSessionName}{' '}
-          - Retrospected
+          {decrypt(session.name) || t('SessionName.defaultSessionName')} -
+          Retrospected
         </title>
         <meta
           property="og:title"
           content={`${
-            decrypt(session.name) || translations.SessionName.defaultSessionName
+            decrypt(session.name) || t('SessionName.defaultSessionName')
           } - Retrospected`}
         />
         <meta
@@ -120,10 +119,10 @@ function GamePage() {
             <CloudOff
               style={{ position: 'relative', top: 3, marginRight: 10 }}
             />
-            &nbsp;{PostBoard.disconnected}
+            &nbsp;{t('PostBoard.disconnected')}
           </DisconnectedTitle>
           <Button color="secondary" variant="contained" onClick={reconnect}>
-            {PostBoard.reconnect}
+            {t('PostBoard.reconnect')}
           </Button>
         </DisconnectedContainer>
       ) : null}
@@ -139,10 +138,14 @@ function GamePage() {
             aria-label="Game mode tabs"
             allowScrollButtonsMobile
           >
-            <Tab label={GameMenu.board} icon={<Dashboard />} value={rootUrl} />
+            <Tab
+              label={t('GameMenu.board')}
+              icon={<Dashboard />}
+              value={rootUrl}
+            />
             {!session.options.blurCards ? (
               <Tab
-                label={GameMenu.summary}
+                label={t('GameMenu.summary')}
                 icon={<List />}
                 value={summaryUrl}
               />

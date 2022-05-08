@@ -36,13 +36,13 @@ import {
   getRemovedParticipants,
   joinNames,
 } from './participants-notifiers';
-import useTranslation from '../../translations/useTranslations';
 import { omit } from 'lodash';
 import { AckItem } from './types';
 import useMutableRead from '../../hooks/useMutableRead';
 import useParticipants from './useParticipants';
 import useUnauthorised from './useUnauthorised';
 import useSession from './useSession';
+import { useTranslation } from 'react-i18next';
 
 export type Status =
   /**
@@ -98,7 +98,7 @@ const useGame = (sessionId: string) => {
   const { user, initialised: userInitialised } = useUserMetadata();
   const userId = !user ? user : user.id;
   const { enqueueSnackbar } = useSnackbar();
-  const translations = useTranslation();
+  const { t } = useTranslation();
   const [status, setStatus] = useState<Status>(
     user === undefined ? 'disconnected' : 'not-connected'
   );
@@ -366,7 +366,7 @@ const useGame = (sessionId: string) => {
       if (debug) {
         console.log('Receive Error: ', payload);
       }
-      enqueueSnackbar(translations.PostBoard.error!(payload.type), {
+      enqueueSnackbar(t(`PostBoard.error_${payload.type}` as any), {
         variant: 'error',
       });
       if (payload.type !== 'cannot_get_session') {
@@ -391,7 +391,7 @@ const useGame = (sessionId: string) => {
         }
         userReady(readyUserId, ready);
         if (userId !== readyUserId && ready) {
-          enqueueSnackbar(translations.PostBoard.userIsReady!(name), {
+          enqueueSnackbar(t('PostBoard.userIsReady', { user: name }), {
             variant: 'success',
           });
         }
@@ -401,7 +401,7 @@ const useGame = (sessionId: string) => {
     socket,
     status,
     sessionId,
-    translations,
+    t,
     statusValue,
     resetSession,
     receivePost,
@@ -434,7 +434,7 @@ const useGame = (sessionId: string) => {
         participants
       );
       if (added.length) {
-        enqueueSnackbar(translations.Clients.joined!(joinNames(added)), {
+        enqueueSnackbar(t('Clients.joined', { users: joinNames(added) }), {
           variant: 'success',
         });
       }
@@ -444,19 +444,13 @@ const useGame = (sessionId: string) => {
         participants
       );
       if (removed.length) {
-        enqueueSnackbar(translations.Clients.left!(joinNames(removed)), {
+        enqueueSnackbar(t('Clients.left', { users: joinNames(removed) }), {
           variant: 'info',
         });
       }
       setPreviousParticipants(participants);
     }
-  }, [
-    participants,
-    previousParticipans,
-    enqueueSnackbar,
-    userId,
-    translations,
-  ]);
+  }, [participants, previousParticipans, enqueueSnackbar, userId, t]);
 
   // Callbacks
   const onAddPost = useCallback(

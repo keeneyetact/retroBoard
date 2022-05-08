@@ -16,7 +16,7 @@ import {
 } from '@mui/icons-material';
 import EditableLabel from '../../../components/EditableLabel';
 import { Alert, AlertTitle } from '@mui/material';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import useCrypto from '../../../crypto/useCrypto';
 import { Badge } from '@mui/material';
 
@@ -34,7 +34,7 @@ export default function Group({
   readonly,
   children,
 }: PropsWithChildren<GroupProps>) {
-  const { Group: groupTranslations } = useTranslations();
+  const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
   const { decrypt, encrypt } = useCrypto();
   const handleEditLabel = useCallback(
@@ -94,8 +94,8 @@ export default function Group({
               {group.posts.length === 0 ? (
                 <NoPosts>
                   <Alert severity="info">
-                    <AlertTitle>{groupTranslations.emptyGroupTitle}</AlertTitle>
-                    {groupTranslations.emptyGroupContent}
+                    <AlertTitle>{t('Group.emptyGroupTitle')}</AlertTitle>
+                    {t('Group.emptyGroupContent')}
                   </Alert>
                 </NoPosts>
               ) : null}

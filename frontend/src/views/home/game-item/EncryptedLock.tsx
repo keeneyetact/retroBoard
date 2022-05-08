@@ -4,8 +4,8 @@ import { Lock, LockOpenOutlined, LockOutlined } from '@mui/icons-material';
 import { SessionMetadata } from 'common';
 import { CHECK_PREFIX, decrypt } from '../../../crypto/crypto';
 import { useEncryptionKey } from '../../../crypto/useEncryptionKey';
-import useTranslation from '../../../translations/useTranslations';
 import ProButton from '../../../components/ProButton';
+import { useTranslation } from 'react-i18next';
 
 interface EncryptedLockProps {
   session: SessionMetadata;
@@ -13,13 +13,13 @@ interface EncryptedLockProps {
 
 function EncryptedLock({ session }: EncryptedLockProps) {
   const [key] = useEncryptionKey(session.id);
-  const { Encryption: translations } = useTranslation();
+  const { t } = useTranslation();
 
   if (!session.encrypted) {
     return (
       <ProButton>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title={translations.sessionNotEncrypted!}>
+          <Tooltip title={t('Encryption.sessionNotEncrypted')!}>
             <LockOpenOutlined htmlColor={colors.grey[400]} />
           </Tooltip>
         </div>
@@ -29,7 +29,7 @@ function EncryptedLock({ session }: EncryptedLockProps) {
 
   if (!key) {
     return (
-      <Tooltip title={translations.sessionEncryptedNoKeyTooltip!}>
+      <Tooltip title={t('Encryption.sessionEncryptedNoKeyTooltip')!}>
         <Lock color="error" />
       </Tooltip>
     );
@@ -37,14 +37,14 @@ function EncryptedLock({ session }: EncryptedLockProps) {
 
   if (decrypt(session.encrypted, key) !== CHECK_PREFIX) {
     return (
-      <Tooltip title={translations.sessionEncryptedWrongKeyTooltip!}>
+      <Tooltip title={t('Encryption.sessionEncryptedWrongKeyTooltip')!}>
         <Lock color="error" />
       </Tooltip>
     );
   }
 
   return (
-    <Tooltip title={translations.sessionEncryptedHaveKeyTooltip!}>
+    <Tooltip title={t('Encryption.sessionEncryptedHaveKeyTooltip')!}>
       <LockOutlined htmlColor={colors.green[500]} />
     </Tooltip>
   );

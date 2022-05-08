@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Alert } from '@mui/material';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { FullUser } from 'common';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
@@ -24,8 +24,7 @@ const Login = ({
   onAskRegistration,
   onAskPasswordReset,
 }: LoginProps) => {
-  const { AccountLogin: translations, AuthCommon: authTranslations } =
-    useTranslations();
+  const { t } = useTranslation();
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [error, setError] = useState('');
@@ -42,16 +41,16 @@ const Login = ({
             onClose();
           }
         } else {
-          setError(translations.errorEmailPasswordIncorrect!);
+          setError(t('AccountLogin.errorEmailPasswordIncorrect')!);
         }
       }
     }
     login();
-  }, [loginEmail, loginPassword, translations, onClose, onUser]);
+  }, [loginEmail, loginPassword, t, onClose, onUser]);
 
   return (
     <Wrapper
-      header={translations.header}
+      header={t('AccountLogin.header')}
       actions={
         <Button
           onClick={handleAccountogin}
@@ -60,11 +59,11 @@ const Login = ({
           startIcon={loading ? <CircularProgress size="1em" /> : null}
           disabled={!loginEmail || !loginPassword || loading}
         >
-          {translations.loginButton}
+          {t('AccountLogin.loginButton')}
         </Button>
       }
     >
-      <Alert severity="info">{translations.info}</Alert>
+      <Alert severity="info">{t('AccountLogin.info')}</Alert>
       {!!error ? (
         <Alert severity="error" style={{ marginTop: 10 }}>
           {error}
@@ -73,8 +72,8 @@ const Login = ({
       <Input
         value={loginEmail}
         onChangeValue={setLoginEmail}
-        title={authTranslations.emailField}
-        placeholder={authTranslations.emailField}
+        title={t('AuthCommon.emailField')}
+        placeholder={t('AuthCommon.emailField')}
         type="email"
         variant="standard"
         fullWidth
@@ -84,8 +83,8 @@ const Login = ({
       <Input
         value={loginPassword}
         onChangeValue={setLoginPassword}
-        title={authTranslations.passwordField}
-        placeholder={authTranslations.passwordField}
+        title={t('AuthCommon.passwordField')}
+        placeholder={t('AuthCommon.passwordField')}
         type="password"
         variant="standard"
         fullWidth
@@ -95,10 +94,10 @@ const Login = ({
       <div style={{ marginTop: 20 }} />
       <Links>
         <Link data-cy="register" onClick={onAskRegistration}>
-          {translations.registerLink}
+          {t('AccountLogin.registerLink')}
         </Link>
         <Link data-cy="forgot-password" onClick={onAskPasswordReset}>
-          {translations.forgotPasswordLink}
+          {t('AccountLogin.forgotPasswordLink')}
         </Link>
       </Links>
     </Wrapper>

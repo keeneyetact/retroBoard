@@ -8,12 +8,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Clipboard from 'react-copy-to-clipboard';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 
 export default function Invite() {
   const [isOpen, open] = useState(false);
   const toggle = useCallback(() => open(!isOpen), [open, isOpen]);
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const url = window.location.href;
   return (
     <>
@@ -21,11 +21,9 @@ export default function Invite() {
         <GroupAddIcon style={{ color: 'white' }} />
       </Button>
       <Dialog open={isOpen} onClose={toggle}>
-        <DialogTitle>{translations.Invite.dialog.title}</DialogTitle>
+        <DialogTitle>{t('Invite.dialog.title')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {translations.Invite.dialog.text}:
-          </DialogContentText>
+          <DialogContentText>{t('Invite.dialog.text')}:</DialogContentText>
           <DialogContentText
             color="secondary"
             style={{ marginTop: 10, marginBottom: 10 }}
@@ -37,13 +35,13 @@ export default function Invite() {
               <Button variant="text" color="primary">
                 <FileCopyIcon />
                 &nbsp;&nbsp;
-                {translations.Invite.dialog.copyButton}
+                {t('Invite.dialog.copyButton')}
               </Button>
             </Clipboard>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={toggle}>{translations.Generic.ok}</Button>
+          <Button onClick={toggle}>{t('Generic.ok')}</Button>
         </DialogActions>
       </Dialog>
     </>

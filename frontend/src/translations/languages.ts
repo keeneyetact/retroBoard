@@ -24,131 +24,141 @@ const pl = () =>
   import('date-fns/locale/pl' /* webpackChunkName: "date-fns-pl" */);
 const ptBR = () =>
   import('date-fns/locale/pt-BR' /* webpackChunkName: "date-fns-pt-BR" */);
-const ru = () =>
-  import('date-fns/locale/ru' /* webpackChunkName: "date-fns-ru" */);
+const pt = () =>
+  import('date-fns/locale/pt' /* webpackChunkName: "date-fns-pt" */);
+const uk = () =>
+  import('date-fns/locale/uk' /* webpackChunkName: "date-fns-uk" */);
 const es = () =>
   import('date-fns/locale/es' /* webpackChunkName: "date-fns-es" */);
 
 export interface Language {
-  value: string;
   iso: string;
   name: string;
   englishName: string;
   dateLocale: () => Promise<{ default: Locale }>;
   stripeLocale: StripeLocales;
+  locale: string;
 }
 
 export default [
   {
-    value: 'en',
     dateLocale: enGB,
     iso: 'gb',
     name: 'English',
     englishName: 'English',
     stripeLocale: 'en-US',
+    locale: 'en-GB',
   },
   {
-    value: 'fr',
     dateLocale: fr,
     iso: 'fr',
     name: 'Français',
     englishName: 'French',
     stripeLocale: 'fr-FR',
+    locale: 'fr-FR',
   },
   {
-    value: 'ar',
-    dateLocale: arDZ,
-    iso: 'ae',
-    name: 'عربي',
-    englishName: 'Arabic',
-    stripeLocale: 'ar-AR',
-  },
-  {
-    value: 'zhcn',
-    dateLocale: zhCN,
-    iso: 'cn',
-    name: '簡中',
-    englishName: 'Chinese (Simplified)',
-    stripeLocale: 'en-US',
-  },
-  {
-    value: 'zhtw',
-    dateLocale: zhTW,
-    iso: 'tw',
-    name: '繁中',
-    englishName: 'Chinese (Traditional)',
-    stripeLocale: 'en-US',
-  },
-  {
-    value: 'nl',
-    dateLocale: nl,
-    iso: 'nl',
-    name: 'Nederlands',
-    englishName: 'Dutch',
-    stripeLocale: 'nl-NL',
-  },
-  {
-    value: 'de',
     dateLocale: de,
     iso: 'de',
     name: 'Deutsch',
     englishName: 'German',
     stripeLocale: 'de-DE',
+    locale: 'de-DE',
   },
   {
-    value: 'hu',
-    dateLocale: hu,
-    iso: 'hu',
-    name: 'Magyar',
-    englishName: 'Hungarian',
-    stripeLocale: 'en-US',
-  },
-  {
-    value: 'it',
-    dateLocale: it,
-    iso: 'it',
-    name: 'Italiano',
-    englishName: 'Italian',
-    stripeLocale: 'it-IT',
-  },
-  {
-    value: 'ja',
-    dateLocale: ja,
-    iso: 'jp',
-    name: '日本語',
-    englishName: 'Japanese',
-    stripeLocale: 'ja-JP',
-  },
-  {
-    value: 'pl',
-    dateLocale: pl,
-    iso: 'pl',
-    name: 'Polski',
-    englishName: 'Polish',
-    stripeLocale: 'en-US',
-  },
-  {
-    value: 'ptbr',
-    dateLocale: ptBR,
-    iso: 'br',
-    name: 'Português Brasileiro',
-    englishName: 'Portuguese (Brazilian)',
-    stripeLocale: 'pt-BR',
-  },
-  {
-    value: 'ru',
-    dateLocale: ru,
-    iso: 'ru',
-    name: 'Русский',
-    englishName: 'Russian',
-    stripeLocale: 'en-US',
-  },
-  {
-    value: 'es',
     dateLocale: es,
     iso: 'es',
     name: 'Español',
     englishName: 'Spanish',
     stripeLocale: 'es-ES',
+    locale: 'es-ES',
+  },
+  {
+    dateLocale: arDZ,
+    iso: 'ae',
+    name: 'عربي',
+    englishName: 'Arabic',
+    stripeLocale: 'ar-AR',
+    locale: 'ar-SA',
+  },
+  {
+    dateLocale: zhCN,
+    iso: 'cn',
+    name: '簡中',
+    englishName: 'Chinese (Simplified)',
+    stripeLocale: 'en-US',
+    locale: 'zh-CN',
+  },
+  {
+    dateLocale: zhTW,
+    iso: 'tw',
+    name: '繁中',
+    englishName: 'Chinese (Traditional)',
+    stripeLocale: 'en-US',
+    locale: 'zh-TW',
+  },
+  {
+    dateLocale: nl,
+    iso: 'nl',
+    name: 'Nederlands',
+    englishName: 'Dutch',
+    stripeLocale: 'nl-NL',
+    locale: 'nl-NL',
+  },
+  {
+    dateLocale: hu,
+    iso: 'hu',
+    name: 'Magyar',
+    englishName: 'Hungarian',
+    stripeLocale: 'en-US',
+    locale: 'hu-HU',
+  },
+  {
+    dateLocale: it,
+    iso: 'it',
+    name: 'Italiano',
+    englishName: 'Italian',
+    stripeLocale: 'it-IT',
+    locale: 'it-IT',
+  },
+  {
+    dateLocale: ja,
+    iso: 'jp',
+    name: '日本語',
+    englishName: 'Japanese',
+    stripeLocale: 'ja-JP',
+    locale: 'ja-JP',
+  },
+  {
+    dateLocale: pl,
+    iso: 'pl',
+    name: 'Polski',
+    englishName: 'Polish',
+    stripeLocale: 'en-US',
+    locale: 'pl-PL',
+  },
+  {
+    dateLocale: ptBR,
+    iso: 'br',
+    name: 'Português Brasileiro',
+    englishName: 'Portuguese (Brazilian)',
+    stripeLocale: 'pt-BR',
+    locale: 'pt-BR',
+  },
+  {
+    dateLocale: pt,
+    iso: 'pt',
+    name: 'Português',
+    englishName: 'Portuguese (Portugal)',
+    stripeLocale: 'pt-PT',
+    locale: 'pt-PT',
+  },
+  {
+    dateLocale: uk,
+    iso: 'ua',
+    name: 'Yкраїнський',
+    englishName: 'Ukrainian',
+    stripeLocale: 'uk-UA',
+    locale: 'uk-UA',
   },
 ] as Language[];

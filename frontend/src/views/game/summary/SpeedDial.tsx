@@ -6,12 +6,12 @@ import { AssignmentReturned, SaveAlt } from '@mui/icons-material';
 import SvgIcon from '@mui/material/SvgIcon';
 import useMarkdown from './useMarkdown';
 import ReactMarkdown from 'react-markdown';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
 
 const CopySpeedDial = () => {
   const isSupported = !!window.getSelection;
-  const { SummaryBoard } = useTranslations();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const handleOpen = useCallback(() => setOpen(true), []);
@@ -24,14 +24,14 @@ const CopySpeedDial = () => {
     p.innerText = md;
     copyToClipboard(p);
     setOpen(false);
-    enqueueSnackbar(SummaryBoard.copySuccessful, { variant: 'success' });
-  }, [md, SummaryBoard.copySuccessful, enqueueSnackbar]);
+    enqueueSnackbar(t('SummaryBoard.copySuccessful'), { variant: 'success' });
+  }, [md, t, enqueueSnackbar]);
 
   const handleCopyRichText = useCallback(() => {
     copyToClipboard(mdElement.current!);
     setOpen(false);
-    enqueueSnackbar(SummaryBoard.copySuccessful, { variant: 'success' });
-  }, [SummaryBoard.copySuccessful, enqueueSnackbar]);
+    enqueueSnackbar(t('SummaryBoard.copySuccessful'), { variant: 'success' });
+  }, [t, enqueueSnackbar]);
 
   return isSupported ? (
     <>
@@ -47,12 +47,12 @@ const CopySpeedDial = () => {
       >
         <SpeedDialAction
           icon={<AssignmentReturned />}
-          tooltipTitle={SummaryBoard.copyAsRichText!}
+          tooltipTitle={t('SummaryBoard.copyAsRichText')}
           onClick={handleCopyRichText}
         />
         <SpeedDialAction
           icon={<MarkdownIcon />}
-          tooltipTitle={SummaryBoard.copyAsMarkdown!}
+          tooltipTitle={t('SummaryBoard.copyAsMarkdown')}
           onClick={handleCopyToMarkdown}
         />
       </SpeedDial>

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import SettingCategory from '../SettingCategory';
 import OptionItem from '../OptionItem';
 import TemplatePicker from './TemplatePicker';
-import useTranslations from '../../../../translations';
+import { useTranslation } from 'react-i18next';
 import { ColumnSettings, Template } from '../../../../state/types';
 import TemplateEditor from './TemplateEditor';
 import { buildDefaults } from '../../../../state/columns';
@@ -14,26 +14,25 @@ interface TemplateSectionProps {
 }
 
 function TemplateSection({ columns, onChange }: TemplateSectionProps) {
-  const translations = useTranslations();
-  const { Customize } = translations;
+  const { t } = useTranslation();
 
   const handleTemplateChange = useCallback(
     (templateType: Template) => {
-      const template = buildDefaults(templateType, translations);
+      const template = buildDefaults(templateType, t);
       onChange(template);
       trackEvent('custom-modal/template/select');
     },
-    [translations, onChange]
+    [t, onChange]
   );
 
   return (
     <SettingCategory
-      title={Customize.customTemplateCategory!}
-      subtitle={Customize.customTemplateCategorySub!}
+      title={t('Customize.customTemplateCategory')!}
+      subtitle={t('Customize.customTemplateCategorySub')!}
     >
       <OptionItem
-        label={Customize.template!}
-        help={Customize.templateHelp!}
+        label={t('Customize.template')!}
+        help={t('Customize.templateHelp')!}
         wide
       >
         <TemplatePicker onSelect={handleTemplateChange} />

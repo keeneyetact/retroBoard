@@ -12,12 +12,12 @@ import useParticipants from './useParticipants';
 import useSession from './useSession';
 import styled from '@emotion/styled';
 import useUser from '../../auth/useUser';
-import useTranslation from '../../translations/useTranslations';
 import { useCallback, useEffect, useState } from 'react';
 import { trackEvent } from '../../track';
 import { Message } from 'common';
 import useModal from '../../hooks/useModal';
 import ChatModal from './chat/ChatModal';
+import { useTranslation } from 'react-i18next';
 
 type GameFooterProps = {
   onReady: () => void;
@@ -29,7 +29,7 @@ function GameFooter({ onReady, onMessage, messages }: GameFooterProps) {
   const { participants } = useParticipants();
   const { session } = useSession();
   const user = useUser();
-  const { PostBoard: translations } = useTranslation();
+  const { t } = useTranslation();
   const isUserReady = !!user && !!session && session.ready.includes(user.id);
   const fullScreen = useMediaQuery('(min-width:600px)');
   const [chatOpen, openChat, closeChat] = useModal();
@@ -95,7 +95,9 @@ function GameFooter({ onReady, onMessage, messages }: GameFooterProps) {
             )
           }
         >
-          {isUserReady ? translations.iAmNotDoneYet : translations.iAmDone}
+          {isUserReady
+            ? t('PostBoard.iAmNotDoneYet').toString()
+            : t('PostBoard.iAmDone').toString()}
         </Button>
       ) : null}
       {user ? (

@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'whatwg-fetch';
 import ReactDOM from 'react-dom';
+import './translations/i18n';
 import App from './App';
 import { initialiseAnalytics, initialiseSentry } from './track';
 import * as serviceWorker from './serviceWorker';

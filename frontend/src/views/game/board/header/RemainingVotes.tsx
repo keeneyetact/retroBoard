@@ -3,8 +3,9 @@ import { Palette } from '../../../../Theme';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { ThumbUpOutlined, ThumbDownOutlined } from '@mui/icons-material';
-import useTranslations, { Translation } from '../../../../translations';
 import useSession from '../../useSession';
+import { useTranslation } from 'react-i18next';
+import { TranslationFunction } from 'state/types';
 
 interface RemainingVotesProps {
   up: number | null;
@@ -12,7 +13,7 @@ interface RemainingVotesProps {
 }
 
 const RemainingVotes = ({ up, down }: RemainingVotesProps) => {
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const { session } = useSession();
   const hideUpVotes = session?.options.maxUpVotes === 0;
   const hideDownVotes = session?.options.maxDownVotes === 0;
@@ -23,7 +24,7 @@ const RemainingVotes = ({ up, down }: RemainingVotesProps) => {
   return (
     <Container>
       {up !== null && !hideUpVotes ? (
-        <Tooltip placement="bottom" title={getTooltip(translations, up, 'up')}>
+        <Tooltip placement="bottom" title={getTooltip(t, up, 'up')}>
           <Badge
             badgeContent={up.toString()}
             color={up > 0 ? 'primary' : 'error'}
@@ -33,10 +34,7 @@ const RemainingVotes = ({ up, down }: RemainingVotesProps) => {
         </Tooltip>
       ) : null}
       {down !== null && !hideDownVotes ? (
-        <Tooltip
-          placement="bottom"
-          title={getTooltip(translations, down, 'down')}
-        >
+        <Tooltip placement="bottom" title={getTooltip(t, down, 'down')}>
           <Badge
             badgeContent={down.toString()}
             color={down > 0 ? 'primary' : 'error'}
@@ -50,21 +48,24 @@ const RemainingVotes = ({ up, down }: RemainingVotesProps) => {
 };
 
 function getTooltip(
-  translations: Translation,
+  t: TranslationFunction,
   value: number,
   type: 'up' | 'down'
 ) {
-  const t = translations.Post;
   if (value === 0) {
-    return t.voteRemainingNone!(type === 'up' ? t.upVote! : t.downVote!);
+    return t('Post.voteRemainingNone', {
+      type: type === 'up' ? t('Post.upVote') : t('Post.downVote'),
+    });
   }
   if (value === 1) {
-    return t.voteRemainingOne!(type === 'up' ? t.upVote! : t.downVote!);
+    return t('Post.voteRemainingOne', {
+      type: type === 'up' ? t('Post.upVote') : t('Post.downVote'),
+    });
   }
-  return t.voteRemainingMultiple!(
-    value,
-    type === 'up' ? t.upVote! : t.downVote!
-  );
+  return t('Post.voteRemainingMultiple', {
+    number: value,
+    type: type === 'up' ? t('Post.upVote') : t('Post.downVote'),
+  });
 }
 
 const Container = styled.div`

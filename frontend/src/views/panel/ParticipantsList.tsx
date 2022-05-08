@@ -4,19 +4,19 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Avatar from '../../components/Avatar';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import { colors } from '@mui/material';
 import useParticipants from '../game/useParticipants';
 
 function ParticipantsList() {
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const { participants } = useParticipants();
 
   return (
     <>
       <List
         component="section"
-        subheader={<ListSubheader>{translations.Clients.header}</ListSubheader>}
+        subheader={<ListSubheader>{t('Clients.header')}</ListSubheader>}
       >
         {participants.map((player, index) => (
           <ListItem key={index}>

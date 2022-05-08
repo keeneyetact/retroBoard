@@ -9,4 +9,3 @@
 - @types/node-fetch: 2.5.12
 - redis 3.1.2 (new version incompatible with express-redis)
 - passport 0.5.0 (new version, including 0.5.2 breaks set user when using Docker, but not locally)
-

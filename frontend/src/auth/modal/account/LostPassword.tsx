@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import { Email } from '@mui/icons-material';
@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom';
 import useBackendCapabilities from '../../../global/useBackendCapabilities';
 
 const LostPassword = () => {
-  const { ResetPassword: translations, AuthCommon: authTranslations } =
-    useTranslations();
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
   const backend = useBackendCapabilities();
@@ -35,10 +34,10 @@ const LostPassword = () => {
   }
 
   return done ? (
-    <Alert severity="success">{translations.doneMessage}</Alert>
+    <Alert severity="success">{t('ResetPassword.doneMessage')}</Alert>
   ) : (
     <Wrapper
-      header={translations.header}
+      header={t('ResetPassword.header')}
       actions={
         <Button
           onClick={handleForgotPassword}
@@ -46,17 +45,17 @@ const LostPassword = () => {
           autoFocus
           disabled={!email.length}
         >
-          {translations.resetButton}
+          {t('ResetPassword.resetButton')}
         </Button>
       }
     >
-      <Alert severity="info">{translations.info}</Alert>
+      <Alert severity="info">{t('ResetPassword.info')}</Alert>
 
       <Input
         value={email}
         onChangeValue={setEmail}
-        title={authTranslations.emailField}
-        placeholder={authTranslations.emailField}
+        title={t('AuthCommon.emailField')}
+        placeholder={t('AuthCommon.emailField')}
         type="email"
         variant="standard"
         fullWidth

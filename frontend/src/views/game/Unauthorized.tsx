@@ -1,6 +1,6 @@
 import { AccessErrorType } from 'common';
 import NoContent from '../../components/NoContent';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 
 interface UnauthorizedProps {
   reason?: AccessErrorType;
@@ -17,17 +17,17 @@ interface Errors {
 }
 
 function useGetErrors(reason?: AccessErrorType): Errors {
-  const translations = useTranslations();
+  const { t } = useTranslation();
   switch (reason) {
     case 'locked':
       return {
-        title: translations.Private.sessionLockedTitle!,
-        subtitle: translations.Private.sessionLockedDescription!,
+        title: t('Private.sessionLockedTitle')!,
+        subtitle: t('Private.sessionLockedDescription')!,
       };
     case 'non_pro':
       return {
-        title: translations.Private.sessionNonProTitle!,
-        subtitle: translations.Private.sessionNonProDescription!,
+        title: t('Private.sessionNonProTitle')!,
+        subtitle: t('Private.sessionNonProDescription')!,
       };
   }
 

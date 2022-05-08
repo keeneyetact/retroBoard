@@ -14,12 +14,11 @@ import { colors } from '@mui/material';
 import { Feedback } from '@mui/icons-material';
 import { ColumnContent } from '../types';
 import { Palette } from '../../../Theme';
-import useTranslations from '../../../translations';
+import { useTranslation } from 'react-i18next';
 import { Page } from '../../../components/Page';
 import SpeedDial from './SpeedDial';
 import { useSummary } from './useSummary';
 import { ColumnStats, ColumnStatsItem, ActionItem } from './types';
-import useTranslation from '../../../translations';
 import useCrypto from '../../../crypto/useCrypto';
 import isSearchMatch from '../is-search-match';
 import { Box } from '@mui/system';
@@ -36,7 +35,7 @@ interface SectionProps {
 }
 
 const Section = ({ stats, search }: SectionProps) => {
-  const { SummaryBoard: translations } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Box marginBottom={2} role="list">
@@ -53,7 +52,7 @@ const Section = ({ stats, search }: SectionProps) => {
           {stats.items.length ? (
             <PostsList items={stats.items} search={search} />
           ) : (
-            <Typography variant="body1">{translations.noPosts}</Typography>
+            <Typography variant="body1">{t('SummaryBoard.noPosts')}</Typography>
           )}
         </CardContent>
       </Card>
@@ -194,9 +193,7 @@ interface ActionsListProps {
 
 const ActionsList = ({ actions }: ActionsListProps) => {
   const theme = useTheme();
-  const {
-    Actions: { summaryTitle },
-  } = useTranslations();
+  const { t } = useTranslation();
   const { decrypt } = useCrypto();
   return (
     <Grid
@@ -211,7 +208,7 @@ const ActionsList = ({ actions }: ActionsListProps) => {
           <CardHeader
             title={
               <Typography variant="h6" style={{ fontWeight: 300 }}>
-                {summaryTitle}
+                {t('Actions.summaryTitle')}
               </Typography>
             }
             style={{

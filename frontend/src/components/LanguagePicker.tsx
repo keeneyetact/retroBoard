@@ -28,9 +28,9 @@ const LanguagePicker = ({ value, onChange }: LanguagePickerProps) => {
     >
       {languages.map((language) => (
         <MenuItem
-          value={language.value}
-          key={language.value}
-          data-cy={`language-picker-item-${language.value}`}
+          value={language.locale}
+          key={language.locale}
+          data-cy={`language-picker-item-${language.locale}`}
         >
           <LanguageItem>
             <Flag className={`fi fi-${language.iso}`}>

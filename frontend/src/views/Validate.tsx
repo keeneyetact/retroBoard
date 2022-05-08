@@ -5,13 +5,13 @@ import { verifyEmail } from '../api';
 import { Alert } from '@mui/material';
 import { useContext } from 'react';
 import UserContext from '../auth/Context';
-import useTranslations from '../translations';
+import { useTranslation } from 'react-i18next';
 
 function ValidatePage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const { ValidateAccount: translations } = useTranslations();
+  const { t } = useTranslation();
   const params = new URLSearchParams(location.search);
   const email = params.get('email');
   const code = params.get('code');
@@ -42,12 +42,14 @@ function ValidatePage() {
   return (
     <div style={{ margin: 50 }}>
       {success && !loading ? (
-        <Alert severity="success">{translations.success}</Alert>
+        <Alert severity="success">{t('ValidateAccount.success')}</Alert>
       ) : null}
       {!success && !loading ? (
-        <Alert severity="error">{translations.error}</Alert>
+        <Alert severity="error">{t('ValidateAccount.error')}</Alert>
       ) : null}
-      {loading ? <Alert severity="info">{translations.loading}</Alert> : null}
+      {loading ? (
+        <Alert severity="info">{t('ValidateAccount.loading')}</Alert>
+      ) : null}
     </div>
   );
 }

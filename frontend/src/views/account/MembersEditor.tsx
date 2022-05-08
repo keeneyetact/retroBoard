@@ -4,7 +4,7 @@ import { updateMembers } from './api';
 import { validate } from 'isemail';
 import styled from '@emotion/styled';
 import { Alert } from '@mui/material';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
 import TagInput from '../../components/TagInput';
 
@@ -23,7 +23,7 @@ function isNotFull(members: string[] | null): boolean {
 }
 
 function MembersEditor() {
-  const { AccountPage: translations } = useTranslations();
+  const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const [members, setMembers] = useStateFetch<string[] | null>(
     '/api/stripe/members',
@@ -78,13 +78,15 @@ function MembersEditor() {
     <Container>
       {!isNotFull(members) ? (
         <Alert severity="warning" style={{ marginBottom: 10 }}>
-          {translations.subscription!.membersEditor!.limitReached!(
-            MAX_MEMBERS + 1
-          )}
+          {t('AccountPage.subscription.membersEditor.limitReached', {
+            limit: MAX_MEMBERS + 1,
+          })}
         </Alert>
       ) : (
         <Alert severity="info" style={{ marginBottom: 10 }}>
-          {translations.subscription!.membersEditor!.info!(MAX_MEMBERS)}
+          {t('AccountPage.subscription.membersEditor.info', {
+            limit: MAX_MEMBERS,
+          })}
         </Alert>
       )}
       <TagInput

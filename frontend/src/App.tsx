@@ -18,45 +18,47 @@ import { ConfirmProvider } from 'material-ui-confirm';
 
 function App() {
   return (
-    <RecoilRoot>
-      <Helmet>
-        <meta property="og:title" content="Retrospected.com" />
-        <meta
-          property="og:description"
-          content="Real-time Agile Retrospective Board for development teams"
-        />
-        <meta property="og:url" content="https://www.retrospected.com" />
-      </Helmet>
-      <SnackbarProvider
-        maxSnack={3}
-        autoHideDuration={3000}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <ConfirmProvider>
-            <BrowserRouter>
-              <GlobalProvider>
-                <AuthProvider>
-                  <LanguageProvider>
-                    <QuotaManager>
-                      <Global styles={globalCss} />
-                      <ErrorBoundary>
-                        <Suspense fallback={<CodeSplitLoader />}>
-                          <Layout />
-                        </Suspense>
-                      </ErrorBoundary>
-                    </QuotaManager>
-                  </LanguageProvider>
-                </AuthProvider>
-              </GlobalProvider>
-            </BrowserRouter>
-          </ConfirmProvider>
-        </ThemeProvider>
-      </SnackbarProvider>
-    </RecoilRoot>
+    <Suspense fallback>
+      <RecoilRoot>
+        <Helmet>
+          <meta property="og:title" content="Retrospected.com" />
+          <meta
+            property="og:description"
+            content="Real-time Agile Retrospective Board for development teams"
+          />
+          <meta property="og:url" content="https://www.retrospected.com" />
+        </Helmet>
+        <SnackbarProvider
+          maxSnack={3}
+          autoHideDuration={3000}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <ThemeProvider theme={theme}>
+            <ConfirmProvider>
+              <BrowserRouter>
+                <GlobalProvider>
+                  <AuthProvider>
+                    <LanguageProvider>
+                      <QuotaManager>
+                        <Global styles={globalCss} />
+                        <ErrorBoundary>
+                          <Suspense fallback={<CodeSplitLoader />}>
+                            <Layout />
+                          </Suspense>
+                        </ErrorBoundary>
+                      </QuotaManager>
+                    </LanguageProvider>
+                  </AuthProvider>
+                </GlobalProvider>
+              </BrowserRouter>
+            </ConfirmProvider>
+          </ThemeProvider>
+        </SnackbarProvider>
+      </RecoilRoot>
+    </Suspense>
   );
 }
 

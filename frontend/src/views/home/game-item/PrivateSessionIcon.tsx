@@ -2,21 +2,21 @@ import { colors } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { VerifiedUser, VerifiedUserOutlined } from '@mui/icons-material';
 import { SessionMetadata } from 'common';
-import useTranslation from '../../../translations/useTranslations';
 import ProButton from '../../../components/ProButton';
+import { useTranslation } from 'react-i18next';
 
 interface PrivateSessionIconProps {
   session: SessionMetadata;
 }
 
 function PrivateSessionIcon({ session }: PrivateSessionIconProps) {
-  const { Private: translations } = useTranslation();
+  const { t } = useTranslation();
 
   if (!session.locked) {
     return (
       <ProButton>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title={translations.sessionIsPublic!}>
+          <Tooltip title={t('Private.sessionIsPublic')!}>
             <VerifiedUserOutlined htmlColor={colors.grey[400]} />
           </Tooltip>
         </div>
@@ -26,13 +26,13 @@ function PrivateSessionIcon({ session }: PrivateSessionIconProps) {
 
   if (!session.lockedForUser) {
     return (
-      <Tooltip title={translations.sessionIsPrivate!}>
+      <Tooltip title={t('Private.sessionIsPrivate')!}>
         <VerifiedUser htmlColor={colors.green[500]} />
       </Tooltip>
     );
   }
   return (
-    <Tooltip title={translations.sessionIsPrivateNoAccess!}>
+    <Tooltip title={t('Private.sessionIsPrivateNoAccess')!}>
       <VerifiedUser htmlColor={colors.red[500]} />
     </Tooltip>
   );

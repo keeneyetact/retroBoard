@@ -10,8 +10,8 @@ import { Alert } from '@mui/material';
 import { useEncryptionKey } from '../../../../crypto/useEncryptionKey';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { colors } from '@mui/material';
-import useTranslation from '../../../../translations/useTranslations';
 import useSession from '../../useSession';
+import { useTranslation } from 'react-i18next';
 
 function EncryptionModal() {
   const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ function EncryptionModal() {
   const storeKey = useEncryptionKey()[1];
   const navigate = useNavigate();
   const location = useLocation();
-  const { Encryption: translations } = useTranslation();
+  const { t } = useTranslation();
   const isCorrectPassword = useMemo(() => {
     if (session && session.encrypted) {
       return decrypt(session.encrypted, password) === CHECK_PREFIX;
@@ -40,7 +40,7 @@ function EncryptionModal() {
   }, [isCorrectPassword, password, storeKey, location, navigate]);
   return (
     <Dialog open>
-      <DialogTitle>{translations.passwordModalTitle}</DialogTitle>
+      <DialogTitle>{t('Encryption.passwordModalTitle')}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Input value={password} onChange={handlePassword} />
@@ -48,7 +48,7 @@ function EncryptionModal() {
         {!isCorrectPassword && password.length ? (
           <DialogContentText>
             <Alert severity="warning">
-              {translations.passwordModelIncorrect}
+              {t('Encryption.passwordModelIncorrect')}
             </Alert>
           </DialogContentText>
         ) : null}

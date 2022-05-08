@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import sortBy from 'lodash/sortBy';
-import useTranslations from '../../translations';
+import { useTranslation } from 'react-i18next';
 import { ColumnContent } from './types';
 import { extrapolate } from '../../state/columns';
 import { ColumnDefinition, Post, PostGroup } from 'common';
@@ -11,7 +11,7 @@ const emptyGroups: PostGroup[] = [];
 const emptyCols: ColumnDefinition[] = [];
 
 export default function useColumns() {
-  const translations = useTranslations();
+  const { t } = useTranslation();
   const { session } = useSession();
   const posts = session ? session.posts : emptyPosts;
   const groups = session ? session.groups : emptyGroups;
@@ -20,7 +20,7 @@ export default function useColumns() {
   const columns: ColumnContent[] = useMemo(
     () =>
       cols
-        .map((col) => extrapolate(col, translations))
+        .map((col) => extrapolate(col, t))
         .map(
           (col, index) =>
             ({
@@ -41,7 +41,7 @@ export default function useColumns() {
               ...col,
             } as ColumnContent)
         ),
-    [posts, groups, cols, translations]
+    [posts, groups, cols, t]
   );
   return columns;
 }
