@@ -15,17 +15,20 @@ import useFormatDate from '../../hooks/useFormatDate';
 import { DeleteModal } from './delete/DeleteModal';
 import useModal from '../../hooks/useModal';
 import EditableLabel from 'components/EditableLabel';
-import { useCallback, useContext } from 'react';
-import { updateUserName } from './api';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { updateAdmins, updateUserName } from './api';
 import UserContext from 'auth/Context';
 import { useSnackbar } from 'notistack';
 import LanguagePicker from 'components/LanguagePicker';
 import { useLanguage } from 'translations';
 import useBackendCapabilities from 'global/useBackendCapabilities';
+import AdminsEditor from './AdminEditor';
+import Tag from 'components/TagInput/Tag';
 
 function AccountPage() {
   const url = usePortalUrl();
   const user = useUser();
+  const [admins, setAdmins] = useState<string[] | null>(null);
   const [language, setLanguage] = useLanguage();
   const { setUser } = useContext(UserContext);
   const isTrial = useIsTrial();
@@ -36,6 +39,10 @@ function AccountPage() {
   const [deleteModalOpen, handleDeleteModalOpen, handleDeleteModalClose] =
     useModal();
   const capabilities = useBackendCapabilities();
+
+  useEffect(() => {
+    setAdmins(user?.planAdmins || null);
+  }, [user]);
 
   const handleEditName = useCallback(
     async (name: string) => {
@@ -52,14 +59,26 @@ function AccountPage() {
     [setUser, enqueueSnackbar, t]
   );
 
+  const handleEditAdmins = useCallback((admins: string[]) => {
+    setAdmins(admins);
+    updateAdmins(admins);
+  }, []);
+
   const ownsThePlan =
     user &&
     !!user.ownSubscriptionsId &&
     user.ownSubscriptionsId === user.subscriptionsId;
+
   const onSomebodysPlan =
     user &&
     !!user.subscriptionsId &&
     user.ownSubscriptionsId !== user.subscriptionsId;
+
+  const isPlanAdmin =
+    user &&
+    user.email &&
+    user.planAdmins &&
+    user.planAdmins.includes(user.email);
 
   if (!user) {
     return null;
@@ -133,6 +152,21 @@ function AccountPage() {
               <Value>{user.plan}</Value>
             </Data>
 
+            <Data>
+              <Title>{t('AccountPage.plan.admins')}</Title>
+              <Value>
+                {[user.planOwnerEmail, ...(user.planAdmins || [])]
+                  .filter(Boolean)
+                  .map((email, i) => (
+                    <Tag key={i} value={email as string} />
+                  ))}
+              </Value>
+            </Data>
+
+            {!user.pro ? (
+              <Alert severity="warning">{t('AccountPage.plan.notPro')}</Alert>
+            ) : null}
+
             {user.domain ? (
               <Data>
                 <Title>{t('SubscribePage.domain.title')}</Title>
@@ -140,9 +174,19 @@ function AccountPage() {
               </Data>
             ) : null}
             {onSomebodysPlan && (
-              <Alert severity="info">
-                {t('AccountPage.plan.youAreMember')}
-              </Alert>
+              <>
+                {user.planOwner && user.planOwnerEmail ? (
+                  <Data>
+                    <Title>{t('AccountPage.plan.ownedBy')}</Title>
+                    <Value>
+                      {user.planOwner} ({user.planOwnerEmail})
+                    </Value>
+                  </Data>
+                ) : null}
+                <Alert severity="info">
+                  {t('AccountPage.plan.youAreMember')}
+                </Alert>
+              </>
             )}
             {ownsThePlan && (
               <Alert severity="info">{t('AccountPage.plan.youAreOwner')}</Alert>
@@ -150,9 +194,25 @@ function AccountPage() {
           </Section>
         ) : null}
 
-        {ownsThePlan && user && user.plan && user.plan === 'team' ? (
+        {(ownsThePlan || isPlanAdmin) &&
+        user &&
+        user.plan &&
+        user.plan === 'team' ? (
           <Section title={t('AccountPage.subscription.membersEditor.title')}>
             <MembersEditor />
+          </Section>
+        ) : null}
+
+        {admins !== null &&
+        ownsThePlan &&
+        user &&
+        user.plan &&
+        user.plan === 'team' ? (
+          <Section title={t('AccountPage.subscription.adminsEditor.title')}>
+            <Alert severity="info">
+              {t('AccountPage.subscription.adminsEditor.description')}
+            </Alert>
+            <AdminsEditor admins={admins} onChange={handleEditAdmins} />
           </Section>
         ) : null}
 
