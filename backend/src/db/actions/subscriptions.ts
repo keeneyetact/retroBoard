@@ -12,11 +12,11 @@ export async function activateSubscription(
   currency: Currency
 ): Promise<SubscriptionEntity> {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
-    const subscriptionRepository = manager.getCustomRepository(
+    const userRepository = manager.withRepository(UserRepository);
+    const subscriptionRepository = manager.withRepository(
       SubscriptionRepository
     );
-    const user = await userRepository.findOne(userId);
+    const user = await userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw Error('Cannot activate subscription on a non existing user');
     }
@@ -36,7 +36,7 @@ export async function cancelSubscription(
   stripeSubscriptionId: string
 ): Promise<SubscriptionEntity | null> {
   return await transaction(async (manager) => {
-    const subscriptionRepository = manager.getCustomRepository(
+    const subscriptionRepository = manager.withRepository(
       SubscriptionRepository
     );
     try {
@@ -55,7 +55,7 @@ export async function getActiveSubscriptionWhereUserIsOwner(
   userId: string
 ): Promise<SubscriptionEntity | null> {
   return await transaction(async (manager) => {
-    const subscriptionRepository = manager.getCustomRepository(
+    const subscriptionRepository = manager.withRepository(
       SubscriptionRepository
     );
     const subscriptions = await subscriptionRepository.find({
@@ -81,7 +81,7 @@ export async function getActiveSubscriptionWhereUserIsAdmin(
   email: string | null
 ): Promise<SubscriptionEntity | null> {
   return await transaction(async (manager) => {
-    const subscriptionRepository = manager.getCustomRepository(
+    const subscriptionRepository = manager.withRepository(
       SubscriptionRepository
     );
 
@@ -110,7 +110,7 @@ export async function saveSubscription(
   subscription: SubscriptionEntity
 ): Promise<void> {
   return await transaction(async (manager) => {
-    const subscriptionRepository = manager.getCustomRepository(
+    const subscriptionRepository = manager.withRepository(
       SubscriptionRepository
     );
     await subscriptionRepository.save(subscription);
@@ -120,9 +120,11 @@ export async function saveSubscription(
 export async function startTrial(userId: string): Promise<UserEntity | null> {
   return await transaction(async (manager) => {
     const userViewRepository = manager.getRepository(UserView);
-    const fullUser = await userViewRepository.findOne({ id: userId });
+    const fullUser = await userViewRepository.findOne({
+      where: { id: userId },
+    });
     if (fullUser) {
-      const userRepository = manager.getCustomRepository(UserRepository);
+      const userRepository = manager.withRepository(UserRepository);
       const user = await userRepository.startTrial(fullUser);
       return user;
     }

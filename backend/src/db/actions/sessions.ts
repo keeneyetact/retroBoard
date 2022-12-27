@@ -38,7 +38,7 @@ export async function createSessionFromSlack(
   name: string
 ): Promise<Session | null> {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
+    const userRepository = manager.withRepository(UserRepository);
     const users = await userRepository.find({ where: { slackUserId } });
     if (!users.length) {
       return null;
@@ -56,13 +56,13 @@ export async function createSession(
   encryptionCheck?: string
 ): Promise<Session> {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
+    const userRepository = manager.withRepository(UserRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
     const id = shortId();
-    const userWithDefaultTemplate = await userRepository.findOne(
-      { id: author.id },
-      { relations: ['defaultTemplate', 'defaultTemplate.columns'] }
-    );
+    const userWithDefaultTemplate = await userRepository.findOne({
+      where: { id: author.id },
+      relations: ['defaultTemplate', 'defaultTemplate.columns'],
+    });
     if (userWithDefaultTemplate?.defaultTemplate) {
       const template = userWithDefaultTemplate.defaultTemplate;
       const newSession = await sessionRepository.saveFromJson(
@@ -112,13 +112,13 @@ export async function createCustom(
   author: UserEntity
 ): Promise<Session> {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const templateRepository = manager.getCustomRepository(
+    const userRepository = manager.withRepository(UserRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const templateRepository = manager.withRepository(
       SessionTemplateRepository
     );
     const id = shortId();
-    const session = await sessionRepository.findOne({ id });
+    const session = await sessionRepository.findOne({ where: { id } });
     if (!session) {
       const newSession = await sessionRepository.saveFromJson(
         {
@@ -149,36 +149,37 @@ export async function createCustom(
 
 export async function doesSessionExists(sessionId: string): Promise<boolean> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
     return (await sessionRepository.count({ where: { id: sessionId } })) === 1;
   });
 }
 
 export async function getSession(sessionId: string): Promise<Session | null> {
   return await transaction(async (manager) => {
-    const postRepository = manager.getCustomRepository(PostRepository);
-    const postGroupRepository =
-      manager.getCustomRepository(PostGroupRepository);
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const columnRepository = manager.getCustomRepository(ColumnRepository);
-    const messageRepository = manager.getCustomRepository(MessageRepository);
+    const postRepository = manager.withRepository(PostRepository);
+    const postGroupRepository = manager.withRepository(PostGroupRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const columnRepository = manager.withRepository(ColumnRepository);
+    const messageRepository = manager.withRepository(MessageRepository);
 
-    const session = await sessionRepository.findOne({ id: sessionId });
+    const session = await sessionRepository.findOne({
+      where: { id: sessionId },
+    });
     if (session) {
       const posts = (await postRepository.find({
-        where: { session },
+        where: { session: { id: session.id } },
         order: { created: 'ASC' },
       })) as PostEntity[];
       const groups = (await postGroupRepository.find({
-        where: { session },
+        where: { session: { id: session.id } },
         order: { created: 'ASC' },
       })) as PostGroupEntity[];
       const columns = (await columnRepository.find({
-        where: { session },
+        where: { session: { id: session.id } },
         order: { index: 'ASC' },
       })) as ColumnDefinitionEntity[];
       const messages = (await messageRepository.find({
-        where: { session },
+        where: { session: { id: session.id } },
         order: { created: 'DESC' },
       })) as MessageEntity[];
       return {
@@ -199,7 +200,7 @@ export async function saveSession(
   session: Session
 ): Promise<void> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
     await sessionRepository.saveFromJson(session, userId);
   });
 }
@@ -209,8 +210,10 @@ export async function deleteSessions(
   sessionId: string
 ): Promise<boolean> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const session = await sessionRepository.findOne(sessionId);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const session = await sessionRepository.findOne({
+      where: { id: sessionId },
+    });
     const user = await getUserViewInner(manager, identityId);
     if (!user) {
       console.info('Identity not found', identityId);
@@ -297,11 +300,11 @@ export async function getDefaultTemplate(
   id: string
 ): Promise<SessionTemplateEntity | null> {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
-    const userWithDefaultTemplate = await userRepository.findOne(
-      { id },
-      { relations: ['defaultTemplate', 'defaultTemplate.columns'] }
-    );
+    const userRepository = manager.withRepository(UserRepository);
+    const userWithDefaultTemplate = await userRepository.findOne({
+      where: { id },
+      relations: ['defaultTemplate', 'defaultTemplate.columns'],
+    });
     return userWithDefaultTemplate?.defaultTemplate || null;
   });
 }
@@ -311,7 +314,7 @@ export async function updateOptions(
   options: SessionOptions
 ): Promise<SessionOptions | null> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
+    const sessionRepository = manager.withRepository(SessionRepository);
     return await sessionRepository.updateOptions(sessionId, options);
   });
 }
@@ -321,7 +324,7 @@ export async function updateColumns(
   columns: ColumnDefinition[]
 ): Promise<ColumnDefinition[] | null> {
   return await transaction(async (manager) => {
-    const columnRepository = manager.getCustomRepository(ColumnRepository);
+    const columnRepository = manager.withRepository(ColumnRepository);
     return await columnRepository.updateColumns(sessionId, columns);
   });
 }
@@ -332,8 +335,8 @@ export async function saveTemplate(
   options: SessionOptions
 ) {
   return await transaction(async (manager) => {
-    const userRepository = manager.getCustomRepository(UserRepository);
-    const templateRepository = manager.getCustomRepository(
+    const userRepository = manager.withRepository(UserRepository);
+    const templateRepository = manager.withRepository(
       SessionTemplateRepository
     );
 
@@ -353,8 +356,10 @@ export async function updateName(
 ): Promise<boolean> {
   return await transaction(async (manager) => {
     try {
-      const sessionRepository = manager.getCustomRepository(SessionRepository);
-      const session = await sessionRepository.findOne(sessionId);
+      const sessionRepository = manager.withRepository(SessionRepository);
+      const session = await sessionRepository.findOne({
+        where: { id: sessionId },
+      });
       if (session) {
         session.name = name;
         await sessionRepository.save(session);
@@ -379,8 +384,9 @@ async function getSessionWithVisitorsInner(
   manager: EntityManager,
   sessionId: string
 ): Promise<SessionEntity | null> {
-  const sessionRepository = manager.getCustomRepository(SessionRepository);
-  const session = await sessionRepository.findOne(sessionId, {
+  const sessionRepository = manager.withRepository(SessionRepository);
+  const session = await sessionRepository.findOne({
+    where: { id: sessionId },
     relations: ['visitors'],
   });
   return session || null;
@@ -397,7 +403,7 @@ async function storeVisitorInner(
   sessionId: string,
   user: UserEntity
 ) {
-  const sessionRepository = manager.getCustomRepository(SessionRepository);
+  const sessionRepository = manager.withRepository(SessionRepository);
   const session = await getSessionWithVisitorsInner(manager, sessionId);
   if (
     session &&
@@ -411,8 +417,10 @@ async function storeVisitorInner(
 
 export async function toggleSessionLock(sessionId: string, lock: boolean) {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const session = await sessionRepository.findOne(sessionId);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const session = await sessionRepository.findOne({
+      where: { id: sessionId },
+    });
     if (session) {
       session.locked = lock;
       await sessionRepository.save(session);
@@ -425,8 +433,10 @@ export async function wasSessionCreatedBy(
   userId: string
 ): Promise<boolean> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const session = await sessionRepository.findOne(sessionId);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const session = await sessionRepository.findOne({
+      where: { id: sessionId },
+    });
     return !!session && session.createdBy.id === userId;
   });
 }
@@ -462,8 +472,10 @@ export async function toggleReady(
   userId: string
 ): Promise<boolean> {
   return await transaction(async (manager) => {
-    const sessionRepository = manager.getCustomRepository(SessionRepository);
-    const session = await sessionRepository.findOne(sessionId);
+    const sessionRepository = manager.withRepository(SessionRepository);
+    const session = await sessionRepository.findOne({
+      where: { id: sessionId },
+    });
     if (!session) {
       return false;
     }

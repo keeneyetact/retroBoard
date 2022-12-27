@@ -1,17 +1,15 @@
-import { EntityRepository } from 'typeorm';
 import { SessionEntity, PostEntity } from '../entities';
 import SessionRepository from './SessionRepository';
 import { Post as JsonPost, defaultSession } from '../../common';
 import { cloneDeep } from 'lodash';
-import BaseRepository from './BaseRepository';
+import { getBaseRepository, saveAndReload } from './BaseRepository';
 
-@EntityRepository(PostEntity)
-export default class PostRepository extends BaseRepository<PostEntity> {
+export default getBaseRepository(PostEntity).extend({
   async updateFromJson(
     sessionId: string,
     post: JsonPost
   ): Promise<PostEntity | undefined> {
-    return await this.saveAndReload({
+    return await saveAndReload(this, {
       ...cloneDeep(post),
       session: {
         id: sessionId,
@@ -26,15 +24,17 @@ export default class PostRepository extends BaseRepository<PostEntity> {
           }
         : null,
     });
-  }
+  },
   async saveFromJson(
     sessionId: string,
     userId: string,
     post: JsonPost
   ): Promise<PostEntity | undefined> {
-    const session = await this.manager.findOne(SessionEntity, sessionId);
+    const session = await this.manager.findOne(SessionEntity, {
+      where: { id: sessionId },
+    });
     if (session) {
-      return await this.saveAndReload({
+      return await saveAndReload(this, {
         ...cloneDeep(post),
         user: {
           id: userId,
@@ -49,8 +49,7 @@ export default class PostRepository extends BaseRepository<PostEntity> {
           : null,
       });
     } else {
-      const sessionRepository =
-        this.manager.getCustomRepository(SessionRepository);
+      const sessionRepository = this.manager.withRepository(SessionRepository);
       const newSession = {
         ...defaultSession,
         id: sessionId,
@@ -58,5 +57,5 @@ export default class PostRepository extends BaseRepository<PostEntity> {
       await sessionRepository.saveFromJson(newSession, userId);
       return await this.saveFromJson(sessionId, userId, cloneDeep(post));
     }
-  }
-}
+  },
+});

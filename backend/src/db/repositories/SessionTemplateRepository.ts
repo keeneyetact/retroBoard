@@ -1,4 +1,3 @@
-import { EntityRepository } from 'typeorm';
 import { SessionTemplateEntity } from '../entities';
 import {
   SessionTemplate as JsonSessionTemplate,
@@ -7,10 +6,9 @@ import {
 } from '../../common';
 import { v4 } from 'uuid';
 import { TemplateColumnRepository } from '.';
-import BaseRepository from './BaseRepository';
+import { getBaseRepository } from './BaseRepository';
 
-@EntityRepository(SessionTemplateEntity)
-export default class SessionTemplateRepository extends BaseRepository<SessionTemplateEntity> {
+export default getBaseRepository(SessionTemplateEntity).extend({
   async saveFromJson(
     name: string,
     columns: JsonColumnDefinition[],
@@ -25,12 +23,12 @@ export default class SessionTemplateRepository extends BaseRepository<SessionTem
       createdBy: { id: authorId },
     };
 
-    const columnsRepo = this.manager.getCustomRepository(
-      TemplateColumnRepository
-    );
+    const columnsRepo = this.manager.withRepository(TemplateColumnRepository);
     const createdTemplate = await this.save(template);
 
-    const reloadedTemplate = await this.findOne(createdTemplate.id);
+    const reloadedTemplate = await this.findOne({
+      where: { id: createdTemplate.id },
+    });
     if (reloadedTemplate) {
       for (let i = 0; i < columns.length; i++) {
         await columnsRepo.saveFromJson(columns[i], createdTemplate.id);
@@ -42,5 +40,5 @@ export default class SessionTemplateRepository extends BaseRepository<SessionTem
     }
 
     throw Error('Cannot save template');
-  }
-}
+  },
+});

@@ -1,20 +1,20 @@
-import { EntityRepository } from 'typeorm';
 import { SessionEntity } from '../entities';
 import { Message as JsonMessage } from '../../common';
 import { cloneDeep } from 'lodash';
-import BaseRepository from './BaseRepository';
+import { getBaseRepository, saveAndReload } from './BaseRepository';
 import MessageEntity from '../entities/Message';
 
-@EntityRepository(MessageEntity)
-export default class MessageRepository extends BaseRepository<MessageEntity> {
+export default getBaseRepository(MessageEntity).extend({
   async saveFromJson(
     sessionId: string,
     userId: string,
     message: JsonMessage
   ): Promise<MessageEntity | undefined> {
-    const session = await this.manager.findOne(SessionEntity, sessionId);
+    const session = await this.manager.findOne(SessionEntity, {
+      where: { id: sessionId },
+    });
     if (session) {
-      return await this.saveAndReload({
+      return await saveAndReload(this, {
         ...cloneDeep(message),
         user: {
           id: userId,
@@ -26,5 +26,5 @@ export default class MessageRepository extends BaseRepository<MessageEntity> {
     } else {
       throw new Error('No session found');
     }
-  }
-}
+  },
+});
