@@ -7,12 +7,13 @@ import {
   UpdateDateColumn,
   OneToMany,
   Index,
+  Relation,
 } from 'typeorm';
 import { LexoRank } from 'lexorank';
-import SessionEntity from './Session';
-import UserEntity from './User';
-import PostEntity from './Post';
-import { PostGroup } from '../../common';
+import SessionEntity from './Session.js';
+import PostEntity from './Post.js';
+import { PostGroup } from '../../common/index.js';
+import { UserEntity } from './UserIdentity.js';
 
 @Entity({ name: 'groups' })
 export default class PostGroupEntity {
@@ -20,7 +21,7 @@ export default class PostGroupEntity {
   public id: string;
   @ManyToOne(() => SessionEntity, { nullable: false })
   @Index()
-  public session: SessionEntity;
+  public session: Relation<SessionEntity>;
   @Column({ default: 0 })
   public column: number;
   @Index()
@@ -55,7 +56,7 @@ export default class PostGroupEntity {
 
   constructor(
     id: string,
-    session: SessionEntity,
+    session: Relation<SessionEntity>,
     column: number,
     label: string,
     user: UserEntity

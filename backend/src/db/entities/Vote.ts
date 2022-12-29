@@ -6,10 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  Relation,
 } from 'typeorm';
-import { VoteType, Vote, VoteExtract } from '../../common';
-import UserEntity from './User';
-import PostEntity from './Post';
+import { VoteType, Vote, VoteExtract } from '../../common/index.js';
+import PostEntity from './Post.js';
+import { UserEntity } from './UserIdentity.js';
 
 @Entity({ name: 'votes' })
 export default class VoteEntity {
@@ -25,7 +26,7 @@ export default class VoteEntity {
     onUpdate: 'CASCADE',
   })
   @Index()
-  public post: PostEntity;
+  public post: Relation<PostEntity>;
   @Column({ type: 'character varying' })
   public type: VoteType;
   @CreateDateColumn({ type: 'timestamp with time zone' })
@@ -50,7 +51,12 @@ export default class VoteEntity {
     };
   }
 
-  constructor(id: string, post: PostEntity, user: UserEntity, type: VoteType) {
+  constructor(
+    id: string,
+    post: Relation<PostEntity>,
+    user: UserEntity,
+    type: VoteType
+  ) {
     this.id = id;
     this.post = post;
     this.type = type;

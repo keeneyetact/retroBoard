@@ -44,3 +44,5 @@ describe('Cache - Invalidate', () => {
     expect(result).toBe(null);
   });
 });
+
+export {};

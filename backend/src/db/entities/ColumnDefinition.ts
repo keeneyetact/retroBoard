@@ -6,10 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  Relation,
 } from 'typeorm';
-import { ColumnDefinition, ColumnDefinitionType } from '../../common';
-import SessionEntity from './Session';
-import SessionTemplateEntity from './SessionTemplate';
+import { ColumnDefinition, ColumnDefinitionType } from '../../common/index.js';
+import SessionEntity from './Session.js';
+import SessionTemplateEntity from './SessionTemplate.js';
 
 class ColumnDefinitionEntityBase {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
@@ -61,10 +62,10 @@ class ColumnDefinitionEntityBase {
 export class ColumnDefinitionEntity extends ColumnDefinitionEntityBase {
   @ManyToOne(() => SessionEntity, { nullable: false })
   @Index()
-  public session: SessionEntity;
+  public session: Relation<SessionEntity>;
   constructor(
     id: string,
-    session: SessionEntity,
+    session: Relation<SessionEntity>,
     type: string,
     index: number,
     label: string,

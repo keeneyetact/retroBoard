@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../config.js';
 import { DataSourceOptions } from 'typeorm';
 import {
   PostEntity,
@@ -13,20 +13,23 @@ import {
   MessageEntity,
   UserView,
   SessionView,
-} from './entities';
-import LicenceEntity from './entities/Licence';
-import SessionOptionsEntity from './entities/SessionOptions';
-import UserIdentityEntity from './entities/UserIdentity';
+  UserIdentityEntity,
+} from './entities/index.js';
+import LicenceEntity from './entities/Licence.js';
+import SessionOptionsEntity from './entities/SessionOptions.js';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import path from 'path';
+import { getDirname, getFilename } from './../path-utils.js';
+
+const fileName = getFilename(import.meta.url);
 
 function getMigrationsDirectory(): string {
-  return path.resolve(__dirname, 'migrations');
+  return path.resolve(getDirname(import.meta.url), 'migrations');
 }
 
 function getMigrationsFiles(): string {
   return `${getMigrationsDirectory()}/*.${
-    __filename.endsWith('js') ? 'js' : 'ts'
+    fileName.endsWith('js') ? 'js' : 'ts'
   }`;
 }
 
