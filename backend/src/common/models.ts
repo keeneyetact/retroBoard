@@ -11,11 +11,11 @@ export const defaultOptions: SessionOptions = {
   allowGiphy: true,
   allowGrouping: true,
   allowReordering: true,
-  allowCancelVote: false,
+  allowCancelVote: true,
   blurCards: false,
   newPostsFirst: true,
-  allowTimer: false,
-  timerDuration: 0,
+  allowTimer: true,
+  timerDuration: 15 * 60,
   readonlyOnTimerEnd: true,
 };
 

@@ -85,6 +85,16 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 4.19.0
+
+- Feature: Adding the ability to set a timer for a session. This is optional and can be enabled in the settings. (👏 Thanks to [@Xyaren](https://github.com/Xyaren) for the idea)
+- Feature: Confirm before deleting a post. Avoids accidental deletion of posts.  (👏 Thanks to [@vadamovsky](https://github.com/vadamovsky) for the idea)
+- Feature: Allow users to cancel their votes on a specific ticket. This feature can be disabled in the settings. (👏 Thanks to [@Xyaren](https://github.com/Xyaren) for the idea)
+- Feature: Self-Hosted only: Display the number of logged users (👏 Thanks to [@dayByte](https://github.com/dayByte) for the idea)
+- Upgrade to the latest version of TypeORM
+- Convert all backend code to ESM
+- 🇩🇪 German language updates (👏 Thanks to [@dayByte](https://github.com/dayByte) for his contribution)
+
 ### Version 4.18.1 (hotfix)
 
 - Reinstates the Enter icon on board input on mobiles (👏 Thanks to Hans K. for the idea)
@@ -709,7 +719,7 @@ Many thanks to the following contributors who helped translating the app:
 - Polish: [@olaf-cichocki](https://github.com/olaf-cichocki)
 - Arabic: [@FrenchTechLead](https://github.com/FrenchTechLead)
 - Japanese: [@sat0yu](https://github.com/sat0yu)
-- German: [@PaulBrandt](https://github.com/PaulBrandt)
+- German: [@PaulBrandt](https://github.com/PaulBrandt), [@dayByte](https://github.com/dayByte)
 - Italian: [@mventuri](https://github.com/mventuri)
 
 If you are a native speaker of another language, please don't hesitate to make a pull request to add a translation.
