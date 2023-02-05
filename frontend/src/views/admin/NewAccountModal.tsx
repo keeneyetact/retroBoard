@@ -144,7 +144,11 @@ export function NewAccountModal({
                 onChangeScore={setPasswordScore}
                 password={registerPassword}
                 shortScoreWord={t('AuthCommon.passwordScoreWords')[0]}
-                scoreWords={t('AuthCommon.passwordScoreWords')}
+                scoreWords={
+                  t('AuthCommon.passwordScoreWords', {
+                    returnObjects: true,
+                  }) as string[]
+                }
               />
             </Suspense>
           </>

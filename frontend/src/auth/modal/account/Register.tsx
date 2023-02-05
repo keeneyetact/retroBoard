@@ -88,7 +88,7 @@ const Register = ({ onClose }: RegisterProps) => {
 
   return (
     <Wrapper
-      header={t('Register.header')}
+      header={t('Register.header')!}
       actions={
         !isSuccessful ? (
           <Button
@@ -118,8 +118,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerName}
             onChangeValue={setRegisterName}
-            title={t('AuthCommon.nameField')}
-            placeholder={t('AuthCommon.nameField')}
+            title={t('AuthCommon.nameField')!}
+            placeholder={t('AuthCommon.nameField')!}
             variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
@@ -130,8 +130,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerEmail}
             onChangeValue={setRegisterEmail}
-            title={t('AuthCommon.emailField')}
-            placeholder={t('AuthCommon.emailField')}
+            title={t('AuthCommon.emailField')!}
+            placeholder={t('AuthCommon.emailField')!}
             variant="standard"
             fullWidth
             style={{ marginTop: 20 }}
@@ -148,8 +148,8 @@ const Register = ({ onClose }: RegisterProps) => {
           <Input
             value={registerPassword}
             onChangeValue={setRegisterPassword}
-            title={t('AuthCommon.passwordField')}
-            placeholder={t('AuthCommon.passwordField')}
+            title={t('AuthCommon.passwordField')!}
+            placeholder={t('AuthCommon.passwordField')!}
             variant="standard"
             type="password"
             fullWidth
@@ -163,11 +163,17 @@ const Register = ({ onClose }: RegisterProps) => {
               onChangeScore={setPasswordScore}
               password={registerPassword}
               shortScoreWord={
-                t(`AuthCommon.passwordScoreWords`, { returnObjects: true })[0]
+                (
+                  t(`AuthCommon.passwordScoreWords`, {
+                    returnObjects: true,
+                  }) as string[]
+                )[0]
               }
-              scoreWords={t('AuthCommon.passwordScoreWords', {
-                returnObjects: true,
-              })}
+              scoreWords={
+                t('AuthCommon.passwordScoreWords', {
+                  returnObjects: true,
+                }) as string[]
+              }
             />
           </Suspense>
         </>
