@@ -615,15 +615,6 @@ db().then(() => {
     }
   });
 
-  // app.get('/api/test', async (req, res) => {
-  //   await sendSelfHostWelcome(
-  //     'antoine@jaussoin.com',
-  //     'Antoine J',
-  //     'BLAH-BLAH-BLAH'
-  //   );
-  //   res.send('done');
-  // });
-
   setupSentryErrorHandler(app);
 });
 
