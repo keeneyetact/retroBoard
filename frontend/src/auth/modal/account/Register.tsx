@@ -16,8 +16,8 @@ import { register } from '../../../api';
 import UserContext from '../../Context';
 import useBackendCapabilities from 'global/useBackendCapabilities';
 import { useTranslation } from 'react-i18next';
-import { trackEvent } from 'track';
 import { validate } from 'email/validate';
+import { trackEvent } from 'track';
 
 type RegisterProps = {
   onClose: () => void;
