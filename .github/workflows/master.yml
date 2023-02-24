@@ -134,7 +134,7 @@ jobs:
           file: marketing/Dockerfile
           context: marketing
           tags: retrospected/marketing:${{ steps.package.outputs.current-version }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           push: true
 
   maintenance:
