@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v5000/separate-app]
+    branches: [v5000/xx]
 
 jobs:
   frontend:
@@ -99,6 +99,8 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           file: marketing/Dockerfile
+          build-args: |
+            SUB_DOMAIN=www-beta
           context: marketing
           tags: retrospected/marketing:alpha
           platforms: linux/amd64
