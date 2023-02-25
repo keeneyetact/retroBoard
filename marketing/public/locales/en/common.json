@@ -11,7 +11,7 @@
 	},
 	"Nav": {
 		"home": "Home",
-		"howTo": "How To",
+		"howTo": "Why us?",
 		"features": "Features",
 		"testimonial": "Testimonials",
 		"pricing": "Pricing",
@@ -23,80 +23,92 @@
 		"main": "Join the hundreds of companies using our product"
 	},
 	"HowItWorks": {
-		"heading": "We are different because..."
+		"heading": "We are different because...",
+		"1": {
+			"title": "We are fast",
+			"text": "You can start your retro in one click."
+		},
+		"2": {
+			"title": "We are multilingual",
+			"text": "Our app is available in 15 languages!"
+		},
+		"3": {
+			"title": "We are customisable",
+			"text": "You can customise the app to your needs. Columns, votes, emojis, you name it."
+		},
+		"4": {
+			"title": "We can be self-hosted",
+			"text": "If you want complete control of your data, you can self-host Retrospected."	
+		}
 	},
 	"Testimonials": {
 		"heading": "What people say about us",
 		"1": {
-			"author": "Johnny Simpson",
-			"designation": "Head of Design",
-			"quote": "Each room is loaded with the most collaborative surfaces so you can quickly take notes, capture to-dos, and share ideas. Pick one of our stock themes, or create your custom theme with the editors."
+			"author": "Jean-Laurent Wotton",
+			"designation": "Manager",
+			"quote": "---"
 		},
 		"2": {
-			"author": "Johnny Simpson",
-			"designation": "Head of Design",
-			"quote": "Each room is loaded with the most collaborative surfaces so you can quickly take notes, capture to-dos, and share ideas. Pick one of our stock themes, or create your custom theme with the editors."
+			"author": "Frank Becker",
+			"designation": "Delivery Team Group",
+			"quote": "Your text here"
 		},
 		"3": {
-			"author": "Johnny Simpson",
-			"designation": "Head of Design",
-			"quote": "Each room is loaded with the most collaborative surfaces so you can quickly take notes, capture to-dos, and share ideas. Pick one of our stock themes, or create your custom theme with the editors."
-		},
-		"4": {
-			"author": "Johnny Simpson",
-			"designation": "Head of Design",
-			"quote": "Each room is loaded with the most collaborative surfaces so you can quickly take notes, capture to-dos, and share ideas. Pick one of our stock themes, or create your custom theme with the editors."
+			"author": "Anne-Claire Allain",
+			"designation": "Senior Manager",
+			"quote": "I have been using Retrospected at the end of every sprint to gather feedback from my team. It has been invaluable as a tool, and very easy to use too."
 		}
 	},
 	"Pricing": {
 		"heading": "Explore our exciting pricing",
+		"weAccept": "We also accept Euros and British Pounds",
 		"monthly": "Monthly",
 		"yearly": "Yearly",
+		"perMonth": " / month",
+		"perYear": " / year",
 		"currency": "$",
 		"subscribe": "Subscribe Now",
 		"login": "Login Now",
 		"basic": {
 			"title": "Basic",
 			"price": 0,
-			"recurrence": "per month",
+			"plus": "Your free option",
 			"features": [
 				"Unlimited Retrospectives",
-				"Unlimited Team Members",
-				"Unlimited Action Items",
+				"Full customisation",
+				"Giphy integration",
+				"Anonymous accounts",
 				"40 posts"
 			]
 		},
 		"pro": {
 			"title": "Pro",
 			"price": 12.90,
-			"recurrence": "per month",
+			"plus": "Everything from Basic, plus:",
 			"features": [
-				"Unlimited Retrospectives",
-				"Unlimited Team Members",
-				"Unlimited Action Items",
 				"Unlimited posts",
+				"Full data encryption",
+				"Private sessions",
 				"20 users"
 			]
 		},
 		"unlimited": {
 			"title": "Unlimited",
 			"price": 49.95,
-			"recurrence": "per month",
+			"plus": "Everything from Pro, plus:",
 			"features": [
-				"Unlimited Retrospectives",
-				"Unlimited Team Members",
-				"Unlimited Action Items",
-				"Unlimited posts",
-				"Unlimited users"
+				"Unlimited Pro Accounts",
+				"All users from your domain are Pro automatically"
 			]
 		},
 		"hosted": {
 			"title": "Self Hosted",
 			"price": 649,
-			"recurrence": "One-time fee",
+			"plus": "Everything from Unlimited, plus:",
 			"features": [
-				"Everything from Unlimited",
-				"All users are Pro by default",
+				"User administration tool",
+				"All users are Pro users",
+				"Lifetime updates",
 				"Awesome documentation"
 			]
 		}
@@ -120,10 +132,22 @@
 	"Features": {
 		"heading": "Start a retrospective in seconds",
 		"description":"Starting or joining a retro is as easy as 1, 2, 3. It's friction-less.",
-		"feature1": "Feature 1",
-		"feature2": "Feature 2",
-		"feature3": "Feature 3",
-		"feature4": "Feature 4"
+		"1": {
+			"title": "Responsive",
+			"description": "Retrospected works across all device sizes, from your iPhone to a 4K monitor."
+		},
+		"2": {
+			"title": "Customisable",
+			"description": "Retrospected is highly customisable. You can change the columns, tweak the voting system, the timer etc."
+		},
+		"3": {
+			"title": "Secure",
+			"description": "There are 2 security features for Pro users: the ability to encrypt the content locally (in browser), and the ability to lock a session so it can only be seen by specific users."
+		},
+		"4": {
+			"title": "Multilingual",
+			"description": "Retrospected comes with 15 languages."
+		}
 	},
 	"Newsfeed": {
 		"heading": "What's new at Retrospected"
@@ -155,6 +179,10 @@
 		"phone": "+44 (not used for now)",
 		"openingTime": "7 Days - 8am - 10pm",
 		"email": "support@retrospected.com"
+	},
+	"Integration": {
+		"heading": "Integrations",
+		"description": "Retrospected integrates with the tools you already use."
 	}
 }
 	

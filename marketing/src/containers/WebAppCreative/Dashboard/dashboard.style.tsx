@@ -60,6 +60,30 @@ export const SectionHeading = styled.div`
   }
 `;
 
+export const Figure = styled.div`
+  aspect-ratio: 4/3;
+`;
+
+export const Description = styled.div`
+  text-align: center;
+  color: ${themeGet('colors.textColor')};
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  @media only screen and (max-width: 1024px) {
+    max-width: 700px;
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 16px;
+    line-height: 2;
+    max-width: 550px;
+  }
+`;
+
 export const ReactTabs = styled(Tabs)`
   > nav {
     text-align: center;

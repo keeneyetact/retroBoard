@@ -35,6 +35,9 @@ export const SectionHeading = styled.div`
       font-size: 24px;
     }
   }
+  p {
+    color: ${themeGet('colors.white')};
+  }
 `;
 
 export const SwitcherWrapper = styled.div`
@@ -82,23 +85,30 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 360px);
   justify-content: center;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 2000px) {
     gap: 20px;
     grid-template-columns: repeat(4, 1fr);
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 1400px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  @media screen and (max-width: 500px) {
     grid-template-columns: 1fr;
     gap: 40px;
   }
 `;
 
 export const PriceTable = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: ${rgba('#fff', 0.06)};
   color: ${themeGet('colors.white')};
   box-shadow: 0px 25px 70px rgba(64, 106, 157, 0.06);
   border-radius: 30px;
-  padding: 45px 85px;
+  padding: 45px 35px;
   text-align: center;
+  min-height: 770px;
   @media (max-width: 1024px) {
     padding: 45px;
   }
@@ -133,11 +143,12 @@ export const PriceTable = styled.div`
     line-height: 1.67;
   }
   figure {
-    margin: 40px 0 28px;
+    margin: 40px auto 28px;
     min-height: 101px;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 250px;
     @media (max-width: 768px) {
       min-height: auto;
       margin-top: 30px;
@@ -147,6 +158,7 @@ export const PriceTable = styled.div`
     }
   }
   button {
+    justify-self: flex-end;
     border-radius: 10px;
     font-weight: 700;
     font-size: 15px;
@@ -182,4 +194,11 @@ export const PriceTable = styled.div`
       color: ${themeGet('colors.headingColor')};
     }
   }
+  em {
+    font-size: 0.5rem;
+  }
+`;
+
+export const Features = styled.div`
+  flex: 1;
 `;

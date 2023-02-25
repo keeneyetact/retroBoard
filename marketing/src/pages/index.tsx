@@ -51,13 +51,13 @@ const WebAppCreative = () => {
           <HowItWorks />
           <AnalyticsTool />
           <Dashboard />
-          <Testimonials />
+          {/* <Testimonials /> */}
           <CombinedSection>
             <Integrations />
             <Pricing />
             <CornerPattern />
           </CombinedSection>
-          <NewsFeed />
+          {/* <NewsFeed /> */}
           <Faq />
           <CallToAction />
           <Footer />

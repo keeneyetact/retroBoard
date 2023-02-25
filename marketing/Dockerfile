@@ -23,7 +23,7 @@ COPY . .
 
 ARG NEXT_PUBLIC_MEASUREMENT_ID=APP_NEXT_PUBLIC_MEASUREMENT_ID
 ARG NEXT_PUBLIC_APP_URL=APP_NEXT_PUBLIC_APP_URL
-ARG SUB_DOMAIN=www
+ARG NEXT_BACKEND_SUB_DOMAIN=APP_NEXT_BACKEND_SUB_DOMAIN
 RUN yarn build
 
 # If using npm comment out above and use below instead
@@ -44,6 +44,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/docker/entrypoint.sh ./entrypoint.sh
 
 RUN ["chmod", "+x", "/app/entrypoint.sh"]
+RUN ["chown", "nextjs:nodejs", "/app"]
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
