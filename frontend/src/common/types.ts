@@ -10,6 +10,7 @@ export interface Session extends PostContainer, Entity {
   createdBy: User;
   ready: string[];
   timer: Date | null;
+  demo: boolean;
 }
 
 export interface SessionMetadata extends Entity {
@@ -218,6 +219,7 @@ export type TrackingEvent =
   | 'register/password'
   | 'register/oauth'
   | 'register/anonymous'
+  | 'register/demo'
   | 'subscribe/initial'
   | 'subscribe/launch-stripe'
   | 'subscribe/purchased'
@@ -255,5 +257,7 @@ export type StripeLocales =
   | 'ja-JP'
   | 'nl-NL'
   | 'pt-BR'
+  | 'pt-PT'
   | 'no-NO'
+  | 'uk-UA'
   | 'sv-S';
