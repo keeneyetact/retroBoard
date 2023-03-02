@@ -1,39 +1,67 @@
 import React from 'react';
 // import { Icon } from 'react-icons-kit'; TODO !!!!
 // import { arrowRight } from 'react-icons-kit/feather/arrowRight';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFaceSmileWink,
+  faLanguage,
+  faScrewdriverWrench,
+  faCloudArrowUp,
+} from '@fortawesome/free-solid-svg-icons';
 import Container from '@/common/components/UI/Container';
-import NextImage from '@/common/components/NextImage';
-// import Link from '@/common/components/Link';
 import Heading from '@/common/components/Heading';
 import Text from '@/common/components/Text';
 import Section, { SectionHeading, Grid, Item } from './howItWorks.style';
-import icon1 from '@/common/assets/image/webAppCreative/icons/1.png';
-import icon2 from '@/common/assets/image/webAppCreative/icons/2.png';
-import icon3 from '@/common/assets/image/webAppCreative/icons/3.png';
-import icon4 from '@/common/assets/image/webAppCreative/icons/4.png';
 import { useTranslation } from 'next-i18next';
+import colors from '@/common/theme/webAppCreative/colors';
 
 type HowTo = {
   id: number;
-  icon: any; // TODO
+  icon: React.ReactNode;
 };
+
+const iconSize = 60;
 
 export const howTos: HowTo[] = [
   {
     id: 1,
-    icon: icon1,
+    icon: (
+      <FontAwesomeIcon
+        icon={faFaceSmileWink}
+        color={colors.primary}
+        width={iconSize}
+      />
+    ),
   },
   {
     id: 2,
-    icon: icon2,
+    icon: (
+      <FontAwesomeIcon
+        icon={faLanguage}
+        color={colors.primary}
+        width={iconSize}
+      />
+    ),
   },
   {
     id: 3,
-    icon: icon3,
+    icon: (
+      <FontAwesomeIcon
+        icon={faScrewdriverWrench}
+        color={colors.primary}
+        width={iconSize}
+      />
+    ),
   },
   {
     id: 4,
-    icon: icon4,
+    icon: (
+      <FontAwesomeIcon
+        icon={faCloudArrowUp}
+        color={colors.primary}
+        width={iconSize}
+      />
+    ),
   },
 ];
 
@@ -48,9 +76,7 @@ const HowItWorks = () => {
         <Grid>
           {howTos.map((howTo) => (
             <Item key={howTo.id}>
-              <figure>
-                <NextImage src={howTo.icon} alt="icon" />
-              </figure>
+              <figure>{howTo.icon}</figure>
               <Heading as="h4" content={t(`HowItWorks.${howTo.id}.title`)} />
               <Text content={t(`HowItWorks.${howTo.id}.text`)} />
               {/* <Link href={howTo.link}>

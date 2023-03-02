@@ -4,10 +4,11 @@
 		"description": "Gratis Real-time Agile Retrospective Board voor technische teams"
 	},
 	"Banner": {
-		"heading": "Real-time Retrospectieven. Gereed. In seconden.",
-		"text": "Omdat de aantekeningen na het bericht niet zullen knippen.",
+		"heading": "Je zal je eerste **retro** nooit vergeten**.",
+		"text": "Real-time, collaborative retrospectives done right. In seconds.",
 		"tagline": "*Geen creditcard nodig",
-		"subscribeToday": "Probeer het gratis"
+		"subscribeToday": "Probeer het gratis",
+		"demo": "1-Click Demo"
 	},
 	"Nav": {
 		"home": "Startpagina",
@@ -188,6 +189,7 @@
 		"hint": "Dit zal je leven veranderen!"
 	},
 	"Footer": {
+		"legal": "Juridische voorwerpen",
 		"copyright": "Copyright © 2023 - Retrospected Ltd. Alle rechten voorbehouden.",
 		"about": "We maken software met Liefe, uit Londen, VK"
 	},

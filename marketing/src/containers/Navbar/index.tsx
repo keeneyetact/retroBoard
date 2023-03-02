@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import NavbarWrapper from '@/common/components/Navbar';
 import Drawer from '@/common/components/Drawer';
 import Button from '@/common/components/Button';
-import Logo from '@/common/components/UIElements/Logo';
+// import Logo from '@/common/components/UIElements/Logo';
 import Box from '@/common/components/Box';
 import HamburgMenu from '@/common/components/HamburgMenu';
 import Container from '@/common/components/UI/Container';
@@ -14,6 +14,7 @@ import { useTranslation } from 'next-i18next';
 import { useConfig } from '@/common/hooks/useConfig';
 import { LanguagePicker } from './LanguagePicker';
 import styled from 'styled-components';
+import { Logo } from '@/common/components/Logo/Logo';
 
 type NavbarProps = {
   navbarStyle?: any;
@@ -60,29 +61,39 @@ const Navbar = ({
     <NavbarWrapper {...navbarStyle}>
       <Container width="1400px">
         <Box {...row}>
-          <Logo
-            href="#"
+          {/* <Logo
+            href="/"
             logoSrc={logoImage}
             title="SaaS Creative"
             logoStyle={logoStyle}
             className="main-logo"
             width={32}
             height={32}
-          />
+          /> */}
+          <Logo size={32} style={{ position: 'relative', top: 1 }} />
           <Box {...menuWrapper} className="mainMenuWrapper">
             <ScrollSpyMenu
               className="main_menu"
               menuItems={items}
               offset={-70}
             />
-            <a
+            {/* <a
               className="navbar_button navbar_button_one"
               href={`${appUrl}/subscribe`}
+              data-ga="subscribe-button"
             >
-              <Button {...button} title={t('Nav.subscribe')} />
-            </a>
-            <a className="navbar_button navbar_button_two" href={appUrl!}>
-              <Button {...button} title={t('Nav.login')} />
+              <Button variant=''  title={t('Nav.subscribe')!} />
+            </a> */}
+            <a
+              className="navbar_button navbar_button_one"
+              href={appUrl!}
+              data-ga="login-button"
+            >
+              <Button
+                colors="primaryWithBg"
+                title={t('Nav.login')!}
+                variant="outlined"
+              />
             </a>
             <LanguageContainer>
               <LanguagePicker />

@@ -4,10 +4,11 @@
 		"description": "Retrospectives gratuites et temps-réel pour équipes agiles"
 	},
 	"Banner": {
-		"heading": "Des retrospectives fun & efficaces, des équipes performantes & motivées !",
-		"text": "Donnez une platforme moderne et simple à vos équipes, pour soutenir leur collaboration et leur amélioration continue",
+		"heading": "Vous n'**oublierez jamais** votre première **rétro**.",
+		"text": "Soutenez la **collaboration** et l'**amélioration continue** de vos équipes avec une plateforme **moderne** et **intuitive**.",
 		"tagline": "*Aucune carte bancaire demandée",
-		"subscribeToday": "Essayez gratuitement"
+		"subscribeToday": "Essayez gratuitement",
+		"demo": "Démo en 1 clic"
 	},
 	"Nav": {
 		"home": "Accueil",
@@ -84,7 +85,7 @@
 		"pro": {
 			"title": "Pro",
 			"price": "11.9",
-			"plus": "Basique, plus:",
+			"plus": "Plan Basique, plus:",
 			"features": [
 				"Posts illimités",
 				"Chiffrement des données",
@@ -95,16 +96,16 @@
 		"unlimited": {
 			"title": "Illimité",
 			"price": "49.95",
-			"plus": "Tout de Pro, plus :",
+			"plus": "Plan Pro, plus :",
 			"features": [
 				"Comptes Pro illimités",
 				"Tous les utilisateurs de votre domaine sont automatiquement Pro"
 			]
 		},
 		"hosted": {
-			"title": "Auto-hébergement",
+			"title": "Hébergé",
 			"price": 599,
-			"plus": "Tout de Illimité, plus :",
+			"plus": "Plan Illimité, plus :",
 			"features": [
 				"Outil de gestion des utilisateurs",
 				"Tous les utilisateurs sont des utilisateurs Pro",
@@ -188,6 +189,7 @@
 		"hint": "Cela va changer votre vie !"
 	},
 	"Footer": {
+		"legal": "Mentions légales",
 		"copyright": "Copyright © 2023 - Retrospected Ltd. Tout droits réservés.",
 		"about": "Nos logiciels sont développés avec amour par Retrospected Ltd à Londres"
 	},

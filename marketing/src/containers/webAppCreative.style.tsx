@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
-import bgPattern from '@/common/assets/image/webAppCreative/pattern3.png';
+// import bgPattern from '@/common/assets/image/webAppCreative/pattern3.png';
 import pattern5 from '@/common/assets/image/webAppCreative/pattern5.png';
 import pattern6 from '@/common/assets/image/webAppCreative/pattern6.png';
 import pattern7 from '@/common/assets/image/webAppCreative/pattern7.png';
@@ -236,9 +236,7 @@ export const ContentWrapper = styled.div`
       margin-left: auto;
 
       button {
-        background-color: transparent;
-        color: ${themeGet('colors.headingColor')};
-        padding: 0;
+        border-radius: 8px;
       }
 
       @media (max-width: 990px) {
@@ -277,7 +275,7 @@ export const ContentWrapper = styled.div`
       }
       .main_menu li:hover a,
       .main_menu li.is-current a {
-        color: #1089ff;
+        color: ${themeGet('colors.primary')};
       }
       .reusecore-drawer__handler {
         .hamburgMenu__bar {
@@ -286,17 +284,14 @@ export const ContentWrapper = styled.div`
           }
         }
       }
-      .navbar_button_one button {
-        color: ${themeGet('colors.headingColor')};
-      }
-      .navbar_button_two button {
-      }
     }
   }
 `;
 
 export const CombinedSection = styled.section`
-  background: #373754 url(${bgPattern?.src}) no-repeat center;
+  background-color: ${themeGet(
+    'colors.sectionBackgroundColor'
+  )}; //  url($/{bgPattern?.src}) no-repeat center;
   position: relative;
   z-index: 0;
   @media only screen and (max-width: 1024px) {

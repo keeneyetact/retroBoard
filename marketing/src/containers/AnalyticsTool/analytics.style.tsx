@@ -2,12 +2,10 @@ import { Parallax } from 'react-parallax';
 import styled from 'styled-components';
 import { rgba } from 'polished';
 import { themeGet } from '@styled-system/theme-get';
-import parallaxBg from '@/common/assets/image/webAppCreative/parallax-1.png';
 import polygon from '@/common/assets/image/webAppCreative/polygon.png';
 
 const Section = styled(Parallax)`
-  /* background: #373754 url(${parallaxBg?.src}) no-repeat fixed center center / cover; */
-  background-color: #373754;
+  background-color: ${themeGet('colors.sectionBackgroundColor')};
   padding-top: 100px;
   padding-bottom: 100px;
   overflow: unset !important;
@@ -62,7 +60,10 @@ const Section = styled(Parallax)`
 `;
 
 export const Grid = styled.div`
-  display: flex;
+  gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
   @media (max-width: 1024px) {
     gap: 30px;
     display: grid;
@@ -70,14 +71,16 @@ export const Grid = styled.div`
   }
   @media (max-width: 768px) {
     display: block;
+    img {
+      display: none;
+    }
   }
 `;
 
 export const Figure = styled.figure`
-  margin: 0 0 0 -5px;
   img {
+    width: 100%;
     @media (min-width: 567px) and (max-width: 768px) {
-      max-width: 80%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -85,19 +88,6 @@ export const Figure = styled.figure`
 `;
 
 export const Content = styled.div`
-  margin-left: 85px;
-  margin-top: 30px;
-  @media (max-width: 1280px) {
-    margin-left: 45px;
-  }
-  @media (max-width: 1024px) {
-    margin-left: 0;
-    margin-top: 0;
-  }
-  @media (max-width: 768px) {
-    margin: 15px 0 0;
-    text-align: center;
-  }
   .subtitle {
     color: ${themeGet('colors.secondary')};
     font-size: 16px;

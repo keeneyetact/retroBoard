@@ -8,33 +8,73 @@ import Section, {
   BannerContent,
   Subscribe,
   Figure,
+  Buttons,
 } from './banner.style';
-import screenshot from './mockup-1-02.webp';
+import screenshot from './devices.png';
 import { useTranslation } from 'next-i18next';
 import { useConfig } from '@/common/hooks/useConfig';
 import dashboardPattern from '@/common/assets/image/webAppCreative/dashboard-pattern.png';
+import { useRouter } from 'next/router';
+import ReactMarkdown from 'react-markdown';
+import { Fragment } from 'react';
 
 const Banner = () => {
+  const { locale } = useRouter();
   const { t } = useTranslation('common');
   const { appUrl } = useConfig();
   return (
     <Section id="home">
-      <Container width="1400px">
+      <Container>
         <BannerContentWrapper>
           <BannerContent>
             <Heading
               className="animate__animated animate__fadeInUp"
-              content={t('Banner.heading')}
+              content={
+                <ReactMarkdown
+                  components={{
+                    p: Fragment,
+                  }}
+                >
+                  {t('Banner.heading')}
+                </ReactMarkdown>
+              }
             />
             <Text
               className="animate__animated animate__fadeInUp"
-              content={t('Banner.text')}
+              content={
+                <ReactMarkdown
+                  components={{
+                    p: Fragment,
+                  }}
+                >
+                  {t('Banner.text')}
+                </ReactMarkdown>
+              }
             />
-            <Subscribe className="animate__animated animate__fadeInUp">
-              <a href={appUrl}>
-                <Button title={t('Banner.subscribeToday')!} type="submit" />
-              </a>
-            </Subscribe>
+            <Buttons>
+              <Subscribe className="animate__animated animate__fadeInUp">
+                <a href={appUrl} data-ga="try-button">
+                  <Button
+                    colors="secondaryWithBg"
+                    title={t('Banner.subscribeToday')!}
+                  />
+                </a>
+              </Subscribe>
+              <Subscribe className="animate__animated animate__fadeInUp">
+                <a
+                  href={appUrl + '/demo?lang=' + locale}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-ga="demo-button"
+                >
+                  <Button
+                    title={t('Banner.demo')!}
+                    variant="outlined"
+                    colors="secondary"
+                  />
+                </a>
+              </Subscribe>
+            </Buttons>
           </BannerContent>
           <Figure className="animate__animated animate__fadeInUp animate__fast">
             <NextImage

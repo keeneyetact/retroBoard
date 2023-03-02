@@ -15,30 +15,30 @@ const CallToAction = () => {
 
   return (
     <Section>
-      <NextImage
+      {/* <NextImage
         src={bubble1?.src}
         className="bubble-1"
         alt="bubble1"
         width={195}
         height={214}
-      />
+      /> */}
       <Container width="1400px">
         <Content>
           <Heading content={t('CTA.heading')} />
           <Text content={t('CTA.description')} />
-          <a href={appUrl}>
+          <a href={appUrl} data-ga="cta-button">
             <Button title={t('CTA.button')!} colors="secondaryWithBg" />
           </a>
           {/* <span>{t('CTA.hint')}</span> */}
         </Content>
       </Container>
-      <NextImage
+      {/* <NextImage
         src={bubble2?.src}
         className="bubble-2"
         alt="bubble2"
         width={202}
         height={257}
-      />
+      /> */}
     </Section>
   );
 };

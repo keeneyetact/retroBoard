@@ -108,7 +108,7 @@ export const PriceTable = styled.div`
   border-radius: 30px;
   padding: 45px 35px;
   text-align: center;
-  min-height: 770px;
+  min-height: 570px;
   @media (max-width: 1024px) {
     padding: 45px;
   }
@@ -129,6 +129,10 @@ export const PriceTable = styled.div`
       font-size: 32px;
       margin-bottom: 15px;
     }
+  }
+  h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
   }
   h5 {
     font-weight: 700;
@@ -186,6 +190,7 @@ export const PriceTable = styled.div`
   &.active {
     background-color: ${themeGet('colors.white')};
     h2,
+    h3,
     h5 {
       color: ${themeGet('colors.headingColor')};
     }

@@ -8,33 +8,37 @@ const Section = styled.section`
   @media (min-width: 768px) and (max-width: 1280px) {
     background-size: contain;
   }
-  @media (min-width: 1280px) {
-    margin-bottom: 50px;
-  }
 `;
 
 export const BannerContentWrapper = styled.div`
-  @media (min-width: 1280px) {
-    min-height: 100vh;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 30px;
+  @media (min-width: 1025px) {
+    min-height: min(calc(100vh - 260px), 900px);
+  }
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
 export const BannerContent = styled.div`
-  padding-top: 210px;
-  max-width: 870px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   text-align: center;
+
   @media (max-width: 1024px) {
-    max-width: 660px;
-    padding-top: 170px;
+    margin-top: 100px;
   }
-  @media (max-width: 768px) {
-    max-width: 550px;
-    padding-top: 150px;
+  @media (max-width: 400px) {
+    margin-top: 10px;
   }
-  @media (max-width: 480px) {
-    padding-top: 100px;
-  }
+
   h2 {
     color: ${themeGet('colors.headingColor')};
     font-weight: 700;
@@ -67,22 +71,33 @@ export const BannerContent = styled.div`
   }
 `;
 
+export const Buttons = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
 export const Subscribe = styled.div`
   display: flex;
   justify-content: center;
   max-width: 540px;
-  margin: 28px auto 0;
+
   @media screen and (max-width: 1366px) {
     max-width: 80%;
   }
   @media only screen and (max-width: 768px) {
     max-width: 80%;
-    margin: 30px auto 0;
   }
   @media only screen and (max-width: 480px) {
     max-width: initial;
     display: block;
   }
+
   .reusecore__input {
     width: 100%;
   }
@@ -134,7 +149,6 @@ export const Subscribe = styled.div`
       min-height: 50px;
     }
     @media only screen and (max-width: 480px) {
-      margin-top: 15px;
       min-height: 45px;
       width: 100%;
     }
@@ -142,9 +156,14 @@ export const Subscribe = styled.div`
 `;
 
 export const Figure = styled.figure`
-  margin: 30px 0 0;
   display: flex;
-  aspect-ratio: 4 / 3;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+
+  @media (max-width: 1024px) {
+    aspect-ratio: 4 / 3;
+  }
 
   img.background {
     z-index: 0;
@@ -160,9 +179,6 @@ export const Figure = styled.figure`
       margin-left: auto;
       margin-right: auto;
     }
-  }
-  @media (min-width: 768px) {
-    margin-top: 80px;
   }
 `;
 

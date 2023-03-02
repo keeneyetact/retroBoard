@@ -3,24 +3,13 @@ import { Wrapper, Menu } from 'react-aria-menubutton';
 import { themeGet } from '@styled-system/theme-get';
 
 const Section = styled.section`
-  background-color: #2c6fee;
+  background-color: ${themeGet('colors.sectionBackgroundColor')};
   padding-top: 60px;
-  padding-bottom: 80px;
+  padding-bottom: 60px;
   position: relative;
-  @media (max-width: 1280px) {
-    padding-bottom: 20px;
-  }
   @media (max-width: 1024px) {
     padding-top: 40px;
     padding-bottom: 60px;
-  }
-  @media (max-width: 768px) {
-    padding-top: 40px;
-    padding-bottom: 60px;
-  }
-  @media (max-width: 480px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
   }
   .bubble-1,
   .bubble-2 {
@@ -105,6 +94,9 @@ export const Content = styled.div`
         margin-top: 15px;
       }
     }
+  }
+  button {
+    border-radius: 8px;
   }
 `;
 

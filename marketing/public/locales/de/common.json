@@ -4,10 +4,11 @@
 		"description": "Kostenloses Echtzeit-Agile Retrospektive Board für Ingenieurteams"
 	},
 	"Banner": {
-		"heading": "Echtzeit-Retrospektiven. Recht. In Sekunden.",
-		"text": "Weil Post-it-Notizen nicht geschnitten werden.",
+		"heading": "Du wirst **nie vergessen** deinen ersten **Retro**.",
+		"text": "Real-time, collaborative retrospectives done right. In seconds.",
 		"tagline": "*Keine Kreditkarte erforderlich",
-		"subscribeToday": "Kostenlos testen"
+		"subscribeToday": "Kostenlos testen",
+		"demo": "1-Klick-Demo"
 	},
 	"Nav": {
 		"home": "Zuhause",
@@ -188,6 +189,7 @@
 		"hint": "Das wird dein Leben ändern!"
 	},
 	"Footer": {
+		"legal": "Rechtliche Daten",
 		"copyright": "Copyright © 2023 - Retrospected Ltd. Alle Rechte vorbehalten.",
 		"about": "Wir erstellen Software mit Love, aus London, Großbritannien"
 	},
