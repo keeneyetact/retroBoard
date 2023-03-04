@@ -93,7 +93,7 @@ export function NewAccountModal({
           <Alert severity="success">{t('Register.messageSuccess')}</Alert>
         ) : (
           <>
-            {!!generalError ? (
+            {generalError ? (
               <Alert severity="error" style={{ marginTop: 10 }}>
                 {generalError}
               </Alert>

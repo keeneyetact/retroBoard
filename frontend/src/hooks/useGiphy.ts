@@ -31,7 +31,7 @@ export default function useGiphy(
 
   useEffect(() => {
     async function load() {
-      if (!!giphyId) {
+      if (giphyId) {
         const result = await getGiphyUrl(giphyId);
         setUrl(result);
       }

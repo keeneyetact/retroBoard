@@ -6,11 +6,13 @@ import inject from '@rollup/plugin-inject';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
+import eslint from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    eslint(),
     viteTsconfigPaths(),
     svgrPlugin(),
     ViteEjsPlugin((config) => ({

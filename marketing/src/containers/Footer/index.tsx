@@ -32,160 +32,160 @@ type FooterProps = {
   legals: LegalDocumentMetadata[];
 };
 
-export const footerTop = {
-  about: {
-    logo: siteLogo,
-    text: `We run Advanced Search reports on the criteria you care about to see how work is progressing and where to focus your effort.`,
-  },
-  widgets: [
-    {
-      id: 2,
-      title: 'About Us',
-      list: [
-        {
-          id: 1,
-          title: 'Support Center',
-          link: '#',
-        },
-        {
-          id: 2,
-          title: 'Customer Support',
-          link: '#',
-        },
-        {
-          id: 3,
-          title: 'About Us',
-          link: '#',
-        },
-        {
-          id: 4,
-          title: 'Copyright',
-          link: '#',
-        },
-        {
-          id: 5,
-          title: 'Popular Campaign',
-          link: '#',
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: 'Our Information',
-      list: [
-        {
-          id: 1,
-          title: 'Return Policy ',
-          link: '#',
-        },
-        {
-          id: 2,
-          title: 'Privacy Policy',
-          link: '#',
-        },
-        {
-          id: 3,
-          title: 'Terms & Conditions',
-          link: '#',
-        },
-        {
-          id: 4,
-          title: 'Site Map',
-          link: '#',
-        },
-        {
-          id: 5,
-          title: 'Store Hours',
-          link: '#',
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: 'My Account',
-      list: [
-        {
-          id: 1,
-          title: 'Press inquiries',
-          link: '#',
-        },
-        {
-          id: 2,
-          title: 'Social media ',
-          link: '#',
-        },
-        {
-          id: 3,
-          title: 'directories',
-          link: '#',
-        },
-        {
-          id: 4,
-          title: 'Images & B-roll',
-          link: '#',
-        },
-        {
-          id: 5,
-          title: 'Permissions',
-          link: '#',
-        },
-      ],
-    },
-  ],
-  contactInfo: {
-    title: 'Contact info',
-    address: `Mohakhali DOHS, Amsterdam, Netherlands`,
-    phone: `+31 62 19 22 705`,
-    openingTime: `7 Days - 8am - 10pm`,
-    email: `info@redqteam.com`,
-  },
-};
+// export const footerTop = {
+//   about: {
+//     logo: siteLogo,
+//     text: `We run Advanced Search reports on the criteria you care about to see how work is progressing and where to focus your effort.`,
+//   },
+//   widgets: [
+//     {
+//       id: 2,
+//       title: 'About Us',
+//       list: [
+//         {
+//           id: 1,
+//           title: 'Support Center',
+//           link: '#',
+//         },
+//         {
+//           id: 2,
+//           title: 'Customer Support',
+//           link: '#',
+//         },
+//         {
+//           id: 3,
+//           title: 'About Us',
+//           link: '#',
+//         },
+//         {
+//           id: 4,
+//           title: 'Copyright',
+//           link: '#',
+//         },
+//         {
+//           id: 5,
+//           title: 'Popular Campaign',
+//           link: '#',
+//         },
+//       ],
+//     },
+//     {
+//       id: 3,
+//       title: 'Our Information',
+//       list: [
+//         {
+//           id: 1,
+//           title: 'Return Policy ',
+//           link: '#',
+//         },
+//         {
+//           id: 2,
+//           title: 'Privacy Policy',
+//           link: '#',
+//         },
+//         {
+//           id: 3,
+//           title: 'Terms & Conditions',
+//           link: '#',
+//         },
+//         {
+//           id: 4,
+//           title: 'Site Map',
+//           link: '#',
+//         },
+//         {
+//           id: 5,
+//           title: 'Store Hours',
+//           link: '#',
+//         },
+//       ],
+//     },
+//     {
+//       id: 4,
+//       title: 'My Account',
+//       list: [
+//         {
+//           id: 1,
+//           title: 'Press inquiries',
+//           link: '#',
+//         },
+//         {
+//           id: 2,
+//           title: 'Social media ',
+//           link: '#',
+//         },
+//         {
+//           id: 3,
+//           title: 'directories',
+//           link: '#',
+//         },
+//         {
+//           id: 4,
+//           title: 'Images & B-roll',
+//           link: '#',
+//         },
+//         {
+//           id: 5,
+//           title: 'Permissions',
+//           link: '#',
+//         },
+//       ],
+//     },
+//   ],
+//   contactInfo: {
+//     title: 'Contact info',
+//     address: `Mohakhali DOHS, Amsterdam, Netherlands`,
+//     phone: `+31 62 19 22 705`,
+//     openingTime: `7 Days - 8am - 10pm`,
+//     email: `info@redqteam.com`,
+//   },
+// };
 
-export const footer = {
-  copyright: `Copyright © ${new Date().getFullYear()} Superprops. All rights reserved`,
-  nav: [
-    {
-      id: 1,
-      title: 'Support',
-      link: '#',
-    },
-    {
-      id: 2,
-      title: 'Hiring',
-      link: '#',
-    },
-    {
-      id: 3,
-      title: 'Privacy',
-      link: '#',
-    },
-    {
-      id: 4,
-      title: 'Terms',
-      link: '#',
-    },
-  ],
-  socialLinks: [
-    {
-      id: 1,
-      link: 'http://facebook.com',
-      icon: facebook,
-      label: 'Facebook',
-    },
-    {
-      id: 2,
-      link: 'http://twitter.com',
-      icon: twitter,
-      label: 'Twitter',
-    },
-    {
-      id: 3,
-      link: 'http://dribbble.com',
-      icon: dribbble,
-      label: 'Dribbble',
-    },
-  ],
-};
+// export const footer = {
+//   copyright: `Copyright © ${new Date().getFullYear()} Superprops. All rights reserved`,
+//   nav: [
+//     {
+//       id: 1,
+//       title: 'Support',
+//       link: '#',
+//     },
+//     {
+//       id: 2,
+//       title: 'Hiring',
+//       link: '#',
+//     },
+//     {
+//       id: 3,
+//       title: 'Privacy',
+//       link: '#',
+//     },
+//     {
+//       id: 4,
+//       title: 'Terms',
+//       link: '#',
+//     },
+//   ],
+//   socialLinks: [
+//     {
+//       id: 1,
+//       link: 'http://facebook.com',
+//       icon: facebook,
+//       label: 'Facebook',
+//     },
+//     {
+//       id: 2,
+//       link: 'http://twitter.com',
+//       icon: twitter,
+//       label: 'Twitter',
+//     },
+//     {
+//       id: 3,
+//       link: 'http://dribbble.com',
+//       icon: dribbble,
+//       label: 'Dribbble',
+//     },
+//   ],
+// };
 
 export default function Footer({ legals }: FooterProps) {
   const { t } = useTranslation();
@@ -217,6 +217,20 @@ export default function Footer({ legals }: FooterProps) {
                   <NextLink href={`/legal/${doc.slug}`}>{doc.title}</NextLink>
                 </li>
               ))}
+            </ul>
+          </FooterWidget>
+          <FooterWidget>
+            <h4>{t('Footer.various')}</h4>
+            <ul>
+              <li className="widgetListItem">
+                <a
+                  href="https://docs.retrospected.com"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t('Footer.documentation')}
+                </a>
+              </li>
             </ul>
           </FooterWidget>
           <ContactInfo>

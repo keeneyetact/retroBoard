@@ -109,7 +109,7 @@ const Register = ({ onClose }: RegisterProps) => {
         <>
           <Alert severity="info">{t('Register.info')}</Alert>
 
-          {!!generalError ? (
+          {generalError ? (
             <Alert severity="error" style={{ marginTop: 10 }}>
               {generalError}
             </Alert>

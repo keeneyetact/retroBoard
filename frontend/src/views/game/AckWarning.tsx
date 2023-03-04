@@ -30,7 +30,7 @@ export default function AckWarning({ acks, onRefresh }: AckWarningProps) {
   }, [acks]);
 
   useEffect(() => {
-    if (!!lateAcks.length) {
+    if (lateAcks.length) {
       trackEvent('ack/error');
       throttledError('ack_not_received');
     }

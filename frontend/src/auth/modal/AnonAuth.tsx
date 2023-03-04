@@ -65,7 +65,7 @@ const AnonAuth = ({ onClose, onUser }: AnonAuthProps) => {
       <Alert severity="info">
         {t('AnonymousLogin.anonymousAuthDescription')}
       </Alert>
-      {!!error ? (
+      {error ? (
         <Alert severity="error" style={{ marginTop: 10 }}>
           {error}
         </Alert>

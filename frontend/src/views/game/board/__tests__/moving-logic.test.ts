@@ -96,7 +96,7 @@ describe('When moving a post to a column', () => {
   it('should return the correct values when moving third before second', () => {
     const result = getMovingEntities('c', 'column#0', 1, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[2]);
       expect(result.targetColumn).toBe(0);
       expect(result.previous).toBe(game[0].posts[0]);
@@ -107,7 +107,7 @@ describe('When moving a post to a column', () => {
   it('should return the correct values when moving first to last', () => {
     const result = getMovingEntities('a', 'column#0', 2, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(0);
       expect(result.previous).toBe(game[0].posts[2]);
@@ -118,7 +118,7 @@ describe('When moving a post to a column', () => {
   it('should return the correct values when moving post to last in a different column', () => {
     const result = getMovingEntities('a', 'column#1', 3, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(1);
       expect(result.previous).toBe(game[1].posts[2]);
@@ -129,7 +129,7 @@ describe('When moving a post to a column', () => {
   it('should return the correct values when moving post to first in a different column', () => {
     const result = getMovingEntities('a', 'column#1', 0, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(1);
       expect(result.previous).toBe(undefined);
@@ -140,7 +140,7 @@ describe('When moving a post to a column', () => {
   it('should return the correct values when moving post to first in an empty column', () => {
     const result = getMovingEntities('a', 'column#2', 0, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(2);
       expect(result.previous).toBe(undefined);
@@ -159,7 +159,7 @@ describe('When moving a post to a group', () => {
   it('should return the correct values when moving post to empty group', () => {
     const result = getMovingEntities('a', 'group#g00', 0, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(0);
       expect(result.targetGroup).toBe(game[0].groups[0]);
@@ -171,7 +171,7 @@ describe('When moving a post to a group', () => {
   it('should return the correct values when moving post to a non empty group', () => {
     const result = getMovingEntities('a', 'group#g01', 1, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].posts[0]);
       expect(result.targetColumn).toBe(0);
       expect(result.targetGroup).toBe(game[0].groups[1]);
@@ -183,7 +183,7 @@ describe('When moving a post to a group', () => {
   it('should return the correct values when moving post from a group to the same group', () => {
     const result = getMovingEntities('g01a', 'group#g01', 2, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].groups[1].posts[0]);
       expect(result.targetColumn).toBe(0);
       expect(result.targetGroup).toBe(game[0].groups[1]);
@@ -195,7 +195,7 @@ describe('When moving a post to a group', () => {
   it('should return the correct values when moving post from a group to another group', () => {
     const result = getMovingEntities('g01b', 'group#g00', 0, game);
     expect(result).not.toBeNull();
-    if (!!result) {
+    if (result) {
       expect(result.post).toBe(game[0].groups[1].posts[1]);
       expect(result.targetColumn).toBe(0);
       expect(result.targetGroup).toBe(game[0].groups[0]);

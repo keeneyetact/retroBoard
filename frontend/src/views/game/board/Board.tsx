@@ -97,7 +97,7 @@ function GameMode({
 
   const handleOnDragEnd = useCallback(
     (result: DropResult, _provided: ResponderProvided) => {
-      if (!!result.destination) {
+      if (result.destination) {
         const entities = getMovingEntities(
           result.draggableId,
           result.destination.droppableId,
@@ -114,7 +114,7 @@ function GameMode({
           );
         }
       }
-      if (!!result.combine) {
+      if (result.combine) {
         const entities = getCombiningEntities(
           result.draggableId,
           result.combine.draggableId,

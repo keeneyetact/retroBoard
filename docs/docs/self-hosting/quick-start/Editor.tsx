@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ComposeView from './ComposeView';
 import { InputField } from './Field';
 import styles from './Editor.module.css';

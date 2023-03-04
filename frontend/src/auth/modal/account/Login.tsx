@@ -65,7 +65,7 @@ const Login = ({
       }
     >
       <Alert severity="info">{t('AccountLogin.info')}</Alert>
-      {!!error ? (
+      {error ? (
         <Alert severity="error" style={{ marginTop: 10 }}>
           {error}
         </Alert>

@@ -15,7 +15,7 @@ export default function TrialPrompt() {
   const formatDistanceToNow = useFormatDate();
   const { t } = useTranslation();
   const { quota } = useQuota();
-  const quotaLeft = !!quota ? quota.quota - quota.posts : null;
+  const quotaLeft = quota ? quota.quota - quota.posts : null;
   const overQuota = !!quota && quota.posts >= quota.quota;
   const nearQuota = !!quota && !overQuota && quota.posts >= quota.quota - 20;
 
