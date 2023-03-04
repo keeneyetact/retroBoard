@@ -34,7 +34,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: frontend/Dockerfile
           context: frontend
-          tags: retrospected/frontend:${{ steps.package.outputs.current-version }}
+          tags: retrospected/frontend:latest,retrospected/frontend:${{ steps.package.outputs.current-version }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
 
@@ -67,7 +67,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: backend/Dockerfile
           context: backend
-          tags: retrospected/backend:${{ steps.package.outputs.current-version }}
+          tags: retrospected/backend:latest,retrospected/backend:${{ steps.package.outputs.current-version }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
 
@@ -100,8 +100,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: docs/Dockerfile
           context: docs
-          tags: retrospected/docs:${{ steps.package.outputs.current-version }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: retrospected/docs:latest,retrospected/docs:${{ steps.package.outputs.current-version }}
+          platforms: linux/amd64
           push: true
 
   marketing:
@@ -133,8 +133,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: marketing/Dockerfile
           context: marketing
-          tags: retrospected/marketing:${{ steps.package.outputs.current-version }}
-          platforms: linux/amd64,linux/arm64
+          tags: retrospected/marketing:latest,retrospected/marketing:${{ steps.package.outputs.current-version }}
+          platforms: linux/amd64
           push: true
 
   maintenance:
@@ -166,8 +166,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: maintenance/Dockerfile
           context: maintenance
-          tags: retrospected/maintenance:${{ steps.package.outputs.current-version }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          tags: retrospected/maintenance:latest,retrospected/maintenance:${{ steps.package.outputs.current-version }}
+          platforms: linux/amd64
           push: true
 
   integration:
