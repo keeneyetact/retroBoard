@@ -3,12 +3,28 @@ import { Plan, TrackingEvent } from 'common';
 import * as Sentry from '@sentry/browser';
 import config from './utils/getConfig';
 import { isProduction } from 'is-production';
+import { noop } from 'lodash';
+import { InitOptions } from 'react-ga4/types/ga4';
 
 let sentryErrorCount = 0;
 
 export const initialiseAnalytics = () => {
   if (isGAEnabled()) {
-    ReactGA.initialize(config.GoogleAnalyticsId);
+    ReactGA.initialize(
+      [
+        {
+          trackingId: config.GoogleAnalyticsId,
+        },
+        config.googleAdWordsId
+          ? {
+              trackingId: config.googleAdWordsId,
+              gaOptions: {
+                name: 'aw',
+              },
+            }
+          : null,
+      ].filter(Boolean) as InitOptions[]
+    );
   }
 };
 
@@ -78,6 +94,15 @@ export const trackPurchase = (plan: Plan, valueUsd: number) => {
 export const trackPageView = (path: string) => {
   if (isGAEnabled()) {
     ReactGA.send({ hitType: 'pageview', page: path });
+  }
+};
+
+export const trackAdWordsConversion = () => {
+  if (isGAEnabled() && config.googleAdWordsEvent) {
+    ReactGA._gtag('event', 'conversion', {
+      send_to: config.googleAdWordsEvent,
+      event_callback: noop,
+    });
   }
 };
 

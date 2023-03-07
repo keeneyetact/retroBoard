@@ -24,6 +24,10 @@ spec:
               value: '3201'
             - name: GA_ID
               value: ''
+            - name: GOOGLE_AD_WORDS_ID
+              value: ''
+            - name: GOOGLE_AD_WORDS_EVENT
+              value: ''
             - name: SENTRY_URL
               value: ''
             - name: GIPHY_API_KEY

@@ -7,7 +7,7 @@ import { colors } from '@mui/material';
 import { Lock, ThumbUpAlt } from '@mui/icons-material';
 import PreviousGames from './home/PreviousGames';
 import { SessionMetadata } from 'common';
-import { trackEvent } from './../track';
+import { trackAdWordsConversion, trackEvent } from './../track';
 import { createGame, createEncryptedGame, deleteSession } from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
@@ -48,6 +48,7 @@ function Home() {
     const session = await createGame();
     if (session) {
       trackEvent('home/create/default');
+      trackAdWordsConversion();
       navigate('/game/' + session.id);
     } else {
       enqueueSnackbar('Something went wrong when creating the session', {
@@ -62,6 +63,7 @@ function Home() {
     if (session) {
       storeEncryptionKeyLocally(session.id, key);
       trackEvent('home/create/encrypted');
+      trackAdWordsConversion();
       navigate(`/game/${session.id}#${key}`);
     } else {
       enqueueSnackbar(

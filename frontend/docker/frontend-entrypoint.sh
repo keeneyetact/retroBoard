@@ -7,6 +7,8 @@ envsubst '${BACKEND_HOST} ${BACKEND_PORT}' < /etc/nginx/conf.d/default.conf.temp
 
 # Replacing Google Analytics and Sentry IDs. Separator is # because the sentry URL contains a /
 sed -i "s#NO_GA#${GA_ID:-}#g" /usr/share/nginx/html/index.html
+sed -i "s#NO_AD_WORDS_ID#${GOOGLE_AD_WORDS_ID:-}#g" /usr/share/nginx/html/index.html
+sed -i "s#NO_AD_WORDS_EVENT#${GOOGLE_AD_WORDS_EVENT:-}#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_SENTRY#${SENTRY_URL:-}#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_GIPHY#${GIPHY_API_KEY:-}#g" /usr/share/nginx/html/index.html
 sed -i "s#NO_STRIPE#${STRIPE_KEY:-}#g" /usr/share/nginx/html/index.html

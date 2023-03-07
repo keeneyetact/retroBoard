@@ -79,7 +79,7 @@ isLicenced().then((hasLicence) => {
     console.log(
       chalk`⚠️  {red This software is not licenced.
    You can obtain a licence here:
-   https://www.retrospected.com/subscribe?product=self-hosted}`
+   https://app.retrospected.com/subscribe?product=self-hosted}`
     );
     console.log(
       chalk`{red ------------------------------------------------------------- }`

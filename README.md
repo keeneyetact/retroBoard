@@ -88,9 +88,14 @@ You have two ways of running Retrospected:
 
 You can start an instance of Retrospected in 5 minutes by following the [quick-start guide](https://docs.retrospected.com/docs/self-hosting/quick-start).
 
-This will run a demo version, which you can turn into a fully licenced version by purchasing a [Self Hosted licence](https://www.retrospected.com/subscribe?product=self-hosted).
+This will run a demo version, which you can turn into a fully licenced version by purchasing a [Self Hosted licence](https://app.retrospected.com/subscribe?product=self-hosted).
 
 ## Versions History
+
+### Version 5.0.1
+
+- Add Google Ad-Words tracking
+- Fix self-hosted licence checking URL
 
 ### Version 5.0.0
 
@@ -325,7 +330,7 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 - Add a page explaining how local encryption works
 - Re-introducing rate limiting, both for the REST API and the Websocket connections, in Node and Nginx
-- Reduce the quantity of data sent over Websockets (for instance, only sending post ID instead of whole post when voting)
+- Reduce the quantity of data sent over WebSockets (for instance, only sending post ID instead of whole post when voting)
 - Reduce the number of SQL queries on the backend, simplifying the backend logic
 - Return an error message to the UI if a Websocket message doesn't succeed
 - Improve websocket reconnection logic

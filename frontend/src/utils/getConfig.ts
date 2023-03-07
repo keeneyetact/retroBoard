@@ -1,5 +1,7 @@
 interface HtmlConfig {
   GOOGLE_ANALYTICS_ID: string;
+  GOOGLE_AD_WORDS_ID: string;
+  GOOGLE_AD_WORDS_EVENT: string;
   SENTRY_URL: string;
   GIPHY_API_KEY: string;
   STRIPE_KEY: string;
@@ -13,6 +15,8 @@ interface Config {
   hasSentry: boolean;
   hasGiphy: boolean;
   GoogleAnalyticsId: string;
+  googleAdWordsId: string;
+  googleAdWordsEvent: string;
   SentryUrl: string;
   GiphyApiKey: string;
   StripeKey: string;
@@ -32,6 +36,8 @@ window.__env__ = window.__env__ || {};
 function getKey(
   key:
     | 'GOOGLE_ANALYTICS_ID'
+    | 'GOOGLE_AD_WORDS_ID'
+    | 'GOOGLE_AD_WORDS_EVENT'
     | 'SENTRY_URL'
     | 'GIPHY_API_KEY'
     | 'STRIPE_KEY'
@@ -51,6 +57,11 @@ function getKey(
 
 function getConfig(): Config {
   const googleAnalyticsId = getKey('GOOGLE_ANALYTICS_ID', 'NO_GA');
+  const googleAdWordsId = getKey('GOOGLE_AD_WORDS_ID', 'NO_AD_WORDS_ID');
+  const googleAdWordsEvent = getKey(
+    'GOOGLE_AD_WORDS_EVENT',
+    'NO_AD_WORDS_EVENT'
+  );
   const sentryUrl = getKey('SENTRY_URL', 'NO_SENTRY');
   const giphyApiKey = getKey('GIPHY_API_KEY', 'NO_GIPHY');
   const stripeKey = getKey('STRIPE_KEY', 'NO_STRIPE');
@@ -73,6 +84,8 @@ function getConfig(): Config {
     hasSentry: !!sentryUrl,
     hasGiphy: !!giphyApiKey,
     GoogleAnalyticsId: googleAnalyticsId,
+    googleAdWordsId,
+    googleAdWordsEvent,
     SentryUrl: sentryUrl,
     GiphyApiKey: giphyApiKey,
     StripeKey: stripeKey,
