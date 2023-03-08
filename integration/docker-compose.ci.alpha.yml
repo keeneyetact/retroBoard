@@ -46,6 +46,9 @@ services:
     image: retrospected/frontend:alpha
     depends_on:
       - backend
+    environment:
+      BACKEND_HOST: backend
+      BACKEND_PORT: 3201
     restart: unless-stopped
     logging:
       driver: 'json-file'

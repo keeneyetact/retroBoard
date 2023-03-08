@@ -279,7 +279,7 @@ const PostItem = ({
                       onClick={toggleAction}
                     />
                   )}
-                  {canEdit && config.hasGiphy && canUseGiphy && (
+                  {canEdit && !!config.GIPHY_API_KEY && canUseGiphy && (
                     <ActionButton
                       ariaLabel={t('Post.setGiphyButton')}
                       tooltip={t('Post.setGiphyButton')!}
@@ -359,7 +359,7 @@ const PostItem = ({
         <Card>
           <CardContent>
             <GiphySearchBox
-              apiKey={config.GiphyApiKey}
+              apiKey={config.GIPHY_API_KEY}
               onSelect={handleChooseGiphyEditor}
             />
           </CardContent>

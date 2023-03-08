@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v501/add-aw]
+    branches: [v502/simplify-fe-env]
 
 jobs:
   frontend:

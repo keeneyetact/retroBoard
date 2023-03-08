@@ -32,6 +32,7 @@ FROM nginx:latest
 
 RUN apt update
 RUN apt -y remove libfreetype6
+RUN apt -y install jq
 
 COPY --from=Node /home/node/app/dist /usr/share/nginx/html
 COPY ./docker/nginx.conf.template /etc/nginx/conf.d/default.conf.template

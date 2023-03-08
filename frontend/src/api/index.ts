@@ -254,7 +254,7 @@ export async function deleteUser(
 export async function getGiphyUrl(giphyId: string): Promise<string | null> {
   try {
     const response = await fetch(
-      `//api.giphy.com/v1/gifs/${giphyId}?api_key=${config.GiphyApiKey}`,
+      `//api.giphy.com/v1/gifs/${giphyId}?api_key=${config.GIPHY_API_KEY}`,
       { credentials: 'omit' }
     );
     if (response.ok) {

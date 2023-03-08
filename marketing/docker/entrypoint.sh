@@ -12,7 +12,6 @@ makeSedCommands() {
 IFS=$'\n'
 # For each sed command
 for c in $(makeSedCommands); do
-	echo "Executing $c"
   # For each file in the .next directory
   for f in $(find .next -type f); do
     # Execute the command against the file
@@ -22,6 +21,5 @@ for c in $(makeSedCommands); do
   eval "$c ./server.js"
 done
 
-echo "Starting Nextjs"
 # Run any arguments passed to this script
 exec "$@"

@@ -13,4 +13,5 @@ local:
 	docker-compose down
 
 alpha:
+	docker-compose -f ./docker-compose.ci.alpha.yml pull
 	docker-compose -f ./docker-compose.ci.alpha.yml up --exit-code-from cypress

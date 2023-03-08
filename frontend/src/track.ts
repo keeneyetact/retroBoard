@@ -8,16 +8,19 @@ import { InitOptions } from 'react-ga4/types/ga4';
 
 let sentryErrorCount = 0;
 
+const hasGA = !!config.GOOGLE_ANALYTICS_ID;
+const hasSentry = !!config.SENTRY_URL;
+
 export const initialiseAnalytics = () => {
   if (isGAEnabled()) {
     ReactGA.initialize(
       [
         {
-          trackingId: config.GoogleAnalyticsId,
+          trackingId: config.GOOGLE_ANALYTICS_ID,
         },
-        config.googleAdWordsId
+        config.GOOGLE_AD_WORDS_ID
           ? {
-              trackingId: config.googleAdWordsId,
+              trackingId: config.GOOGLE_AD_WORDS_ID,
               gaOptions: {
                 name: 'aw',
               },
@@ -29,16 +32,16 @@ export const initialiseAnalytics = () => {
 };
 
 export const initialiseSentry = () => {
-  if (config.hasSentry) {
+  if (hasSentry) {
     Sentry.init({
-      dsn: config.SentryUrl,
-      release: `frontend@${config.version}`,
+      dsn: config.SENTRY_URL,
+      release: `frontend@${config.VERSION}`,
     });
   }
 };
 
 export const setScope = (fn: (scope: Sentry.Scope | null) => void) => {
-  if (config.hasSentry) {
+  if (hasSentry) {
     Sentry.configureScope(fn);
   } else {
     fn(null);
@@ -46,7 +49,7 @@ export const setScope = (fn: (scope: Sentry.Scope | null) => void) => {
 };
 
 export const recordManualError = (message: string) => {
-  if (config.hasSentry) {
+  if (hasSentry) {
     sentryErrorCount += 1;
     if (sentryErrorCount > 100) {
       console.error(
@@ -98,14 +101,14 @@ export const trackPageView = (path: string) => {
 };
 
 export const trackAdWordsConversion = () => {
-  if (isGAEnabled() && config.googleAdWordsEvent) {
+  if (isGAEnabled() && config.GOOGLE_AD_WORDS_CONVERSION_ID) {
     ReactGA._gtag('event', 'conversion', {
-      send_to: config.googleAdWordsEvent,
+      send_to: config.GOOGLE_AD_WORDS_CONVERSION_ID,
       event_callback: noop,
     });
   }
 };
 
 const isGAEnabled = () => {
-  return isProduction() && config.hasGA;
+  return isProduction() && hasGA;
 };

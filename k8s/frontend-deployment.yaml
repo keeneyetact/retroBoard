@@ -22,15 +22,15 @@ spec:
               value: rb-backend-cluster-ip-service
             - name: BACKEND_PORT
               value: '3201'
-            - name: GA_ID
+            - name: FRONTEND_GOOGLE_ANALYTICS_ID
               value: ''
-            - name: GOOGLE_AD_WORDS_ID
+            - name: FRONTEND_GOOGLE_AD_WORDS_ID
               value: ''
-            - name: GOOGLE_AD_WORDS_EVENT
+            - name: FRONTEND_GOOGLE_AD_WORDS_CONVERSION_ID
               value: ''
-            - name: SENTRY_URL
+            - name: FRONTEND_SENTRY_URL
               value: ''
-            - name: GIPHY_API_KEY
+            - name: FRONTEND_GIPHY_API_KEY
               value: ''
-            - name: DEFAULT_LANGUAGE
+            - name: FRONTEND_DEFAULT_LANGUAGE
               value: 'en-GB'

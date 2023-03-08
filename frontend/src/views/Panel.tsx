@@ -61,7 +61,7 @@ function Panel() {
               <Typography variant="h6">Legal Stuff</Typography>
               {policies.map((policy) => (
                 <ExternalLink
-                  href={config.marketingRoot + policy.url}
+                  href={config.MARKETING_ROOT + policy.url}
                   target="_blank"
                   key={policy.name}
                 >
@@ -74,7 +74,7 @@ function Panel() {
             component="div"
             style={{ color: colors.grey[700], textAlign: 'center' }}
           >
-            <Content>Version {config.version}</Content>
+            <Content>Version {config.VERSION}</Content>
           </Typography>
         </Bottom>
       </DrawerContent>

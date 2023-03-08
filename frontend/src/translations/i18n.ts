@@ -20,7 +20,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: config.defaultLanguage,
+    fallbackLng: config.DEFAULT_LANGUAGE,
     debug: !isProduction(),
     defaultNS: 'ns1',
     ns: 'ns1',
