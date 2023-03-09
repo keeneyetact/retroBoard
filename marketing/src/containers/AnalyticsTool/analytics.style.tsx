@@ -1,10 +1,9 @@
-import { Parallax } from 'react-parallax';
 import styled from 'styled-components';
 import { rgba } from 'polished';
 import { themeGet } from '@styled-system/theme-get';
 import polygon from '@/common/assets/image/webAppCreative/polygon.png';
 
-const Section = styled(Parallax)`
+const Section = styled.section`
   background-color: ${themeGet('colors.sectionBackgroundColor')};
   padding-top: 100px;
   padding-bottom: 100px;

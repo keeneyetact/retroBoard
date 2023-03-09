@@ -37,7 +37,6 @@ export default function HomePage({ legals }: HomePageProps) {
       <HowItWorks />
       <AnalyticsTool />
       <Dashboard />
-
       <CombinedSection>
         <Integrations />
         {/* </CombinedSection>
