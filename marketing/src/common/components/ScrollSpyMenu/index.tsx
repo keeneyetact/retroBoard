@@ -111,13 +111,19 @@ const ScrollSpyMenu = ({
             ) : (
               <>
                 {drawer ? (
-                  <AnchorLink
-                    href={menu.path}
-                    offset={menu.offset}
-                    onClick={toggleDrawer}
-                  >
-                    {t(menu.label)}
-                  </AnchorLink>
+                  <>
+                    {isAnchor ? (
+                      <AnchorLink
+                        href={menu.path}
+                        offset={menu.offset}
+                        onClick={toggleDrawer}
+                      >
+                        {t(menu.label)}
+                      </AnchorLink>
+                    ) : (
+                      <Link href={menu.path}>{t(menu.label)}</Link>
+                    )}
+                  </>
                 ) : (
                   <>
                     {isAnchor ? (

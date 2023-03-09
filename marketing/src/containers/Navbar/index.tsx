@@ -2,19 +2,18 @@ import React, { useContext } from 'react';
 import NavbarWrapper from '@/common/components/Navbar';
 import Drawer from '@/common/components/Drawer';
 import Button from '@/common/components/Button';
-// import Logo from '@/common/components/UIElements/Logo';
 import Box from '@/common/components/Box';
 import HamburgMenu from '@/common/components/HamburgMenu';
 import Container from '@/common/components/UI/Container';
 import { DrawerContext } from '@/common/contexts/DrawerContext';
 import ScrollSpyMenu from '@/common/components/ScrollSpyMenu';
-import logoImage from './logo.png';
 import { MenuItem } from '@/types';
 import { useTranslation } from 'next-i18next';
 import { useConfig } from '@/common/hooks/useConfig';
 import { LanguagePicker } from './LanguagePicker';
 import styled from 'styled-components';
 import { Logo } from '@/common/components/Logo/Logo';
+import Link from 'next/link';
 
 type NavbarProps = {
   navbarStyle?: any;
@@ -70,7 +69,9 @@ const Navbar = ({
             width={32}
             height={32}
           /> */}
-          <Logo size={32} style={{ position: 'relative', top: 1 }} />
+          <Link href="/">
+            <Logo size={32} style={{ position: 'relative', top: 1 }} />
+          </Link>
           <Box {...menuWrapper} className="mainMenuWrapper">
             <ScrollSpyMenu
               className="main_menu"

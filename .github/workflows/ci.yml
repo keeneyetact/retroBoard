@@ -35,3 +35,16 @@ jobs:
       - run: yarn ci-test
       - run: yarn lint
       - run: yarn build
+  test-marketing:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./marketing
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: yarn
+      - run: yarn lint
+      - run: yarn build

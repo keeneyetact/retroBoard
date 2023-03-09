@@ -92,9 +92,15 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 5.0.2
+
+- Simplify management of environment variables on the frontend
+- Add an error 404 page on the marketing site
+- Add Ad-Words tracking on the landing page
+
 ### Version 5.0.1
 
-- Add Google Ad-Words tracking
+- Add Google Ad-Words tracking on the frontend
 - Fix self-hosted licence checking URL
 
 ### Version 5.0.0
