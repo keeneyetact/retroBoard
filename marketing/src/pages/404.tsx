@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import styled from 'styled-components';
 import Link from 'next/link';
-import bg from '../containers/404/it-crowd-on-fire.gif';
+import bg from '../containers/404/bg.gif';
 import Image from 'next/image';
 
 export default function Page404() {
