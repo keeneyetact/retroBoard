@@ -50,19 +50,9 @@
 	"Testimonials": {
 		"heading": "Was die Leute über uns sagen",
 		"1": {
-			"author": "Jean-Laurent Wotton",
-			"designation": "Manager",
-			"quote": "---"
-		},
-		"2": {
 			"author": "Frank Becker",
-			"designation": "Liefer-Team-Gruppe",
-			"quote": "Ihr Text hier"
-		},
-		"3": {
-			"author": "Allein-Klaire Allain",
-			"designation": "Senior Manager",
-			"quote": "Ich habe Retrospected am Ende jedes Sprints verwendet, um Feedback von meinem Team zu erhalten. Es ist als Werkzeug von unschätzbarem Wert und sehr einfach zu bedienen."
+			"designation": "Delivery Team Group & Holding/Transport - Deutsche Bahn",
+			"quote": "The easiest way to manage many retrospectives with many teams to optimize themselves. Flawless integration with AzureAD and easy migration from local users to AzureAD users. Nice and not overloaded features."
 		}
 	},
 	"Pricing": {

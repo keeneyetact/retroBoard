@@ -6,7 +6,7 @@
 	"404": {
 		"heading": "404",
 		"text": "Houston, on a un problème. Cette page n'existe pas, plus, et n'existera probablement jamais.",
-		"link": "Tirez moi de là !"
+		"link": "Tirez-moi de là !"
 	},
 	"Banner": {
 		"heading": "Vous n'**oublierez jamais** votre première **rétro**.",
@@ -50,19 +50,9 @@
 	"Testimonials": {
 		"heading": "Nos utilisateurs aiment Retrospected",
 		"1": {
-			"author": "Jean-Laurent Wotton",
-			"designation": "Manager",
-			"quote": "---"
-		},
-		"2": {
 			"author": "Frank Becker",
-			"designation": "Delivery Team Group",
-			"quote": "Your text here"
-		},
-		"3": {
-			"author": "Anne-Claire Allain",
-			"designation": "Senior Manager",
-			"quote": "J'ai utilisé Retrospected à la fin de chaque sprint pour recueillir les commentaires de mon équipe. Il a été inestimable en tant qu'outil et très facile à utiliser."
+			"designation": "Delivery Team Group & Holding/Transport - Deutsche Bahn",
+			"quote": "La façon la plus simple de gérer de nombreuses rétrospectives avec de nombreuses équipes pour une amélioration continue. Intégration parfaite avec AzureAD et migration facile des utilisateurs locaux vers les utilisateurs AzureAD. Fonctionnalités simples et faciles d'emploi."
 		}
 	},
 	"Pricing": {

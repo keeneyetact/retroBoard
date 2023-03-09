@@ -15,7 +15,7 @@ export const BannerContentWrapper = styled.div`
   grid-template-columns: 3fr 2fr;
   gap: 30px;
   @media (min-width: 1025px) {
-    min-height: min(calc(100vh - 260px), 900px);
+    min-height: min(calc(100vh - 280px), 900px);
   }
 
   @media (max-width: 1024px) {

@@ -25,22 +25,14 @@ type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     id: 1,
-    logo: deloitte,
-  },
-  {
-    id: 2,
     logo: db,
-  },
-  {
-    id: 3,
-    logo: expedia,
   },
 ];
 
 const settings = {
   infinite: true,
   speed: 500,
-  slidesToShow: 3,
+  slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
   dots: true,
@@ -70,37 +62,38 @@ const Testimonials = () => {
         <SectionHeading>
           <Heading content={t('Testimonials.heading')} />
         </SectionHeading>
-        <ReactSlick {...settings}>
-          {testimonials.map((testimonial) => (
-            <Item key={testimonial.id}>
-              <div>
-                <Figure>
-                  <NextImage src={testimonial.logo} alt="logo" />
-                </Figure>
-                <Text
-                  as="blockquote"
-                  content={t(`Testimonials.${testimonial.id}.quote`)}
-                />
-              </div>
-              <AuthorInfo>
-                <Heading
-                  as="h4"
-                  content={t(`Testimonials.${testimonial.id}.author`)}
-                />
-                <Text
-                  content={t(`Testimonials.${testimonial.id}.designation`)}
-                />
-              </AuthorInfo>
-            </Item>
-          ))}
-        </ReactSlick>
+        {/* <ReactSlick {...settings}> */}
+        {testimonials.map((testimonial) => (
+          <Item key={testimonial.id}>
+            <div>
+              <Figure>
+                <NextImage src={testimonial.logo} alt="logo" />
+              </Figure>
+              <Text
+                as="blockquote"
+                content={t(`Testimonials.${testimonial.id}.quote`)}
+              />
+            </div>
+            <AuthorInfo>
+              <Heading
+                as="h4"
+                content={t(`Testimonials.${testimonial.id}.author`)}
+              />
+              <Text content={t(`Testimonials.${testimonial.id}.designation`)} />
+            </AuthorInfo>
+          </Item>
+        ))}
+        {/* </ReactSlick> */}
       </Container>
     </Section>
   );
 };
 
 const Figure = styled.figure`
+  display: flex;
+  justify-content: center;
   img {
+    max-width: 300px;
     width: 100%;
     height: 100%;
   }

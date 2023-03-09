@@ -37,12 +37,16 @@ export default function HomePage({ legals }: HomePageProps) {
       <HowItWorks />
       <AnalyticsTool />
       <Dashboard />
-      {/* <Testimonials /> */}
+
       <CombinedSection>
         <Integrations />
+        {/* </CombinedSection>
+      <Testimonials />
+      <CombinedSection> */}
         <Pricing />
         <CornerPattern />
       </CombinedSection>
+
       {/* <NewsFeed /> */}
       <Faq />
       <CallToAction />
@@ -56,21 +60,11 @@ export const menuItems: MenuItem[] = [
     path: '#home',
     offset: '70',
   },
-  // {
-  //   label: 'Nav.howTo',
-  //   path: '#how-to',
-  //   offset: '70',
-  // },
   {
     label: 'Nav.features',
     path: '#features',
     offset: '70',
   },
-  // {
-  //   label: 'Nav.testimonial',
-  //   path: '#testimonial',
-  //   offset: '70',
-  // },
   {
     label: 'Nav.pricing',
     path: '#pricing',
