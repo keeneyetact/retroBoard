@@ -3,6 +3,11 @@
 		"title": "Retrospected",
 		"description": "Retrospectives gratuites et temps-réel pour équipes agiles"
 	},
+	"404": {
+		"heading": "404",
+		"text": "Houston, on a un problème. Cette page n'existe pas, plus, et n'existera probablement jamais.",
+		"link": "Tirez moi de là !"
+	},
 	"Banner": {
 		"heading": "Vous n'**oublierez jamais** votre première **rétro**.",
 		"text": "Soutenez la **collaboration** et l'**amélioration continue** de vos équipes avec une plateforme **moderne** et **intuitive**.",

@@ -3,6 +3,11 @@
 		"title": "Retrospected",
 		"description": "Free Real-time Agile Retrospective Board for engineering teams"
 	},
+	"404": {
+		"heading": "404",
+		"text": "Oopsie daisy, the page you are looking for does not exist.",
+		"link": "Bring me back to safety!"
+	},
 	"Banner": {
 		"heading": "You will **never forget** your first **retro**.",
 		"text": "Bring **continuous improvements** to your team with a **modern** and **easy to use** retrospective tool.",

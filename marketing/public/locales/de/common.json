@@ -3,6 +3,11 @@
 		"title": "Retrospektiert",
 		"description": "Kostenloses Echtzeit-Agile Retrospektive Board für Ingenieurteams"
 	},
+	"404": {
+		"heading": "404",
+		"text": "Oopsie daisy, the page you are looking for does not exist.",
+		"link": "Bring me back to safety!"
+	},
 	"Banner": {
 		"heading": "Du wirst **nie vergessen** deinen ersten **Retro**.",
 		"text": "Real-time, collaborative retrospectives done right. In seconds.",
