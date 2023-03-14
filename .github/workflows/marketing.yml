@@ -2,7 +2,7 @@ name: 'Marketing Build'
 
 on:
   push:
-    branches: [v5000/icons]
+    branches: [v503/reset-de]
 
 jobs:
   marketing:
