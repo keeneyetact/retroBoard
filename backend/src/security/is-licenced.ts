@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import wait from '../utils.js';
 import { LicenceMetadata } from './../types.js';
 import { comparePassword, decrypt } from '../encryption.js';
+import chalkTemplate from 'chalk-template';
 
 let licenced: LicenceMetadata | null = null;
 
@@ -76,6 +77,11 @@ async function isLicencedBase(): Promise<LicenceMetadata | null> {
 
   // Checking hardcoded licence as a last resort
   const hardcodedLicence = await checkHardcodedLicence(licenceKey);
+
+  if (hardcodedLicence) {
+    console.log(chalkTemplate`📝  {blue Your licence is {red hardcoded}.}`);
+    return hardcodedLicence;
+  }
 
   const payload: SelfHostedCheckPayload = { key: licenceKey };
   try {
