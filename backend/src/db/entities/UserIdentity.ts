@@ -18,6 +18,7 @@ import {
 import { UserIds } from '../../utils.js';
 import SessionEntity from './Session.js';
 import SessionTemplateEntity from './SessionTemplate.js';
+import TrackingEntity from './TrackingEntity.js';
 
 export const ALL_FIELDS: Array<keyof UserEntity> = [
   'id',
@@ -61,12 +62,8 @@ export class UserEntity {
     eager: false,
   })
   public sessions: SessionEntity[] | undefined;
-  // @OneToMany(() => UserIdentityEntity, (identity) => identity.user, {
-  //   cascade: true,
-  //   nullable: false,
-  //   eager: false,
-  // })
-  // public identities: UserIdentityEntity[] | undefined;
+  @Column(() => TrackingEntity)
+  public tracking: TrackingEntity;
   @Column({ nullable: true, type: 'character varying' })
   public slackUserId: string | null;
   @Column({ nullable: true, type: 'character varying' })
@@ -75,6 +72,7 @@ export class UserEntity {
   public created: Date | undefined;
   @UpdateDateColumn({ type: 'timestamp with time zone', select: false })
   public updated: Date | undefined;
+
   constructor(id: string, name: string) {
     this.id = id;
     this.name = name;
@@ -87,6 +85,7 @@ export class UserEntity {
     this.slackTeamId = null;
     this.slackUserId = null;
     this.photo = null;
+    this.tracking = new TrackingEntity();
   }
 
   toJson(): User {

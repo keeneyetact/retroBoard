@@ -57,6 +57,8 @@ import {
   getPasswordIdentity,
   updateIdentity,
   getIdentityByUsername,
+  associateUserWithAdWordsCampaign,
+  TrackingInfo,
 } from './db/actions/users.js';
 import { isLicenced } from './security/is-licenced.js';
 import rateLimit from 'express-rate-limit';
@@ -67,6 +69,7 @@ import { QueryFailedError } from 'typeorm';
 import { deleteAccount } from './db/actions/delete.js';
 import { noop } from 'lodash-es';
 import { createDemoSession } from './db/actions/demo.js';
+import cookieParser from 'cookie-parser';
 
 const realIpHeader = 'X-Forwarded-For';
 const sessionSecret = `${config.SESSION_SECRET!}-4.11.5`; // Increment to force re-auth
@@ -107,6 +110,7 @@ if (config.SELF_HOSTED) {
 initSentry();
 
 const app = express();
+app.use(cookieParser());
 
 function getActualIp(req: express.Request): string {
   const headerValue = req.header(realIpHeader);
@@ -317,6 +321,13 @@ db().then(() => {
 
   app.get('/api/me', async (req, res) => {
     const user = await getUserViewFromRequest(req);
+    const trackingString: string = req.cookies['retro-aw-tracking'];
+    if (trackingString && user) {
+      const tracking: Partial<TrackingInfo> = JSON.parse(trackingString);
+      // We don't await this because we don't want to block the response
+      associateUserWithAdWordsCampaign(user, tracking);
+    }
+
     if (user) {
       res.status(200).send(user.toJson());
     } else {

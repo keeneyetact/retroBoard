@@ -15,6 +15,7 @@ import { isSelfHostedAndLicenced } from '../../security/is-licenced.js';
 import { v4 } from 'uuid';
 import { hashPassword, comparePassword } from '../../encryption.js';
 import { saveAndReload } from '../repositories/BaseRepository.js';
+import TrackingEntity from '../entities/TrackingEntity.js';
 
 export async function getUser(userId: string): Promise<UserEntity | null> {
   return await transaction(async (manager) => {
@@ -191,6 +192,37 @@ export type UserRegistration = {
   slackUserId?: string;
   slackTeamId?: string;
 };
+
+export type TrackingInfo = {
+  campaignId: string;
+  creativeId: string;
+  device: string;
+  keyword: string;
+  gclid: string;
+};
+
+export async function associateUserWithAdWordsCampaign(
+  user: UserView,
+  tracking: Partial<TrackingInfo>
+) {
+  return await transaction(async (manager) => {
+    const userRepository = manager.withRepository(UserRepository);
+    const userEntity = await userRepository.findOne({
+      where: {
+        id: user.id,
+      },
+    });
+    if (userEntity && tracking.campaignId && tracking.creativeId) {
+      userEntity.tracking = new TrackingEntity();
+      userEntity.tracking.campaignId = tracking.campaignId;
+      userEntity.tracking.creativeId = tracking.creativeId;
+      userEntity.tracking.device = tracking.device || null;
+      userEntity.tracking.keyword = tracking.keyword || null;
+      userEntity.tracking.gclid = tracking.gclid || null;
+      await userRepository.save(userEntity);
+    }
+  });
+}
 
 export async function registerUser(
   registration: UserRegistration
