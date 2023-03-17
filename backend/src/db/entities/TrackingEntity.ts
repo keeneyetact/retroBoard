@@ -11,6 +11,8 @@ export default class TrackingEntity {
   public keyword: string | null;
   @Column({ nullable: true, type: 'character varying' })
   public gclid: string | null;
+  @Column({ nullable: true, type: 'timestamp with time zone' })
+  public trackedAt: Date | null;
 
   constructor() {
     this.campaignId = null;
@@ -18,5 +20,6 @@ export default class TrackingEntity {
     this.device = null;
     this.keyword = null;
     this.gclid = null;
+    this.trackedAt = null;
   }
 }

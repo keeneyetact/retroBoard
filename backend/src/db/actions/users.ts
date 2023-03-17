@@ -212,13 +212,19 @@ export async function associateUserWithAdWordsCampaign(
         id: user.id,
       },
     });
-    if (userEntity && tracking.campaignId && tracking.creativeId) {
+    if (
+      userEntity &&
+      tracking.campaignId &&
+      tracking.creativeId &&
+      !userEntity.tracking.trackedAt
+    ) {
       userEntity.tracking = new TrackingEntity();
       userEntity.tracking.campaignId = tracking.campaignId;
       userEntity.tracking.creativeId = tracking.creativeId;
       userEntity.tracking.device = tracking.device || null;
       userEntity.tracking.keyword = tracking.keyword || null;
       userEntity.tracking.gclid = tracking.gclid || null;
+      userEntity.tracking.trackedAt = new Date();
       await userRepository.save(userEntity);
     }
   });

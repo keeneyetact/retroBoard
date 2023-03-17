@@ -321,7 +321,7 @@ db().then(() => {
 
   app.get('/api/me', async (req, res) => {
     const user = await getUserViewFromRequest(req);
-    const trackingString: string = req.cookies['retro-aw-tracking'];
+    const trackingString: string = req.cookies['retro_aw'];
     if (trackingString && user) {
       const tracking: Partial<TrackingInfo> = JSON.parse(trackingString);
       // We don't await this because we don't want to block the response

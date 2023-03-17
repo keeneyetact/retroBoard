@@ -5,7 +5,7 @@ import parse from 'url-parse';
 
 // https://www.retrospected.com/?campaignid=19686942887&creative=648178043912&device=c&keyword=retro
 
-const COOKIE_NAME = 'retro-aw-tracking';
+const COOKIE_NAME = 'retro_aw';
 
 export type TrackingInfo = {
   campaignId: string;
@@ -33,15 +33,11 @@ export function middleware(request: NextRequest) {
     const cookie: ResponseCookie = {
       name: COOKIE_NAME,
       value: JSON.stringify(tracking),
-      sameSite: 'lax',
       expires: addYears(new Date(), 1),
-      domain:
-        host.includes('localhost') || host.split('.').length < 3
-          ? undefined
-          : host.split('.').slice(1).join('.'),
+      domain: host.includes('localhost')
+        ? undefined
+        : process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
     };
-
-    console.log('tracking', tracking);
 
     response.cookies.set(cookie);
   }
