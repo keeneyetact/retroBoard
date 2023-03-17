@@ -92,6 +92,13 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 5.0.3
+
+- 🇩🇪 Adding the German version of our marketing website
+- Self-Hosted: Improve licence checking to avoid being blocking when internet is not available
+- Better support for AD campaigns
+- Redirect regional TLDs (.de, .fr) to .com
+
 ### Version 5.0.2
 
 - Simplify management of environment variables on the frontend
