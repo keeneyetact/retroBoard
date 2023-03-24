@@ -209,6 +209,8 @@
     "emailField": "电子邮箱",
     "passwordField": "密码",
     "nameField": "您的名字(用于显示目的)",
+    "noAuthWarning": "您的管理员禁用了所有登录可能性(OAutth, 密码)。请让您的管理员重新启用至少一个。",
+    "or": "或",
     "passwordScoreWords": [
       "脆弱的",
       "脆弱的",
@@ -291,8 +293,10 @@
     "cancelButton": "不要谢谢。"
   },
   "AccountPage": {
+    "convertTitle": "转换为真实账户",
     "noEmptyNameError": "您不能选择一个空的显示名称。请重试。",
     "anonymousError": "匿名帐户不能访问他们的个人资料 (因为他们没有一个)。",
+    "convertWarning": "您正在使用一个匿名帐户。现在不要丢失您的数据并将您的匿名帐户转换为真实帐户。 使用您的Google、GitHub、Twitter帐户登录，或创建密码帐户，它将自动合并您的数据。",
     "details": {
       "header": "您的详细信息",
       "username": "用户名",

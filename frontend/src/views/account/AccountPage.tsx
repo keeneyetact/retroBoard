@@ -24,6 +24,8 @@ import { useLanguage } from 'translations';
 import useBackendCapabilities from 'global/useBackendCapabilities';
 import AdminsEditor from './AdminEditor';
 import Tag from 'components/TagInput/Tag';
+import LoginContent from 'auth/modal/LoginContent';
+import { noop } from 'lodash';
 
 function AccountPage() {
   const url = usePortalUrl();
@@ -84,10 +86,6 @@ function AccountPage() {
     return null;
   }
 
-  if (user.accountType === 'anonymous') {
-    return <Alert severity="error">{t('AccountPage.anonymousError')}</Alert>;
-  }
-
   return (
     <>
       <TrialPrompt />
@@ -98,33 +96,40 @@ function AccountPage() {
           <EditableLabel value={user.name} onChange={handleEditName} />
         </Name>
 
-        <Section title={t('AccountPage.details.header')!}>
-          <Data>
-            <Title>{t('AccountPage.details.username')}</Title>
-            <Value>{user.username}</Value>
-          </Data>
+        {user.accountType === 'anonymous' ? (
+          <Section title={t('AccountPage.convertTitle')!}>
+            <Alert severity="warning">{t('AccountPage.convertWarning')}</Alert>
+            <LoginContent allowAnonymous={false} onClose={noop} />
+          </Section>
+        ) : (
+          <Section title={t('AccountPage.details.header')!}>
+            <Data>
+              <Title>{t('AccountPage.details.username')}</Title>
+              <Value>{user.username}</Value>
+            </Data>
 
-          <Data>
-            <Title>{t('AccountPage.details.email')}</Title>
-            <Value>{user.email}</Value>
-          </Data>
+            <Data>
+              <Title>{t('AccountPage.details.email')}</Title>
+              <Value>{user.email}</Value>
+            </Data>
 
-          <Data>
-            <Title>{t('AccountPage.details.accountType')}</Title>
-            <Value>{user.accountType}</Value>
-          </Data>
+            <Data>
+              <Title>{t('AccountPage.details.accountType')}</Title>
+              <Value>{user.accountType}</Value>
+            </Data>
 
-          <Data>
-            <Title>{t('AccountPage.details.language')}</Title>
-            <Value>
-              <LanguagePicker
-                value={language.locale}
-                onChange={setLanguage}
-                variant="standard"
-              />
-            </Value>
-          </Data>
-        </Section>
+            <Data>
+              <Title>{t('AccountPage.details.language')}</Title>
+              <Value>
+                <LanguagePicker
+                  value={language.locale}
+                  onChange={setLanguage}
+                  variant="standard"
+                />
+              </Value>
+            </Data>
+          </Section>
+        )}
 
         {capabilities.slackClientId ? (
           <Section title={t('AccountPage.slack.header')!}>
@@ -282,6 +287,7 @@ const Name = styled.h1`
   gap: 10px;
   font-weight: 100;
   font-size: 3em;
+  margin-left: 20px;
   @media screen and (max-width: 500px) {
     font-size: 1.5em;
   }

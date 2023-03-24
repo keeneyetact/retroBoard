@@ -9,7 +9,11 @@ import { resetPassword } from '../../../api';
 import { Link } from 'react-router-dom';
 import useBackendCapabilities from '../../../global/useBackendCapabilities';
 
-const LostPassword = () => {
+type LostPasswordProps = {
+  onCancel: () => void;
+};
+
+const LostPassword = ({ onCancel }: LostPasswordProps) => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
@@ -39,14 +43,23 @@ const LostPassword = () => {
     <Wrapper
       header={t('ResetPassword.header')!}
       actions={
-        <Button
-          onClick={handleForgotPassword}
-          color="primary"
-          autoFocus
-          disabled={!email.length}
-        >
-          {t('ResetPassword.resetButton')}
-        </Button>
+        <>
+          <Button
+            onClick={onCancel}
+            color="secondary"
+            data-cy="cancel-register-button"
+          >
+            {t('Generic.cancel')}
+          </Button>
+          <Button
+            onClick={handleForgotPassword}
+            color="primary"
+            autoFocus
+            disabled={!email.length}
+          >
+            {t('ResetPassword.resetButton')}
+          </Button>
+        </>
       }
     >
       <Alert severity="info">{t('ResetPassword.info')}</Alert>

@@ -209,6 +209,8 @@
     "emailField": "E-mail",
     "passwordField": "Password",
     "nameField": "Il tuo nome (per scopi di visualizzazione)",
+    "noAuthWarning": "L'amministratore ha disabilitato tutte le possibilità di accesso (OAuth, password). Chiedi all'amministratore di riattivarne almeno una.",
+    "or": "o",
     "passwordScoreWords": [
       "debole",
       "debole",
@@ -291,8 +293,10 @@
     "cancelButton": "No grazie"
   },
   "AccountPage": {
+    "convertTitle": "Converti in un conto reale",
     "noEmptyNameError": "Non puoi scegliere un nome di visualizzazione vuoto. Per favore riprova.",
     "anonymousError": "Gli account anonimi non possono avere accesso al loro profilo (perché non ne hanno uno).",
+    "convertWarning": "Stai utilizzando un account anonimo. Non perdere i tuoi dati e convertire il tuo account anonimo in un vero e proprio account. Accedi con il tuo account Google, GitHub, Twitter o crea un account password e unirà automaticamente i tuoi dati.",
     "details": {
       "header": "I Tuoi Dettagli",
       "username": "Username",

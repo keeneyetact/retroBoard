@@ -1,5 +1,7 @@
+import { mergeAnonymous } from '../db/actions/merge.js';
 import express, { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
+import { UserIds } from '../utils.js';
 
 const router = express.Router();
 // Setting up the passport middleware for each of the OAuth providers
@@ -14,7 +16,7 @@ const microsoftAuth = passport.authenticate('microsoft');
 const oktaAuth = passport.authenticate('okta');
 
 function anonAuth(req: Request, res: Response, next: NextFunction) {
-  passport.authenticate('local', function (err, user) {
+  passport.authenticate('local', async function (err, user: UserIds | null) {
     res.setHeader('Content-Type', 'application/json');
 
     if (err) {
@@ -23,6 +25,9 @@ function anonAuth(req: Request, res: Response, next: NextFunction) {
     if (!user) {
       return res.status(403).send().end();
     }
+
+    await mergeAnonymous(req, user.identityId);
+
     req.logIn(user, function (err) {
       if (err) {
         return next(err);

@@ -5,12 +5,14 @@ import LoginContent from './LoginContent';
 
 interface LoginModalProps {
   backdrop?: boolean;
+  large?: boolean;
   onClose: () => void;
 }
 
 export default function LoginModal({
   onClose,
   backdrop = true,
+  large = false,
 }: LoginModalProps) {
   const fullScreen = useMediaQuery('(max-width:600px)');
 
@@ -23,7 +25,7 @@ export default function LoginModal({
   return (
     <Dialog
       fullScreen={fullScreen}
-      maxWidth="sm"
+      maxWidth={large ? 'xl' : 'sm'}
       fullWidth
       open
       onClose={handleClose}

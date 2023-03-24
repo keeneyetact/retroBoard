@@ -1,5 +1,4 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
-import { Alert } from '@mui/material';
 import {
   GithubLoginButton,
   GoogleLoginButton,
@@ -86,8 +85,10 @@ function SocialAuth({ onClose, onUser }: SocialAuthProps) {
   }, [onClose, onUser, language]);
 
   return (
-    <Wrapper header={t('SocialMediaLogin.header')!}>
-      <Alert severity="info">{t('SocialMediaLogin.info')}</Alert>
+    <Wrapper
+      header={t('SocialMediaLogin.header')}
+      help={t('SocialMediaLogin.info')}
+    >
       <AccountsButtons>
         {details.microsoft && (
           <MicrosoftLoginButton onClick={handleMicrosoft} text="Microsoft" />

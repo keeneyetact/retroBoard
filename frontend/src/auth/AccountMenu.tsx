@@ -46,6 +46,7 @@ const AccountMenu = () => {
   const handleLogout = useCallback(() => {
     logout();
     setUser(null);
+    setMenuOpen(false);
   }, [setUser]);
 
   const handleAccount = useCallback(() => {
@@ -73,6 +74,7 @@ const AccountMenu = () => {
         >
           <Avatar user={user} />
           <DisplayName>{user.name}</DisplayName>
+          <AccountCircle fontSize={'large'} />
         </AvatarContainer>
         {menuAnchor.current ? (
           <Menu
@@ -94,14 +96,12 @@ const AccountMenu = () => {
                 <ListItemText>Go Pro!</ListItemText>
               </MenuItem>
             ) : null}
-            {isNotAnon ? (
-              <MenuItem onClick={handleAccount} data-cy="account-menu-account">
-                <ListItemIcon>
-                  <AccountCircle />
-                </ListItemIcon>
-                <ListItemText>{t('Header.account')}</ListItemText>
-              </MenuItem>
-            ) : null}
+            <MenuItem onClick={handleAccount} data-cy="account-menu-account">
+              <ListItemIcon>
+                <AccountCircle />
+              </ListItemIcon>
+              <ListItemText>{t('Header.account')}</ListItemText>
+            </MenuItem>
             {isAdmin ? (
               <MenuItem onClick={handleAdmin} data-cy="account-menu-admin">
                 <ListItemIcon>
@@ -138,7 +138,7 @@ const AccountMenu = () => {
       >
         {t('AnonymousLogin.header')}
       </Button>
-      {modalOpened && <LoginModal onClose={handleModalClose} />}
+      {modalOpened && <LoginModal onClose={handleModalClose} large />}
     </>
   );
 };
@@ -147,10 +147,7 @@ const AvatarContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  > :first-of-type {
-    margin-right: 10px;
-  }
+  gap: 15px;
 `;
 
 const DisplayName = styled.div`

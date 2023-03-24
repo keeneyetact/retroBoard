@@ -209,6 +209,8 @@
     "emailField": "E-Mail",
     "passwordField": "Passwort",
     "nameField": "Ihr Name (für Anzeigezwecke)",
+    "noAuthWarning": "Ihr Administrator hat alle Login-Möglichkeiten (OAuth, Passwort) deaktiviert. Bitten Sie Ihren Administrator, mindestens eine wieder zu aktivieren.",
+    "or": "oder",
     "passwordScoreWords": [
       "schwach",
       "schwach",
@@ -291,8 +293,10 @@
     "cancelButton": "Nein danke"
   },
   "AccountPage": {
+    "convertTitle": "In ein echtes Konto konvertieren",
     "noEmptyNameError": "Sie können keinen leeren Anzeigenamen auswählen. Bitte versuchen Sie es erneut.",
     "anonymousError": "Anonyme Konten können keinen Zugriff auf ihr Profil haben (weil sie kein Profil haben).",
+    "convertWarning": "Sie verwenden ein anonymes Konto. Verlieren Sie nicht Ihre Daten und wandeln Sie Ihr anonymes Konto jetzt in ein echtes Konto um. Melden Sie sich mit Ihrem Google, GitHub, Twitter-Konto oder erstellen Sie ein Passwort-Konto, und es wird automatisch Ihre Daten zusammenführen.",
     "details": {
       "header": "Ihre Details",
       "username": "Benutzername",

@@ -209,6 +209,8 @@
     "emailField": "E-mail",
     "passwordField": "Hasło",
     "nameField": "Twoje imię (do celów wyświetlenia)",
+    "noAuthWarning": "Administrator wyłączył wszystkie możliwości logowania (OAuth, hasło). Poproś administratora o ponowne włączenie co najmniej jednego.",
+    "or": "lub",
     "passwordScoreWords": [
       "słabe",
       "słabe",
@@ -291,8 +293,10 @@
     "cancelButton": "Nie, dziękuję"
   },
   "AccountPage": {
+    "convertTitle": "Konwertuj na rachunek rzeczywisty",
     "noEmptyNameError": "Nie można wybrać pustej nazwy wyświetlacza. Spróbuj ponownie.",
     "anonymousError": "Anonimowe konta nie mogą mieć dostępu do swojego profilu (ponieważ nie mają nich).",
+    "convertWarning": "Używasz anonimowego konta. Nie stracisz swoich danych i skonwertuj swoje anonimowe konto na prawdziwe konto. Zaloguj się za pomocą konta Google, GitHub, Twittera lub utwórz hasło i automatycznie połączy Twoje dane.",
     "details": {
       "header": "Twoje dane",
       "username": "Nazwa użytkownika",

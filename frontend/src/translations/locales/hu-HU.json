@@ -209,6 +209,8 @@
     "emailField": "Email",
     "passwordField": "Jelszó",
     "nameField": "Az Ön neve (megjelenítési célból)",
+    "noAuthWarning": "",
+    "or": "",
     "passwordScoreWords": [
       "gyenge",
       "gyenge",
@@ -291,8 +293,10 @@
     "cancelButton": "Nem köszönöm"
   },
   "AccountPage": {
+    "convertTitle": "",
     "noEmptyNameError": "Nem választhat üres megjelenített nevet. Kérlek próbáld újra.",
     "anonymousError": "Az anonim fiókok nem férhetnek hozzá a profiljukhoz (mert nincs ilyenük).",
+    "convertWarning": "",
     "details": {
       "header": "Az adataid",
       "username": "Felhasználónév",

@@ -108,7 +108,12 @@ function App() {
               <HomeOutlined />
             </IconButton>
           </HomeButton>
-          <MainTitle variant="h6" color="inherit" onClick={goToHome}>
+          <MainTitle
+            variant="h6"
+            color="inherit"
+            onClick={goToHome}
+            data-cy="header-home-button"
+          >
             Retrospected&nbsp;
           </MainTitle>
           <ProPillContainer>

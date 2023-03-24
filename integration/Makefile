@@ -1,5 +1,5 @@
 master:
-	docker-compose rm -v -f
+	docker-compose rm -s -v -f
 	docker-compose -f docker-compose.local.master.yml pull
 	docker-compose -f docker-compose.local.master.yml up
 
@@ -13,5 +13,6 @@ local:
 	docker-compose down
 
 alpha:
+	docker-compose rm -s -f -v
 	docker-compose -f ./docker-compose.ci.alpha.yml pull
 	docker-compose -f ./docker-compose.ci.alpha.yml up --exit-code-from cypress

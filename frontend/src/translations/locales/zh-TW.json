@@ -209,6 +209,8 @@
     "emailField": "電子郵件",
     "passwordField": "密碼",
     "nameField": "您的姓名（用於顯示目的）",
+    "noAuthWarning": "",
+    "or": "",
     "passwordScoreWords": [
       "虛弱的",
       "虛弱的",
@@ -291,8 +293,10 @@
     "cancelButton": "不，謝謝"
   },
   "AccountPage": {
+    "convertTitle": "",
     "noEmptyNameError": "您不能選擇空的顯示名稱。請再試一次。",
     "anonymousError": "匿名帳戶無法訪問他們的個人資料（因為他們沒有個人資料）。",
+    "convertWarning": "",
     "details": {
       "header": "你的資料",
       "username": "用戶名",

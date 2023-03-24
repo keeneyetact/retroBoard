@@ -209,6 +209,8 @@
     "emailField": "E-mailadres",
     "passwordField": "Wachtwoord",
     "nameField": "Uw naam (voor weergegeven doelen)",
+    "noAuthWarning": "Uw beheerder heeft alle inlogmogelijkheden (OAuth, wachtwoord) uitgeschakeld. Vraag uw beheerder om ten minste één keer opnieuw in te schakelen.",
+    "or": "of",
     "passwordScoreWords": [
       "zwak",
       "zwak",
@@ -291,8 +293,10 @@
     "cancelButton": "Nee, bedankt"
   },
   "AccountPage": {
+    "convertTitle": "Converteer naar een echte rekening",
     "noEmptyNameError": "U kunt geen lege weergavenaam kiezen. Probeer het opnieuw.",
     "anonymousError": "Anonieme accounts kunnen geen toegang hebben tot hun profiel (omdat ze geen account hebben).",
+    "convertWarning": "U gebruikt een anonieme account. Verlies uw gegevens niet en converteer nu uw anonieme account naar een echte account. Log in met uw Google, GitHub, Twitter-account of maak een wachtwoord account aan en het zal automatisch uw gegevens samenvoegen.",
     "details": {
       "header": "Uw gegevens",
       "username": "Gebruikersnaam",

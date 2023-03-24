@@ -59,6 +59,7 @@ import {
   getIdentityByUsername,
   associateUserWithAdWordsCampaign,
   TrackingInfo,
+  registerAnonymousUser,
 } from './db/actions/users.js';
 import { isLicenced } from './security/is-licenced.js';
 import rateLimit from 'express-rate-limit';
@@ -70,6 +71,8 @@ import { deleteAccount } from './db/actions/delete.js';
 import { noop } from 'lodash-es';
 import { createDemoSession } from './db/actions/demo.js';
 import cookieParser from 'cookie-parser';
+import { generateUsername } from './common/random-username.js';
+import { mergeAnonymous } from './db/actions/merge.js';
 
 const realIpHeader = 'X-Forwarded-For';
 const sessionSecret = `${config.SESSION_SECRET!}-4.11.5`; // Increment to force re-auth
@@ -110,7 +113,17 @@ if (config.SELF_HOSTED) {
 initSentry();
 
 const app = express();
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
+app.use(
+  express.json({
+    // This is a trick to get the raw buffer on the request, for Stripe
+    verify: (req, _, buf) => {
+      const request = req as express.Request;
+      request.buf = buf;
+    },
+  })
+);
+app.use(express.urlencoded({ extended: true }));
 
 function getActualIp(req: express.Request): string {
   const headerValue = req.header(realIpHeader);
@@ -141,18 +154,6 @@ const heavyLoadLimiter = rateLimit({
 // Sentry
 setupSentryRequestHandler(app);
 
-// Stripe
-app.use(
-  express.json({
-    // This is a trick to get the raw buffer on the request, for Stripe
-    verify: (req, _, buf) => {
-      const request = req as express.Request;
-      request.buf = buf;
-    },
-  })
-);
-app.use(express.urlencoded({ extended: true }));
-
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have athenticated the user
 let sessionMiddleware: express.RequestHandler;
@@ -172,10 +173,11 @@ if (config.REDIS_ENABLED) {
   sessionMiddleware = session({
     secret: sessionSecret,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new RedisStore({ client: redisClient }),
     cookie: {
       secure: config.SECURE_COOKIES,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
     },
   });
 
@@ -194,9 +196,10 @@ if (config.REDIS_ENABLED) {
   sessionMiddleware = session({
     secret: sessionSecret,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       secure: config.SECURE_COOKIES,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
     },
   });
 }
@@ -331,7 +334,25 @@ db().then(() => {
     if (user) {
       res.status(200).send(user.toJson());
     } else {
-      res.status(401).send('Not logged in');
+      const anonUser = await registerAnonymousUser(
+        generateUsername() + '^' + v4(),
+        v4()
+      );
+      if (anonUser) {
+        const view = await getUserView(anonUser.id);
+        if (view) {
+          req.logIn(
+            { userId: anonUser.user.id, identityId: anonUser.id },
+            () => {
+              res.status(200).send(view.toJson());
+            }
+          );
+        } else {
+          res.status(500).send('Could not get user view');
+        }
+      } else {
+        res.status(401).send('Not logged in');
+      }
     }
   });
 
@@ -433,9 +454,12 @@ db().then(() => {
   });
 
   app.post('/api/register', heavyLoadLimiter, async (req, res) => {
-    if (req.user) {
-      res.status(500).send('You are already logged in');
-      return;
+    const previousUser = await getUserViewFromRequest(req);
+    if (previousUser) {
+      if (previousUser?.accountType !== 'anonymous') {
+        res.status(500).send('You are already logged in');
+        return;
+      }
     }
     if (config.DISABLE_PASSWORD_REGISTRATION) {
       res.status(403).send('Password accounts registration is disabled.');
@@ -450,9 +474,11 @@ db().then(() => {
       return;
     }
     const identity = await registerPasswordUser(registerPayload);
+
     if (!identity) {
       res.status(500).send();
     } else {
+      await mergeAnonymous(req, identity.id);
       if (identity.emailVerification) {
         await sendVerificationEmail(
           registerPayload.username,

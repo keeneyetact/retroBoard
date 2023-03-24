@@ -1,24 +1,23 @@
-import { useCallback, useState, useContext } from 'react';
+import { useContext } from 'react';
 import DialogContent from '@mui/material/DialogContent';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import UserContext from '../Context';
 import SocialAuth from './SocialAuth';
-import AnonAuth from './AnonAuth';
 import AccountAuth from './AccountAuth';
 import useOAuthAvailabilities from '../../global/useOAuthAvailabilities';
 import useBackendCapabilities from '../../global/useBackendCapabilities';
 import { Alert } from '@mui/material';
+import styled from '@emotion/styled';
 
 interface LoginContentProps {
+  allowAnonymous?: boolean;
   onClose: () => void;
 }
 
-type TabType = 'account' | 'social' | 'anon' | null;
-
-export default function LoginContent({ onClose }: LoginContentProps) {
+export default function LoginContent({
+  onClose,
+  allowAnonymous = true,
+}: LoginContentProps) {
   const { any } = useOAuthAvailabilities();
   const { disableAnonymous, disablePasswords } = useBackendCapabilities();
   const hasNoSocialMediaAuth = !any;
@@ -26,65 +25,25 @@ export default function LoginContent({ onClose }: LoginContentProps) {
     hasNoSocialMediaAuth && disableAnonymous && disablePasswords;
   const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
-  const [currentTab, setCurrentTab] = useState<TabType>(
-    getDefaultMode(any, !disablePasswords, !disableAnonymous)
-  );
 
-  const handleTab = useCallback((_: React.ChangeEvent<{}>, value: string) => {
-    setCurrentTab(value as TabType);
-  }, []);
   return (
     <>
       {hasNoWayOfLoggingIn ? (
-        <Alert severity="error">
-          Your administrator disabled all login possibilities (OAuth, password,
-          anonymous). Ask your administrator to re-enable at least one.
-        </Alert>
+        <Alert severity="error">{t('AuthCommon.noAuthWarning')}</Alert>
       ) : (
         <>
-          <AppBar position="static" color="default">
-            <Tabs
-              value={currentTab}
-              onChange={handleTab}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-              aria-label="Login types"
-            >
-              {!hasNoSocialMediaAuth ? (
-                <Tab
-                  label={t('SocialMediaLogin.header')}
-                  value="social"
-                  data-cy="social-tab"
-                />
-              ) : null}
-              {!disablePasswords ? (
-                <Tab
-                  label={t('AccountLogin.header')}
-                  value="account"
-                  data-cy="account-tab"
-                />
-              ) : null}
-              {!disableAnonymous ? (
-                <Tab
-                  label={t('AnonymousLogin.anonymousAuthHeader')}
-                  value="anon"
-                  data-cy="anon-tab"
-                />
-              ) : null}
-            </Tabs>
-          </AppBar>
           <DialogContent>
-            {currentTab === 'social' ? (
-              <SocialAuth onClose={onClose} onUser={setUser} />
-            ) : null}
-            {currentTab === 'account' ? (
-              <AccountAuth onClose={onClose} onUser={setUser} />
-            ) : null}
-            {currentTab === 'anon' ? (
-              <AnonAuth onClose={onClose} onUser={setUser} />
-            ) : null}
+            <Container>
+              {!hasNoSocialMediaAuth ? (
+                <SocialAuth onClose={onClose} onUser={setUser} />
+              ) : null}
+              <Separator>
+                <span>{t('AuthCommon.or')}</span>
+              </Separator>
+              {!disablePasswords ? (
+                <AccountAuth onClose={onClose} onUser={setUser} />
+              ) : null}
+            </Container>
           </DialogContent>
         </>
       )}
@@ -92,22 +51,45 @@ export default function LoginContent({ onClose }: LoginContentProps) {
   );
 }
 
-function getDefaultMode(
-  oauth: boolean,
-  password: boolean,
-  anon: boolean
-): TabType {
-  if (oauth) {
-    return 'social';
+const Separator = styled.div`
+  display: flex;
+  height: 200px;
+  max-height: unset;
+  width: 0px;
+  max-width: 0px;
+  margin: 0 20px;
+  border-left: 1px solid #ccc;
+  background-color: #ccc;
+  flex: 0;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    display: block;
+    padding: 5px;
+    background-color: white;
+    color: #ccc;
   }
 
-  if (password) {
-    return 'account';
+  @media screen and (max-width: 1000px) {
+    width: 80%;
+    height: 0px;
+    max-height: 0px;
+    max-width: unset;
+    margin: 10px 0;
+    border-top: 1px solid #ccc;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  gap: 20px;
+  > * {
+    flex: 1;
   }
 
-  if (anon) {
-    return 'anon';
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
   }
-
-  return null;
-}
+`;

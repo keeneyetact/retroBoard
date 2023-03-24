@@ -10,7 +10,7 @@ export default function LoginPage() {
   }, [navigate]);
   return (
     <Container>
-      <LoginModal onClose={handleClose} />
+      <LoginModal onClose={handleClose} large />
     </Container>
   );
 }

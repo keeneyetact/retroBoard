@@ -33,6 +33,8 @@ import {
 import { registerUser, UserRegistration } from '../db/actions/users.js';
 import { serialiseIds, UserIds, deserialiseIds } from '../utils.js';
 import config from '../config.js';
+import { Request } from 'express';
+import { mergeAnonymous } from '../db/actions/merge.js';
 
 export default () => {
   passport.serializeUser<string>((user, cb) => {
@@ -46,6 +48,7 @@ export default () => {
 
   function callback<TProfile, TCallback>(type: AccountType) {
     return async (
+      req: Request,
       _accessToken: string,
       _refreshToken: string,
       anyProfile: TProfile,
@@ -86,9 +89,14 @@ export default () => {
         return;
       }
 
-      const dbIdentity = await registerUser(user);
+      const newUser = await registerUser(user);
 
-      callback(null, dbIdentity.toIds());
+      if (newUser) {
+        await mergeAnonymous(req, newUser.id);
+        callback(null, newUser.toIds());
+      } else {
+        callback('Cannot register user', null);
+      }
     };
   }
 
@@ -219,7 +227,8 @@ export default () => {
   }
 
   if (OKTA_CONFIG) {
-    passport.use(new OktaStrategy(OKTA_CONFIG, callback('okta')));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    passport.use(new OktaStrategy(OKTA_CONFIG, callback('okta') as any));
     logSuccess('Okta');
   }
 

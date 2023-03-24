@@ -209,6 +209,8 @@
     "emailField": "電子メール",
     "passwordField": "パスワード",
     "nameField": "あなたの名前 (表示目的のため)",
+    "noAuthWarning": "管理者がすべてのログイン可能性を無効にしました（OAuth、パスワード）。管理者に少なくとも1つは有効にするように依頼してください。",
+    "or": "または",
     "passwordScoreWords": [
       "弱い",
       "弱い",
@@ -291,8 +293,10 @@
     "cancelButton": "いいえ結構です"
   },
   "AccountPage": {
+    "convertTitle": "実際のアカウントに変換",
     "noEmptyNameError": "空の表示名を選択することはできません。もう一度やり直してください。",
     "anonymousError": "匿名のアカウントはプロフィールへのアクセス権を持つことはできません（そのアカウントがないので）",
+    "convertWarning": "匿名アカウントを使用しています。データを失い、匿名アカウントを実際のアカウントに変換しないでください。 Google、GitHub、Twitterアカウントでログインするか、パスワードアカウントを作成すると、自動的にデータがマージされます。",
     "details": {
       "header": "詳細",
       "username": "ユーザー名",

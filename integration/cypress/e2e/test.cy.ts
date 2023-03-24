@@ -4,7 +4,7 @@ describe('Home Page', () => {
   it('Should load correctly', () => {
     cy.visit('/');
 
-    cy.get('#content').get('h1', { timeout }).should('contain', 'Welcome!');
+    cy.get('#content').get('h1', { timeout }).should('contain', 'Welcome,');
   });
 });
 
@@ -17,15 +17,11 @@ describe('Post workflow', () => {
     cy.setCookie('wpcc', 'dismiss');
   });
 
-  it('Should login and write a post', () => {
+  it('Should login automatically as anonymous and write a post', () => {
     cy.visit('/');
 
-    get('anon-tab').click();
-    get('anon-input').focus().type('Zelensky');
-    get('anon-login-button').click();
-
     // Home page should display the user name
-    cy.get('#content', { timeout }).should('contain', 'Welcome, Zelensky');
+    cy.get('#content', { timeout }).should('contain', 'Welcome,');
 
     // And then allow creating a new session
     get('new-session-button').click();
@@ -43,12 +39,8 @@ describe('Post workflow', () => {
   it('Should change language and translate the app', () => {
     cy.visit('/');
 
-    get('anon-tab').click();
-    get('anon-input').focus().type('Zelensky');
-    get('anon-login-button').click();
-
     // Home page should display the user name
-    cy.get('#content', { timeout }).should('contain', 'Welcome, Zelensky');
+    cy.get('#content', { timeout }).should('contain', 'Welcome,');
 
     // Change language
     get('side-panel-toggle').click();
@@ -59,7 +51,7 @@ describe('Post workflow', () => {
     cy.get('body', { timeout }).type('{esc}');
 
     // Home page should now be in French
-    cy.get('#content', { timeout }).should('contain', 'Bienvenue, Zelensky');
+    cy.get('#content', { timeout }).should('contain', 'Bienvenue,');
 
     // Logout
     get('account-menu').click();
@@ -71,8 +63,10 @@ describe('Post workflow', () => {
 
     cy.visit('/');
 
-    // Select the account tab
-    get('account-tab').click();
+    // Should be logged as anonymous
+    // Logout
+    get('account-menu').click();
+    get('account-menu-logout').click();
 
     // Select register
     get('register').click();

@@ -33,7 +33,7 @@ const Title = styled.h1`
 `;
 
 const LoginContainer = styled.div`
-  width: 600px;
+  width: 80%;
   border: 1px solid #ccc;
 
   margin-top: 20px;

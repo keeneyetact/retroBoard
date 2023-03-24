@@ -21,11 +21,12 @@ import { trackEvent } from 'track';
 
 type RegisterProps = {
   onClose: () => void;
+  onCancel: () => void;
 };
 
 const PasswordStrength = lazy(() => import('react-password-strength-bar'));
 
-const Register = ({ onClose }: RegisterProps) => {
+const Register = ({ onClose, onCancel }: RegisterProps) => {
   const { t } = useTranslation();
   const [language] = useLanguage();
   const [registerName, setRegisterName] = useState('');
@@ -41,7 +42,7 @@ const Register = ({ onClose }: RegisterProps) => {
     return validate(registerEmail);
   }, [registerEmail]);
 
-  const validName = registerName.length > 3;
+  const validName = registerName.length > 0;
 
   const handleRegistration = useCallback(async () => {
     const response = await register(
@@ -90,17 +91,26 @@ const Register = ({ onClose }: RegisterProps) => {
     <Wrapper
       header={t('Register.header')!}
       actions={
-        !isSuccessful ? (
+        <>
           <Button
-            onClick={handleRegistration}
-            color="primary"
-            autoFocus
-            disabled={!validEmail || passwordScore < 3 || !validName}
-            data-cy="register-button"
+            onClick={onCancel}
+            color="secondary"
+            data-cy="cancel-register-button"
           >
-            {t('Register.registerButton')}
+            {t('Generic.cancel')}
           </Button>
-        ) : undefined
+          {!isSuccessful ? (
+            <Button
+              onClick={handleRegistration}
+              color="primary"
+              autoFocus
+              disabled={!validEmail || passwordScore < 3 || !validName}
+              data-cy="register-button"
+            >
+              {t('Register.registerButton')}
+            </Button>
+          ) : undefined}
+        </>
       }
     >
       {isSuccessful ? (

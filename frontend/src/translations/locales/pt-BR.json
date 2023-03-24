@@ -209,6 +209,8 @@
     "emailField": "e-mail",
     "passwordField": "Palavra-passe",
     "nameField": "Seu nome (para fins de exibição)",
+    "noAuthWarning": "Seu administrador desativou todas as possibilidades de login (OAuth, senha). Peça ao seu administrador para reativar pelo menos uma.",
+    "or": "ou",
     "passwordScoreWords": [
       "fraco",
       "fraco",
@@ -291,8 +293,10 @@
     "cancelButton": "Não, obrigado."
   },
   "AccountPage": {
+    "convertTitle": "Converter para uma conta real",
     "noEmptyNameError": "Você não pode escolher um nome de exibição vazio. Por favor, tente novamente.",
     "anonymousError": "Contas anônimas não podem ter acesso ao seu perfil (porque não têm uma).",
+    "convertWarning": "Você está usando uma conta anônima. Não perca seus dados e converta sua conta anônima em uma conta real no momento. Faça o login com sua conta do Google, GitHub, Twitter ou crie uma conta de senha, e os seus dados serão mesclados automaticamente.",
     "details": {
       "header": "Suas informações",
       "username": "Usuário:",

@@ -7,8 +7,6 @@ services:
       POSTGRES_PASSWORD: some-password
       POSTGRES_USER: postgres
       POSTGRES_DB: retroboard
-    volumes:
-      - database:/var/lib/postgresql/data
     restart: unless-stopped
     logging:
       driver: 'json-file'
@@ -51,8 +49,3 @@ services:
       driver: 'json-file'
       options:
         max-size: '50m'
-
-
-volumes:
-  database:
-  pgadmin:

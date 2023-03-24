@@ -209,6 +209,8 @@
     "emailField": "E-mail",
     "passwordField": "Password",
     "nameField": "Your name (for display purposes)",
+    "noAuthWarning": "Your administrator disabled all login possibilities (OAuth, password). Ask your administrator to re-enable at least one.",
+    "or": "or",
     "passwordScoreWords": [
       "weak",
       "weak",
@@ -291,8 +293,10 @@
     "cancelButton": "No thanks"
   },
   "AccountPage": {
+    "convertTitle": "Convert to a real account",
     "noEmptyNameError": "You cannot choose an empty display name. Please try again.",
     "anonymousError": "Anonymous accounts cannot have access to their profile (because they don't have one).",
+    "convertWarning": "You are using an anonymous account. Don't lose your data and convert your anonymous account to a real account now. Login with your Google, GitHub, Twitter account, or create a password account, and it will automatically merge your data.",
     "details": {
       "header": "Your Details",
       "username": "Username",

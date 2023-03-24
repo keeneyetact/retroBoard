@@ -209,6 +209,8 @@
     "emailField": "Adresse e-mail",
     "passwordField": "Mot de passe",
     "nameField": "Votre nom (ou pseudo)",
+    "noAuthWarning": "Votre administrateur a désactivé toutes les possibilités de connexion (OAuth, mot de passe). Demandez à votre administrateur d'en réactiver au moins une.",
+    "or": "ou",
     "passwordScoreWords": [
       "faible",
       "faible",
@@ -291,8 +293,10 @@
     "cancelButton": "Non merci"
   },
   "AccountPage": {
+    "convertTitle": "Convertir en vrai compte",
     "noEmptyNameError": "Vous ne pouvez pas choisir un nom d'affichage vide. Veuillez réessayer.",
     "anonymousError": "Les comptes anonymes ne peuvent avoir accès à leur profil (puisqu'ils n'en ont pas).",
+    "convertWarning": "Vous utilisez un compte anonyme. Ne perdez pas vos données et convertissez votre compte anonyme vers un vrai compte. Connectez-vous avec votre compte Google, GitHub, Twitter ou créez un compte avec mot de passe, et nous fusionnerons automatiquement vos données.",
     "details": {
       "header": "Vos Coordonnées",
       "username": "Nom d'utilisateur",
