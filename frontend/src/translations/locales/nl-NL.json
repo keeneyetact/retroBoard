@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "Welkom, {{name}}",
-    "howDoesThatWork": "Hoe werkt dat?"
+    "anonWarning": "Je gebruikt een anonieme account. Je kunt misschien inloggen om ervoor te zorgen dat je gegevens kunnen worden opgehaald wanneer je een ander apparaat gebruikt.",
+    "howDoesThatWork": "Hoe werkt dat?",
+    "login": "Aanmelden"
   },
   "PreviousGame": {
     "createdBy": "Aangemaakt door",

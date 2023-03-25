@@ -11,7 +11,13 @@ import UserContext from './Context';
 import Avatar from '../components/Avatar';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { Key, Logout, Star } from '@mui/icons-material';
-import { colors, Divider, ListItemIcon, ListItemText } from '@mui/material';
+import {
+  Chip,
+  colors,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import useIsAdmin from './useIsAdmin';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +80,11 @@ const AccountMenu = () => {
         >
           <Avatar user={user} />
           <DisplayName>{user.name}</DisplayName>
+          <ChipContainer>
+            {user.accountType === 'anonymous' ? (
+              <Chip color="secondary" label="Anonymous" />
+            ) : null}
+          </ChipContainer>
           <AccountCircle fontSize={'large'} />
         </AvatarContainer>
         {menuAnchor.current ? (
@@ -158,6 +169,12 @@ const DisplayName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+`;
+
+const ChipContainer = styled.div`
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
 `;
 
 export default AccountMenu;

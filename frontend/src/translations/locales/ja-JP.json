@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "ようこそ、 {{name}}",
-    "howDoesThatWork": "それはどのように機能しますか?"
+    "anonWarning": "匿名アカウントを使用しています。別のデバイスを使用しているときにデータを取得できることを確認するためにログインする場合があります。",
+    "howDoesThatWork": "それはどのように機能しますか?",
+    "login": "ログイン"
   },
   "PreviousGame": {
     "createdBy": "作成者:",

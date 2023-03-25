@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "欢迎， {{name}}",
-    "howDoesThatWork": "这是如何运作的？"
+    "anonWarning": "您正在使用匿名帐户。您可能想要登录以确保您的数据可以在使用其他设备时检索。",
+    "howDoesThatWork": "这是如何运作的？",
+    "login": "登录"
   },
   "PreviousGame": {
     "createdBy": "创建者",

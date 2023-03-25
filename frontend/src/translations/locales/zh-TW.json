@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "歡迎， {{name}}",
-    "howDoesThatWork": "這是如何運作的？"
+    "anonWarning": "",
+    "howDoesThatWork": "這是如何運作的？",
+    "login": ""
   },
   "PreviousGame": {
     "createdBy": "由...製作",

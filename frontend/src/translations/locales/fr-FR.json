@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "Bienvenue, {{name}}",
-    "howDoesThatWork": "Comment cela fonctionne-t-il ?"
+    "anonWarning": "Vous utilisez un compte anonyme. Connectez-vous afin que vos données puissent être récupérées lorsque vous utilisez un autre appareil.",
+    "howDoesThatWork": "Comment cela fonctionne-t-il ?",
+    "login": "Connexion"
   },
   "PreviousGame": {
     "createdBy": "Créé par",
@@ -293,7 +295,7 @@
     "cancelButton": "Non merci"
   },
   "AccountPage": {
-    "convertTitle": "Convertir en vrai compte",
+    "convertTitle": "Convertir votre compte anonyme",
     "noEmptyNameError": "Vous ne pouvez pas choisir un nom d'affichage vide. Veuillez réessayer.",
     "anonymousError": "Les comptes anonymes ne peuvent avoir accès à leur profil (puisqu'ils n'en ont pas).",
     "convertWarning": "Vous utilisez un compte anonyme. Ne perdez pas vos données et convertissez votre compte anonyme vers un vrai compte. Connectez-vous avec votre compte Google, GitHub, Twitter ou créez un compte avec mot de passe, et nous fusionnerons automatiquement vos données.",

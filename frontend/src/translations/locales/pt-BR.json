@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "Bem-vindo, {{name}}",
-    "howDoesThatWork": "Como funciona isso?"
+    "anonWarning": "Você está usando uma conta anônima. Talvez você queira fazer login para garantir que seus dados possam ser recuperados usando outro dispositivo.",
+    "howDoesThatWork": "Como funciona isso?",
+    "login": "Conectar-se"
   },
   "PreviousGame": {
     "createdBy": "Criado Por",

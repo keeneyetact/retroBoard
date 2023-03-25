@@ -99,7 +99,7 @@ function AccountPage() {
         {user.accountType === 'anonymous' ? (
           <Section title={t('AccountPage.convertTitle')!}>
             <Alert severity="warning">{t('AccountPage.convertWarning')}</Alert>
-            <LoginContent allowAnonymous={false} onClose={noop} />
+            <LoginContent onClose={noop} />
           </Section>
         ) : (
           <Section title={t('AccountPage.details.header')!}>
@@ -117,19 +117,16 @@ function AccountPage() {
               <Title>{t('AccountPage.details.accountType')}</Title>
               <Value>{user.accountType}</Value>
             </Data>
-
-            <Data>
-              <Title>{t('AccountPage.details.language')}</Title>
-              <Value>
-                <LanguagePicker
-                  value={language.locale}
-                  onChange={setLanguage}
-                  variant="standard"
-                />
-              </Value>
-            </Data>
           </Section>
         )}
+
+        <Section title={t('AccountPage.details.language')!}>
+          <LanguagePicker
+            value={language.locale}
+            onChange={setLanguage}
+            variant="standard"
+          />
+        </Section>
 
         {capabilities.slackClientId ? (
           <Section title={t('AccountPage.slack.header')!}>

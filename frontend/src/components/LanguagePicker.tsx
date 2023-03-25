@@ -9,12 +9,14 @@ import { Flag } from './Flag';
 interface LanguagePickerProps {
   value: string;
   variant?: 'outlined' | 'standard' | 'filled';
+  small?: boolean;
   onChange: (value: string) => void;
 }
 
 const LanguagePicker = ({
   value,
   variant = 'standard',
+  small,
   onChange,
 }: LanguagePickerProps) => {
   const handleSelect = useCallback(
@@ -29,6 +31,9 @@ const LanguagePicker = ({
       value={value}
       onChange={handleSelect}
       variant={variant}
+      small={small}
+      size={small ? 'small' : 'medium'}
+      disableUnderline={small}
       data-cy="language-picker"
     >
       {languages.map((language) => (
@@ -39,10 +44,12 @@ const LanguagePicker = ({
         >
           <LanguageItem>
             <Flag country={language.iso} />
-            <Names>
-              <Name>{language.name}</Name>
-              <EnglishName>{language.englishName}</EnglishName>
-            </Names>
+            {!small ? (
+              <Names>
+                <Name>{language.name}</Name>
+                <EnglishName>{language.englishName}</EnglishName>
+              </Names>
+            ) : null}
           </LanguageItem>
         </MenuItem>
       ))}
@@ -50,8 +57,8 @@ const LanguagePicker = ({
   );
 };
 
-const StyledSelect = styled(Select)`
-  width: 250px;
+const StyledSelect = styled(Select)<{ small?: boolean }>`
+  width: ${(props) => (props.small ? '100px' : '250px;')};
 `;
 
 const LanguageItem = styled.div`

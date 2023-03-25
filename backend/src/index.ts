@@ -333,7 +333,7 @@ db().then(() => {
 
     if (user) {
       res.status(200).send(user.toJson());
-    } else {
+    } else if (!config.DISABLE_ANONYMOUS_LOGIN) {
       const anonUser = await registerAnonymousUser(
         generateUsername() + '^' + v4(),
         v4()
@@ -353,6 +353,8 @@ db().then(() => {
       } else {
         res.status(401).send('Not logged in');
       }
+    } else {
+      res.status(403).send('Cannot login anonymously');
     }
   });
 

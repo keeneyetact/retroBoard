@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Fab from '@mui/material/Fab';
 import { makeStyles } from '@mui/styles';
 import { colors } from '@mui/material';
@@ -19,6 +19,7 @@ import { useSnackbar } from 'notistack';
 import TrialPrompt from './home/TrialPrompt';
 import HowDoesItWorkButton from '../components/HowDoesItWorkButton';
 import { useTranslation } from 'react-i18next';
+import ClosableAlert from 'components/ClosableAlert';
 
 const useStyles = makeStyles({
   media: {
@@ -84,6 +85,12 @@ function Home() {
   return (
     <>
       <TrialPrompt />
+      <ClosableAlert severity="info" closable>
+        <span>{t('Home.anonWarning')}</span>&nbsp;&nbsp;&nbsp;
+        <Link style={{ textDecoration: 'none' }} to="/account">
+          {t('Home.login')}
+        </Link>
+      </ClosableAlert>
       <Page>
         <MainHeader>{t('Home.welcome', { name: user?.name || '' })}</MainHeader>
 

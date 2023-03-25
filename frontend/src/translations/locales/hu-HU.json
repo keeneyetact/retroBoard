@@ -23,7 +23,9 @@
   },
   "Home": {
     "welcome": "Isten hozott, {{name}}",
-    "howDoesThatWork": "Hogyan működik?"
+    "anonWarning": "",
+    "howDoesThatWork": "Hogyan működik?",
+    "login": ""
   },
   "PreviousGame": {
     "createdBy": "Készítette",

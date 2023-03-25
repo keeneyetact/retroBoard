@@ -10,25 +10,26 @@ import { Alert } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface LoginContentProps {
-  allowAnonymous?: boolean;
   onClose: () => void;
 }
 
-export default function LoginContent({
-  onClose,
-  allowAnonymous = true,
-}: LoginContentProps) {
+export default function LoginContent({ onClose }: LoginContentProps) {
   const { any } = useOAuthAvailabilities();
   const { disableAnonymous, disablePasswords } = useBackendCapabilities();
   const hasNoSocialMediaAuth = !any;
   const hasNoWayOfLoggingIn =
     hasNoSocialMediaAuth && disableAnonymous && disablePasswords;
+  const hasNoWayOtherThanAnonymous = hasNoSocialMediaAuth && disablePasswords;
   const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
 
+  if (hasNoWayOfLoggingIn) {
+    <Alert severity="error">{t('AuthCommon.noAuthWarning')}</Alert>;
+  }
+
   return (
     <>
-      {hasNoWayOfLoggingIn ? (
+      {hasNoWayOtherThanAnonymous ? (
         <Alert severity="error">{t('AuthCommon.noAuthWarning')}</Alert>
       ) : (
         <>
@@ -37,9 +38,11 @@ export default function LoginContent({
               {!hasNoSocialMediaAuth ? (
                 <SocialAuth onClose={onClose} onUser={setUser} />
               ) : null}
-              <Separator>
-                <span>{t('AuthCommon.or')}</span>
-              </Separator>
+              {!hasNoSocialMediaAuth && !disablePasswords ? (
+                <Separator>
+                  <span>{t('AuthCommon.or')}</span>
+                </Separator>
+              ) : null}
               {!disablePasswords ? (
                 <AccountAuth onClose={onClose} onUser={setUser} />
               ) : null}
