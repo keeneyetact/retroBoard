@@ -82,7 +82,7 @@ const AccountMenu = () => {
           <DisplayName>{user.name}</DisplayName>
           <ChipContainer>
             {user.accountType === 'anonymous' ? (
-              <Chip color="secondary" label="Anonymous" />
+              <Chip color="secondary" label={t('Header.anonymous')} />
             ) : null}
           </ChipContainer>
           <AccountCircle fontSize={'large'} />

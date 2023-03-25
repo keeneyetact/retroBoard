@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@mui/material';
-import { anonymousLogin, createDemoGame, me, updateLanguage } from 'api';
+import { createDemoGame, me, updateLanguage } from 'api';
 import UserContext from 'auth/Context';
 import { useContext, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -12,12 +12,17 @@ export default function Demo() {
   const { setUser } = useContext(UserContext);
   let [searchParams] = useSearchParams();
   const twoLetter = searchParams.get('lang');
-  const [, changeLanguage] = useLanguage();
+  const [currentLanguage, changeLanguage] = useLanguage();
   const language = getLanguage(twoLetter || 'en');
 
   useEffect(() => {
+    if (currentLanguage.locale !== language.locale) {
+      changeLanguage(language.locale);
+    }
+  }, [language.locale, currentLanguage.locale, changeLanguage]);
+
+  useEffect(() => {
     async function fetch() {
-      await anonymousLogin('Demo User');
       trackEvent('register/demo');
       let updatedUser = await me();
       if (updatedUser?.language === null) {
@@ -30,8 +35,10 @@ export default function Demo() {
         window.location.href = `/game/${session.id}`;
       }
     }
-    fetch();
-  }, [language.locale, setUser, changeLanguage]);
+    if (language.locale === currentLanguage.locale) {
+      fetch();
+    }
+  }, [language.locale, currentLanguage.locale, setUser, changeLanguage]);
   return (
     <Container>
       <h1>Preparing demo...</h1>

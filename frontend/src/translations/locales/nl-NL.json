@@ -5,7 +5,8 @@
     "leave": "Verlaten",
     "summaryMode": "Samenvatting",
     "account": "Mijn account",
-    "adminPanel": "Beheer paneel"
+    "adminPanel": "Beheer paneel",
+    "anonymous": "Anoniem"
   },
   "LanguagePicker": {
     "header": "Kies een taal"

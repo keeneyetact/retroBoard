@@ -5,7 +5,8 @@
     "leave": "Verlassen",
     "summaryMode": "Zusammenfassungsmodus",
     "account": "Mein Konto",
-    "adminPanel": "Administrationsbereich"
+    "adminPanel": "Administrationsbereich",
+    "anonymous": "Anonym"
   },
   "LanguagePicker": {
     "header": "Sprache auswählen"

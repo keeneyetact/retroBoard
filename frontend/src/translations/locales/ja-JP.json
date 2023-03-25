@@ -5,7 +5,8 @@
     "leave": "退室",
     "summaryMode": "要約モード",
     "account": "マイアカウント",
-    "adminPanel": "管理パネル"
+    "adminPanel": "管理パネル",
+    "anonymous": "匿名です"
   },
   "LanguagePicker": {
     "header": "言語を選択"

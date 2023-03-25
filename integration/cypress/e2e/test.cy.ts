@@ -108,3 +108,26 @@ describe('Post workflow', () => {
     cy.get('body', { timeout }).get('h1').should('contain', 'Welcome!');
   });
 });
+
+describe('Demo Workflow', () => {
+  beforeEach(() => {
+    cy.setCookie('wpcc', 'dismiss');
+  });
+
+  it('Should create a demo with the right language (French)', () => {
+    // Asking for a FR demo
+    cy.visit('/demo?lang=fr');
+
+    // It should contain the right post (in English)
+    cy.get('#content', { timeout }).should(
+      'contain',
+      "I'm enjoying our new retrospective board!"
+    );
+
+    // But the UI must be in French
+    cy.get('#content', { timeout }).should(
+      'contain',
+      'Bienvenue dans cette démo'
+    );
+  });
+});

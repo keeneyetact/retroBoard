@@ -5,7 +5,8 @@
     "leave": "غادر",
     "summaryMode": "النّمط الملخّص",
     "account": "حسابي",
-    "adminPanel": "لوحة الإدارة"
+    "adminPanel": "لوحة الإدارة",
+    "anonymous": "مجهول"
   },
   "LanguagePicker": {
     "header": "إختيار اللُّغة"

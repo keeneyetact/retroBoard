@@ -5,7 +5,8 @@
     "leave": "Залишити",
     "summaryMode": "Анонімний режим",
     "account": "Особистий кабінет",
-    "adminPanel": "Панель адміністрування"
+    "adminPanel": "Панель адміністрування",
+    "anonymous": "Анонімний"
   },
   "LanguagePicker": {
     "header": "Виберіть мову"

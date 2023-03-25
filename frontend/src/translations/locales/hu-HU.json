@@ -5,7 +5,8 @@
     "leave": "Távozás",
     "summaryMode": "Összesített mód",
     "account": "Fiókom",
-    "adminPanel": "Adminisztrációs panel"
+    "adminPanel": "Adminisztrációs panel",
+    "anonymous": ""
   },
   "LanguagePicker": {
     "header": "Válassz nyelvet"

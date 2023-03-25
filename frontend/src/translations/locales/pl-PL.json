@@ -5,7 +5,8 @@
     "leave": "Wyjdź",
     "summaryMode": "Tryb Podsumowania",
     "account": "Moje konto",
-    "adminPanel": "Panel administracyjny"
+    "adminPanel": "Panel administracyjny",
+    "anonymous": "Anonimowe"
   },
   "LanguagePicker": {
     "header": "Wybierz język"

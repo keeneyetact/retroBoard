@@ -5,7 +5,8 @@
     "leave": "離開",
     "summaryMode": "主旨模式",
     "account": "我的賬戶",
-    "adminPanel": "管理面板"
+    "adminPanel": "管理面板",
+    "anonymous": ""
   },
   "LanguagePicker": {
     "header": "切換語言"

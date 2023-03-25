@@ -5,7 +5,8 @@
     "leave": "Sair",
     "summaryMode": "Modo de Resumo",
     "account": "Minha conta",
-    "adminPanel": "Painel de Administração"
+    "adminPanel": "Painel de Administração",
+    "anonymous": "Anônimo"
   },
   "LanguagePicker": {
     "header": "Escolha um idioma"
