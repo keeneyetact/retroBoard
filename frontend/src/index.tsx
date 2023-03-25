@@ -1,6 +1,6 @@
 import 'core-js/stable';
 import 'whatwg-fetch';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './translations/i18n';
 import App from './App';
 import { initialiseAnalytics, initialiseSentry } from './track';
@@ -14,9 +14,13 @@ window.module = {
 
 (window as any).global = window;
 
+const container = document.getElementById('content');
+const root = createRoot(container!);
+
 initialiseSentry();
 initialiseAnalytics();
-ReactDOM.render(<App />, document.getElementById('content'));
+
+root.render(<App />);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

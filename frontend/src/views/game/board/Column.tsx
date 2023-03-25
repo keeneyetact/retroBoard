@@ -14,7 +14,7 @@ import {
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import { ColumnContent } from '../types';
 import useCrypto from '../../../crypto/useCrypto';
 import useQuota from '../../../hooks/useQuota';

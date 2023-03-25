@@ -142,6 +142,7 @@ function BoardHeader({
             variant="h5"
             align="center"
             className={classes.sessionName}
+            style={{ fontWeight: 300 }}
           >
             <EditableLabel
               placeholder={t('SessionName.defaultSessionName')!}

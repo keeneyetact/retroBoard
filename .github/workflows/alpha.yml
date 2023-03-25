@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v502/anon-by-default]
+    branches: [v51/react18]
 
 jobs:
   frontend:

@@ -26,6 +26,7 @@ export default function SplitButton({
   secondary,
   children,
   onClick,
+  ...props
 }: SplitButtonProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -55,7 +56,12 @@ export default function SplitButton({
         aria-label={label}
         disabled={disabled}
       >
-        <Button disabled={disabled} startIcon={icon} onClick={onClick}>
+        <Button
+          disabled={disabled}
+          startIcon={icon}
+          onClick={onClick}
+          {...props}
+        >
           {label}
         </Button>
         <Button

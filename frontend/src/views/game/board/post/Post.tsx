@@ -19,7 +19,7 @@ import {
   EmojiEmotionsOutlined,
   Clear,
 } from '@mui/icons-material';
-import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided } from '@hello-pangea/dnd';
 import { useTranslation } from 'react-i18next';
 import EditableLabel from '../../../../components/EditableLabel';
 import { Palette } from '../../../../Theme';

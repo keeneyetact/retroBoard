@@ -25,7 +25,7 @@ function App() {
             property="og:description"
             content="Real-time Agile Retrospective Board for development teams"
           />
-          <meta property="og:url" content="https://www.retrospected.com" />
+          <meta property="og:url" content="https://app.retrospected.com" />
         </Helmet>
         <SnackbarProvider
           maxSnack={3}

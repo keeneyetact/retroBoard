@@ -5,7 +5,7 @@ import {
   DragDropContext,
   DropResult,
   ResponderProvided,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import Column from './Column';
 import { Page } from '../../../components/Page';
 import { ColumnContent } from '../types';

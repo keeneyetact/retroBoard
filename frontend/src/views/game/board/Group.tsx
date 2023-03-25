@@ -5,7 +5,7 @@ import {
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import { colors } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {

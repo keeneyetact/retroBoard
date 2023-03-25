@@ -6,7 +6,7 @@ import {
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import UserContext from '../auth/Context';
 import useSession from '../views/game/useSession';
 import { RecoilRoot } from 'recoil';
