@@ -13,7 +13,10 @@ export const sendGridSender: EmailSender = async function (
 ): Promise<boolean> {
   const msg: MailDataRequired = {
     to,
-    from: config.SENDGRID_SENDER,
+    from: {
+      email: config.SENDGRID_SENDER,
+      name: 'Retrospected',
+    },
     html: body,
     subject,
     trackingSettings: {

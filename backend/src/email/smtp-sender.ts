@@ -24,7 +24,10 @@ export const smtpSender: EmailSender = async function (
 ): Promise<boolean> {
   try {
     const response = await transporter.sendMail({
-      from: config.MAIL_SENDER,
+      from: {
+        name: 'Retrospected',
+        address: config.MAIL_SENDER,
+      },
       to,
       subject,
       html: body,

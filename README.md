@@ -25,6 +25,8 @@
 
 ![Retrospected.com](/content/screenshot-v5.png?raw=true 'Retrospected.com')
 
+![Retrospected.com](/content/full-color.png?raw=true 'Retrospected.com')
+
 This project is both an actual product, and also a technology demo using the latest and greatest JavaScript/TypeScript libraries of the month.
 
 It features the following technologies:
