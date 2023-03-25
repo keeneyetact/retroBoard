@@ -26,7 +26,8 @@
     "welcome": "欢迎， {{name}}",
     "anonWarning": "您正在使用匿名帐户。您可能想要登录以确保您的数据可以在使用其他设备时检索。",
     "howDoesThatWork": "这是如何运作的？",
-    "login": "登录"
+    "login": "登录",
+    "searchNoMatch": "我们找不到匹配您搜索的 ({{search}} )的追溯。"
   },
   "PreviousGame": {
     "createdBy": "创建者",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "创建",
       "text": "点击以下开始进行回顾:",
-      "button": "创建新的议程",
+      "button": "开始复数",
       "customizeButton": "自定义"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "我想每年支付一次（每12个月），每年免费支付一个月！"
   },
   "Encryption": {
-    "createEncryptedSession": "加密会话",
+    "createEncryptedSession": "开始加密的复数",
     "sessionNotEncrypted": "此会话未加密。",
     "sessionEncryptedHaveKeyTooltip": "此会话已加密，密钥已保存在您的浏览器中。您可以打开此会话而不必再次提供密码。",
     "sessionEncryptedNoKeyTooltip": "此会话已加密，密钥未保存在您的浏览器中。在打开此会话时，您将被要求输入解密密钥。",

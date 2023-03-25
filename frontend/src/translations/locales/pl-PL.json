@@ -26,7 +26,8 @@
     "welcome": "Witaj, {{name}}",
     "anonWarning": "Używasz konta anonimowego. Możesz się zalogować, aby mieć pewność, że dane mogą być pobrane podczas korzystania z innego urządzenia.",
     "howDoesThatWork": "Jak to działa?",
-    "login": "Logowanie"
+    "login": "Logowanie",
+    "searchNoMatch": "Nie mogliśmy znaleźć retrospektywnego pasującego do Twojego wyszukiwania ({{search}})."
   },
   "PreviousGame": {
     "createdBy": "Utworzony przez",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Stwórz",
       "text": "Kliknij poniżej i zacznij retrospektywę:",
-      "button": "Stwórz nową sesję",
+      "button": "Rozpocznij Retro",
       "customizeButton": "Dostosuj"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Chcę płacić corocznie (co 12 miesięcy) i otrzymywać miesiąc za darmo!"
   },
   "Encryption": {
-    "createEncryptedSession": "Zaszyfrowana sesja",
+    "createEncryptedSession": "Uruchom zaszyfrowany Retro",
     "sessionNotEncrypted": "Ta sesja nie jest zaszyfrowana.",
     "sessionEncryptedHaveKeyTooltip": "Ta sesja jest zaszyfrowana, a klucz jest przechowywany w przeglądarce. Możesz otworzyć tę sesję bez konieczności ponownego podania hasła.",
     "sessionEncryptedNoKeyTooltip": "Ta sesja jest zaszyfrowana, a klucz nie jest przechowywany w przeglądarce. Zostaniesz poproszony o klucz deszyfrowania podczas otwierania tej sesji.",

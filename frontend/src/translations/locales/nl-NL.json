@@ -26,7 +26,8 @@
     "welcome": "Welkom, {{name}}",
     "anonWarning": "Je gebruikt een anonieme account. Je kunt misschien inloggen om ervoor te zorgen dat je gegevens kunnen worden opgehaald wanneer je een ander apparaat gebruikt.",
     "howDoesThatWork": "Hoe werkt dat?",
-    "login": "Aanmelden"
+    "login": "Aanmelden",
+    "searchNoMatch": "We konden geen terugwerkende kracht vinden die overeenkomt met uw zoekopdracht ({{search}})."
   },
   "PreviousGame": {
     "createdBy": "Aangemaakt door",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Starten",
       "text": "Klik hieronder en begin je retrospective:",
-      "button": "Start een nieuwe sessie",
+      "button": "Start een Retro",
       "customizeButton": "Aanpassen"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Ik wil jaarlijks betalen (elke 12 maanden) en een maand gratis per jaar!"
   },
   "Encryption": {
-    "createEncryptedSession": "Versleutelde sessie",
+    "createEncryptedSession": "Start een versleutelde Retro",
     "sessionNotEncrypted": "Deze sessie is niet versleuteld.",
     "sessionEncryptedHaveKeyTooltip": "Deze sessie is versleuteld, en de sleutel wordt opgeslagen in uw browser. U kunt deze sessie openen zonder het wachtwoord opnieuw op te geven.",
     "sessionEncryptedNoKeyTooltip": "Deze sessie is versleuteld en de sleutel is niet opgeslagen in uw browser. U wordt gevraagd om de decoderingssleutel bij het openen van deze sessie.",

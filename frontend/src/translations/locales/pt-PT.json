@@ -26,7 +26,8 @@
     "welcome": "Bem-vindo, {{name}}",
     "anonWarning": "Você está usando uma conta anônima. Talvez você queira fazer login para garantir que seus dados possam ser recuperados usando outro dispositivo.",
     "howDoesThatWork": "Como funciona isso?",
-    "login": "Conectar-se"
+    "login": "Conectar-se",
+    "searchNoMatch": "Não foi possível encontrar um retrospectivo correspondente à sua pesquisa ({{search}})."
   },
   "PreviousGame": {
     "createdBy": "Criado Por",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Crio",
       "text": "Clique abaixo e comece retrospectivo:",
-      "button": "Criar uma nova sessão",
+      "button": "Iniciar uma Retro",
       "customizeButton": "Personalizar"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Quero pagar anualmente (a cada 12 meses) e ganhar um mês grátis por ano!"
   },
   "Encryption": {
-    "createEncryptedSession": "Sessão criptografada",
+    "createEncryptedSession": "Iniciar uma Retro Encriptada",
     "sessionNotEncrypted": "Esta sessão não está criptografada.",
     "sessionEncryptedHaveKeyTooltip": "Esta sessão é criptografada, e a chave é armazenada no seu navegador. Você pode abrir esta sessão sem precisar fornecer a senha novamente.",
     "sessionEncryptedNoKeyTooltip": "Esta sessão é criptografada, e a chave não é armazenada no seu navegador. Você será solicitado pela chave de descriptografia ao abrir esta sessão.",

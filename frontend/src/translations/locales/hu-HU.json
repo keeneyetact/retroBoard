@@ -26,7 +26,8 @@
     "welcome": "Isten hozott, {{name}}",
     "anonWarning": "",
     "howDoesThatWork": "Hogyan működik?",
-    "login": ""
+    "login": "",
+    "searchNoMatch": ""
   },
   "PreviousGame": {
     "createdBy": "Készítette",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Ülés létrehozása",
       "text": "Kattints ide a kezdéshez:",
-      "button": "Új ülés indítása",
+      "button": "",
       "customizeButton": "Testreszab"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Évente szeretnék fizetni (12 havonta), és évente egy hónapot ingyen kapok!"
   },
   "Encryption": {
-    "createEncryptedSession": "Titkosított munkamenet",
+    "createEncryptedSession": "",
     "sessionNotEncrypted": "Ez a munkamenet nincs titkosítva.",
     "sessionEncryptedHaveKeyTooltip": "Ez a munkamenet titkosított, és a kulcsot a böngésző tárolja. Ezt a munkamenetet a jelszó újbóli megadása nélkül is megnyithatja.",
     "sessionEncryptedNoKeyTooltip": "Ez a munkamenet titkosított, és a kulcsot nem tárolja a böngésző. A munkamenet megnyitásakor a rendszer kérni fogja a visszafejtési kulcsot.",

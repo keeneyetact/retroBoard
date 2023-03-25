@@ -26,7 +26,8 @@
     "welcome": "Bienvenido, {{name}}",
     "anonWarning": "Estás usando una cuenta anónima. Tal vez quieras iniciar sesión para asegurarte de que tus datos pueden ser recuperados cuando usas otro dispositivo.",
     "howDoesThatWork": "¿Cómo funciona esto?",
-    "login": "Ingresar"
+    "login": "Ingresar",
+    "searchNoMatch": "No hemos podido encontrar un retrospectivo que coincida con tu búsqueda ({{search}})."
   },
   "PreviousGame": {
     "createdBy": "Creado por",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Crear una sesión",
       "text": "Pulse abajo y empieze la retrospectiva:",
-      "button": "Crear una sesión nueva",
+      "button": "Iniciar una Retro",
       "customizeButton": "Personalizar"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Quiero pagar anualmente (cada 12 meses), y obtener un mes gratis por año!"
   },
   "Encryption": {
-    "createEncryptedSession": "Sesión cifrada",
+    "createEncryptedSession": "Iniciar una Retro Cifrada",
     "sessionNotEncrypted": "Esta sesión no está cifrada.",
     "sessionEncryptedHaveKeyTooltip": "Esta sesión está cifrada, y la clave se almacena en su navegador. Puede abrir esta sesión sin tener que proporcionar la contraseña de nuevo.",
     "sessionEncryptedNoKeyTooltip": "Esta sesión está cifrada, y la clave no se almacena en su navegador. Se le pedirá la clave de descifrado al abrir esta sesión.",

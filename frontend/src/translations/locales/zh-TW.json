@@ -26,7 +26,8 @@
     "welcome": "歡迎， {{name}}",
     "anonWarning": "",
     "howDoesThatWork": "這是如何運作的？",
-    "login": ""
+    "login": "",
+    "searchNoMatch": ""
   },
   "PreviousGame": {
     "createdBy": "由...製作",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "新增",
       "text": "點擊以下開始進行回顧:",
-      "button": "建立新的議程",
+      "button": "",
       "customizeButton": "定制"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "我想按年付款（每 12 個月），每年免費獲得一個月！"
   },
   "Encryption": {
-    "createEncryptedSession": "加密會話",
+    "createEncryptedSession": "",
     "sessionNotEncrypted": "此會話未加密。",
     "sessionEncryptedHaveKeyTooltip": "此會話已加密，密鑰存儲在您的瀏覽器中。您無需再次提供密碼即可打開此會話。",
     "sessionEncryptedNoKeyTooltip": "此會話已加密，密鑰未存儲在您的瀏覽器中。打開此會話時，您將被要求提供解密密鑰。",

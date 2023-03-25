@@ -26,7 +26,8 @@
     "welcome": "Bienvenue, {{name}}",
     "anonWarning": "Vous utilisez un compte anonyme. Connectez-vous afin que vos données puissent être récupérées lorsque vous utilisez un autre appareil.",
     "howDoesThatWork": "Comment cela fonctionne-t-il ?",
-    "login": "Connexion"
+    "login": "Connexion",
+    "searchNoMatch": "Nous n'avons pu trouver une retrospective correspondant à votre recherche ({{search}})."
   },
   "PreviousGame": {
     "createdBy": "Créé par",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "Créer",
       "text": "Cliquez ci-dessous et commencez à retrospecter:",
-      "button": "Nouvelle session",
+      "button": "Commencer une Rétro",
       "customizeButton": "Personnaliser"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "Je souhaite payer annuellement et obtenir un mois gratuit par an !"
   },
   "Encryption": {
-    "createEncryptedSession": "Session cryptée",
+    "createEncryptedSession": "Commencer une Rétro cryptée",
     "sessionNotEncrypted": "Cette session n'est pas cryptée.",
     "sessionEncryptedHaveKeyTooltip": "Cette session est chiffrée et la clef est stockée dans votre navigateur. Vous pouvez ouvrir cette session sans avoir à en donner le mot de passe.",
     "sessionEncryptedNoKeyTooltip": "Cette session est chiffrée et la clef n'a pas été trouvée dans votre navigateur. Il vous sera demandé de donner le mot de passe lors de l'ouverture de cette session.",

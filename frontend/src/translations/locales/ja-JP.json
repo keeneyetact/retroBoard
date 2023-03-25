@@ -26,7 +26,8 @@
     "welcome": "ようこそ、 {{name}}",
     "anonWarning": "匿名アカウントを使用しています。別のデバイスを使用しているときにデータを取得できることを確認するためにログインする場合があります。",
     "howDoesThatWork": "それはどのように機能しますか?",
-    "login": "ログイン"
+    "login": "ログイン",
+    "searchNoMatch": "検索に一致する回顧展が見つかりませんでした ({{search}})。"
   },
   "PreviousGame": {
     "createdBy": "作成者:",
@@ -182,7 +183,7 @@
     "standardTab": {
       "header": "作成",
       "text": "セッションを作成してレトロスペクティブをはじめる",
-      "button": "新しいセッションを作成する",
+      "button": "Retroを始める",
       "customizeButton": "カスタマイズ"
     },
     "optionsTab": {
@@ -433,7 +434,7 @@
     "wantToPayYearly": "私は毎年(12ヶ月ごと)を支払い、毎年1ヶ月無料にしたいと思います!"
   },
   "Encryption": {
-    "createEncryptedSession": "暗号化セッション",
+    "createEncryptedSession": "暗号化されたレトロを開始",
     "sessionNotEncrypted": "このセッションは暗号化されていません。",
     "sessionEncryptedHaveKeyTooltip": "このセッションは暗号化されており、キーはブラウザに保存されます。再度パスワードを入力することなく、このセッションを開くことができます。",
     "sessionEncryptedNoKeyTooltip": "このセッションは暗号化されており、キーはブラウザに保存されていません。このセッションを開くときに復号キーを求められます。",
