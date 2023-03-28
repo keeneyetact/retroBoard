@@ -1,9 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
-import { HomeOutlined } from '@mui/icons-material';
 import { Button, Hidden } from '@mui/material';
 import useIsPro from 'auth/useIsPro';
 import ProButton from 'components/ProButton';
@@ -18,10 +16,8 @@ import AccountMenu from 'auth/AccountMenu';
 import { useTranslation } from 'react-i18next';
 import ProPill from 'components/ProPill';
 import { AiButton } from './ai/AiButton';
-
-const Title = styled(Typography)`
-  color: white;
-`;
+import logoIcon from './logo-white.png';
+import logoText from './text-white.png';
 
 export function Header() {
   const user = useUser();
@@ -45,23 +41,9 @@ export function Header() {
         >
           <MenuIcon />
         </IconButton>
-        <HomeButton>
-          <IconButton
-            color="inherit"
-            aria-label="Home"
-            onClick={goToHome}
-            size="large"
-          >
-            <HomeOutlined />
-          </IconButton>
-        </HomeButton>
-        <MainTitle
-          variant="h6"
-          color="inherit"
-          onClick={goToHome}
-          data-cy="header-home-button"
-        >
-          Retrospected&nbsp;
+        <MainTitle onClick={goToHome} data-cy="header-home-button">
+          <img src={logoIcon} alt="Retrospected Icon" height="30" />
+          <img src={logoText} alt="Retrospected" height="30" />
         </MainTitle>
         <ProPillContainer>
           <ProPill small />
@@ -91,16 +73,27 @@ export function Header() {
   );
 }
 
-const MainTitle = styled(Title)`
+const MainTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  margin-right: 10px;
-  @media screen and (max-width: 600px) {
+  margin-left: 10px;
+  margin-right: 20px;
+  > :nth-child(2) {
+    position: relative;
+    top: 2px;
+  }
+
+  @media screen and (max-width: 800px) {
+    > :nth-child(2) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
     display: none;
   }
-`;
-
-const HomeButton = styled.div`
-  margin-right: 10px;
 `;
 
 const ProPillContainer = styled.div``;
