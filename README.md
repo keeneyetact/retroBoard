@@ -83,7 +83,7 @@ You can browse the documentation [here](https://docs.retrospected.com).
 
 You have two ways of running Retrospected:
 
-- Using the public version, at [www.retrospected.com](https://www.retrospected.com)
+- Using the public version, at [www.retrospected.com](https://app.retrospected.com)
 - Host Retrospected [on your premises](https://docs.retrospected.com/docs/self-hosting/quick-start)
 
 ## Want to host Retrospected on your premises? 🖥

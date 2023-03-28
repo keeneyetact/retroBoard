@@ -24,7 +24,7 @@ services:
       - redis
     environment:
       # -- Change Recommended --
-      LICENCE_KEY: # This must be provided if you self-host Retrospected. Obtain a licence at https://www.retrospected.com/subscribe?product=self-hosted.
+      LICENCE_KEY: # This must be provided if you self-host Retrospected. Obtain a licence at https://app.retrospected.com/subscribe?product=self-hosted.
       SELF_HOSTED: 'true' # This will make any account "Pro", but only works with a valid LICENCE_KEY
       SELF_HOSTED_ADMIN: your@email.com # Enter an admin email here. This person will be the only one able to reset passwords for your organisation.
       DB_USER: postgres # Must be the same as POSTGRES_USER above

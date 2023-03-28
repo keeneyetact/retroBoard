@@ -49,7 +49,7 @@ function App() {
           This software is unlicenced. You can obtain a licence{' '}
           <a
             target="_blank"
-            href="https://www.retrospected.com/subscribe?product=self-hosted"
+            href="https://app.retrospected.com/subscribe?product=self-hosted"
             rel="noreferrer"
           >
             here
