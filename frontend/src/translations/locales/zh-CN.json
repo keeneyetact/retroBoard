@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "无限帖子",
         "description": "通过专业版订阅，获得无限的帖子。"
+      },
+      "ai": {
+        "title": "AI Agile 指导",
+        "description": "借助我们的 AI Agile Coach，获得关于您回忆的 AI驱动的见解。"
       }
     },
     "subscribeButton": "订阅",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "如果您停止计时器，它将被重置为其原始持续时间。",
     "stopTimerButton": "停止计时器",
     "stopTimerCancelButton": "取消"
+  },
+  "Ai": {
+    "title": "AI 指导",
+    "info": "你好！我是你个人的 AI Coach。请随时向我提有关追溯性的问题，我将尽力回答你的问题。",
+    "disabledAnonymous": "AI 教练只对非匿名用户可用。转到您的个人资料并使用OAuth 或密码帐户登录。",
+    "close": "关闭",
+    "paidLimitWarning": "您已经达到今天的极限。请明天再试。",
+    "freeLimitWarning": "您已达到本月的免费上限。请订阅Retroscripted Pro 以获得无限的 AI Coaching。",
+    "genericError": "AI出了错。请稍后再试。",
+    "inputPrompt": "问我一个问题",
+    "send": "发送"
   }
 }

@@ -1,4 +1,10 @@
-import { Plan, Currency, StripeLocales, AccessErrorType } from './types.js';
+import {
+  Plan,
+  Currency,
+  StripeLocales,
+  AccessErrorType,
+  CoachMessage,
+} from './types.js';
 
 export interface RegisterPayload {
   name: string;
@@ -61,6 +67,7 @@ export interface BackendCapabilities {
   disableAnonymous: boolean;
   disablePasswords: boolean;
   disablePasswordRegistration: boolean;
+  ai: boolean;
 }
 
 export interface OAuthAvailabilities {
@@ -89,4 +96,9 @@ export interface ChangeUserNamePayload {
 export interface MergeUsersPayload {
   main: string;
   merged: string[];
+}
+
+export interface AiChatPayload {
+  id: string;
+  messages: CoachMessage[];
 }

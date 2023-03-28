@@ -185,6 +185,13 @@ export type AdminStats = {
   clients: number;
 };
 
+export type CoachRole = 'user' | 'assistant' | 'system';
+
+export type CoachMessage = {
+  role: CoachRole;
+  content: string;
+};
+
 export type TrackingEvent =
   | 'custom-modal/open'
   | 'custom-modal/close'

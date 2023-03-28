@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "無制限の投稿",
         "description": "Proサブスクリプションでは、無制限の投稿を取得します。"
+      },
+      "ai": {
+        "title": "AI アジャイル コーチ。",
+        "description": "AI アジャイルコーチのおかげで、あなたのレトロスペクティヴについてAIを活用した洞察を得ましょう。"
       }
     },
     "subscribeButton": "購読する",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "タイマーを停止すると、タイマーは元の時間にリセットされます。",
     "stopTimerButton": "停止タイマー",
     "stopTimerCancelButton": "キャンセル"
+  },
+  "Ai": {
+    "title": "人工知能のコーチ。",
+    "info": "こんにちは！私はあなたの個人的なAIコーチです。レトロスペクティブについて質問してください。私はあなたに答えるために最善を尽くします。",
+    "disabledAnonymous": "AI Coach は、匿名ではないユーザーのみが利用できます。プロフィールに移動し、OAuth アカウントまたはパスワードでログインします。",
+    "close": "閉じる",
+    "paidLimitWarning": "本日の上限に達しました。明日もう一度お試しください。",
+    "freeLimitWarning": "今月限度額に達しました。無制限のAIコーチングを受け取るには、Retrospected Proに登録してください。",
+    "genericError": "AIに問題が発生しました。後でもう一度お試しください。",
+    "inputPrompt": "質問してください",
+    "send": "送信"
   }
 }

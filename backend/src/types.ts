@@ -63,6 +63,9 @@ export interface BackendConfig {
   MAIL_ALLOW_SELF_SIGNED_CERTS: boolean;
   GA4_MEASUREMENT_ID: string;
   GA4_SECRET: string;
+  OPEN_AI_API_KEY: string;
+  OPEN_AI_FREE_LIMIT: number;
+  OPEN_AI_PAID_LIMIT: number;
 }
 
 export type LicenceMetadata = {

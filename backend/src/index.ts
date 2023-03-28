@@ -73,6 +73,7 @@ import { createDemoSession } from './db/actions/demo.js';
 import cookieParser from 'cookie-parser';
 import { generateUsername } from './common/random-username.js';
 import { mergeAnonymous } from './db/actions/merge.js';
+import aiRouter from './ai/router.js';
 
 const realIpHeader = 'X-Forwarded-For';
 const sessionSecret = `${config.SESSION_SECRET!}-4.11.5`; // Increment to force re-auth
@@ -155,7 +156,7 @@ const heavyLoadLimiter = rateLimit({
 setupSentryRequestHandler(app);
 
 // saveUninitialized: true allows us to attach the socket id to the session
-// before we have athenticated the user
+// before we have authenticated the user
 let sessionMiddleware: express.RequestHandler;
 
 const httpServer = new http.Server(app);
@@ -185,13 +186,11 @@ if (config.REDIS_ENABLED) {
     const subClient = redisClient.duplicate();
     io.adapter(createAdapter({ pubClient: redisClient, subClient }));
     console.log(
-      chalk`💾  {red Redis} for {yellow Socket.IO} was properly activated`
+      chalk`💾  {red Redis} for {yellow Socket.IO} was {blue activated}`
     );
   }
 
-  console.log(
-    chalk`💾  {red Redis} for {yellow Express} was properly activated`
-  );
+  console.log(chalk`💾  {red Redis} for {yellow Express} was {blue activated}`);
 } else {
   sessionMiddleware = session({
     secret: sessionSecret,
@@ -202,6 +201,16 @@ if (config.REDIS_ENABLED) {
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
     },
   });
+}
+
+if (config.OPEN_AI_API_KEY) {
+  console.log(
+    chalk`🤖  {red AI / ChatGPT} from {yellow OpenAI} has been {blue activated}`
+  );
+} else {
+  console.log(
+    chalk`🤖  {red AI / ChatGPT} from {yellow OpenAI} was {red not activated}.\n    Please set the {yellow OPEN_AI_API_KEY} environment variable.`
+  );
 }
 
 app.use(sessionMiddleware);
@@ -261,6 +270,9 @@ db().then(() => {
 
   // Slack
   app.use('/api/slack', slackRouter());
+
+  // AI
+  app.use('/api/ai', aiRouter());
 
   // Create session
   app.post('/api/create', heavyLoadLimiter, async (req, res) => {

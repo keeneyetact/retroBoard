@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "Posts illimités",
         "description": "Nombre de posts illimité avec Retrospected Pro."
+      },
+      "ai": {
+        "title": "Coach Agile IA",
+        "description": "Améliorez vos rétrospectives grâce à notre Coach Agile."
       }
     },
     "subscribeButton": "S'abonner",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "Si vous arrêtez le minuteur, il sera réinitialisé à sa durée initiale.",
     "stopTimerButton": "Arrêter le minuteur",
     "stopTimerCancelButton": "Annuler"
+  },
+  "Ai": {
+    "title": "Coach Agile AI",
+    "info": "Je suis votre accompagnateur agile. N'hésitez-pas à me poser des questions sur les rétrospectives, and je vais faire de mon mieux pour y répondre.",
+    "disabledAnonymous": "Le Coach Agile est uniquement disponible pour les utilisateurs non anonymes. Accédez à votre profil et connectez-vous avec un compte OAuth ou Mot de passe.",
+    "close": "Fermer",
+    "paidLimitWarning": "Vous avez atteint votre quota aujourd'hui. Merci de revenir plus tard.",
+    "freeLimitWarning": "Vous avez atteint votre limite gratuite ce mois-ci. En vous abonnant à Retrospected Pro, vous aurez accès au Coach Agile de manière illimitée.",
+    "genericError": "Il y a quelque-chose qui cloche. Merci de recommencer plus tard.",
+    "inputPrompt": "Posez-moi une question",
+    "send": "Envoyer"
   }
 }

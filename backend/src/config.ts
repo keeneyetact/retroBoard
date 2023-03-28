@@ -124,6 +124,9 @@ const config: BackendConfig = {
   ),
   GA4_SECRET: defaults('GA4_SECRET', ''),
   GA4_MEASUREMENT_ID: defaults('GA4_MEASUREMENT_ID', ''),
+  OPEN_AI_API_KEY: defaults('OPEN_AI_API_KEY', ''),
+  OPEN_AI_FREE_LIMIT: defaultsNumber('OPEN_AI_FREE_LIMIT', 5),
+  OPEN_AI_PAID_LIMIT: defaultsNumber('OPEN_AI_PAID_LIMIT', 100),
 };
 
 export default config;

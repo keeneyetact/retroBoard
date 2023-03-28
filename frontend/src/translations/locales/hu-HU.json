@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "Korlátlan számú bejegyzés",
         "description": "Pro-előfizetéssel korlátlan számú bejegyzést kaphat."
+      },
+      "ai": {
+        "title": "",
+        "description": ""
       }
     },
     "subscribeButton": "Iratkozz fel",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "",
     "stopTimerButton": "",
     "stopTimerCancelButton": ""
+  },
+  "Ai": {
+    "title": "",
+    "info": "",
+    "disabledAnonymous": "",
+    "close": "",
+    "paidLimitWarning": "",
+    "freeLimitWarning": "",
+    "genericError": "",
+    "inputPrompt": "",
+    "send": ""
   }
 }

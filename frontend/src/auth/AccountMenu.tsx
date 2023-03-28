@@ -85,7 +85,9 @@ const AccountMenu = () => {
               <Chip color="secondary" label={t('Header.anonymous')} />
             ) : null}
           </ChipContainer>
-          <AccountCircle fontSize={'large'} />
+          <AccountCircleContainer>
+            <AccountCircle fontSize={'large'} />
+          </AccountCircleContainer>
         </AvatarContainer>
         {menuAnchor.current ? (
           <Menu
@@ -162,7 +164,7 @@ const AvatarContainer = styled.div`
 `;
 
 const DisplayName = styled.div`
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 800px) {
     display: none;
   }
   max-width: 200px;
@@ -172,7 +174,13 @@ const DisplayName = styled.div`
 `;
 
 const ChipContainer = styled.div`
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const AccountCircleContainer = styled.div`
+  @media screen and (max-width: 800px) {
     display: none;
   }
 `;

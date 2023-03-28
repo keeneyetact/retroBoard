@@ -20,6 +20,8 @@ import SessionOptionsEntity from './entities/SessionOptions.js';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import path from 'path';
 import { getDirname, getFilename } from './../path-utils.js';
+import AiChatEntity from './entities/AiChat.js';
+import AiChatMessageEntity from './entities/AiChatMessage.js';
 
 const fileName = getFilename(import.meta.url);
 
@@ -57,6 +59,8 @@ export default {
     LicenceEntity,
     SessionOptionsEntity,
     MessageEntity,
+    AiChatEntity,
+    AiChatMessageEntity,
   ],
   synchronize: false,
   logging: config.SQL_LOG ? 'all' : undefined,

@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "無限帖子",
         "description": "通過 Pro 訂閱，獲得無限的帖子。"
+      },
+      "ai": {
+        "title": "",
+        "description": ""
       }
     },
     "subscribeButton": "訂閱",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "",
     "stopTimerButton": "",
     "stopTimerCancelButton": ""
+  },
+  "Ai": {
+    "title": "",
+    "info": "",
+    "disabledAnonymous": "",
+    "close": "",
+    "paidLimitWarning": "",
+    "freeLimitWarning": "",
+    "genericError": "",
+    "inputPrompt": "",
+    "send": ""
   }
 }

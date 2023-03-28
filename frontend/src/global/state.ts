@@ -27,6 +27,7 @@ export const backendCapabilitiesState = selector<BackendCapabilities>({
         okta: false,
       },
       emailAvailable: false,
+      ai: false,
     };
   },
 });

@@ -195,7 +195,7 @@ export default () => {
   }
 
   function logSuccess(provider: string) {
-    console.log(chalk`{blue 🔑  {red ${provider}} authentication activated}`);
+    console.log(chalk`🔑  {red ${provider}} authentication {blue activated}`);
   }
 
   // Adding each OAuth provider's strategy to passport

@@ -6,7 +6,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { colors } from '@mui/material';
-import { AllInclusive, Lock, VerifiedUser } from '@mui/icons-material';
+import {
+  AllInclusive,
+  Lock,
+  Psychology,
+  VerifiedUser,
+} from '@mui/icons-material';
 import { useCallback, cloneElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -111,6 +116,12 @@ function ProButton({ children, quota }: ProButtonProps) {
         <DialogContent>
           <Features>
             <Feature
+              icon={<Psychology />}
+              color={colors.blue[700]}
+              title={t('SubscribeModal.features.ai.title')!}
+              description={t('SubscribeModal.features.ai.description')!}
+            />
+            <Feature
               icon={<Lock />}
               color={colors.red[700]}
               title={t('SubscribeModal.features.encryptedSession.title')!}
@@ -180,8 +191,8 @@ const Header = styled.div`
   )`};
   color: white;
   min-width: 60hw;
-  padding: 50px 20px;
-  font-size: 3em;
+  padding: 20px 20px;
+  font-size: 2.5em;
   font-weight: 100;
   display: flex;
   justify-content: center;

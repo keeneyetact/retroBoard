@@ -17,6 +17,7 @@ import Invite from './Invite';
 import AccountMenu from 'auth/AccountMenu';
 import { useTranslation } from 'react-i18next';
 import ProPill from 'components/ProPill';
+import { AiButton } from './ai/AiButton';
 
 const Title = styled(Typography)`
   color: white;
@@ -76,6 +77,8 @@ export function Header() {
             </GoProContainer>
           </Hidden>
         ) : null}
+        <Spacer />
+        {user ? <AiButton /> : null}
         <Spacer />
         {isOnGamePage ? <Invite /> : null}
         {isInitialised ? (

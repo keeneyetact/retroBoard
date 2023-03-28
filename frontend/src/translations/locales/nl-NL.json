@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "Onbeperkt aantal berichten",
         "description": "Met een Pro-abonnement krijg je onbeperkt berichten."
+      },
+      "ai": {
+        "title": "Agile Coach",
+        "description": "Krijg AI-powered inzicht in je retrospectieven dankzij onze AI Agile Coach."
       }
     },
     "subscribeButton": "Abonneren",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "Als je de timer stopt, wordt deze gereset naar de oorspronkelijke duur.",
     "stopTimerButton": "Stop timer",
     "stopTimerCancelButton": "annuleren"
+  },
+  "Ai": {
+    "title": "AI Coach",
+    "info": "Hallo! Ik ben jouw persoonlijke AI Coach. Voel je vrij om vragen te stellen over retrospectieven, en ik zal mijn best doen om je te antwoorden.",
+    "disabledAnonymous": "De AI Coach is alleen beschikbaar voor niet-anonieme gebruikers. Ga naar je profiel en log in met een OAuth of wachtwoord account.",
+    "close": "Afsluiten",
+    "paidLimitWarning": "Je hebt vandaag je limiet bereikt. Probeer het alstublieft morgen opnieuw.",
+    "freeLimitWarning": "U heeft uw gratis limiet voor deze maand bereikt. Abonneer u alstublieft op Retrospected Pro om een onbeperkte AI coaching te krijgen.",
+    "genericError": "Er ging iets mis met de AI. Probeer het later opnieuw.",
+    "inputPrompt": "Stel me een vraag",
+    "send": "Verzenden"
   }
 }

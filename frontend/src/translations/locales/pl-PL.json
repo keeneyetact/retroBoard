@@ -416,6 +416,10 @@
       "unlimitedPosts": {
         "title": "Nielimitowane posty",
         "description": "Z subskrypcją Pro, uzyskaj nieograniczone posty."
+      },
+      "ai": {
+        "title": "AI Agile Coach",
+        "description": "Uzyskaj wgląd w swoje retrospektywy w oparciu o AI Agile Coach."
       }
     },
     "subscribeButton": "Subskrybuj",
@@ -479,5 +483,16 @@
     "stopTimerDescription": "Jeśli zatrzymasz minutnik, zostanie on zresetowany do pierwotnego czasu trwania.",
     "stopTimerButton": "Zatrzymaj Timer",
     "stopTimerCancelButton": "Anuluj"
+  },
+  "Ai": {
+    "title": "AI trener",
+    "info": "Cześć! Jestem twoim osobistym AI Coache. Zapraszam, aby zadać mi pytania dotyczące retrospektywności i zrobię wszystko, co w mojej mocy, aby ci odpowiedzieć.",
+    "disabledAnonymous": "AI Coach jest dostępny tylko dla użytkowników nieanonimowych. Przejdź do swojego profilu i zaloguj się na konto OAuth lub Hasło.",
+    "close": "Zamknij",
+    "paidLimitWarning": "Osiągnąłeś swój limit na dziś. Spróbuj ponownie jutro.",
+    "freeLimitWarning": "Osiągnąłeś swój darmowy limit na ten miesiąc. Proszę subskrybuj Retrospected Pro, aby uzyskać nieograniczoną liczbę trenerów AI.",
+    "genericError": "Coś poszło nie tak z AI. Spróbuj ponownie później.",
+    "inputPrompt": "Zadaj mi pytanie",
+    "send": "Wyślij"
   }
 }

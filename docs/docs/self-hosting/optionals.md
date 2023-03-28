@@ -43,6 +43,11 @@ services:
       DISABLE_PASSWORD_LOGIN: 'false' # Set to true to disable password accounts (email accounts).
       DISABLE_PASSWORD_REGISTRATION: 'false' # Set to true to disable password accounts registration (but not login!)
 
+      # -- AI - Open AI: Set these to enable AI capabilities. This is optional. --
+      OPEN_AI_API_KEY: '' # To activate AI capabilities, you need to get an API key from https://platform.openai.com/account/api-keys
+      OPEN_AI_FREE_LIMIT: 5 # Number of AI calls per rolling month, per user, for non-Pro accounts
+      OPEN_AI_PAID_LIMIT: 1000 # Number of AI calls per rolling month, per user, for Pro accounts
+
       # -- OAuth: Set these to enable OAuth authentication for one or more provider. This is optional. --
       TWITTER_KEY:
       TWITTER_SECRET:
