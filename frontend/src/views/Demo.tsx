@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@mui/material';
-import { createDemoGame, me, updateLanguage } from 'api';
+import { anonymousLogin, createDemoGame, me, updateLanguage } from 'api';
 import UserContext from 'auth/Context';
+import useUser from 'auth/useUser';
 import { useContext, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { trackEvent } from 'track';
@@ -9,17 +10,29 @@ import { Language } from 'translations/languages';
 import { languages, useLanguage } from '../translations';
 
 export default function Demo() {
+  const user = useUser();
   const { setUser } = useContext(UserContext);
   let [searchParams] = useSearchParams();
   const twoLetter = searchParams.get('lang');
   const [currentLanguage, changeLanguage] = useLanguage();
   const language = getLanguage(twoLetter || 'en');
+  const alreadyLoggedIn = !!user;
 
   useEffect(() => {
     if (currentLanguage.locale !== language.locale) {
       changeLanguage(language.locale);
     }
   }, [language.locale, currentLanguage.locale, changeLanguage]);
+
+  useEffect(() => {
+    async function login() {
+      if (!alreadyLoggedIn) {
+        const user = await anonymousLogin('Demo User');
+        setUser(user);
+      }
+    }
+    login();
+  }, [alreadyLoggedIn, setUser]);
 
   useEffect(() => {
     async function fetch() {
@@ -35,10 +48,16 @@ export default function Demo() {
         window.location.href = `/game/${session.id}`;
       }
     }
-    if (language.locale === currentLanguage.locale) {
+    if (alreadyLoggedIn && language.locale === currentLanguage.locale) {
       fetch();
     }
-  }, [language.locale, currentLanguage.locale, setUser, changeLanguage]);
+  }, [
+    language.locale,
+    currentLanguage.locale,
+    setUser,
+    changeLanguage,
+    alreadyLoggedIn,
+  ]);
   return (
     <Container>
       <h1>Preparing demo...</h1>

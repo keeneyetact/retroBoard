@@ -59,7 +59,6 @@ import {
   getIdentityByUsername,
   associateUserWithAdWordsCampaign,
   TrackingInfo,
-  registerAnonymousUser,
 } from './db/actions/users.js';
 import { isLicenced } from './security/is-licenced.js';
 import rateLimit from 'express-rate-limit';
@@ -71,7 +70,6 @@ import { deleteAccount } from './db/actions/delete.js';
 import { noop } from 'lodash-es';
 import { createDemoSession } from './db/actions/demo.js';
 import cookieParser from 'cookie-parser';
-import { generateUsername } from './common/random-username.js';
 import { mergeAnonymous } from './db/actions/merge.js';
 import aiRouter from './ai/router.js';
 
@@ -336,37 +334,18 @@ db().then(() => {
 
   app.get('/api/me', async (req, res) => {
     const user = await getUserViewFromRequest(req);
-    const trackingString: string = req.cookies['retro_aw'];
-    if (trackingString && user) {
-      const tracking: Partial<TrackingInfo> = JSON.parse(trackingString);
-      // We don't await this because we don't want to block the response
-      associateUserWithAdWordsCampaign(user, tracking);
-    }
 
     if (user) {
-      res.status(200).send(user.toJson());
-    } else if (!config.DISABLE_ANONYMOUS_LOGIN) {
-      const anonUser = await registerAnonymousUser(
-        generateUsername() + '^' + v4(),
-        v4()
-      );
-      if (anonUser) {
-        const view = await getUserView(anonUser.id);
-        if (view) {
-          req.logIn(
-            { userId: anonUser.user.id, identityId: anonUser.id },
-            () => {
-              res.status(200).send(view.toJson());
-            }
-          );
-        } else {
-          res.status(500).send('Could not get user view');
-        }
-      } else {
-        res.status(401).send('Not logged in');
+      const trackingString: string = req.cookies['retro_aw'];
+      if (trackingString) {
+        const tracking: Partial<TrackingInfo> = JSON.parse(trackingString);
+        // We don't await this because we don't want to block the response
+        associateUserWithAdWordsCampaign(user, tracking);
       }
+
+      res.status(200).send(user.toJson());
     } else {
-      res.status(403).send('Cannot login anonymously');
+      res.status(401).send('Not logged in');
     }
   });
 

@@ -23,7 +23,7 @@
     "title": "Witaj! Zaloguj się, aby rozpocząć."
   },
   "Home": {
-    "welcome": "Witaj, {{name}}",
+    "welcome": "Witaj,",
     "anonWarning": "Używasz konta anonimowego. Możesz się zalogować, aby mieć pewność, że dane mogą być pobrane podczas korzystania z innego urządzenia.",
     "howDoesThatWork": "Jak to działa?",
     "login": "Logowanie",
@@ -221,7 +221,8 @@
       "nie całkiem",
       "dobry",
       "silny"
-    ]
+    ],
+    "skipAndAnonLogin": "Pomiń i zaloguj mnie anonimowo"
   },
   "AccountLogin": {
     "header": "Hasło",

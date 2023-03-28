@@ -23,7 +23,7 @@
     "title": "ようこそ！ログインしてください。"
   },
   "Home": {
-    "welcome": "ようこそ、 {{name}}",
+    "welcome": "ようこそ",
     "anonWarning": "匿名アカウントを使用しています。別のデバイスを使用しているときにデータを取得できることを確認するためにログインする場合があります。",
     "howDoesThatWork": "それはどのように機能しますか?",
     "login": "ログイン",
@@ -221,7 +221,8 @@
       "そうではありません",
       "良い",
       "強い"
-    ]
+    ],
+    "skipAndAnonLogin": "Skip and log me in Anonymously"
   },
   "AccountLogin": {
     "header": "パスワード",

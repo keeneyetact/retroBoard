@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import ClosableAlert from 'components/ClosableAlert';
 import SplitButton from 'components/SplitButton/SplitButton';
 import SearchBar from './game/SearchBar';
+import { NameEditor } from 'molecules/NameEditor';
 
 function Home() {
   const navigate = useNavigate();
@@ -96,7 +97,10 @@ function Home() {
         </ClosableAlert>
       ) : null}
       <Page>
-        <MainHeader>{t('Home.welcome', { name: user?.name || '' })}</MainHeader>
+        <MainHeader>
+          {t('Home.welcome')}&nbsp;
+          <NameEditor />
+        </MainHeader>
 
         <LaunchButtons>
           <ProButton quota>
@@ -161,9 +165,12 @@ function Home() {
 }
 
 const MainHeader = styled.h1`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   font-weight: 100;
   font-size: 4em;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 800px) {
     font-size: 2em;
   }
 `;

@@ -14,11 +14,8 @@ import TrialPrompt from '../home/TrialPrompt';
 import useFormatDate from '../../hooks/useFormatDate';
 import { DeleteModal } from './delete/DeleteModal';
 import useModal from '../../hooks/useModal';
-import EditableLabel from 'components/EditableLabel';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { updateAdmins, updateUserName } from './api';
-import UserContext from 'auth/Context';
-import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useState } from 'react';
+import { updateAdmins } from './api';
 import LanguagePicker from 'components/LanguagePicker';
 import { useLanguage } from 'translations';
 import useBackendCapabilities from 'global/useBackendCapabilities';
@@ -26,18 +23,17 @@ import AdminsEditor from './AdminEditor';
 import Tag from 'components/TagInput/Tag';
 import LoginContent from 'auth/modal/LoginContent';
 import { noop } from 'lodash';
+import { NameEditor } from 'molecules/NameEditor';
 
 function AccountPage() {
   const url = usePortalUrl();
   const user = useUser();
   const [admins, setAdmins] = useState<string[] | null>(null);
   const [language, setLanguage] = useLanguage();
-  const { setUser } = useContext(UserContext);
   const isTrial = useIsTrial();
   const formatDistanceToNow = useFormatDate();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const [deleteModalOpen, handleDeleteModalOpen, handleDeleteModalClose] =
     useModal();
   const capabilities = useBackendCapabilities();
@@ -45,21 +41,6 @@ function AccountPage() {
   useEffect(() => {
     setAdmins(user?.planAdmins || null);
   }, [user]);
-
-  const handleEditName = useCallback(
-    async (name: string) => {
-      const trimmed = name.trim();
-      if (!trimmed.length) {
-        enqueueSnackbar(t('AccountPage.noEmptyNameError'), {
-          variant: 'warning',
-        });
-      } else {
-        const updatedUser = await updateUserName(name);
-        setUser(updatedUser);
-      }
-    },
-    [setUser, enqueueSnackbar, t]
-  );
 
   const handleEditAdmins = useCallback((admins: string[]) => {
     setAdmins(admins);
@@ -93,13 +74,13 @@ function AccountPage() {
         <Name>
           <ProPill />
           &nbsp;
-          <EditableLabel value={user.name} onChange={handleEditName} />
+          <NameEditor />
         </Name>
 
         {user.accountType === 'anonymous' ? (
           <Section title={t('AccountPage.convertTitle')!}>
             <Alert severity="warning">{t('AccountPage.convertWarning')}</Alert>
-            <LoginContent onClose={noop} />
+            <LoginContent onClose={noop} anonymous={false} />
           </Section>
         ) : (
           <Section title={t('AccountPage.details.header')!}>

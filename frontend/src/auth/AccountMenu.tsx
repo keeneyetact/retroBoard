@@ -53,7 +53,8 @@ const AccountMenu = () => {
     logout();
     setUser(null);
     setMenuOpen(false);
-  }, [setUser]);
+    navigate('/');
+  }, [setUser, navigate]);
 
   const handleAccount = useCallback(() => {
     navigate('/account');

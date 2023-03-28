@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import UserContext from '../Context';
@@ -6,14 +6,22 @@ import SocialAuth from './SocialAuth';
 import AccountAuth from './AccountAuth';
 import useOAuthAvailabilities from '../../global/useOAuthAvailabilities';
 import useBackendCapabilities from '../../global/useBackendCapabilities';
-import { Alert } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 import styled from '@emotion/styled';
+import { anonymousLogin, me, updateLanguage } from 'api';
+import { trackEvent } from 'track';
+import { useLanguage } from 'translations';
+import { Login } from '@mui/icons-material';
 
 interface LoginContentProps {
+  anonymous: boolean;
   onClose: () => void;
 }
 
-export default function LoginContent({ onClose }: LoginContentProps) {
+export default function LoginContent({
+  anonymous,
+  onClose,
+}: LoginContentProps) {
   const { any } = useOAuthAvailabilities();
   const { disableAnonymous, disablePasswords } = useBackendCapabilities();
   const hasNoSocialMediaAuth = !any;
@@ -22,6 +30,23 @@ export default function LoginContent({ onClose }: LoginContentProps) {
   const hasNoWayOtherThanAnonymous = hasNoSocialMediaAuth && disablePasswords;
   const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
+  const [language] = useLanguage();
+
+  const handleAnonLogin = useCallback(async () => {
+    const user = await anonymousLogin('Anonymous User');
+    if (!user) {
+      return;
+    }
+    trackEvent('register/anonymous');
+    let updatedUser = await me();
+    if (updatedUser?.language === null) {
+      updatedUser = await updateLanguage(language.locale);
+    }
+    setUser(updatedUser);
+    if (onClose) {
+      onClose();
+    }
+  }, [setUser, onClose, language]);
 
   if (hasNoWayOfLoggingIn) {
     <Alert severity="error">{t('AuthCommon.noAuthWarning')}</Alert>;
@@ -34,19 +59,34 @@ export default function LoginContent({ onClose }: LoginContentProps) {
       ) : (
         <>
           <DialogContent>
-            <Container>
-              {!hasNoSocialMediaAuth ? (
-                <SocialAuth onClose={onClose} onUser={setUser} />
-              ) : null}
-              {!hasNoSocialMediaAuth && !disablePasswords ? (
-                <Separator>
-                  <span>{t('AuthCommon.or')}</span>
-                </Separator>
-              ) : null}
-              {!disablePasswords ? (
-                <AccountAuth onClose={onClose} onUser={setUser} />
-              ) : null}
-            </Container>
+            <Main>
+              <Container>
+                {!hasNoSocialMediaAuth ? (
+                  <SocialAuth onClose={onClose} onUser={setUser} />
+                ) : null}
+                {!hasNoSocialMediaAuth && !disablePasswords ? (
+                  <Separator>
+                    <span>{t('AuthCommon.or')}</span>
+                  </Separator>
+                ) : null}
+                {!disablePasswords ? (
+                  <AccountAuth onClose={onClose} onUser={setUser} />
+                ) : null}
+              </Container>
+            </Main>
+            {anonymous ? (
+              <Footer>
+                <Button
+                  onClick={handleAnonLogin}
+                  variant="text"
+                  color="secondary"
+                  startIcon={<Login />}
+                  data-cy="login-anonymous"
+                >
+                  {t('AuthCommon.skipAndAnonLogin')}
+                </Button>
+              </Footer>
+            ) : null}
           </DialogContent>
         </>
       )}
@@ -94,5 +134,19 @@ const Container = styled.div`
 
   @media screen and (max-width: 1000px) {
     flex-direction: column;
+  }
+`;
+
+const Main = styled.div``;
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  @media screen and (max-width: 1000px) {
+    border-top: 1px solid #ccc;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 30px;
   }
 `;

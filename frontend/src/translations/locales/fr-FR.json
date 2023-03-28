@@ -23,7 +23,7 @@
     "title": "Bienvenue! Veuillez vous connecter pour commencer."
   },
   "Home": {
-    "welcome": "Bienvenue, {{name}}",
+    "welcome": "Bienvenue,",
     "anonWarning": "Vous utilisez un compte anonyme. Connectez-vous afin que vos données puissent être récupérées lorsque vous utilisez un autre appareil.",
     "howDoesThatWork": "Comment cela fonctionne-t-il ?",
     "login": "Connexion",
@@ -221,7 +221,8 @@
       "encore un effort",
       "suffisant",
       "excellent"
-    ]
+    ],
+    "skipAndAnonLogin": "Connectez-moi en mode anonyme à la place"
   },
   "AccountLogin": {
     "header": "Mot de Passe",

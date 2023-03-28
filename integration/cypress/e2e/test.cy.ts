@@ -4,7 +4,7 @@ describe('Home Page', () => {
   it('Should load correctly', () => {
     cy.visit('/');
 
-    cy.get('#content').get('h1', { timeout }).should('contain', 'Welcome,');
+    cy.get('#content').get('h1', { timeout }).should('contain', 'Welcome!');
   });
 });
 
@@ -17,11 +17,15 @@ describe('Post workflow', () => {
     cy.setCookie('wpcc', 'dismiss');
   });
 
-  it('Should login automatically as anonymous and write a post', () => {
+  it('Should allow to login as anonymous and write a post', () => {
     cy.visit('/');
+
+    // Login anonymously
+    get('login-anonymous').click();
 
     // Home page should display the user name
     cy.get('#content', { timeout }).should('contain', 'Welcome,');
+    cy.get('#content', { timeout }).should('contain', 'Anonymous User');
 
     // And then allow creating a new session
     get('new-session-button').click();
@@ -40,7 +44,7 @@ describe('Post workflow', () => {
     cy.visit('/');
 
     // Home page should display the user name
-    cy.get('#content', { timeout }).should('contain', 'Welcome,');
+    cy.get('#content', { timeout }).should('contain', 'Welcome!');
 
     // Change language
     get('side-panel-toggle').click();
@@ -51,22 +55,13 @@ describe('Post workflow', () => {
     cy.get('body', { timeout }).type('{esc}');
 
     // Home page should now be in French
-    cy.get('#content', { timeout }).should('contain', 'Bienvenue,');
-
-    // Logout
-    get('account-menu').click();
-    get('account-menu-logout').click();
+    cy.get('#content', { timeout }).should('contain', 'Bienvenue');
   });
 
   it('Should be able to create and delete a new account', () => {
     const id = Date.now();
 
     cy.visit('/');
-
-    // Should be logged as anonymous
-    // Logout
-    get('account-menu').click();
-    get('account-menu-logout').click();
 
     // Select register
     get('register').click();

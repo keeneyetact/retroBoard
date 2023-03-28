@@ -63,6 +63,7 @@ export default function Group({
           <Header collapsed={collapsed}>
             <Label>
               <EditableLabel
+                wrap
                 value={decrypt(group.label)}
                 onChange={handleEditLabel}
                 readOnly={readonly}

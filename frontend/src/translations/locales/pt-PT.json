@@ -23,7 +23,7 @@
     "title": "Bem-vindo! Por favor, faça o login para começar."
   },
   "Home": {
-    "welcome": "Bem-vindo, {{name}}",
+    "welcome": "Bem-vindo,",
     "anonWarning": "Você está usando uma conta anônima. Talvez você queira fazer login para garantir que seus dados possam ser recuperados usando outro dispositivo.",
     "howDoesThatWork": "Como funciona isso?",
     "login": "Conectar-se",
@@ -221,7 +221,8 @@
       "não é muito",
       "bom",
       "forte"
-    ]
+    ],
+    "skipAndAnonLogin": "Pular e iniciar sessão em Anônimo"
   },
   "AccountLogin": {
     "header": "Palavra-passe",

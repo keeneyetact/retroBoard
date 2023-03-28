@@ -31,7 +31,7 @@ export default function LoginModal({
       onClose={handleClose}
       hideBackdrop={!backdrop}
     >
-      <LoginContent onClose={handleClose} />
+      <LoginContent onClose={handleClose} anonymous />
     </Dialog>
   );
 }

@@ -23,7 +23,7 @@
     "title": "Benvenuto! Effettua il login per iniziare."
   },
   "Home": {
-    "welcome": "Benvenuto, {{name}}",
+    "welcome": "Benvenuto,",
     "anonWarning": "Stai utilizzando un account anonimo. Potresti voler effettuare il login per assicurarsi che i tuoi dati possano essere recuperati quando usi un altro dispositivo.",
     "howDoesThatWork": "Come funziona quello?",
     "login": "Accedi",
@@ -221,7 +221,8 @@
       "non abbastanza",
       "buono",
       "forte"
-    ]
+    ],
+    "skipAndAnonLogin": "Salta e accedi in anonimo"
   },
   "AccountLogin": {
     "header": "Password",

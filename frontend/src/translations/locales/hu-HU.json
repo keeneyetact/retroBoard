@@ -23,7 +23,7 @@
     "title": ""
   },
   "Home": {
-    "welcome": "Isten hozott, {{name}}",
+    "welcome": "",
     "anonWarning": "",
     "howDoesThatWork": "Hogyan működik?",
     "login": "",
@@ -221,7 +221,8 @@
       "nem egészen",
       "jó",
       "erős"
-    ]
+    ],
+    "skipAndAnonLogin": ""
   },
   "AccountLogin": {
     "header": "Jelszó",

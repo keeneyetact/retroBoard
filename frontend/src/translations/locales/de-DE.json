@@ -23,7 +23,7 @@
     "title": "Willkommen! Bitte melden Sie sich an, um zu starten."
   },
   "Home": {
-    "welcome": "Willkommen, {{name}}",
+    "welcome": "Willkommen,",
     "anonWarning": "Du verwendest ein anonymes Konto. Du solltest dich einloggen, um sicherzustellen, dass deine Daten abgerufen werden können, wenn du ein anderes Gerät verwendest.",
     "howDoesThatWork": "Wie funktioniert das?",
     "login": "Anmelden",
@@ -221,7 +221,8 @@
       "nicht ganz",
       "gut",
       "stark"
-    ]
+    ],
+    "skipAndAnonLogin": "Überspringe und logge mich anonym ein"
   },
   "AccountLogin": {
     "header": "Passwort",

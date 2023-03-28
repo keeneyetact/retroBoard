@@ -9,7 +9,7 @@ export function Welcome() {
     <Container>
       <Title>{t('Welcome.title')}</Title>
       <LoginContainer>
-        <LoginContent onClose={noop} />
+        <LoginContent onClose={noop} anonymous />
       </LoginContainer>
     </Container>
   );
@@ -28,7 +28,7 @@ const Title = styled.h1`
   font-weight: 100;
   font-size: 4em;
   @media screen and (max-width: 700px) {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 `;
 

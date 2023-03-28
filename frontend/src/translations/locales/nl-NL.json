@@ -23,7 +23,7 @@
     "title": "Welkom! Gelieve in te loggen om te starten."
   },
   "Home": {
-    "welcome": "Welkom, {{name}}",
+    "welcome": "Welkom,",
     "anonWarning": "Je gebruikt een anonieme account. Je kunt misschien inloggen om ervoor te zorgen dat je gegevens kunnen worden opgehaald wanneer je een ander apparaat gebruikt.",
     "howDoesThatWork": "Hoe werkt dat?",
     "login": "Aanmelden",
@@ -221,7 +221,8 @@
       "niet helemaal",
       "goed",
       "sterk"
-    ]
+    ],
+    "skipAndAnonLogin": "Sla me over en log me in Anoniem"
   },
   "AccountLogin": {
     "header": "Wachtwoord",

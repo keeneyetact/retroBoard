@@ -23,7 +23,7 @@
     "title": "¡Bienvenido! Inicie sesión para empezar."
   },
   "Home": {
-    "welcome": "Bienvenido, {{name}}",
+    "welcome": "Bienvenido,",
     "anonWarning": "Estás usando una cuenta anónima. Tal vez quieras iniciar sesión para asegurarte de que tus datos pueden ser recuperados cuando usas otro dispositivo.",
     "howDoesThatWork": "¿Cómo funciona esto?",
     "login": "Ingresar",
@@ -221,7 +221,8 @@
       "no muy bien",
       "bueno",
       "fuerte"
-    ]
+    ],
+    "skipAndAnonLogin": "Saltar y registrarme anónimamente"
   },
   "AccountLogin": {
     "header": "Contraseña",

@@ -23,7 +23,7 @@
     "title": "Welcome! Please login to start."
   },
   "Home": {
-    "welcome": "Welcome, {{name}}",
+    "welcome": "Welcome,",
     "anonWarning": "You are using an Anonymous account. You might want to login to make sure your data can be retrieved when using another device.",
     "howDoesThatWork": "How does that work?",
     "login": "Login",
@@ -221,7 +221,8 @@
       "not quite",
       "good",
       "strong"
-    ]
+    ],
+    "skipAndAnonLogin": "Skip and log me in Anonymously"
   },
   "AccountLogin": {
     "header": "Password",

@@ -23,7 +23,7 @@
     "title": ""
   },
   "Home": {
-    "welcome": "歡迎， {{name}}",
+    "welcome": "",
     "anonWarning": "",
     "howDoesThatWork": "這是如何運作的？",
     "login": "",
@@ -221,7 +221,8 @@
       "不完全的",
       "好的",
       "強的"
-    ]
+    ],
+    "skipAndAnonLogin": ""
   },
   "AccountLogin": {
     "header": "密碼",
