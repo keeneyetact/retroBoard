@@ -80,13 +80,13 @@ const MainTitle = styled.div`
   cursor: pointer;
   margin-left: 10px;
   margin-right: 20px;
-  > :nth-child(2) {
+  > :nth-of-type(2) {
     position: relative;
     top: 2px;
   }
 
   @media screen and (max-width: 800px) {
-    > :nth-child(2) {
+    > :nth-of-type(2) {
       display: none;
     }
   }

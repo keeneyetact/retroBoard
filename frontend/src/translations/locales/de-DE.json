@@ -494,6 +494,13 @@
     "freeLimitWarning": "Sie haben Ihr Gratislimit für diesen Monat erreicht. Bitte abonnieren Sie Retrospected Pro um unbegrenzte KI-Coaching zu erhalten.",
     "genericError": "Etwas ist mit der KI schief gelaufen. Bitte versuche es später erneut.",
     "inputPrompt": "Frage stellen",
-    "send": "Senden"
+    "send": "Senden",
+    "examplesTitle": "Sie können auch damit beginnen, eine dieser Fragen zu stellen",
+    "examples": [
+      "Was ist eine Rückwirkung?",
+      "Was sind die besten Praktiken für eine Online-Retrospektive?",
+      "Wie kann ich meine Retrospektive noch mehr Spaß machen?",
+      "Wie kann ich ihn engagierter gestalten?"
+    ]
   }
 }

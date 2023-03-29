@@ -494,6 +494,13 @@
     "freeLimitWarning": "You have reached your free limit for this month. Please subscribe to Retrospected Pro to get unlimited AI Coaching.",
     "genericError": "Something went wrong with the AI. Please try again later.",
     "inputPrompt": "Ask me a question",
-    "send": "Send"
+    "send": "Send",
+    "examplesTitle": "You can also start by asking one of these questions",
+    "examples": [
+      "What is a retrospective?",
+      "What are the best practices for an online retrospective?",
+      "How can I make my retrospective more fun?",
+      "How can I make it more engaging?"
+    ]
   }
 }

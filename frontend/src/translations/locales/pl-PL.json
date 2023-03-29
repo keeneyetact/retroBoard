@@ -494,6 +494,13 @@
     "freeLimitWarning": "Osiągnąłeś swój darmowy limit na ten miesiąc. Proszę subskrybuj Retrospected Pro, aby uzyskać nieograniczoną liczbę trenerów AI.",
     "genericError": "Coś poszło nie tak z AI. Spróbuj ponownie później.",
     "inputPrompt": "Zadaj mi pytanie",
-    "send": "Wyślij"
+    "send": "Wyślij",
+    "examplesTitle": "Możesz również zacząć od zadawania jednego z tych pytań",
+    "examples": [
+      "Czym jest retrospektywność?",
+      "Jakie są najlepsze praktyki w zakresie retrospektywnego stosowania internetu?",
+      "Jak mogę sprawić, by moja retrospektywność była bardziej zabawna?",
+      "Jak mogę sprawić, by był bardziej zaangażowany?"
+    ]
   }
 }

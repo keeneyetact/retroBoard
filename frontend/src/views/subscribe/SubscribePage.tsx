@@ -205,7 +205,7 @@ function SubscriberPage() {
         </Button>
       </Step>
     ),
-  ].filter(Boolean) as Array<(index: number) => JSX.Element>;
+  ].filter(Boolean);
 
   return (
     <Container>

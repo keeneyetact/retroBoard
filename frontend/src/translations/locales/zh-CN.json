@@ -494,6 +494,13 @@
     "freeLimitWarning": "您已达到本月的免费上限。请订阅Retroscripted Pro 以获得无限的 AI Coaching。",
     "genericError": "AI出了错。请稍后再试。",
     "inputPrompt": "问我一个问题",
-    "send": "发送"
+    "send": "发送",
+    "examplesTitle": "您也可以通过询问其中一个问题开始",
+    "examples": [
+      "什么是追溯性的？",
+      "网上回顾的最佳做法是什么？",
+      "如何使我的回顾更加有趣？",
+      "我如何才能使它更多地参与？"
+    ]
   }
 }

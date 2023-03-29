@@ -494,6 +494,13 @@
     "freeLimitWarning": "U heeft uw gratis limiet voor deze maand bereikt. Abonneer u alstublieft op Retrospected Pro om een onbeperkte AI coaching te krijgen.",
     "genericError": "Er ging iets mis met de AI. Probeer het later opnieuw.",
     "inputPrompt": "Stel me een vraag",
-    "send": "Verzenden"
+    "send": "Verzenden",
+    "examplesTitle": "U kunt ook beginnen met een van deze vragen te stellen",
+    "examples": [
+      "Wat is een retrospectief?",
+      "Wat zijn de beste praktijken voor een online-retrospectie?",
+      "Hoe kan ik mijn retrospectief leuker maken?",
+      "Hoe kan ik het aantrekkelijker maken?"
+    ]
   }
 }

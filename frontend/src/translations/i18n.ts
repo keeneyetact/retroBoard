@@ -21,6 +21,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: config.DEFAULT_LANGUAGE,
+    returnEmptyString: false,
     debug: !isProduction(),
     defaultNS: 'ns1',
     ns: 'ns1',

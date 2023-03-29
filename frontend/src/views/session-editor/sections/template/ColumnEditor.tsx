@@ -109,7 +109,7 @@ const ColumnEditor = ({
       <LabelContainer>
         <Typography>
           <EditableLabel
-            wrap
+            wrapText
             value={value.label}
             onChange={handleLabelChange}
             placeholder={value.label || '(empty)'}

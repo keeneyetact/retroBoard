@@ -494,6 +494,13 @@
     "freeLimitWarning": "Você atingiu seu limite gratuito para este mês. Inscreva-se no Retrospected Pro para obter tutela IA ilimitada.",
     "genericError": "Algo deu errado com AI. Por favor, tente novamente mais tarde.",
     "inputPrompt": "Faça uma pergunta para mim",
-    "send": "Mandar"
+    "send": "Mandar",
+    "examplesTitle": "Você também pode começar fazendo uma dessas perguntas",
+    "examples": [
+      "O que é um retrospectivo?",
+      "Quais são as melhores práticas para um retrocesso na Internet?",
+      "Como posso fazer meu retrospectivo mais divertido?",
+      "Como posso fazer isso mais envolvente?"
+    ]
   }
 }

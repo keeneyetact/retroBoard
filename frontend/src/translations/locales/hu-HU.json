@@ -494,6 +494,13 @@
     "freeLimitWarning": "",
     "genericError": "",
     "inputPrompt": "",
-    "send": ""
+    "send": "",
+    "examplesTitle": "",
+    "examples": [
+      "",
+      "",
+      "",
+      ""
+    ]
   }
 }

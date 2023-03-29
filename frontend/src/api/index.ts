@@ -141,7 +141,7 @@ async function registerBase(
       body: JSON.stringify(payload),
     });
     if (response.ok) {
-      const { user, loggedIn } = await response.json();
+      const { user, loggedIn } = (await response.json()) as any;
       return {
         user,
         error: null,
@@ -258,7 +258,7 @@ export async function getGiphyUrl(giphyId: string): Promise<string | null> {
       { credentials: 'omit' }
     );
     if (response.ok) {
-      const { data } = await response.json();
+      const { data } = (await response.json()) as any;
       return data && data.images ? data.images.downsized_medium.url : null;
     }
     return null;

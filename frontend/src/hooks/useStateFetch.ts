@@ -21,7 +21,7 @@ function useStateFetch<T>(
         try {
           const response = await fetch(url);
           if (response.ok) {
-            const responseData = await response.json();
+            const responseData = (await response.json()) as T;
             setData(responseData);
             setLoading(false);
             setError(null);

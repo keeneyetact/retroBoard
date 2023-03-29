@@ -60,7 +60,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  > :first-child {
+  :first-of-type {
     flex: 1;
   }
 `;

@@ -196,7 +196,7 @@ const PostItem = ({
               <LabelContainer blurred={isBlurred}>
                 <Typography variant="body1">
                   <EditableLabel
-                    wrap
+                    wrapText
                     readOnly={readOnly}
                     value={actualContent}
                     onChange={handleEdit}
@@ -237,7 +237,7 @@ const PostItem = ({
                 <Typography variant="caption">{t('Actions.title')}:</Typography>
                 <Typography variant="body1">
                   <EditableLabel
-                    wrap
+                    wrapText
                     value={decrypt(post.action || '')}
                     onChange={handleEditAction}
                     label={t('Actions.title')!}

@@ -141,7 +141,7 @@ function AccountPage() {
                 {[user.planOwnerEmail, ...(user.planAdmins || [])]
                   .filter(Boolean)
                   .map((email, i) => (
-                    <Tag key={i} value={email as string} />
+                    <Tag key={i} value={email} />
                   ))}
               </Value>
             </Data>

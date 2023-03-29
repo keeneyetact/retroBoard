@@ -5,6 +5,7 @@ import ChatInput from './ChatInput';
 
 import { keyframes } from '@emotion/react';
 import { CoachMessage } from 'common';
+import { Examples } from './Examples';
 
 type ChatProps = {
   messages: CoachMessage[];
@@ -16,16 +17,23 @@ type ChatProps = {
 export function Chat({ messages, disabled, thinking, onMessage }: ChatProps) {
   return (
     <Container>
-      <ScrollContainer>
-        {messages.map((m, index) => (
-          <ChatMessage
-            message={m.content}
-            own={m.role === 'user'}
-            key={index}
-          />
-        ))}
-        {thinking ? <ChatMessage message={<Ellipsis />} /> : null}
-      </ScrollContainer>
+      <Main>
+        <ScrollContainer>
+          {messages.map((m, index) => (
+            <ChatMessage
+              message={m.content}
+              own={m.role === 'user'}
+              key={index}
+            />
+          ))}
+          {thinking ? <ChatMessage message={<Ellipsis />} /> : null}
+          {messages.length === 0 ? (
+            <ExamplesContainer>
+              <Examples onSelect={onMessage} />
+            </ExamplesContainer>
+          ) : null}
+        </ScrollContainer>
+      </Main>
       <UserInput>
         <ChatInput disabled={disabled} onMessage={onMessage} />
       </UserInput>
@@ -42,6 +50,14 @@ const ellipsis = keyframes`
 `;
 
 const Container = styled.div``;
+
+const Main = styled.div`
+  display: flex;
+`;
+
+const ExamplesContainer = styled.div`
+  padding-top: 3rem;
+`;
 
 const UserInput = styled.div`
   margin-top: 20px;

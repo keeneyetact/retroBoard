@@ -145,7 +145,7 @@ function BoardHeader({
             style={{ fontWeight: 300 }}
           >
             <EditableLabel
-              wrap
+              wrapText
               placeholder={t('SessionName.defaultSessionName')!}
               value={decrypt(session.name)}
               centered

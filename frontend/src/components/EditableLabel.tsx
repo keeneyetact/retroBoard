@@ -11,7 +11,7 @@ interface EditableLabelProps extends CenteredProp {
   multiline?: boolean;
   label?: string;
   focused?: boolean;
-  wrap?: boolean;
+  wrapText?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -26,7 +26,7 @@ const EditableLabel = ({
   multiline,
   label,
   focused,
-  wrap = false,
+  wrapText = false,
   onChange,
 }: EditableLabelProps) => {
   const [editMode, setEditMode] = useState(false);
@@ -100,11 +100,11 @@ const EditableLabel = ({
           <InvisibleEditIcon fontSize="inherit" />
         </EditMode>
       ) : readOnly ? (
-        <ViewMode wrap={wrap} aria-label={label}>
+        <ViewMode wrapText={wrapText} aria-label={label}>
           <span>{current || placeholder}</span>
         </ViewMode>
       ) : (
-        <ViewMode wrap={wrap} onClick={enableEditMode}>
+        <ViewMode wrapText={wrapText} onClick={enableEditMode}>
           <span aria-label={label} data-testid={label}>
             {current || placeholder}
           </span>
@@ -120,12 +120,12 @@ export default EditableLabel;
 
 const LabelContainer = styled.span``;
 
-const ViewMode = styled.span<{ wrap: boolean }>`
+const ViewMode = styled.span<{ wrapText: boolean }>`
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
   > span {
-    white-space: ${(props) => (props.wrap ? 'pre-wrap' : 'nowrap')};
+    white-space: ${(props) => (props.wrapText ? 'pre-wrap' : 'nowrap')};
     line-height: 1.5;
   }
 

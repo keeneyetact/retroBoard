@@ -494,6 +494,13 @@
     "freeLimitWarning": "Vous avez atteint votre limite gratuite ce mois-ci. En vous abonnant à Retrospected Pro, vous aurez accès au Coach Agile de manière illimitée.",
     "genericError": "Il y a quelque-chose qui cloche. Merci de recommencer plus tard.",
     "inputPrompt": "Posez-moi une question",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "examplesTitle": "Vous pouvez également commencer par poser une de ces questions",
+    "examples": [
+      "Qu'est-ce qu'une rétrospective ?",
+      "Quelles sont les meilleurs pratiques quant aux rétrospectives en ligne ?",
+      "Comment puis-je rendre ma rétrospective plus amusante?",
+      "Comment puis-je la rendre plus engageante ?"
+    ]
   }
 }

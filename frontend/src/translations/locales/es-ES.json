@@ -494,6 +494,13 @@
     "freeLimitWarning": "Has alcanzado tu límite gratuito para este mes. Por favor, suscríbete a Retrospected Pro para obtener un entrenamiento de IA ilimitado.",
     "genericError": "Algo salió mal con la IA. Inténtalo de nuevo más tarde.",
     "inputPrompt": "Hazme una pregunta",
-    "send": "Enviar"
+    "send": "Enviar",
+    "examplesTitle": "También puedes empezar haciendo una de estas preguntas",
+    "examples": [
+      "¿Qué es una retrospectiva?",
+      "¿Cuáles son las mejores prácticas para una retrospectiva en línea?",
+      "¿Cómo puedo hacer que mi retrospectiva sea más divertida?",
+      "¿Cómo puedo hacerla más interesante?"
+    ]
   }
 }
