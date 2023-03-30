@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { colors } from '@mui/material';
+import { colors, IconButton } from '@mui/material';
 import { Lock, VerifiedUser } from '@mui/icons-material';
 import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
@@ -27,6 +27,7 @@ function LockSession({ onLock }: LockSessionProps) {
   const { t } = useTranslation();
   const { participants } = useParticipants();
   const fullScreen = useMediaQuery('(max-width:600px)');
+  const small = useMediaQuery('(max-width: 500px)');
 
   const handleLock = useCallback(() => {
     if (session) {
@@ -60,20 +61,32 @@ function LockSession({ onLock }: LockSessionProps) {
   return (
     <>
       <ProButton>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={
-            session.locked ? (
+        {small ? (
+          <IconButton onClick={handleOpenDialog} color="secondary">
+            {session.locked ? (
               <VerifiedUser style={{ color: colors.red[800] }} />
             ) : (
               <VerifiedUser style={{ color: colors.green[800] }} />
-            )
-          }
-          onClick={handleOpenDialog}
-        >
-          {session.locked ? t('Private.unlockButton') : t('Private.lockButton')}
-        </Button>
+            )}
+          </IconButton>
+        ) : (
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={
+              session.locked ? (
+                <VerifiedUser style={{ color: colors.red[800] }} />
+              ) : (
+                <VerifiedUser style={{ color: colors.green[800] }} />
+              )
+            }
+            onClick={handleOpenDialog}
+          >
+            {session.locked
+              ? t('Private.unlockButton')
+              : t('Private.lockButton')}
+          </Button>
+        )}
       </ProButton>
       <Dialog
         onClose={handleCloseDialog}

@@ -2,7 +2,7 @@ import { Alert, AlertColor, AlertTitle } from '@mui/material';
 import { differenceInDays } from 'date-fns';
 import { Link } from 'react-router-dom';
 import useIsTrial from '../../auth/useIsTrial';
-import useUser from '../../auth/useUser';
+import useUser from '../../state/user/useUser';
 import useFormatDate from '../../hooks/useFormatDate';
 import { useTranslation } from 'react-i18next';
 import useQuota from '../../hooks/useQuota';

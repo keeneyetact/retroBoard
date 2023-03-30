@@ -80,7 +80,8 @@
     "postCategory": "Hozzászólás beállításai",
     "postCategorySub": "Állítsa be a szabályokat arra vonatkozóan, hogy a felhasználó mit tehet bejegyzés létrehozásakor vagy megtekintésekor",
     "customTemplateCategory": "Oszlop sablon",
-    "customTemplateCategorySub": "Állítsa be az oszlopok számát és jellemzőit",
+    "customTemplateCategorySub": "",
+    "customTemplateAddColumn": "",
     "startButton": "Indítsa el a munkamenetet",
     "editButton": "Frissítés",
     "maxUpVotes": "Max fel-szavazatok",
@@ -132,6 +133,9 @@
     "islandQuestion": "sziget",
     "windQuestion": "Szél",
     "rockQuestion": "Szikla",
+    "madQuestion": "",
+    "sadQuestion": "",
+    "gladQuestion": "",
     "disconnected": "Lekapcsolták az aktuális munkamenetről.",
     "reconnect": "Csatlakozzon újra",
     "notLoggedIn": "Nincs bejelentkezve. Ezt az ülést nézőként tekintheti meg, de a részvételhez be kell jelentkeznie.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Alapértelmezett",
     "wellNotWell": "Hát / Nem jól",
+    "wellNotWellIdeas": "",
     "startStopContinue": "Indítás / Leállítás / Folytatás",
     "fourLs": "Négy Ls",
-    "sailboat": "Vitorlás"
+    "sailboat": "Vitorlás",
+    "madSadGlad": ""
   },
   "Clients": {
     "header": "Jelenleg itt van:",
@@ -501,6 +507,7 @@
       "",
       "",
       ""
-    ]
+    ],
+    "feedback": ""
   }
 }

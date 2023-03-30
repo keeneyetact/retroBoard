@@ -9,10 +9,11 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { requestConfig } from 'api/fetch';
-import useUser from 'auth/useUser';
+import useUser from 'state/user/useUser';
 import { CoachMessage, CoachRole } from 'common';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import config from 'utils/getConfig';
 import { v4 } from 'uuid';
 import { Chat } from './Chat';
 
@@ -20,6 +21,8 @@ type AiCoachProps = {
   open: boolean;
   onClose: () => void;
 };
+
+const feedbackUrl = config.AI_FEEDBACK_URL;
 
 export function AiCoach({ open, onClose }: AiCoachProps) {
   const [messages, setMessages] = useState<CoachMessage[]>([]);
@@ -83,20 +86,26 @@ export function AiCoach({ open, onClose }: AiCoachProps) {
         </HeaderContainer>
       </DialogTitle>
       <DialogContent>
-        {disabled ? (
-          <Alert severity="error">{t('Ai.disabledAnonymous')}</Alert>
-        ) : (
-          <Alert>{t('Ai.info')}</Alert>
-        )}
+        {!disabled ? <Alert>{t('Ai.info')}</Alert> : null}
         <Chat
           disabled={disabled}
           messages={messages}
-          onMessage={handleMessage}
           thinking={thinking}
+          onClose={onClose}
+          onMessage={handleMessage}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t('Ai.close')}</Button>
+        <Buttons>
+          {feedbackUrl ? (
+            <Button color="warning" href={feedbackUrl} target="_blank">
+              {t('Ai.feedback')}
+            </Button>
+          ) : (
+            <span></span>
+          )}
+          <Button onClick={onClose}>{t('Ai.close')}</Button>
+        </Buttons>
       </DialogActions>
     </Dialog>
   );
@@ -106,4 +115,10 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+`;
+
+const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import useUser from './useUser';
+import useUser from '../state/user/useUser';
 
 export default function useDisplayMarketing(): boolean {
   const location = useLocation();

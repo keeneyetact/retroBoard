@@ -80,7 +80,8 @@
     "postCategory": "帖子设置",
     "postCategorySub": "设置用户在创建或查看帖子时可以做什么的规则",
     "customTemplateCategory": "列模板",
-    "customTemplateCategorySub": "设置列数及其特性",
+    "customTemplateCategorySub": "选择模板并自定义您的列",
+    "customTemplateAddColumn": "添加新列",
     "startButton": "开始会话",
     "editButton": "更新",
     "maxUpVotes": "最大向上投票数",
@@ -132,6 +133,9 @@
     "islandQuestion": "岛",
     "windQuestion": "向导",
     "rockQuestion": "摇动",
+    "madQuestion": "马德",
+    "sadQuestion": "悲伤的",
+    "gladQuestion": "格拉德文",
     "disconnected": "您已与当前会话断开连接。",
     "reconnect": "重新连接",
     "notLoggedIn": "您尚未登录。您可以将此会话视为旁观者，但必须登录才能参与。",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "默认设置",
     "wellNotWell": "好的 / 不好",
+    "wellNotWellIdeas": "好的/不好的/想法的",
     "startStopContinue": "开始/停止/继续",
     "fourLs": "四指示灯",
-    "sailboat": "帆船"
+    "sailboat": "帆船",
+    "madSadGlad": "坏的 / 沙德 / Glad"
   },
   "Clients": {
     "header": "已加入我们的:",
@@ -222,7 +228,7 @@
       "很好",
       "强度"
     ],
-    "skipAndAnonLogin": "匿名跳过并登录我"
+    "skipAndAnonLogin": "匿名使用"
   },
   "AccountLogin": {
     "header": "密码",
@@ -501,6 +507,7 @@
       "网上回顾的最佳做法是什么？",
       "如何使我的回顾更加有趣？",
       "我如何才能使它更多地参与？"
-    ]
+    ],
+    "feedback": "留下一些反馈"
   }
 }

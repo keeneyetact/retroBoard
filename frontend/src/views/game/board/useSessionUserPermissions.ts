@@ -1,4 +1,4 @@
-import useUser from '../../../auth/useUser';
+import useUser from '../../../state/user/useUser';
 import useCanDecrypt from '../../../crypto/useCanDecrypt';
 import useIsDisabled from '../../../hooks/useIsDisabled';
 import useSession from '../useSession';

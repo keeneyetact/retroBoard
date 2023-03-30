@@ -384,6 +384,7 @@ const PostCard = styled(Card)`
   margin: 10px 5px;
   margin-bottom: 20px;
   position: relative;
+  left: -10px;
 
   :hover {
     & .drag-handle {

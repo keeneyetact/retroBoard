@@ -1,13 +1,12 @@
-import { useCallback, useState, useRef, useContext } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import AccountIcon from '@mui/icons-material/AccountCircle';
-import useUser from './useUser';
+import useUser from '../state/user/useUser';
 import LoginModal from './modal/LoginModal';
 import { logout } from '../api';
-import UserContext from './Context';
 import Avatar from '../components/Avatar';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { Key, Logout, Star } from '@mui/icons-material';
@@ -21,10 +20,11 @@ import {
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import useIsAdmin from './useIsAdmin';
 import { useTranslation } from 'react-i18next';
+import { useSetUser } from 'state/user/useSetUser';
 
 const AccountMenu = () => {
   const { t } = useTranslation();
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const [modalOpened, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuAnchor = useRef<HTMLDivElement>(null);
@@ -79,20 +79,18 @@ const AccountMenu = () => {
           ref={menuAnchor}
           data-cy="account-menu"
         >
-          <Avatar user={user} />
           <DisplayName>{user.name}</DisplayName>
           <ChipContainer>
             {user.accountType === 'anonymous' ? (
               <Chip color="secondary" label={t('Header.anonymous')} />
             ) : null}
           </ChipContainer>
-          <AccountCircleContainer>
-            <AccountCircle fontSize={'large'} />
-          </AccountCircleContainer>
+          <Avatar user={user} />
         </AvatarContainer>
         {menuAnchor.current ? (
           <Menu
             anchorEl={menuAnchor.current}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             open={menuOpen}
             onClose={closeMenu}
           >
@@ -176,12 +174,6 @@ const DisplayName = styled.div`
 
 const ChipContainer = styled.div`
   @media screen and (max-width: 900px) {
-    display: none;
-  }
-`;
-
-const AccountCircleContainer = styled.div`
-  @media screen and (max-width: 800px) {
     display: none;
   }
 `;

@@ -1,38 +1,65 @@
-import { useCallback, useState } from 'react';
-import { Template } from '../../../../state/types';
-import { getAllTemplates } from '../../../../state/templates';
+import {
+  ColumnSettings,
+  Template,
+  TranslationFunction,
+} from '../../../../state/types';
+import {
+  getAllTemplates,
+  getTemplateColumns,
+} from '../../../../state/templates';
 import { useTranslation } from 'react-i18next';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { SelectChangeEvent } from '@mui/material';
+import styled from '@emotion/styled';
+import { TemplateItem } from './TemplateItem';
 
 interface TemplatePickerProps {
+  current: ColumnSettings[];
   onSelect: (value: Template) => void;
 }
 
-const TemplatePicker = ({ onSelect }: TemplatePickerProps) => {
+export function TemplatePicker({ current, onSelect }: TemplatePickerProps) {
   const { t } = useTranslation();
-  const [template, setTemplate] = useState<Template>('default');
   const templates = getAllTemplates(t);
-  const handleChange = useCallback(
-    (event: SelectChangeEvent<Template>) => {
-      const selected = event.target.value as Template;
-      setTemplate(selected);
-      onSelect(selected);
-    },
-    [onSelect]
-  );
-  return (
-    <Select value={template} onChange={handleChange} variant="standard">
-      {templates.map((template) => {
-        return (
-          <MenuItem value={template.type} key={template.type}>
-            {template.name}
-          </MenuItem>
-        );
-      })}
-    </Select>
-  );
-};
 
-export default TemplatePicker;
+  return (
+    <Container>
+      {templates
+        .filter((def) => def.type !== 'default')
+        .map((def) => (
+          <TemplateItem
+            key={def.type}
+            definition={def}
+            selected={isSelected(current, def.type, t)}
+            onSelect={onSelect}
+          />
+        ))}
+    </Container>
+  );
+}
+
+function isSelected(
+  current: ColumnSettings[],
+  templateType: Template,
+  t: TranslationFunction
+) {
+  const template = getTemplateColumns(templateType, t);
+  if (current.length !== template.length) {
+    return false;
+  }
+  for (let i = 0; i < current.length; i++) {
+    if (
+      current[i].type !== template[i].type ||
+      current[i].color !== template[i].color ||
+      current[i].icon !== template[i].icon
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0;
+`;

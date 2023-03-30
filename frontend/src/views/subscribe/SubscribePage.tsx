@@ -11,7 +11,7 @@ import { Currency, FullUser, Plan } from 'common';
 import CurrencyPicker from './components/CurrencyPicker';
 import ProductPicker from './components/ProductPicker';
 import Input from '../../components/Input';
-import useUser from '../../auth/useUser';
+import useUser from '../../state/user/useUser';
 import { Alert } from '@mui/material';
 import { useEffect } from 'react';
 import { useLanguage } from '../../translations';

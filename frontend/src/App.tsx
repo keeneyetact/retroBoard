@@ -14,11 +14,12 @@ import { Suspense } from 'react';
 import { CodeSplitLoader } from './CodeSplitLoader';
 import QuotaManager from './auth/QuotaManager';
 import { ConfirmProvider } from 'material-ui-confirm';
+import { FullScreenLoader } from 'components/loaders/FullScreenLoader';
 
 function App() {
   return (
-    <Suspense fallback>
-      <RecoilRoot>
+    <RecoilRoot>
+      <Suspense fallback={<FullScreenLoader />}>
         <Helmet>
           <meta property="og:title" content="Retrospected.com" />
           <meta
@@ -54,8 +55,8 @@ function App() {
             </ConfirmProvider>
           </ThemeProvider>
         </SnackbarProvider>
-      </RecoilRoot>
-    </Suspense>
+      </Suspense>
+    </RecoilRoot>
   );
 }
 

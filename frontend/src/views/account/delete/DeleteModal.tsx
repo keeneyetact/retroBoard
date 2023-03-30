@@ -15,17 +15,17 @@ import {
   colors,
 } from '@mui/material';
 import { noop } from 'lodash';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { DeleteAccountPayload, FullUser } from 'common';
 import { deleteAccount, deleteUser, logout } from '../../../api';
-import UserContext from '../../../auth/Context';
 import { useNavigate } from 'react-router';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { trackEvent } from '../../../track';
-import useUser from 'auth/useUser';
+import useUser from 'state/user/useUser';
+import { useSetUser } from 'state/user/useSetUser';
 
 type DeleteModalProps = {
   open: boolean;
@@ -46,7 +46,7 @@ export function DeleteModal({
   const [deleteVotes, setDeleteVotes] = useState(false);
   const currentUser = useUser();
   const isOwnAccount = currentUser && currentUser.id === user.id;
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const { enqueueSnackbar } = useSnackbar();
   const push = useNavigate();
   const confirm = useConfirm();

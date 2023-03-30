@@ -1,10 +1,11 @@
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import languages, { Language } from './languages';
 import { useTranslation } from 'react-i18next';
 import { updateLanguage } from 'api';
-import UserContext from 'auth/Context';
 import { trackEvent } from 'track';
 import { TrackingEvent } from 'common';
+import useUser from 'state/user/useUser';
+import { useSetUser } from 'state/user/useSetUser';
 
 type UseLanguageResult = [
   language: Language,
@@ -13,7 +14,8 @@ type UseLanguageResult = [
 
 export default function useLanguage(): UseLanguageResult {
   const { i18n } = useTranslation();
-  const { user, setUser } = useContext(UserContext);
+  const user = useUser();
+  const setUser = useSetUser();
   const hasUser = !!user;
 
   const locale = i18n.language;

@@ -1,10 +1,9 @@
-import { useContext } from 'react';
-import UserContext from './Context';
 import { FullUser } from 'common';
+import { useRecoilValue } from 'recoil';
+import { userState } from './user-state';
 
 function useUser(): FullUser | null {
-  const { user } = useContext(UserContext);
-
+  const user = useRecoilValue(userState);
   return user;
 }
 
@@ -14,9 +13,9 @@ interface UseUserMetadataReturn {
 }
 
 export function useUserMetadata(): UseUserMetadataReturn {
-  const { user, initialised } = useContext(UserContext);
+  const user = useUser();
 
-  return { user, initialised };
+  return { user, initialised: true };
 }
 
 export default useUser;

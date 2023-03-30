@@ -32,4 +32,5 @@ const MessageContent = styled.div<{ own: boolean }>`
   border-radius: 10px;
   background-color: ${(props) => (props.own ? colors.blue[400] : '#f0f0f0')};
   color: ${(props) => (props.own ? 'white' : 'black')};
+  line-height: 1.4rem;
 `;

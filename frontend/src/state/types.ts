@@ -11,13 +11,16 @@ export interface ColumnSettings {
 export type Template =
   | 'default'
   | 'well-not-well'
+  | 'well-not-well-ideas'
   | 'start-stop-continue'
   | 'four-l'
-  | 'sailboat';
+  | 'sailboat'
+  | 'mad-sad-glad';
 
 export interface TemplateDefinition {
   type: Template;
   name: string;
+  icon: React.ReactNode;
 }
 
 export type TranslationFunction = TFunction<Namespace<'ns1'>, undefined>;

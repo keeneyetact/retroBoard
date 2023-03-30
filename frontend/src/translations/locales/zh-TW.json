@@ -80,7 +80,8 @@
     "postCategory": "帖子設置",
     "postCategorySub": "設置用戶在創建或查看帖子時可以做什麼的規則",
     "customTemplateCategory": "列模板",
-    "customTemplateCategorySub": "設置列數及其特徵",
+    "customTemplateCategorySub": "",
+    "customTemplateAddColumn": "",
     "startButton": "開始會話",
     "editButton": "更新",
     "maxUpVotes": "最大投票數",
@@ -132,6 +133,9 @@
     "islandQuestion": "島",
     "windQuestion": "風",
     "rockQuestion": "岩石",
+    "madQuestion": "",
+    "sadQuestion": "",
+    "gladQuestion": "",
     "disconnected": "您已與當前會話斷開連接。",
     "reconnect": "重新連接",
     "notLoggedIn": "您尚未登錄。您可以作為旁觀者查看此會話，但必須登錄才能參與。",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "默認",
     "wellNotWell": "好/不好",
+    "wellNotWellIdeas": "",
     "startStopContinue": "開始/停止/繼續",
     "fourLs": "四個 L",
-    "sailboat": "帆船"
+    "sailboat": "帆船",
+    "madSadGlad": ""
   },
   "Clients": {
     "header": "已加入我們的:",
@@ -501,6 +507,7 @@
       "",
       "",
       ""
-    ]
+    ],
+    "feedback": ""
   }
 }

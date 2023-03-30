@@ -1,6 +1,6 @@
 import { getPortalUrl } from './api';
 import { useEffect, useState } from 'react';
-import useUser from '../../auth/useUser';
+import useUser from '../../state/user/useUser';
 
 export default function usePortalUrl(): string | null {
   const [url, setUrl] = useState<string | null>(null);

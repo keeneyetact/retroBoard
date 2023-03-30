@@ -2,7 +2,7 @@ import { Quota } from 'common';
 import React, { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { getQuota } from '../views/account/api';
-import useUser from './useUser';
+import useUser from '../state/user/useUser';
 import { getItem } from '../utils/localStorage';
 
 export const LOCAL_STORAGE_POSTS_KEY = 'posts';

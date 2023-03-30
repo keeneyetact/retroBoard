@@ -80,7 +80,8 @@
     "postCategory": "Post settings",
     "postCategorySub": "Set the rules about what a user can do when creating or viewing a post",
     "customTemplateCategory": "Column Template",
-    "customTemplateCategorySub": "Set the number of columns and their characteristics",
+    "customTemplateCategorySub": "Select a template and customize your columns",
+    "customTemplateAddColumn": "Add a new column",
     "startButton": "Start the session",
     "editButton": "Update",
     "maxUpVotes": "Max Up-Votes",
@@ -132,6 +133,9 @@
     "islandQuestion": "Island",
     "windQuestion": "Wind",
     "rockQuestion": "Rock",
+    "madQuestion": "Mad",
+    "sadQuestion": "Sad",
+    "gladQuestion": "Glad",
     "disconnected": "You have been disconnected from the current session.",
     "reconnect": "Reconnect",
     "notLoggedIn": "You are not logged in. You can view this session as a spectator, but must login to participate.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Default",
     "wellNotWell": "Well / Not Well",
+    "wellNotWellIdeas": "Well / Not Well / Ideas",
     "startStopContinue": "Start / Stop / Continue",
     "fourLs": "Four Ls",
-    "sailboat": "Sailboat"
+    "sailboat": "Sailboat",
+    "madSadGlad": "Mad / Sad / Glad"
   },
   "Clients": {
     "header": "Participants:",
@@ -222,7 +228,7 @@
       "good",
       "strong"
     ],
-    "skipAndAnonLogin": "Skip and log me in Anonymously"
+    "skipAndAnonLogin": "Use Anonymously"
   },
   "AccountLogin": {
     "header": "Password",
@@ -501,6 +507,7 @@
       "What are the best practices for an online retrospective?",
       "How can I make my retrospective more fun?",
       "How can I make it more engaging?"
-    ]
+    ],
+    "feedback": "Leave some feedback"
   }
 }

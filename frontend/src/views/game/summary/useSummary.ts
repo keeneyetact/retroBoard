@@ -6,7 +6,7 @@ import { ColumnStats, ColumnStatsItem, Stats, ActionItem } from './types';
 import { countVotes, countVotesForGroup } from '../utils';
 import { postPermissionLogic } from '../board/permissions-logic';
 import { useMemo } from 'react';
-import useUser from '../../../auth/useUser';
+import useUser from '../../../state/user/useUser';
 import useSession from '../useSession';
 
 export function useSummary(columns: ColumnContent[]): Stats {

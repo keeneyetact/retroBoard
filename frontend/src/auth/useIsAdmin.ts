@@ -1,5 +1,5 @@
 import useBackendCapabilities from '../global/useBackendCapabilities';
-import useUser from './useUser';
+import useUser from '../state/user/useUser';
 
 export default function useIsAdmin() {
   const user = useUser();

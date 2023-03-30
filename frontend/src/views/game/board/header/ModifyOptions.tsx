@@ -8,6 +8,7 @@ import { trackEvent } from '../../../../track';
 import { Settings } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import useSession from '../../useSession';
+import { IconButton, useMediaQuery } from '@mui/material';
 
 interface ModifyOptionsProps {
   onEditOptions: (options: SessionOptions) => void;
@@ -26,6 +27,7 @@ function ModifyOptions({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { session } = useSession();
+  const small = useMediaQuery('(max-width: 500px)');
 
   const handleChange = useCallback(
     (
@@ -62,14 +64,20 @@ function ModifyOptions({
 
   return (
     <>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<Settings />}
-        onClick={() => setOpen(true)}
-      >
-        {t('Join.standardTab.customizeButton')}
-      </Button>
+      {small ? (
+        <IconButton onClick={() => setOpen(true)} color="primary">
+          <Settings />
+        </IconButton>
+      ) : (
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<Settings />}
+          onClick={() => setOpen(true)}
+        >
+          {t('Join.standardTab.customizeButton')}
+        </Button>
+      )}
       {open ? (
         <SessionEditor
           edit

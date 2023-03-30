@@ -31,7 +31,7 @@ import { v4 } from 'uuid';
 import find from 'lodash/find';
 import { setScope, trackAction, trackEvent } from '../../track';
 import io, { Socket } from 'socket.io-client';
-import { useUserMetadata } from '../../auth/useUser';
+import { useUserMetadata } from '../../state/user/useUser';
 import { getMiddle, getNext } from './lexorank';
 import { useSnackbar } from 'notistack';
 import {

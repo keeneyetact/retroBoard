@@ -15,7 +15,7 @@ import { trackAdWordsConversion, trackEvent } from './../track';
 import { createGame, createEncryptedGame, deleteSession } from '../api';
 import { Page } from '../components/Page';
 import usePreviousSessions from '../hooks/usePreviousSessions';
-import useUser from '../auth/useUser';
+import useUser from '../state/user/useUser';
 import shortid from 'shortid';
 import { storeEncryptionKeyLocally } from '../crypto/crypto';
 import ProButton from '../components/ProButton';

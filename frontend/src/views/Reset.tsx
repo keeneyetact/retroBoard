@@ -2,17 +2,16 @@ import { useState, useCallback, Suspense, lazy } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resetChangePassword } from '../api';
 import { Alert } from '@mui/material';
-import { useContext } from 'react';
-import UserContext from '../auth/Context';
 import Input from '../components/Input';
 import { VpnKey } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
+import { useSetUser } from 'state/user/useSetUser';
 
 const PasswordStrength = lazy(() => import('react-password-strength-bar'));
 
 function ResetPasswordPage() {
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();

@@ -80,7 +80,8 @@
     "postCategory": "Beitragseinstellungen",
     "postCategorySub": "Stelle ein, wie Nutzer mit Beiträgen interagieren können",
     "customTemplateCategory": "Spaltenkonfiguration",
-    "customTemplateCategorySub": "Setzen Sie die Anzahl an Spalten und deren Eigenschaften",
+    "customTemplateCategorySub": "Wählen Sie eine Vorlage aus und passen Sie Ihre Spalten an",
+    "customTemplateAddColumn": "Neue Spalte hinzufügen",
     "startButton": "Spiel starten!",
     "editButton": "Aktualisieren",
     "maxUpVotes": "Max. Positiv-Stimmen",
@@ -132,6 +133,9 @@
     "islandQuestion": "Insel",
     "windQuestion": "Wind",
     "rockQuestion": "Fels",
+    "madQuestion": "Wahnsinnig",
+    "sadQuestion": "Traurig",
+    "gladQuestion": "Glad",
     "disconnected": "Sie wurden von der aktuellen Sitzung getrennt.",
     "reconnect": "Neu verbinden",
     "notLoggedIn": "Sie sind nicht eingeloggt. Sie können diese Sitzung als Zuschauer betrachten, müssen sich aber einloggen, um daran teilzunehmen.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Standard",
     "wellNotWell": "Gut / Nicht Gut",
+    "wellNotWellIdeas": "Gut / Nicht gut / Ideen",
     "startStopContinue": "Start / Stop / Weiter",
     "fourLs": "Vier Ls",
-    "sailboat": "Segelboot"
+    "sailboat": "Segelboot",
+    "madSadGlad": "Wahnsinnig / Traurig / Glad"
   },
   "Clients": {
     "header": "Mit dabei sind:",
@@ -222,7 +228,7 @@
       "gut",
       "stark"
     ],
-    "skipAndAnonLogin": "Überspringe und logge mich anonym ein"
+    "skipAndAnonLogin": "Anonym verwenden"
   },
   "AccountLogin": {
     "header": "Passwort",
@@ -501,6 +507,7 @@
       "Was sind die besten Praktiken für eine Online-Retrospektive?",
       "Wie kann ich meine Retrospektive noch mehr Spaß machen?",
       "Wie kann ich ihn engagierter gestalten?"
-    ]
+    ],
+    "feedback": "Feedback hinterlassen"
   }
 }

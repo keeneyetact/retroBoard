@@ -119,6 +119,7 @@ services:
       FRONTEND_GIPHY_API_KEY: '' # Optional, can be obtained here: https://developers.giphy.com/
       FRONTEND_DEFAULT_LANGUAGE: 'en-GB' # Set the default language for new users
       FRONTEND_MARKETING_ROOT: 'https://www.retrospected.com' # URL of the marketing website
+      FRONTEND_AI_FEEDBACK_URL: 'http://' # URL of a freeform feedback form for AI feedback
 
       # -- Do Not Change --
       BACKEND_HOST: backend # This should be the name of the backend service

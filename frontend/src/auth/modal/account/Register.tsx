@@ -1,11 +1,4 @@
-import {
-  Suspense,
-  useCallback,
-  useState,
-  useMemo,
-  lazy,
-  useContext,
-} from 'react';
+import { Suspense, useCallback, useState, useMemo, lazy } from 'react';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material';
 import { useLanguage } from '../../../translations';
@@ -13,11 +6,11 @@ import Wrapper from './../Wrapper';
 import Input from '../../../components/Input';
 import { Person, Email, VpnKey } from '@mui/icons-material';
 import { register } from '../../../api';
-import UserContext from '../../Context';
 import useBackendCapabilities from 'global/useBackendCapabilities';
 import { useTranslation } from 'react-i18next';
 import { validate } from 'email/validate';
 import { trackEvent } from 'track';
+import { useSetUser } from 'state/user/useSetUser';
 
 type RegisterProps = {
   onClose: () => void;
@@ -35,7 +28,7 @@ const Register = ({ onClose, onCancel }: RegisterProps) => {
   const [passwordScore, setPasswordScore] = useState(0);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [isSuccessful, setIsSuccessful] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const { disablePasswordRegistration } = useBackendCapabilities();
 
   const validEmail = useMemo(() => {

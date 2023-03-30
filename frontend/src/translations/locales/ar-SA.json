@@ -80,7 +80,8 @@
     "postCategory": "إعدادات النشر",
     "postCategorySub": "تعيين القواعد حول ما يمكن للمستخدم أن يفعله عند إنشاء أو عرض مشاركة",
     "customTemplateCategory": "قالب العمود",
-    "customTemplateCategorySub": "تعيين عدد الأعمدة وخصائصها",
+    "customTemplateCategorySub": "حدد قالب وقم بتخصيص الأعمدة الخاصة بك",
+    "customTemplateAddColumn": "إضافة عمود جديد",
     "startButton": "بدء الجلسة",
     "editButton": "تحديث",
     "maxUpVotes": "الحد الاقصى للتصويتات",
@@ -132,6 +133,9 @@
     "islandQuestion": "الجزيرة",
     "windQuestion": "الريح",
     "rockQuestion": "الصخور",
+    "madQuestion": "مجنون",
+    "sadQuestion": "حزين",
+    "gladQuestion": "سعيد",
     "disconnected": "لقد تم فصلك عن الدورة الحالية.",
     "reconnect": "إعادة الاتصال",
     "notLoggedIn": "لم تقم بتسجيل الدخول. يمكنك عرض هذه الجلسة كمتفرج، ولكن يجب تسجيل الدخول للمشاركة.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "الافتراضي",
     "wellNotWell": "حسنا / غير جيد",
+    "wellNotWellIdeas": "جيد/غير جيد/أفكار",
     "startStopContinue": "بدء / إيقاف / متابعة",
     "fourLs": "أربعة لترات",
-    "sailboat": "زورق بحري"
+    "sailboat": "زورق بحري",
+    "madSadGlad": "مجنون / حزين / سعيد"
   },
   "Clients": {
     "header": "الضيوف الحاضرين معنا الآن:",
@@ -222,7 +228,7 @@
       "جيد",
       "قوي"
     ],
-    "skipAndAnonLogin": "تخطي وتسجلي في مجهول"
+    "skipAndAnonLogin": "استخدام مجهول"
   },
   "AccountLogin": {
     "header": "كلمة المرور",
@@ -501,6 +507,7 @@
       "• ما هي أفضل الممارسات لأثر رجعي على شبكة الإنترنت؟",
       "كيف يمكنني أن أجعل رجعي أكثر متعة؟",
       "كيف يمكنني جعلها أكثر انخراطاً؟"
-    ]
+    ],
+    "feedback": "ترك بعض الملاحظات"
   }
 }

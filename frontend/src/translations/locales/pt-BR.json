@@ -80,7 +80,8 @@
     "postCategory": "Configurações de postagem",
     "postCategorySub": "Defina as regras sobre o que um usuário pode fazer ao criar ou visualizar uma postagem",
     "customTemplateCategory": "Modelo de coluna",
-    "customTemplateCategorySub": "Define o número de colunas e suas características",
+    "customTemplateCategorySub": "Selecione um modelo e personalize suas colunas",
+    "customTemplateAddColumn": "Adicione uma nova coluna",
     "startButton": "Iniciar a sessão",
     "editButton": "Atualização",
     "maxUpVotes": "Máximo de Votos Atuais",
@@ -132,6 +133,9 @@
     "islandQuestion": "Ilha",
     "windQuestion": "Vento",
     "rockQuestion": "Pedras",
+    "madQuestion": "Louco",
+    "sadQuestion": "Triste",
+    "gladQuestion": "Feliz",
     "disconnected": "Você foi desconectado da sessão atual.",
     "reconnect": "Reconectar",
     "notLoggedIn": "Você não está conectado. Você pode ver esta sessão como um espectador, mas precisa fazer o login para participar.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Padrão",
     "wellNotWell": "Bem / Não Bom",
+    "wellNotWellIdeas": "Bem / Não Bem / Ideias",
     "startStopContinue": "Iniciar / Parar / Continuar",
     "fourLs": "Quatro Ls",
-    "sailboat": "Veleiro"
+    "sailboat": "Veleiro",
+    "madSadGlad": "Maluco / Triste / Desagradável"
   },
   "Clients": {
     "header": "Participando conosco agora:",
@@ -222,7 +228,7 @@
       "bom",
       "forte"
     ],
-    "skipAndAnonLogin": "Pular e iniciar sessão em Anônimo"
+    "skipAndAnonLogin": "Usar anonimamente"
   },
   "AccountLogin": {
     "header": "Palavra-passe",
@@ -501,6 +507,7 @@
       "Quais são as melhores práticas para um retrocesso na Internet?",
       "Como posso fazer meu retrospectivo mais divertido?",
       "Como posso fazer isso mais envolvente?"
-    ]
+    ],
+    "feedback": "Deixe alguns comentários"
   }
 }

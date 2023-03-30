@@ -80,7 +80,8 @@
     "postCategory": "Ajustes de publicación",
     "postCategorySub": "Establecer las reglas sobre lo que un usuario puede hacer al crear o ver un mensaje",
     "customTemplateCategory": "Plantilla de columna",
-    "customTemplateCategorySub": "Establecer el número de columnas y sus características",
+    "customTemplateCategorySub": "Seleccione una plantilla y personalice sus columnas",
+    "customTemplateAddColumn": "Añadir una nueva columna",
     "startButton": "Iniciar la sesión",
     "editButton": "Actualizar",
     "maxUpVotes": "Máximo de votos",
@@ -132,6 +133,9 @@
     "islandQuestion": "Isla",
     "windQuestion": "Viento",
     "rockQuestion": "Roca",
+    "madQuestion": "Loco",
+    "sadQuestion": "Triste",
+    "gladQuestion": "Glaciar",
     "disconnected": "Has sido desconectado de la sesión actual.",
     "reconnect": "Volver a conectar",
     "notLoggedIn": "No estás conectado. Puedes ver esta sesión como un espectador, pero debes iniciar sesión para participar.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Por defecto",
     "wellNotWell": "Bueno / No Bueno",
+    "wellNotWellIdeas": "Bueno / No Bueno / Ideas",
     "startStopContinue": "Inicio / Parar / Continuar",
     "fourLs": "Cuatro Ls",
-    "sailboat": "Barco de vela"
+    "sailboat": "Barco de vela",
+    "madSadGlad": "Loco / Triste / Glad"
   },
   "Clients": {
     "header": "Acompañenos amablemente en este momento:",
@@ -222,7 +228,7 @@
       "bueno",
       "fuerte"
     ],
-    "skipAndAnonLogin": "Saltar y registrarme anónimamente"
+    "skipAndAnonLogin": "Usar anónimamente"
   },
   "AccountLogin": {
     "header": "Contraseña",
@@ -501,6 +507,7 @@
       "¿Cuáles son las mejores prácticas para una retrospectiva en línea?",
       "¿Cómo puedo hacer que mi retrospectiva sea más divertida?",
       "¿Cómo puedo hacerla más interesante?"
-    ]
+    ],
+    "feedback": "Dejar algunos comentarios"
   }
 }

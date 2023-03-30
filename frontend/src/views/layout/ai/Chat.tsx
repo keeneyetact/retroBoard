@@ -6,15 +6,27 @@ import ChatInput from './ChatInput';
 import { keyframes } from '@emotion/react';
 import { CoachMessage } from 'common';
 import { Examples } from './Examples';
+import { Alert, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 type ChatProps = {
   messages: CoachMessage[];
   thinking: boolean;
   disabled: boolean;
   onMessage: (content: string) => void;
+  onClose: () => void;
 };
 
-export function Chat({ messages, disabled, thinking, onMessage }: ChatProps) {
+export function Chat({
+  messages,
+  disabled,
+  thinking,
+  onClose,
+  onMessage,
+}: ChatProps) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <Container>
       <Main>
@@ -27,7 +39,20 @@ export function Chat({ messages, disabled, thinking, onMessage }: ChatProps) {
             />
           ))}
           {thinking ? <ChatMessage message={<Ellipsis />} /> : null}
-          {messages.length === 0 ? (
+          {disabled ? (
+            <AlertContainer>
+              <Alert severity="error">{t('Ai.disabledAnonymous')}</Alert>
+              <Button
+                onClick={() => {
+                  navigate('/account');
+                  onClose();
+                }}
+              >
+                {t('AccountPage.convertTitle')}
+              </Button>
+            </AlertContainer>
+          ) : null}
+          {!disabled && messages.length === 0 ? (
             <ExamplesContainer>
               <Examples onSelect={onMessage} />
             </ExamplesContainer>
@@ -79,4 +104,13 @@ const Ellipsis = styled.div`
     animation: ${ellipsis} steps(1, end) 1s infinite;
     content: '';
   }
+`;
+
+const AlertContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;

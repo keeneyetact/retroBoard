@@ -8,7 +8,7 @@ import useRemainingVotes from './useRemainingVotes';
 import useCanReveal from './useCanReveal';
 import EditableLabel from '../../../../components/EditableLabel';
 import RemainingVotes from './RemainingVotes';
-import useUser from '../../../../auth/useUser';
+import useUser from '../../../../state/user/useUser';
 import RevealButton from './RevealButton';
 import ModifyOptions from './ModifyOptions';
 import useCanModifyOptions from './useCanModifyOptions';
@@ -182,6 +182,7 @@ const Alerts = styled.div`
 `;
 
 const Header = styled.div`
+  margin-bottom: 50px;
   display: grid;
   justify-items: center;
   align-items: center;
@@ -203,14 +204,12 @@ const Header = styled.div`
   }
 
   @media (max-width: 500px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
     row-gap: 20px;
     grid-template-areas:
-      'title'
-      'left'
-      'right'
-      'votes';
+      'title title title'
+      'left votes right';
   }
 `;
 
@@ -241,7 +240,7 @@ const LeftOptions = styled.div`
   }
 
   @media (max-width: 500px) {
-    justify-self: center;
+    margin-left: 10px;
   }
 `;
 
@@ -251,8 +250,7 @@ const RightOptions = styled.div`
   justify-self: end;
 
   @media (max-width: 500px) {
-    justify-self: center;
-    margin-top: 10px;
+    margin-right: 10px;
   }
 `;
 

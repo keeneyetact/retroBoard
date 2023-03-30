@@ -74,6 +74,7 @@ function SessionEditor({
       fullWidth
       fullScreen={fullScreen}
       keepMounted={false}
+      maxWidth="md"
     >
       <AppBar position="static" color="default">
         <Tabs

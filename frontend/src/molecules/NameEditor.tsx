@@ -1,16 +1,16 @@
-import UserContext from 'auth/Context';
-import useUser from 'auth/useUser';
+import useUser from 'state/user/useUser';
 import EditableLabel from 'components/EditableLabel';
 import { useSnackbar } from 'notistack';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updateUserName } from 'views/account/api';
+import { useSetUser } from 'state/user/useSetUser';
 
 export function NameEditor() {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const user = useUser();
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const handleEditName = useCallback(
     async (name: string) => {
       const trimmed = name.trim();

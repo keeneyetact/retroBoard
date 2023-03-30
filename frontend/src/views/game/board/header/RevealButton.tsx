@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Visibility } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { IconButton, useMediaQuery } from '@mui/material';
 
 interface RevealButtonProps {
   onClick: () => void;
@@ -14,6 +15,7 @@ interface RevealButtonProps {
 
 function RevealButton({ onClick }: RevealButtonProps) {
   const { t } = useTranslation();
+  const small = useMediaQuery('(max-width: 500px)');
   const [revealDialogOpen, setRevealDialogOpen] = useState(false);
   const handleOpenDialog = useCallback(() => {
     setRevealDialogOpen(true);
@@ -23,14 +25,20 @@ function RevealButton({ onClick }: RevealButtonProps) {
   }, []);
   return (
     <>
-      <Button
-        variant="outlined"
-        color="secondary"
-        startIcon={<Visibility />}
-        onClick={handleOpenDialog}
-      >
-        {t('RevealCards.buttonLabel')}
-      </Button>
+      {small ? (
+        <IconButton onClick={handleOpenDialog} color="secondary">
+          <Visibility />
+        </IconButton>
+      ) : (
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<Visibility />}
+          onClick={handleOpenDialog}
+        >
+          {t('RevealCards.buttonLabel')}
+        </Button>
+      )}
       <Dialog
         onClose={handleCloseDialog}
         aria-labelledby="reveal-cards-dialog"

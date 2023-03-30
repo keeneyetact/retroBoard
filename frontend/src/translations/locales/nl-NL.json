@@ -80,7 +80,8 @@
     "postCategory": "Retropunten instellingen",
     "postCategorySub": "Instellen regels wat een gebruiker kan doen wanneer hij reageert op een retropunt",
     "customTemplateCategory": "Kolommen template",
-    "customTemplateCategorySub": "Instellen aantal kolommen en hun specificaties",
+    "customTemplateCategorySub": "Selecteer een sjabloon en pas uw kolommen aan",
+    "customTemplateAddColumn": "Nieuwe kolom toevoegen",
     "startButton": "Start de sessie",
     "editButton": "Vernieuwen",
     "maxUpVotes": "Maximum up-votes",
@@ -132,6 +133,9 @@
     "islandQuestion": "Eiland",
     "windQuestion": "Wind",
     "rockQuestion": "Steen",
+    "madQuestion": "Gekke",
+    "sadQuestion": "Triest",
+    "gladQuestion": "Blij",
     "disconnected": "Je huidige sessie is verbroken",
     "reconnect": "Opnieuw verbinden",
     "notLoggedIn": "Je bent niet ingelogd. Je kan de sessie bekijken als toeschouwer maar moet inloggen om deel te nemen.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Standaard",
     "wellNotWell": "Goed / Niet goed",
+    "wellNotWellIdeas": "Goed / Niet Goed / Ideeën",
     "startStopContinue": "Start / Stop / Blijven doen",
     "fourLs": "De 4 L'en",
-    "sailboat": "Zeilboot"
+    "sailboat": "Zeilboot",
+    "madSadGlad": "Moeilijk / droog / blij"
   },
   "Clients": {
     "header": "Deelnemers:",
@@ -222,7 +228,7 @@
       "goed",
       "sterk"
     ],
-    "skipAndAnonLogin": "Sla me over en log me in Anoniem"
+    "skipAndAnonLogin": "Anoniem gebruiken"
   },
   "AccountLogin": {
     "header": "Wachtwoord",
@@ -501,6 +507,7 @@
       "Wat zijn de beste praktijken voor een online-retrospectie?",
       "Hoe kan ik mijn retrospectief leuker maken?",
       "Hoe kan ik het aantrekkelijker maken?"
-    ]
+    ],
+    "feedback": "Laat feedback achter"
   }
 }

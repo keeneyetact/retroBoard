@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import useSession from '../useSession';
 import styled from '@emotion/styled';
-import useUser from '../../../auth/useUser';
+import useUser from '../../../state/user/useUser';
 import { useCallback, useEffect, useState } from 'react';
 import { trackEvent } from '../../../track';
 import { Message, SessionOptions } from 'common';

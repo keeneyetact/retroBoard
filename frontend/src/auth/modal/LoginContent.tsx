@@ -1,7 +1,6 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
-import UserContext from '../Context';
 import SocialAuth from './SocialAuth';
 import AccountAuth from './AccountAuth';
 import useOAuthAvailabilities from '../../global/useOAuthAvailabilities';
@@ -11,7 +10,8 @@ import styled from '@emotion/styled';
 import { anonymousLogin, me, updateLanguage } from 'api';
 import { trackEvent } from 'track';
 import { useLanguage } from 'translations';
-import { Login } from '@mui/icons-material';
+import { NoAccounts } from '@mui/icons-material';
+import { useSetUser } from 'state/user/useSetUser';
 
 interface LoginContentProps {
   anonymous: boolean;
@@ -29,7 +29,7 @@ export default function LoginContent({
     hasNoSocialMediaAuth && disableAnonymous && disablePasswords;
   const hasNoWayOtherThanAnonymous = hasNoSocialMediaAuth && disablePasswords;
   const { t } = useTranslation();
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const [language] = useLanguage();
 
   const handleAnonLogin = useCallback(async () => {
@@ -80,7 +80,7 @@ export default function LoginContent({
                   onClick={handleAnonLogin}
                   variant="text"
                   color="secondary"
-                  startIcon={<Login />}
+                  startIcon={<NoAccounts />}
                   data-cy="login-anonymous"
                 >
                   {t('AuthCommon.skipAndAnonLogin')}

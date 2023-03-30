@@ -1,14 +1,10 @@
-import { useState, useEffect, useCallback, PropsWithChildren } from 'react';
-import Context from './Context';
-import { FullUser } from 'common';
-import { me } from '../api';
+import { useEffect, PropsWithChildren } from 'react';
 import { setScope } from '../track';
+import useUser from 'state/user/useUser';
 
 export default function AuthProvider({ children }: PropsWithChildren<{}>) {
-  const [user, setUser] = useState<FullUser | null>(null);
-  const [initialised, setInitialised] = useState(false);
-
-  const handleUser = useCallback((user: FullUser | null) => {
+  const user = useUser();
+  useEffect(() => {
     setScope((scope) => {
       if (scope && user) {
         scope.setUser({
@@ -18,20 +14,7 @@ export default function AuthProvider({ children }: PropsWithChildren<{}>) {
         });
       }
     });
-    setUser(user);
-  }, []);
+  }, [user]);
 
-  useEffect(() => {
-    async function getUser() {
-      setUser(await me());
-      setInitialised(true);
-    }
-    getUser();
-  }, []);
-
-  return (
-    <Context.Provider value={{ setUser: handleUser, user, initialised }}>
-      {children}
-    </Context.Provider>
-  );
+  return <>{children}</>;
 }

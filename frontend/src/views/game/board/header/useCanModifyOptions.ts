@@ -1,4 +1,4 @@
-import useUser from '../../../../auth/useUser';
+import useUser from '../../../../state/user/useUser';
 import useSession from '../../useSession';
 
 export default function useCanModifyOptions(): boolean {

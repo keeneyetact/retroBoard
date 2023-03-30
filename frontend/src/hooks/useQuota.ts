@@ -6,7 +6,7 @@ import {
   DEFAULT_QUOTA,
   LOCAL_STORAGE_POSTS_KEY,
 } from '../auth/QuotaManager';
-import useUser from '../auth/useUser';
+import useUser from '../state/user/useUser';
 import { setItem } from '../utils/localStorage';
 
 type QuotaResult = {

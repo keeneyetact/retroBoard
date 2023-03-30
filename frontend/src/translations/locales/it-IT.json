@@ -80,7 +80,8 @@
     "postCategory": "Impostazioni del Post",
     "postCategorySub": "Imposta le azioni che l'utente può fare quando crea o vede un post ",
     "customTemplateCategory": "Template di Colonna",
-    "customTemplateCategorySub": "Imposta il numero di colonne e le sue caratteristiche",
+    "customTemplateCategorySub": "Seleziona un modello e personalizza le tue colonne",
+    "customTemplateAddColumn": "Aggiungi una nuova colonna",
     "startButton": "Fai partire il gioco!",
     "editButton": "Aggiorna",
     "maxUpVotes": "Numero massimo di \"mi piace\"",
@@ -132,6 +133,9 @@
     "islandQuestion": "Isola",
     "windQuestion": "Vento",
     "rockQuestion": "Roccia",
+    "madQuestion": "Pazzo",
+    "sadQuestion": "Triste",
+    "gladQuestion": "Felice",
     "disconnected": "Ti sei disconnesso/a dalla sessione corrente.",
     "reconnect": "Riconnesso",
     "notLoggedIn": "Non sei autenticato. Puoi assistere a questa sessione come spettatore ma non puoi partecipare",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Predefinito",
     "wellNotWell": "Ok / Non Ok",
+    "wellNotWellIdeas": "Bene / Non Bene / Idee",
     "startStopContinue": "Inizia / Stop / Continua",
     "fourLs": "Quattro Ls",
-    "sailboat": "Barca a Vela"
+    "sailboat": "Barca a Vela",
+    "madSadGlad": "Pazzo / Triste / Felice"
   },
   "Clients": {
     "header": "Partecipanti:",
@@ -222,7 +228,7 @@
       "buono",
       "forte"
     ],
-    "skipAndAnonLogin": "Salta e accedi in anonimo"
+    "skipAndAnonLogin": "Usa Anonimo"
   },
   "AccountLogin": {
     "header": "Password",
@@ -501,6 +507,7 @@
       "Quali sono le migliori pratiche per una retrospettiva online?",
       "Come posso rendere la mia retrospettiva più divertente?",
       "Come posso renderlo più coinvolgente?"
-    ]
+    ],
+    "feedback": "Lascia qualche feedback"
   }
 }

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { SessionOptions } from 'common';
 import SettingCategory from '../SettingCategory';
-import OptionItem from '../OptionItem';
+import { OptionItem } from '../OptionItem';
 import { useTranslation } from 'react-i18next';
 import BooleanOption from '../BooleanOption';
 import DurationSelection from './DurationSelection';

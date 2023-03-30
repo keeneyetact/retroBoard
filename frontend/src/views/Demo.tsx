@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 import { colors } from '@mui/material';
 import { anonymousLogin, createDemoGame, me, updateLanguage } from 'api';
-import UserContext from 'auth/Context';
-import useUser from 'auth/useUser';
-import { useContext, useEffect } from 'react';
+import useUser from 'state/user/useUser';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { trackEvent } from 'track';
 import { Language } from 'translations/languages';
 import { languages, useLanguage } from '../translations';
+import { useSetUser } from 'state/user/useSetUser';
 
 export default function Demo() {
   const user = useUser();
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   let [searchParams] = useSearchParams();
   const twoLetter = searchParams.get('lang');
   const [currentLanguage, changeLanguage] = useLanguage();

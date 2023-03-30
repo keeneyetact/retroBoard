@@ -3,13 +3,13 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { trackPageView } from './track';
 import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
 import OutdatedBrowser from './components/OutdatedBrowser';
-import useUser from './auth/useUser';
 import { CodeSplitLoader } from './CodeSplitLoader';
 import { Alert, AlertTitle } from '@mui/material';
 import useBackendCapabilities from './global/useBackendCapabilities';
 import { useTranslation } from 'react-i18next';
 import { Welcome } from 'views/Welcome';
 import { Header } from 'views/layout/Header';
+import useUser from 'state/user/useUser';
 
 const Home = lazy(() => import('./views/Home'));
 const Game = lazy(() => import('./views/Game'));

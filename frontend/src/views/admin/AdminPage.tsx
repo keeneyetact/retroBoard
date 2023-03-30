@@ -1,7 +1,7 @@
 import { Alert, Button, Checkbox } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { FullUser } from 'common';
-import useUser from '../../auth/useUser';
+import useUser from '../../state/user/useUser';
 import useStateFetch from '../../hooks/useStateFetch';
 import { useCallback, useMemo, useState } from 'react';
 import styled from '@emotion/styled';

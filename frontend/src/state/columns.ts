@@ -2,14 +2,14 @@ import { ColumnDefinition, ColumnDefinitionType } from 'common';
 import { v4 } from 'uuid';
 import keyBy from 'lodash/keyBy';
 import { ColumnSettings, Template, TranslationFunction } from './types';
-import { getTemplate } from './templates';
+import { getTemplateColumns } from './templates';
 import isEqual from 'lodash/isEqual';
 
 export function buildDefaults(
   template: Template,
   translations: TranslationFunction
 ): ColumnSettings[] {
-  const base = getTemplate(template, translations);
+  const base = getTemplateColumns(template, translations);
   return base;
 }
 
@@ -152,6 +152,24 @@ export const getTemplateColumnByType =
           icon: 'moyai',
           label: t('PostBoard.rockQuestion'),
           type: 'rock',
+        },
+        {
+          color: '#FFCDD2',
+          icon: 'rage',
+          label: t('PostBoard.madQuestion'),
+          type: 'mad',
+        },
+        {
+          color: '#FFECB3',
+          icon: 'disappointed',
+          label: t('PostBoard.sadQuestion'),
+          type: 'sad',
+        },
+        {
+          color: '#C8E6C9',
+          icon: 'blush',
+          label: t('PostBoard.gladQuestion'),
+          type: 'glad',
         },
       ] as ColumnSettings[],
       (x) => x.type

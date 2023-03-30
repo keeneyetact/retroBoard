@@ -7,13 +7,11 @@ import useIsPro from 'auth/useIsPro';
 import ProButton from 'components/ProButton';
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
-import useUser from 'auth/useUser';
+import useUser from 'state/user/useUser';
 import { useMatch, useNavigate } from 'react-router-dom';
 import useSidePanel from 'views/panel/useSidePanel';
-import useIsInitialised from 'auth/useIsInitialised';
 import Invite from './Invite';
 import AccountMenu from 'auth/AccountMenu';
-import { useTranslation } from 'react-i18next';
 import ProPill from 'components/ProPill';
 import { AiButton } from './ai/AiButton';
 import logoIcon from './logo-white.png';
@@ -26,9 +24,7 @@ export function Header() {
   const displayGoPro = !isPro && user && user.accountType !== 'anonymous';
   const goToHome = useCallback(() => navigate('/'), [navigate]);
   const { toggle: togglePanel } = useSidePanel();
-  const isInitialised = useIsInitialised();
   const isOnGamePage = !!useMatch('game/:gameId/*');
-  const { t } = useTranslation();
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -63,11 +59,7 @@ export function Header() {
         {user ? <AiButton /> : null}
         <Spacer />
         {isOnGamePage ? <Invite /> : null}
-        {isInitialised ? (
-          <AccountMenu />
-        ) : (
-          <Initialising>{t('Main.loading')}</Initialising>
-        )}
+        <AccountMenu />
       </Toolbar>
     </AppBar>
   );
@@ -101,8 +93,6 @@ const ProPillContainer = styled.div``;
 const GoProContainer = styled.div`
   margin-left: 20px;
 `;
-
-const Initialising = styled.div``;
 
 const Spacer = styled.div`
   flex: 1;

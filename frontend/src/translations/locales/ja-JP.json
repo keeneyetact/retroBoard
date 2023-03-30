@@ -80,7 +80,8 @@
     "postCategory": "投稿設定",
     "postCategorySub": "投稿を作成または表示する際にユーザができることに関するルールを設定します",
     "customTemplateCategory": "列テンプレート",
-    "customTemplateCategorySub": "列数とその特性を設定します",
+    "customTemplateCategorySub": "テンプレートを選択し、列をカスタマイズします",
+    "customTemplateAddColumn": "新しい列を追加",
     "startButton": "セッションを開始",
     "editButton": "更新",
     "maxUpVotes": "最大投票数",
@@ -132,6 +133,9 @@
     "islandQuestion": "島",
     "windQuestion": "風",
     "rockQuestion": "岩",
+    "madQuestion": "マッド",
+    "sadQuestion": "悲しいです",
+    "gladQuestion": "うれしいです",
     "disconnected": "現在のセッションから切断されました。",
     "reconnect": "再接続",
     "notLoggedIn": "ログインしていません。このセッションは観戦者として表示できますが、参加するにはログインする必要があります。",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "デフォルト",
     "wellNotWell": "よくない/よくない",
+    "wellNotWellIdeas": "よく/よくない/アイデア",
     "startStopContinue": "開始 / 停止 / 続ける",
     "fourLs": "4 Ls",
-    "sailboat": "帆船"
+    "sailboat": "帆船",
+    "madSadGlad": "マッド/悲しい/うれしいです"
   },
   "Clients": {
     "header": "現在の参加者",
@@ -222,7 +228,7 @@
       "良い",
       "強い"
     ],
-    "skipAndAnonLogin": "Skip and log me in Anonymously"
+    "skipAndAnonLogin": "匿名で使用"
   },
   "AccountLogin": {
     "header": "パスワード",
@@ -501,6 +507,7 @@
       "オンライン振り返りのためのベストプラクティスは何ですか?",
       "回顧展をもっと楽しくするにはどうしたらいいですか?",
       "どうすればもっと魅力的になれますか?"
-    ]
+    ],
+    "feedback": "いくつかのフィードバックを残す"
   }
 }

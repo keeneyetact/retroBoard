@@ -1,7 +1,7 @@
 import usePortalUrl from './usePortalUrl';
 import Button from '@mui/material/Button';
 import { Page } from '../../components/Page';
-import useUser from '../../auth/useUser';
+import useUser from '../../state/user/useUser';
 import styled from '@emotion/styled';
 import ProPill from '../../components/ProPill';
 import { Alert } from '@mui/material';

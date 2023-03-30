@@ -80,7 +80,8 @@
     "postCategory": "Ustawienia postów",
     "postCategorySub": "Ustaw reguły co użytkownik może zrobić podczas tworzenia lub przeglądania wpisu",
     "customTemplateCategory": "Szablon kolumny",
-    "customTemplateCategorySub": "Ustaw liczbę kolumn i ich właściwości",
+    "customTemplateCategorySub": "Wybierz szablon i dostosuj swoje kolumny",
+    "customTemplateAddColumn": "Dodaj nową kolumnę",
     "startButton": "Rozpocznij sesję",
     "editButton": "Aktualizuj",
     "maxUpVotes": "Maksymalna liczba głosów",
@@ -132,6 +133,9 @@
     "islandQuestion": "Wyspa",
     "windQuestion": "Wiatr",
     "rockQuestion": "Skała",
+    "madQuestion": "Szalony",
+    "sadQuestion": "Smutny",
+    "gladQuestion": "Wspaniały",
     "disconnected": "Zostałeś odłączony od bieżącej sesji.",
     "reconnect": "Połącz ponownie",
     "notLoggedIn": "Nie jesteś zalogowany. Możesz zobaczyć tę sesję jako obserwator, ale musisz się zalogować, aby wziąć udział.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Domyślny",
     "wellNotWell": "Dobra / Niedobrze",
+    "wellNotWellIdeas": "Dobra / Niedobra / Pomysły",
     "startStopContinue": "Rozpocznij / Zatrzymaj / Kontynuuj",
     "fourLs": "Cztery litery",
-    "sailboat": "Łódka żaglowca"
+    "sailboat": "Łódka żaglowca",
+    "madSadGlad": "Szalony / Smutny / Glad"
   },
   "Clients": {
     "header": "Są dziś z nami:",
@@ -222,7 +228,7 @@
       "dobry",
       "silny"
     ],
-    "skipAndAnonLogin": "Pomiń i zaloguj mnie anonimowo"
+    "skipAndAnonLogin": "Użyj anonimowo"
   },
   "AccountLogin": {
     "header": "Hasło",
@@ -501,6 +507,7 @@
       "Jakie są najlepsze praktyki w zakresie retrospektywnego stosowania internetu?",
       "Jak mogę sprawić, by moja retrospektywność była bardziej zabawna?",
       "Jak mogę sprawić, by był bardziej zaangażowany?"
-    ]
+    ],
+    "feedback": "Pozostaw trochę opinii"
   }
 }

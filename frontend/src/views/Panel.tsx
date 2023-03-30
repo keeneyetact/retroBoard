@@ -37,6 +37,12 @@ function Panel() {
         <Bottom>
           <Typography component="div">
             <Policies>
+              <Typography variant="h6">Website</Typography>
+              <ExternalLink href={config.MARKETING_ROOT} target="_blank">
+                Main Website
+              </ExternalLink>
+            </Policies>
+            <Policies>
               <Typography variant="h6">Documentation</Typography>
               <ExternalLink
                 href="https://docs.retrospected.com/docs/self-hosting/quick-start"

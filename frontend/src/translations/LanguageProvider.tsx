@@ -1,5 +1,5 @@
 import { useEffect, PropsWithChildren } from 'react';
-import useUser from '../auth/useUser';
+import useUser from '../state/user/useUser';
 import { useTranslation } from 'react-i18next';
 
 export default function LanguageProvider({ children }: PropsWithChildren<{}>) {

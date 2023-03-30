@@ -248,7 +248,10 @@ export type ColumnDefinitionType =
   | 'cargo'
   | 'island'
   | 'wind'
-  | 'rock';
+  | 'rock'
+  | 'mad'
+  | 'sad'
+  | 'glad';
 
 export type StripeLocales =
   | 'ar-AR'

@@ -3,19 +3,19 @@ import Typography from '@mui/material/Typography';
 import { Alert } from '@mui/material';
 import { colors } from '@mui/material';
 
-interface OptionItemProps {
+type OptionItemProps = {
   children: JSX.Element;
   help: string;
   label: string;
   wide?: boolean;
-}
+};
 
-const OptionItem = ({
+export function OptionItem({
   label,
   help,
   children,
   wide = false,
-}: OptionItemProps) => {
+}: OptionItemProps) {
   return (
     <Container>
       <HeaderContainer wide={wide}>
@@ -37,7 +37,7 @@ const OptionItem = ({
       </Alert>
     </Container>
   );
-};
+}
 
 const Container = styled.div`
   border: 1px solid ${colors.grey[200]};
@@ -78,5 +78,3 @@ const HeaderContainer = styled.div<{ wide: boolean }>`
         : ''}
   }
 `;
-
-export default OptionItem;

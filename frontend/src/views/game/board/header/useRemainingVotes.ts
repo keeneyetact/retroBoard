@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { numberOfVotes } from '../permissions-logic';
-import useUser from '../../../../auth/useUser';
+import useUser from '../../../../state/user/useUser';
 import useSession from '../../useSession';
 
 interface RemainingVotes {

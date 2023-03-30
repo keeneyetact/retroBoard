@@ -80,7 +80,8 @@
     "postCategory": "Options des posts",
     "postCategorySub": "Règles concernant ce qu'un utilisateur peut faire sur un post",
     "customTemplateCategory": "Colonnes personalisées",
-    "customTemplateCategorySub": "Définir le nombre de colonnes et leurs caractéristiques",
+    "customTemplateCategorySub": "Sélectionnez un modèle et personnalisez vos colonnes",
+    "customTemplateAddColumn": "Ajouter une nouvelle colonne",
     "startButton": "Lancez la session",
     "editButton": "Mettre à jour",
     "maxUpVotes": "Nb de votes max (positifs)",
@@ -109,7 +110,7 @@
     "allowReorderingHelp": "Permettre aux utilisateurs de réorganiser l'ordre des posts",
     "blurCards": "Flouter",
     "blurCardsHelp": "Les posts sont floutés, jusqu'à ce qu'un modérateur révèle les posts",
-    "template": "Règles prédéfinies",
+    "template": "Modèles",
     "templateHelp": "Sélectionnez un jeu de colonnes prédéfini",
     "numberOfColumns": "Nombre de colonnes",
     "numberOfColumnsHelp": "Réglez le nombre de colonnes",
@@ -132,6 +133,9 @@
     "islandQuestion": "Île",
     "windQuestion": "Vent",
     "rockQuestion": "Rocher",
+    "madQuestion": "Furieux",
+    "sadQuestion": "Malheureux",
+    "gladQuestion": "Joyeux",
     "disconnected": "Vous avez été déconnecté de la session.",
     "reconnect": "Se reconnecter",
     "notLoggedIn": "Vous n'êtes pas connecté. Vous pouvez regarder cette session en tant que spectateur, mais vous devez vous connecter pour participer.",
@@ -169,9 +173,11 @@
   "Template": {
     "default": "Par défaut",
     "wellNotWell": "Bien / Pas Bien",
+    "wellNotWellIdeas": "Bien / Pas Bien / Idées",
     "startStopContinue": "Commencer / Arrêter / Continuer",
     "fourLs": "Les 4 A",
-    "sailboat": "Bateau"
+    "sailboat": "Bateau",
+    "madSadGlad": "Furieux / Malheureux / Joyeux"
   },
   "Clients": {
     "header": "Participants :",
@@ -222,7 +228,7 @@
       "suffisant",
       "excellent"
     ],
-    "skipAndAnonLogin": "Connectez-moi en mode anonyme à la place"
+    "skipAndAnonLogin": "Utiliser anonymement"
   },
   "AccountLogin": {
     "header": "Mot de Passe",
@@ -501,6 +507,7 @@
       "Quelles sont les meilleurs pratiques quant aux rétrospectives en ligne ?",
       "Comment puis-je rendre ma rétrospective plus amusante?",
       "Comment puis-je la rendre plus engageante ?"
-    ]
+    ],
+    "feedback": "Donnez-nous votre avis !"
   }
 }

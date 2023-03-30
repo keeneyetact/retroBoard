@@ -8,6 +8,7 @@ interface Config {
   DEFAULT_LANGUAGE: string;
   VERSION: string;
   MARKETING_ROOT: string;
+  AI_FEEDBACK_URL: string;
 }
 
 const ALL_KEYS: (keyof Config)[] = [
@@ -20,6 +21,7 @@ const ALL_KEYS: (keyof Config)[] = [
   'DEFAULT_LANGUAGE',
   'VERSION',
   'MARKETING_ROOT',
+  'AI_FEEDBACK_URL',
 ];
 
 declare global {
@@ -31,7 +33,10 @@ declare global {
 window.__env__ = window.__env__ || {};
 
 function getKey(key: keyof Config): string {
-  if (import.meta.env[`VITE_${key}`]) {
+  if (
+    (import.meta.env.DEV || key === 'VERSION') &&
+    import.meta.env[`VITE_${key}`]
+  ) {
     return import.meta.env[`VITE_${key}`] || '';
   }
   const winObj = window.__env__[key];

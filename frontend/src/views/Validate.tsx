@@ -3,12 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { verifyEmail } from '../api';
 import { Alert } from '@mui/material';
-import { useContext } from 'react';
-import UserContext from '../auth/Context';
 import { useTranslation } from 'react-i18next';
+import { useSetUser } from 'state/user/useSetUser';
 
 function ValidatePage() {
-  const { setUser } = useContext(UserContext);
+  const setUser = useSetUser();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { colors } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import useIsPro from '../auth/useIsPro';
 import useIsTrial from '../auth/useIsTrial';
-import useUser from '../auth/useUser';
+import useUser from '../state/user/useUser';
 
 interface ProPillProps {
   small?: boolean;
