@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v51/gpt]
+    branches: [v51/release]
 
 jobs:
   frontend:

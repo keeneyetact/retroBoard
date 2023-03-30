@@ -8,7 +8,7 @@ import { AiCoach } from './AiCoach';
 export function AiButton() {
   const [opened, open, close] = useModal();
   const { t } = useTranslation();
-  const small = useMediaQuery('(max-width:600px)');
+  const small = useMediaQuery('(max-width:800px)');
   const { ai } = useBackendCapabilities();
   if (!ai) {
     return null;

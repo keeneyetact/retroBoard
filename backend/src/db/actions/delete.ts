@@ -28,6 +28,7 @@ export async function deleteAccount(
         user,
         anonymousAccount
       );
+      await delAiChat(manager, options.deletePosts, user, anonymousAccount);
       await delVisits(manager, options.deleteSessions, user, anonymousAccount);
       await delVotes(manager, options.deleteVotes, user, anonymousAccount);
       await delPosts(manager, options.deletePosts, user, anonymousAccount);
@@ -59,6 +60,24 @@ async function delMessages(
       anon.user.id,
       user.id,
     ]);
+  }
+}
+
+async function delAiChat(
+  manager: EntityManager,
+  hardDelete: boolean,
+  user: UserView,
+  anon: UserIdentityEntity
+) {
+  if (hardDelete) {
+    await manager.query('delete from ai_chat where created_by_id = $1', [
+      user.id,
+    ]);
+  } else {
+    await manager.query(
+      'update ai_chat set created_by_id = $1 where created_by_id = $2',
+      [anon.user.id, user.id]
+    );
   }
 }
 

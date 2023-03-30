@@ -5,7 +5,7 @@
 [![Canary Build](https://github.com/antoinejaussoin/retro-board/actions/workflows/canary.yml/badge.svg)](https://github.com/antoinejaussoin/retro-board/actions/workflows/canary.yml)
 [![Alpha Build](https://github.com/antoinejaussoin/retro-board/actions/workflows/alpha.yml/badge.svg)](https://github.com/antoinejaussoin/retro-board/actions/workflows/alpha.yml)
 
-[Retrospected](http://www.retrospected.com) is a free Real-time Agile Retrospective Board for engineering teams.
+[Retrospected](http://www.retrospected.com) is a free AI-powered Real-time Agile Retrospective Board for engineering teams.
 
 &nbsp;
 
@@ -21,6 +21,8 @@
   <img src="./content/logos/socketio.png" height="65">
   &nbsp;
   <img src="./content/logos/vite.png" height="65">
+  &nbsp;
+  <img src="./content/logos/chatgpt.png" height="65">
 </p>
 
 ![Retrospected.com](/content/screenshot-v5.png?raw=true 'Retrospected.com')
@@ -63,6 +65,7 @@ It features the following technologies:
 - [Stripe](https://stripe.com/), for our payment solution
 - [Docusaurus](http://docusaurus.io/), for our documentation
 - [NextJS](https://nextjs.org/), for our landing page
+- [ChatGPT](https://openai.com/blog/chatgpt), powering our AI agile coach
 
 Previous versions featured the following libraries:
 
@@ -93,6 +96,15 @@ You can start an instance of Retrospected in 5 minutes by following the [quick-s
 This will run a demo version, which you can turn into a fully licenced version by purchasing a [Self Hosted licence](https://app.retrospected.com/subscribe?product=self-hosted).
 
 ## Versions History
+
+### Version 5.1.0
+
+- [⭐️ Pro Feature] 🤖 AI Coach, powered by Chat GPT. Limited access to non-paid users.
+- Improve the login workflow
+- Improve the template selection
+- Improve the home page, with search on past retrospectives and nicer button
+- Allow a user to convert their Anonymous account to a regular account and migrate their data
+- Bug fix: fix bug where multiple demos were created
 
 ### Version 5.0.3
 

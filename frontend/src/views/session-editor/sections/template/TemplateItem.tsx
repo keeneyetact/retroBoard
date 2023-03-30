@@ -44,7 +44,7 @@ const Item = styled.div<{ selected: boolean }>`
   border-radius: 5px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-color: ${(p) => (p.selected ? colors.deepPurple[700] : null)};
-  color: ${(p) => (p.selected ? colors.grey[50] : colors.grey[500])};
+  color: ${(p) => (p.selected ? colors.grey[50] : colors.grey[900])};
   min-width: 185px;
 
   :hover {

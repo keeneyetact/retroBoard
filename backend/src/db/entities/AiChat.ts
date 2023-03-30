@@ -18,9 +18,15 @@ export default class AiChatEntity {
     cascade: true,
     nullable: false,
     eager: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   public messages: AiChatMessageEntity[] | undefined;
-  @ManyToOne(() => UserEntity, { eager: true, cascade: true, nullable: false })
+  @ManyToOne(() => UserEntity, {
+    eager: true,
+    cascade: true,
+    nullable: false,
+  })
   @Index()
   public createdBy: UserEntity;
   @CreateDateColumn({ type: 'timestamp with time zone' })

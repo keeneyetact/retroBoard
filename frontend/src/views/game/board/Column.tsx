@@ -236,8 +236,7 @@ const PostsWrapper = styled.div<{
   draggingOver: boolean;
   draggingColor: string;
 }>`
-  background-color: ${(props) =>
-    props.draggingOver ? props.draggingColor : 'unset'};
+  background-color: ${(props) => props.draggingOver ? props.draggingColor : 'unset'};
   flex: 1;
   min-height: 100px;
 `;
@@ -248,6 +247,8 @@ const Add = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
+  left: 10px;
 
   > :first-of-type {
     flex: 1;

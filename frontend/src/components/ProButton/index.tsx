@@ -116,12 +116,6 @@ function ProButton({ children, quota }: ProButtonProps) {
         <DialogContent>
           <Features>
             <Feature
-              icon={<Psychology />}
-              color={colors.blue[700]}
-              title={t('SubscribeModal.features.ai.title')!}
-              description={t('SubscribeModal.features.ai.description')!}
-            />
-            <Feature
               icon={<Lock />}
               color={colors.red[700]}
               title={t('SubscribeModal.features.encryptedSession.title')!}
@@ -144,6 +138,12 @@ function ProButton({ children, quota }: ProButtonProps) {
               description={
                 t('SubscribeModal.features.unlimitedPosts.description')!
               }
+            />
+            <Feature
+              icon={<Psychology />}
+              color={colors.blue[700]}
+              title={t('SubscribeModal.features.ai.title')!}
+              description={t('SubscribeModal.features.ai.description')!}
             />
           </Features>
         </DialogContent>

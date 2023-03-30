@@ -186,7 +186,6 @@ function GameMode({
 const Columns = styled.div<{ numberOfColumns: number }>`
   display: flex;
   margin-top: 30px;
-  margin-right: -20px;
 
   @media screen and (max-width: ${(props) => props.numberOfColumns * 340 + 100}px) {
     margin-top: 10px;

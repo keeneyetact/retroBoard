@@ -10,6 +10,7 @@ import {
 import { deleteAccount } from './delete.js';
 import { getUserViewFromRequest } from '../../utils.js';
 import { Request } from 'express';
+import AiChatRepository from '../repositories/AiChatRepository.js';
 
 export async function mergeAnonymous(req: Request, newUserIdentityId: string) {
   const anonymousUser = await getUserViewFromRequest(req);
@@ -70,6 +71,7 @@ async function migrateOne(main: UserView, target: UserView) {
     const postRepo = manager.withRepository(PostRepository);
     const groupRepo = manager.withRepository(PostGroupRepository);
     const sessionRepo = manager.withRepository(SessionRepository);
+    const aiChatRepo = manager.withRepository(AiChatRepository);
 
     await manager.query('update messages set user_id = $1 where user_id = $2', [
       main.id,
@@ -84,6 +86,11 @@ async function migrateOne(main: UserView, target: UserView) {
 			) 
 			`,
       [main.id, target.id]
+    );
+
+    await aiChatRepo.update(
+      { createdBy: { id: target.id } },
+      { createdBy: { id: main.id } }
     );
 
     await voteRepo.update(

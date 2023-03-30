@@ -15,7 +15,11 @@ import AiChatEntity from './AiChat.js';
 export default class AiChatMessageEntity {
   @PrimaryColumn({ primary: true, generated: false, unique: true })
   public id: string;
-  @ManyToOne(() => AiChatEntity, { nullable: false })
+  @ManyToOne(() => AiChatEntity, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @Index()
   public chat: Relation<AiChatEntity>;
   @Column({ type: 'character varying' })
