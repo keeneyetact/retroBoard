@@ -40,11 +40,33 @@ export const SectionHeading = styled.div`
   }
 `;
 
+export const StrikethroughPrice = styled.div`
+  text-decoration: line-through;
+  color: red;
+  > span {
+    color: ${themeGet('colors.textColorLight')};
+  }
+  position: relative;
+  top: -20px;
+`;
+
+export const StrikethroughPricePlaceholder = styled.div`
+  position: relative;
+  top: -20px;
+`;
+
+export const FreeDescription = styled.div`
+  color: ${themeGet('colors.textColorLight')};
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 0.8rem;
+`;
+
 export const SwitcherWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   button {
     background-color: transparent;
     border: 0;
@@ -195,8 +217,12 @@ export const PriceTable = styled.div`
       color: ${themeGet('colors.headingColor')};
     }
     p,
+    span,
     a {
       color: ${themeGet('colors.headingColor')};
+    }
+    span.btn-text {
+      color: ${themeGet('colors.white')};
     }
   }
   em {

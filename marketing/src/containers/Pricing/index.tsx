@@ -3,7 +3,6 @@ import Fade from 'react-reveal/Fade';
 import Container from '@/common/components/UI/Container';
 import Heading from '@/common/components/Heading';
 import Button from '@/common/components/Button';
-import Image from '@/common/components/Image';
 import Text from '@/common/components/Text';
 import pricingFree from './pricing-free.svg';
 import pricingPro from './pricing-team.svg';
@@ -16,9 +15,11 @@ import {
   Grid,
   PriceTable,
   Features,
+  FreeDescription,
+  StrikethroughPrice,
+  StrikethroughPricePlaceholder,
 } from './pricing.style';
 import { useTranslation } from 'next-i18next';
-import NextImage from '@/common/components/NextImage';
 import { StaticImageData } from 'next/image';
 import styled from 'styled-components';
 
@@ -76,6 +77,10 @@ export const pricing: Pricing[] = [
   },
 ];
 
+function toOriginalPrice(currency: string, price: string) {
+  return <>{currency + (parseFloat(price) * 12).toFixed(2)}</>;
+}
+
 function toPrice(
   currency: string,
   price: string,
@@ -90,16 +95,7 @@ function toPrice(
     </>
   );
 
-  if (yearly && recurrent) {
-    p = (
-      <>
-        {p}
-        {<em>{recurrentWord}</em>}
-      </>
-    );
-  }
-
-  if (!yearly && recurrent) {
+  if (recurrent) {
     p = (
       <>
         {p}
@@ -144,6 +140,13 @@ const Pricing = () => {
             {t('Pricing.yearly')}
           </button>
         </SwitcherWrapper>
+        <FreeDescription>
+          {isMonthly ? (
+            <span>🎁 {t('Pricing.switchToYearly')}</span>
+          ) : (
+            <span>{t('Pricing.switchedToYearly')} 🎉</span>
+          )}
+        </FreeDescription>
         <Grid>
           {pricing.map((priceTable) => {
             const key = `Pricing.${priceTable.key}`;
@@ -168,6 +171,22 @@ const Pricing = () => {
                       isMonthly ? t(`Pricing.perMonth`) : t(`Pricing.perYear`)
                     )}
                   />
+                  {!isMonthly &&
+                  priceTable.recurrent &&
+                  priceTable.isSubscribe ? (
+                    <StrikethroughPrice>
+                      <span>
+                        {toOriginalPrice(
+                          t('Pricing.currency'),
+                          t(`${key}.price`)
+                        )}
+                      </span>
+                    </StrikethroughPrice>
+                  ) : (
+                    <StrikethroughPricePlaceholder>
+                      &nbsp;
+                    </StrikethroughPricePlaceholder>
+                  )}
 
                   <Features>
                     {plus ? (
@@ -204,12 +223,5 @@ const Pricing = () => {
     </Section>
   );
 };
-
-const Figure = styled.figure`
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
 
 export default Pricing;

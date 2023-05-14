@@ -64,6 +64,8 @@
 		"perYear": " / year",
 		"currency": "$",
 		"subscribe": "Subscribe Now",
+		"switchToYearly": "Switch to Yearly and get one month free!",
+		"switchedToYearly": "Well done, you will get one month free every year",
 		"login": "Login Now",
 		"basic": {
 			"title": "Basic",
