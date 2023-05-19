@@ -21,7 +21,7 @@ import {
 } from './pricing.style';
 import { useTranslation } from 'next-i18next';
 import { StaticImageData } from 'next/image';
-import styled from 'styled-components';
+import { useConfig } from '@/common/hooks/useConfig';
 
 type Pricing = {
   id: number;
@@ -110,6 +110,7 @@ function toPrice(
 const Pricing = () => {
   const [isMonthly, setIsMonthly] = useState(true);
   const { t } = useTranslation();
+  const { appUrl } = useConfig();
 
   const handleToggle = () => {
     setIsMonthly(!isMonthly);
@@ -203,13 +204,21 @@ const Pricing = () => {
                   {/* <Figure>
                     <NextImage src={priceTable.icon} alt={t(`${key}.title`)} />
                   </Figure> */}
-                  <Button
-                    title={
-                      priceTable.isSubscribe
-                        ? t('Pricing.subscribe')!
-                        : t('Pricing.login')!
+                  <a
+                    href={
+                      priceTable.isSubscribe ? `${appUrl}/subscribe` : appUrl
                     }
-                  />
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button
+                      title={
+                        priceTable.isSubscribe
+                          ? t('Pricing.subscribe')!
+                          : t('Pricing.login')!
+                      }
+                    />
+                  </a>
                   {/* <a className="link" href={"todo"}>
                   {priceTable.details.label}{' '}
                   <Icon size={20} icon={ic_keyboard_arrow_right} />

@@ -184,7 +184,7 @@ export const PriceTable = styled.div`
     }
   }
   button {
-    justify-self: flex-end;
+    justify-self: center;
     border-radius: 10px;
     font-weight: 700;
     font-size: 15px;
@@ -202,6 +202,7 @@ export const PriceTable = styled.div`
     }
   }
   a {
+    justify-content: center;
     color: ${themeGet('colors.textColorLight')};
     font-size: 14px;
     line-height: 42px;
