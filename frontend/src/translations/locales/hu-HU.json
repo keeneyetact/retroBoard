@@ -27,7 +27,9 @@
     "anonWarning": "",
     "howDoesThatWork": "Hogyan működik?",
     "login": "",
-    "searchNoMatch": ""
+    "searchNoMatch": "",
+    "proNotSetupWarning": "",
+    "proNotSetupWarningAction": ""
   },
   "PreviousGame": {
     "createdBy": "Készítette",
@@ -324,6 +326,7 @@
       "header": "Az Ön terve",
       "plan": "Terv",
       "admins": "",
+      "members": "",
       "youAreOwner": "Az alábbi előfizetésen keresztül Ön ennek a csomagnak a tulajdonosa.",
       "youAreMember": "Valaki más előfizetésén keresztül részt vesz ebben a tervben.",
       "ownedBy": "",

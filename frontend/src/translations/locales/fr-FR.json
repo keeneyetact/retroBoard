@@ -27,7 +27,9 @@
     "anonWarning": "Vous utilisez un compte anonyme. Connectez-vous afin que vos données puissent être récupérées lorsque vous utilisez un autre appareil.",
     "howDoesThatWork": "Comment cela fonctionne-t-il ?",
     "login": "Connexion",
-    "searchNoMatch": "Nous n'avons pu trouver une retrospective correspondant à votre recherche ({{search}})."
+    "searchNoMatch": "Nous n'avons pu trouver une retrospective correspondant à votre recherche ({{search}}).",
+    "proNotSetupWarning": "Vous avez souscrit à un compte Pro Team, ce qui signifie que vous pouvez accorder à 19 autres collègues un compte Pro. Pour les ajouter à votre abonnement afin qu'ils puissent bénéficier de ses avantages, veuillez vous rendre sur la page \"Mon compte\" et ajouter leurs e-mails dans la section « Votre équipe ».",
+    "proNotSetupWarningAction": "Aller à la page \"Mon compte\""
   },
   "PreviousGame": {
     "createdBy": "Créé par",
@@ -324,6 +326,7 @@
       "header": "Votre Accès",
       "plan": "Accès",
       "admins": "Administrateurs",
+      "members": "Membres",
       "youAreOwner": "Vous êtes l'administrateur de cet abonnement. Vous pouvez le gérer via la section ci-dessous.",
       "youAreMember": "Vous devez votre accès Pro grâce à l'abonnement d'un tiers.",
       "ownedBy": "Détenu par",

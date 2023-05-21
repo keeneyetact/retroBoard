@@ -27,7 +27,9 @@
     "anonWarning": "Du verwendest ein anonymes Konto. Du solltest dich einloggen, um sicherzustellen, dass deine Daten abgerufen werden können, wenn du ein anderes Gerät verwendest.",
     "howDoesThatWork": "Wie funktioniert das?",
     "login": "Anmelden",
-    "searchNoMatch": "Wir konnten keine Retrospektive finden, die Ihrer Suche entspricht ({{search}})."
+    "searchNoMatch": "Wir konnten keine Retrospektive finden, die Ihrer Suche entspricht ({{search}}).",
+    "proNotSetupWarning": "Sie haben ein Pro-Team-Konto abonniert, was bedeutet, dass Sie 19 anderen Kollegen ein Pro-Konto gewähren können. Um sie Ihrem Abonnement hinzuzufügen, damit sie auch Pro werden können gehen Sie bitte auf Ihre Account-Seite und fügen Sie ihre E-Mails hinzu ('Ihr Team').",
+    "proNotSetupWarningAction": "Gehe zur Kontoseite"
   },
   "PreviousGame": {
     "createdBy": "Erstellt von",
@@ -324,6 +326,7 @@
       "header": "Ihr Plan",
       "plan": "Plan",
       "admins": "Administratoren",
+      "members": "Mitglieder",
       "youAreOwner": "Sie sind der Besitzer dieses Pakets, durch das untenstehende Abonnement.",
       "youAreMember": "Du bist auf diesem Plan durch ein anderes Abonnement.",
       "ownedBy": "Besitzt von",

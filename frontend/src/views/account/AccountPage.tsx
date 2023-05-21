@@ -47,15 +47,8 @@ function AccountPage() {
     updateAdmins(admins);
   }, []);
 
-  const ownsThePlan =
-    user &&
-    !!user.ownSubscriptionsId &&
-    user.ownSubscriptionsId === user.subscriptionsId;
-
-  const onSomebodysPlan =
-    user &&
-    !!user.subscriptionsId &&
-    user.ownSubscriptionsId !== user.subscriptionsId;
+  const ownsThePlan = user && !!user.ownSubscriptionsId;
+  const onSomebodysPlan = user && !!user.plan && !user.ownSubscriptionsId;
 
   const isPlanAdmin =
     user &&
@@ -134,6 +127,19 @@ function AccountPage() {
               <Title>{t('AccountPage.plan.plan')}</Title>
               <Value>{user.plan}</Value>
             </Data>
+
+            {onSomebodysPlan ? (
+              <Data>
+                <Title>{t('AccountPage.plan.members')}</Title>
+                <Value>
+                  {[user.planOwnerEmail, ...(user.planMembers || [])]
+                    .filter(Boolean)
+                    .map((email, i) => (
+                      <Tag key={i} value={email} />
+                    ))}
+                </Value>
+              </Data>
+            ) : null}
 
             <Data>
               <Title>{t('AccountPage.plan.admins')}</Title>

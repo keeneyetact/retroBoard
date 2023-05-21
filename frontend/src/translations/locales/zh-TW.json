@@ -27,7 +27,9 @@
     "anonWarning": "",
     "howDoesThatWork": "這是如何運作的？",
     "login": "",
-    "searchNoMatch": ""
+    "searchNoMatch": "",
+    "proNotSetupWarning": "",
+    "proNotSetupWarningAction": ""
   },
   "PreviousGame": {
     "createdBy": "由...製作",
@@ -324,6 +326,7 @@
       "header": "你的計劃",
       "plan": "計劃",
       "admins": "",
+      "members": "",
       "youAreOwner": "通過以下訂閱，您是該計劃的所有者。",
       "youAreMember": "您通過其他人的訂閱參與此計劃。",
       "ownedBy": "",

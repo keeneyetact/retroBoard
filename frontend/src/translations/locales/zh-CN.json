@@ -27,7 +27,9 @@
     "anonWarning": "您正在使用匿名帐户。您可能想要登录以确保您的数据可以在使用其他设备时检索。",
     "howDoesThatWork": "这是如何运作的？",
     "login": "登录",
-    "searchNoMatch": "我们找不到匹配您搜索的 ({{search}} )的追溯。"
+    "searchNoMatch": "我们找不到匹配您搜索的 ({{search}} )的追溯。",
+    "proNotSetupWarning": "您已经订阅了专业团队账户，这意味着您可以授予其他19位同事专业版账户。 将他们添加到您的订阅，这样他们也可以成为专业版。 请转到您的帐户页面并添加他们的电子邮件('您的团队'部分)。",
+    "proNotSetupWarningAction": "转到帐户页面"
   },
   "PreviousGame": {
     "createdBy": "创建者",
@@ -324,6 +326,7 @@
       "header": "您的计划",
       "plan": "计划",
       "admins": "管理员",
+      "members": "成员",
       "youAreOwner": "您是此计划的所有者，通过下面的订阅。",
       "youAreMember": "您正在通过其他人的订阅加入此计划。",
       "ownedBy": "拥有者",

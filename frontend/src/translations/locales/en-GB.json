@@ -27,7 +27,9 @@
     "anonWarning": "You are using an Anonymous account. You might want to login to make sure your data can be retrieved when using another device.",
     "howDoesThatWork": "How does that work?",
     "login": "Login",
-    "searchNoMatch": "We could not find a retrospective matching your search ({{search}})."
+    "searchNoMatch": "We could not find a retrospective matching your search ({{search}}).",
+    "proNotSetupWarning": "You have subscribed to a Pro Team account, which means you can grant 19 other colleagues a Pro account. To add them to your subscription so they can become Pro as well, please go to your Account page and add their emails ('Your Team' section).",
+    "proNotSetupWarningAction": "Go to Account page"
   },
   "PreviousGame": {
     "createdBy": "Created by",
@@ -160,7 +162,7 @@
     "userIsReady": "{{user}} is ready!",
     "deleteConfirmation": {
       "title": "Delete this post?",
-      "description":"This will delete the post and all its votes. This action cannot be undone.",
+      "description": "This will delete the post and all its votes. This action cannot be undone.",
       "confirm": "Delete this post",
       "cancel": "I have changed my mind"
     },
@@ -221,13 +223,7 @@
     "nameField": "Your name (for display purposes)",
     "noAuthWarning": "Your administrator disabled all login possibilities (OAuth, password). Ask your administrator to re-enable at least one.",
     "or": "or",
-    "passwordScoreWords": [
-      "weak",
-      "weak",
-      "not quite",
-      "good",
-      "strong"
-    ],
+    "passwordScoreWords": ["weak", "weak", "not quite", "good", "strong"],
     "skipAndAnonLogin": "Use Anonymously"
   },
   "AccountLogin": {
@@ -324,6 +320,7 @@
       "header": "Your Plan",
       "plan": "Plan",
       "admins": "Administrators",
+      "members": "Members",
       "youAreOwner": "You are the owner of this plan, through the subscription below.",
       "youAreMember": "You are on this plan through somebody else's subscription.",
       "ownedBy": "Owned By",

@@ -210,10 +210,10 @@ function SubscriberPage() {
   return (
     <Container>
       <Header>Retrospected Pro</Header>
-      {user && user.pro && !user.subscriptionsId ? (
+      {user && user.pro ? (
         <Alert severity="info">{t('SubscribePage.alertAlreadyPro')}</Alert>
       ) : null}
-      {user && user.subscriptionsId && !user.trial ? (
+      {user && !!user.plan && !user.trial ? (
         <Alert severity="info">
           {t('SubscribePage.alertAlreadySubscribed')}
         </Alert>

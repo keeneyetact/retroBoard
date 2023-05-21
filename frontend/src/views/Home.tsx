@@ -26,6 +26,7 @@ import ClosableAlert from 'components/ClosableAlert';
 import SplitButton from 'components/SplitButton/SplitButton';
 import SearchBar from './game/SearchBar';
 import { NameEditor } from 'molecules/NameEditor';
+import { SetupProPrompt } from './home/SetupProPrompt';
 
 function Home() {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ function Home() {
   return (
     <>
       <TrialPrompt />
+      <SetupProPrompt />
       {user && user.accountType === 'anonymous' ? (
         <ClosableAlert severity="info" closable>
           <span>{t('Home.anonWarning')}</span>&nbsp;&nbsp;&nbsp;

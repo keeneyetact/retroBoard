@@ -27,7 +27,9 @@
     "anonWarning": "Je gebruikt een anonieme account. Je kunt misschien inloggen om ervoor te zorgen dat je gegevens kunnen worden opgehaald wanneer je een ander apparaat gebruikt.",
     "howDoesThatWork": "Hoe werkt dat?",
     "login": "Aanmelden",
-    "searchNoMatch": "We konden geen terugwerkende kracht vinden die overeenkomt met uw zoekopdracht ({{search}})."
+    "searchNoMatch": "We konden geen terugwerkende kracht vinden die overeenkomt met uw zoekopdracht ({{search}}).",
+    "proNotSetupWarning": "U heeft zich geabonneerd op een Pro-teamaccount, wat betekent dat u 19 andere collega's een Pro-account kunt geven. Om ze toe te voegen aan uw abonnement zodat ze ook Pro kunnen worden, Ga naar uw accountpagina en voeg hun e-mails toe ('Uw team' sectie).",
+    "proNotSetupWarningAction": "Ga naar Account pagina"
   },
   "PreviousGame": {
     "createdBy": "Aangemaakt door",
@@ -324,6 +326,7 @@
       "header": "Uw abonnement",
       "plan": "Abonnement",
       "admins": "Beheerders",
+      "members": "leden",
       "youAreOwner": "U bent de eigenaar van dit abonnement, via het onderstaande abonnement.",
       "youAreMember": "U bent op dit plan via iemands abonnement.",
       "ownedBy": "Eigendom van",

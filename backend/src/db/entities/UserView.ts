@@ -3,7 +3,7 @@ import { AccountType, FullUser, Currency, Plan } from '../../common/index.js';
 
 @ViewEntity({
   expression: `
-  select 
+select 
   u.id,
   i.id as identity_id,
   u.name,
@@ -18,13 +18,13 @@ import { AccountType, FullUser, Currency, Plan } from '../../common/index.js';
   u.trial,
   s1.id as "own_subscriptions_id",
   s1.plan as "own_plan",
-  coalesce(s1.id, s2.id, s3.id) as "subscriptions_id",
   coalesce(s1.active, s2.active, s3.active, false) as "pro", /* s4 should not be taken into account for Pro */
   coalesce(s1.plan, s2.plan, s3.plan, s4.plan) as "plan",
   coalesce(s1.domain, s2.domain, s3.domain, s4.domain) as "domain",
   coalesce(o1.name, o2.name, o3.name, o4.name) as "plan_owner",
   coalesce(o1.email, o2.email, o3.email, o4.email) as "plan_owner_email",
-  coalesce(s1.admins, s2.admins, s3.admins, s4.admins) as "plan_admins"
+  coalesce(s1.admins, s2.admins, s3.admins, s4.admins) as "plan_admins",
+  coalesce(s1.members, s2.members, s3.members, s4.members) as "plan_members"
 from users_identities i
 
 join users u on u.id = i.user_id
@@ -70,7 +70,7 @@ export default class UserView {
   @ViewColumn()
   public planAdmins: string[] | null;
   @ViewColumn()
-  public subscriptionsId: string | null;
+  public planMembers: string[] | null;
   @ViewColumn()
   public plan: Plan | null;
   @ViewColumn()
@@ -91,7 +91,6 @@ export default class UserView {
     this.username = null;
     this.photo = null;
     this.stripeId = null;
-    this.subscriptionsId = null;
     this.pro = false;
     this.email = null;
     this.canDeleteSession = false;
@@ -100,6 +99,7 @@ export default class UserView {
     this.planOwner = null;
     this.planOwnerEmail = null;
     this.planAdmins = null;
+    this.planMembers = null;
     this.ownSubscriptionsId = null;
     this.plan = null;
     this.domain = null;
@@ -115,7 +115,6 @@ export default class UserView {
       email: this.email,
       canDeleteSession: this.canDeleteSession,
       pro: this.pro,
-      subscriptionsId: this.subscriptionsId,
       accountType: this.accountType,
       language: this.language,
       username: this.username,
@@ -125,6 +124,7 @@ export default class UserView {
       planOwner: this.planOwner,
       planOwnerEmail: this.planOwnerEmail,
       planAdmins: this.planAdmins,
+      planMembers: this.planMembers,
       domain: this.domain,
       ownPlan: this.ownPlan,
       ownSubscriptionsId: this.ownSubscriptionsId,

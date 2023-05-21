@@ -27,7 +27,9 @@
     "anonWarning": "Estás usando una cuenta anónima. Tal vez quieras iniciar sesión para asegurarte de que tus datos pueden ser recuperados cuando usas otro dispositivo.",
     "howDoesThatWork": "¿Cómo funciona esto?",
     "login": "Ingresar",
-    "searchNoMatch": "No hemos podido encontrar un retrospectivo que coincida con tu búsqueda ({{search}})."
+    "searchNoMatch": "No hemos podido encontrar un retrospectivo que coincida con tu búsqueda ({{search}}).",
+    "proNotSetupWarning": "Te has suscrito a una cuenta Pro Team, lo que significa que puedes conceder a otros 19 colegas una cuenta Pro. Para añadirlos a tu suscripción para que también puedan convertirse en Pro por favor vaya a la página de su cuenta y añada sus correos electrónicos ('Su equipo').",
+    "proNotSetupWarningAction": "Ir a la página de cuenta"
   },
   "PreviousGame": {
     "createdBy": "Creado por",
@@ -324,6 +326,7 @@
       "header": "Su plan",
       "plan": "Plano",
       "admins": "Administradores",
+      "members": "Miembros",
       "youAreOwner": "Usted es el propietario de este plan, a través de la suscripción a continuación.",
       "youAreMember": "Estás en este plan a través de la suscripción de otra persona.",
       "ownedBy": "Poseído por",

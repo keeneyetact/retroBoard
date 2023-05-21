@@ -96,7 +96,8 @@
     "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
     "test": "vitest",
     "ci-test": "CI=true yarn test",
-    "analyze": "source-map-explorer build/static/js/*"
+    "analyze": "source-map-explorer build/static/js/*",
+    "watch": "tsc --watch --noEmit"
   },
   "eslintConfig": {
     "extends": "react-app"
