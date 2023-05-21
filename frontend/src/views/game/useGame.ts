@@ -401,7 +401,7 @@ function useGame(sessionId: string) {
     socket.on(Actions.RECEIVE_RATE_LIMITED, () => {
       enqueueSnackbar(
         'You have been rate-limited, as you have sent too many messages in a short period of time.',
-        { variant: 'error', title: 'Rate Limit Error' }
+        { variant: 'error' }
       );
     });
 

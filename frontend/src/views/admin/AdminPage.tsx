@@ -71,7 +71,7 @@ export default function AdminPage() {
       {
         field: '',
         headerName: '',
-        renderCell: (p: GridRenderCellParams<unknown, FullUser>) => {
+        renderCell: (p: GridRenderCellParams<any, FullUser>) => {
           return (
             <Checkbox
               checked={selectedIds.includes(p.row.id)}
@@ -93,7 +93,7 @@ export default function AdminPage() {
       {
         headerName: 'Actions',
         width: 300,
-        renderCell: (p: GridRenderCellParams<unknown, FullUser>) => {
+        renderCell: (p: GridRenderCellParams<any, FullUser>) => {
           return (
             <Actions>
               {p.row.accountType === 'password' ? (

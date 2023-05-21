@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v51/release]
+    branches: [v511/updates]
 
 jobs:
   frontend:
@@ -70,7 +70,7 @@ jobs:
           tags: retrospected/backend:alpha
           platforms: linux/amd64
           push: true
-    
+
   marketing:
     runs-on: ubuntu-latest
     steps:
@@ -150,4 +150,3 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL'
-      

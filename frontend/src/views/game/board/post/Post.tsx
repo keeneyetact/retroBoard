@@ -54,10 +54,10 @@ interface PostItemProps {
   onDelete: () => void;
 }
 
-const useStyles = makeStyles((theme: any) => {
+const useStyles = makeStyles(() => {
   return {
     actionContainer: {
-      backgroundColor: theme.palette.grey[100],
+      backgroundColor: colors.grey[100],
     },
     actionIcon: {
       color: colors.blue[400],

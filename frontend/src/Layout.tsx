@@ -1,8 +1,6 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { trackPageView } from './track';
-import useIsCompatibleBrowser from './hooks/useIsCompatibleBrowser';
-import OutdatedBrowser from './components/OutdatedBrowser';
 import { CodeSplitLoader } from './CodeSplitLoader';
 import { Alert, AlertTitle } from '@mui/material';
 import useBackendCapabilities from './global/useBackendCapabilities';
@@ -29,7 +27,6 @@ const Demo = lazy(() => import('./views/Demo'));
 
 function App() {
   const backend = useBackendCapabilities();
-  const isCompatible = useIsCompatibleBrowser();
   const user = useUser();
 
   const location = useLocation();
@@ -78,7 +75,6 @@ function App() {
         </Routes>
       </Suspense>
       <Panel />
-      <OutdatedBrowser show={!isCompatible} />
     </div>
   );
 }
