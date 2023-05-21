@@ -52,7 +52,7 @@ export const ImageContainer = styled.div`
   position: relative;
   img {
     border-radius: 12px;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
