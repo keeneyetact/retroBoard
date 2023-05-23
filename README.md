@@ -97,6 +97,14 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 5.1.1
+
+- Add blog pages to the marketing website
+- Rewording on the marketing website
+- Fix an issue on the marketing website where links were not working
+- Add a warning on the app when a user has a pro account but did not add members to their account
+- ⏫ Upgrading dependencies
+
 ### Version 5.1.0
 
 - [⭐️ Pro Feature] 🤖 AI Coach, powered by Chat GPT. Limited access to non-paid users.
@@ -148,7 +156,7 @@ This will run a demo version, which you can turn into a fully licenced version b
 ### Version 4.19.0
 
 - Feature: Adding the ability to set a timer for a session. This is optional and can be enabled in the settings. (👏 Thanks to [@Xyaren](https://github.com/Xyaren) for the idea)
-- Feature: Confirm before deleting a post. Avoids accidental deletion of posts.  (👏 Thanks to [@vadamovsky](https://github.com/vadamovsky) for the idea)
+- Feature: Confirm before deleting a post. Avoids accidental deletion of posts. (👏 Thanks to [@vadamovsky](https://github.com/vadamovsky) for the idea)
 - Feature: Allow users to cancel their votes on a specific ticket. This feature can be disabled in the settings. (👏 Thanks to [@Xyaren](https://github.com/Xyaren) for the idea)
 - Feature: Self-Hosted only: Display the number of logged users (👏 Thanks to [@dayByte](https://github.com/dayByte) for the idea)
 - Upgrade to the latest version of TypeORM
@@ -216,7 +224,7 @@ This will run a demo version, which you can turn into a fully licenced version b
 - **Self-Hosting**: Adding SMTP support for self-hosting, in addition to SendGrid. 👏 Thanks [@dayByte](https://github.com/dayByte) for the idea. ([#365](https://github.com/antoinejaussoin/retro-board/issues/365)).
 - **Self-Hosting**: Simplification of SendGrid setup, by removing the need of creating email templates. They are now hardcoded.
 - **Self-Hosting**: Improving email templates
-- Improving Text and Markdown exports on Summary Mode. 👏 Thanks Jakob J for the idea. ([#384](https://github.com/antoinejaussoin/retro-board/issues/384)). 
+- Improving Text and Markdown exports on Summary Mode. 👏 Thanks Jakob J for the idea. ([#384](https://github.com/antoinejaussoin/retro-board/issues/384)).
 
 ### Version 4.13.0
 
@@ -263,7 +271,7 @@ This will run a demo version, which you can turn into a fully licenced version b
 ### Version 4.11.0
 
 - Adding a chat functionality. Send messages to your colleagues without having to use Slack or any other external tool!
-- Add the author (when the "Show Author" option is enabled) in the summary panel.  👏 Thanks [@hmlkao](https://github.com/hmlkao) for the idea. ([#336](https://github.com/antoinejaussoin/retro-board/issues/336)).
+- Add the author (when the "Show Author" option is enabled) in the summary panel. 👏 Thanks [@hmlkao](https://github.com/hmlkao) for the idea. ([#336](https://github.com/antoinejaussoin/retro-board/issues/336)).
 - Deprecate Yarn Workspaces to limit dependency sharing
 - ⏫ Upgrade most dependencies for security reasons
 - Upgrade Nginx image to fix security issues
