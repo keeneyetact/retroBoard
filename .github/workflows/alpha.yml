@@ -2,7 +2,7 @@ name: 'Alpha Build'
 
 on:
   push:
-    branches: [v511/updates]
+    branches: [v512/palette-bug]
 
 jobs:
   frontend:

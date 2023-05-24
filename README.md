@@ -97,6 +97,10 @@ This will run a demo version, which you can turn into a fully licenced version b
 
 ## Versions History
 
+### Version 5.1.2 (hotfix)
+
+- Fix odd bug crashing the side-panel in certain circumstances
+
 ### Version 5.1.1
 
 - Add blog pages to the marketing website

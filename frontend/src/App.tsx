@@ -18,25 +18,25 @@ import { FullScreenLoader } from 'components/loaders/FullScreenLoader';
 
 function App() {
   return (
-    <RecoilRoot>
-      <Suspense fallback={<FullScreenLoader />}>
-        <Helmet>
-          <meta property="og:title" content="Retrospected.com" />
-          <meta
-            property="og:description"
-            content="Real-time Agile Retrospective Board for development teams"
-          />
-          <meta property="og:url" content="https://app.retrospected.com" />
-        </Helmet>
-        <SnackbarProvider
-          maxSnack={3}
-          autoHideDuration={3000}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <RecoilRoot>
+        <Suspense fallback={<FullScreenLoader />}>
+          <Helmet>
+            <meta property="og:title" content="Retrospected.com" />
+            <meta
+              property="og:description"
+              content="Real-time Agile Retrospective Board for development teams"
+            />
+            <meta property="og:url" content="https://app.retrospected.com" />
+          </Helmet>
+          <SnackbarProvider
+            maxSnack={3}
+            autoHideDuration={3000}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
             <ConfirmProvider>
               <BrowserRouter>
                 <AuthProvider>
@@ -53,10 +53,10 @@ function App() {
                 </AuthProvider>
               </BrowserRouter>
             </ConfirmProvider>
-          </ThemeProvider>
-        </SnackbarProvider>
-      </Suspense>
-    </RecoilRoot>
+          </SnackbarProvider>
+        </Suspense>
+      </RecoilRoot>
+    </ThemeProvider>
   );
 }
 
